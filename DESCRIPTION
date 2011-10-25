@@ -1,0 +1,13 @@
+Package: CellNOptR
+Type: Package
+Title: R version of CellNOpt, boolean features only
+Version: 0.99.6
+Date: 2011-10-22
+Author: C.Terfve
+Maintainer: C.Terfve <terfve@ebi.ac.uk>
+Depends: RBGL, graph
+biocViews: CellBasedAssays, CellBiology, Proteomics, Bioinformatics,
+        TimeCourse
+Description: This package does optimisation of boolean logic networks of signalling pathways based on a previous knowledge network and a set of data upon perturbation of the nodes in the network.
+License: Artistic-2.0
+LazyLoad: yes
