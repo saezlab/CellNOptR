@@ -1,7 +1,7 @@
 Package: CellNOptR
 Type: Package
 Title: R version of CellNOpt, boolean features only
-Version: 1.0.0
+Version: 1.1.0
 Date: 2011-10-22
 Author: C.Terfve
 Maintainer: C.Terfve <terfve@ebi.ac.uk>
