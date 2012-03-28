@@ -84,7 +84,12 @@ A CNOlist is the central data object of this package, it is equivalent to the CN
 CNOlistToy
 @
 
-You can also visualise your data using the function  \emph{plotCNOlist} which will produce a plot on your screen with a subplot for each signal and each condition, and an image plot for each condition that contains the information about which cues are present in each condition. This plot can also be produced and stored in your working directory as a single pdf file using the function \emph{plotCNOlistPDF}.
+You can also visualise your data using the function  \emph{plotCNOlist} which
+will produce a plot on your screen with a subplot for each signal and each
+condition, and an image plot for each condition that contains the information
+about which cues are present in each condition. This plot can also be produced
+and stored in your working directory as a single PDF file using the function
+\emph{nplotCNOlistPDF}.
 
 \begin{center}
 <<plotCNO, fig=TRUE>>=
@@ -93,13 +98,13 @@ plotCNOlist(CNOlistToy)
 \end{center}
 
 
-<<ploCNOPDF, eval=TRUE>>=
-plotCNOlistPDF(CNOlist=CNOlistToy,fileName="ToyModelGraph.pdf")
+<<ploCNOPDF, eval=TRUE, results=hide>>=
+plotCNOlistPDF(CNOlist=CNOlistToy,filename="ToyModelGraph.pdf")
 @
 
-We then load the prior knowledge network (PKN), contained in a cytoscape sif format file, using the function \emph{readSif} (alternatively, this example model can be loaded as a R data object already formatted, similarly to what is done above for the CNOlist).  Cytoscape \cite{cytoscape} is a software for network visualisation and analysis. You can build a network within cytoscape and simply save it as the default sif file format, which can then be imported in \emph{CellNOptR}.  If you choose to do this, then you should make sure that if you have 'and' gates in your network they are present as dummy nodes named 'and' followed by a number from 1 to the number of 'and' nodes that you have.  
+We then load the prior knowledge network (PKN), contained in a Cytoscape SIF format file, using the function \emph{readSif} (alternatively, this example model can be loaded as a R data object already formatted, similarly to what is done above for the CNOlist).  Cytoscape \cite{Cytoscape} is a software for network visualisation and analysis. You can build a network within Cytoscape and simply save it as the default SIF file format, which can then be imported in \emph{CellNOptR}.  If you choose to do this, then you should make sure that if you have 'and' gates in your network they are present as dummy nodes named 'and' followed by a number from 1 to the number of 'and' nodes that you have.  
 
-Alternatively, you can create your network file as a text file formatted as a sif file.  Briefly, the expected file format is a tab delimited text file with a line for each directed interaction and the following three elements per line: name of source node, 1 or -1 if the source node is activating or inhibiting the target node, name of target node.  The names of the species in the model must match some of the nodes in the model (and this is case sensitive).  'And' hyperedges are expected to be represented in the sif file as dummy nodes named 'and' followed by a number.  For example if you have an interaction of the type 'a \& b=c', your sif file should contain the following three rows: 'a	1	and1', 'b 1 and1', 'and1 1 c'.  Please be aware that when building the scaffold network for optimisation, the software will create all possible 'and' combinations (with maximum 3 inputs) of edges coming into each node, so in the general case it is not necessary to put 2 or 3 input 'and' hyperedges in the prior knowledge network since the software will create them if the corresponding single edges are present. 
+Alternatively, you can create your network file as a text file formatted as a SIF file.  Briefly, the expected file format is a tab delimited text file with a line for each directed interaction and the following three elements per line: name of source node, 1 or -1 if the source node is activating or inhibiting the target node, name of target node.  The names of the species in the model must match some of the nodes in the model (and this is case sensitive).  'And' hyperedges are expected to be represented in the SIF file as dummy nodes named 'and' followed by a number.  For example if you have an interaction of the type 'a \& b=c', your SIF file should contain the following three rows: 'a	1	and1', 'b 1 and1', 'and1 1 c'.  Please be aware that when building the scaffold network for optimisation, the software will create all possible 'and' combinations (with maximum 3 inputs) of edges coming into each node, so in the general case it is not necessary to put 2 or 3 input 'and' hyperedges in the prior knowledge network since the software will create them if the corresponding single edges are present. 
 
 
 <<getModel, eval=TRUE>>=
@@ -117,11 +122,11 @@ checkSignals(CNOlistToy,ToyModel)
 indicesToy<-indexFinder(CNOlistToy,ToyModel,verbose=TRUE)
 @
 
-The sif model that you have just loaded is visible on figure \ref{fig:PKNsif} as displayed by cytoscape.
+The SIF model that you have just loaded is visible on figure \ref{fig:PKNsif} as displayed by Cytoscape.
 
 \begin{figure*}
 \centerline{\includegraphics[width=0.4\textwidth]{Fig1.png}}
-\caption{Prior knowledge network (original sif file visualised by cytoscape) for the Toy Model example.}
+\caption{Prior knowledge network (original SIF file visualised by Cytoscape) for the Toy Model example.}
 \label{fig:PKNsif}
 \end{figure*}
 
@@ -156,13 +161,42 @@ indicesToyNCNOcutComp<-indexFinder(CNOlistToy,ToyNCNOcutComp)
 
 \subsection{Expanding the gates}
 
-The last preprocessing step consists in expanding the gates present in the PKN, i.e. creating new logic combinations of gates from the ones present in the prior knowledge network.  This is performed in 2 steps: i) any AND node present in the PKN is split into its constituent branches, and ii) every time a nodes gets more than one input, then all 'AND' combinations of the inputs are produced, although only exploring AND gates with 2 and 3 input nodes.  This step is performed because although connections between nodes might be known or inferred from functional relationships, the particular logic with which these interactions work or are combined to influence a target node are generally not known. 
+The last preprocessing step consists in expanding the gates present in the PKN,
+i.e. creating new logic combinations of gates from the ones present in the prior
+knowledge network.  This is performed in 2 steps: i) any AND node present in the
+PKN is split into its constituent branches, and ii) every time a nodes gets more
+than one input, then all 'AND' combinations of the inputs are produced, although
+only exploring combinaisons of AND gates with a maximum of 2, 3 or 4 input
+nodes (for instance for a 5 inputs case, only $C_2^5$, $C_3^5$, or $C_4^5$
+combinations are created). This step is performed because although connections
+between nodes might be known or inferred from functional relationships, the
+particular logic with which these interactions work or are combined to influence
+a target node are generally not known.
 
 This step, performed by the function \emph{expandGates}, will create additional fields \emph{SplitANDs} and \emph{newANDs} in the model that inform you about new edges that have been crated from splitting 'AND' hyperedges, and about new hyperedges that have been created from combinations of edges.  
 
 <<expand, eval=TRUE>>=
-ToyNCNOcutCompExp<-expandGates(ToyNCNOcutComp)
+ToyNCNOcutCompExp<-expandGates(ToyNCNOcutComp, maxInputsPerGate=3)
 @
+Note that here we set the option \emph{maxInputsPerGate} to 3 whereas the
+default value is 2.
+
+\subsection{Preprocessing function}
+
+In \emph{CellNOptR} (version greater than 0.99.24), a function called
+\emph{preprocessing} gathers the previous three preprocessing steps in a single command
+line:
+
+<<expand, eval=TRUE>>=
+results <- preprocessing(CNOlistToy, ToyModel, expansion=TRUE, compression=TRUE,
+cutnonc=TRUE, verbose=FALSE)
+ToyNCMOcutComp <- results$model
+indicesToyNCNOcutComp <- results$indices
+@
+In the previous commands, although the default behaviour of the preprocessing function is to perform the expansion, compression and removing of
+non-observable and non-controlable nodes, we set these options to TRUE so as to
+emphasize the usage of the function.
+
  
  \section{Training of the model} 
  
@@ -182,7 +216,7 @@ initBstring<-rep(1,length(ToyNCNOcutCompExp$reacID))
 
 We can now start the optimisation, in this case with default values for all non essential parameters of the genetic algorithm. If you set the argument verbose to TRUE, this function will print the following information, at each generation: generation number, best score and best string at this generation, stall generation number, average score of this generation and iteration time. You can also find these informations in the object that is returned by this function, as well as the best string the b\emph{bString} field, and strings within the relative tolerance limits in \emph{StringsTol}.
 
-
+%TOSWITCH
 <<optim, eval=TRUE>>=
 ToyT1opt<-gaBinaryT1(
 	CNOlist=CNOlistToy,
@@ -196,7 +230,7 @@ ToyT1opt<-gaBinaryT1(
 We will now produce plots of our analysis.  First, we plot the results of simulating the data with our best model alongside the actual data set in a plot similar to that obtained above with \emph{plotCNOlist}, except that the simulated data is overlaid in dashed blue lines, and the background of the plot reflects the absolute difference between simulated and experimental data (greener=closer to 0; redder=closer to 1; white=NA, either for data or simulation).  Second, we will plot the evolution of the average score and best score during the evolution of the population of models, as a function of generations.  This is useful to detect problems in the optimisation.
 
 \begin{center}
-<<resSim, fig=TRUE>>=
+<<resSim, fig=FALSE, eval=FALSE>>=
 cutAndPlotResultsT1(
 	Model=ToyNCNOcutCompExp,
 	bString=ToyT1opt$bString,
@@ -207,15 +241,17 @@ cutAndPlotResultsT1(
 @ 
 \end{center}
 \begin{center}
-<<plotFit, fig=TRUE>>=
+%TOSWITCH
+<<plotFit, eval=TRUE, fig=TRUE>>=
 plotFit(OptRes=ToyT1opt)
 @ 
 \end{center}
 
 
-Setting the plotPDF argument to "TRUE" means that a pdf figure will be produced (advised, this will then be linked to your report).  To produce a pdf of the evolution of fit as well (advised), type:
+Setting the plotPDF argument to "TRUE" means that a PDF figure will be produced (advised, this will then be linked to your report).  To produce a PDF of the evolution of fit as well (advised), type:
 
-<<simFitPDF, eval=TRUE, results=hide>>=
+%TOSWITCH
+<<simFitPDF, results=hide, eval=TRUE>>=
 cutAndPlotResultsT1(
 	Model=ToyNCNOcutCompExp,
 	bString=ToyT1opt$bString,
@@ -231,9 +267,9 @@ dev.off()
 
 \section{Writing your results}
 
-The next function, \emph{writeScaffold}, allows you to write in a cytoscape sif file  the scaffold network that was used for optimisation as well as two corresponding edge attribute files: one that tells you when the edge was called present in the optimised networks (ie 0=absent, 1=present), and one that tells you the weight of each edge as the fraction of models within the relative tolerance distance of the best model's score that actually included the edge. The function also writes the scaffold to a graphviz (\url{http://www.graphviz.org/Credits.php}) dot file, where the presence/absence is represented by the color of the edge (grey if absent, blue if present) and the weight is represented by the penwidth of the edges. 
+The next function, \emph{writeScaffold}, allows you to write in a Cytoscape SIF file  the scaffold network that was used for optimisation as well as two corresponding edge attribute files: one that tells you when the edge was called present in the optimised networks (ie 0=absent, 1=present), and one that tells you the weight of each edge as the fraction of models within the relative tolerance distance of the best model's score that actually included the edge. The function also writes the scaffold to a graphviz (\url{http://www.graphviz.org/Credits.php}) dot file, where the presence/absence is represented by the color of the edge (grey if absent, blue if present) and the weight is represented by the penwidth of the edges. 
 
-We then also write the prior knowledge network, using the function \emph{writeNetwork}, which again produces a sif file and corresponding attributes, and a dot file.  The sif file has a corresponding edge attribute file that contains the present/absent information mapped back to the PKN, and the node attribute file contains information about the status of the node (compressed, non-observable/non-controllable, signal, inhibited, stimulated).  The dot file encodes the edge information as above and the node information in the color of the node: signals are in blue, inhibited nodes are in red, stimulated nodes are in green, and compressed/cut nodes are in white with dashed contour.   Examples of such files can be found on figures \ref{fig:scaffold} and \ref{fig:PKN}.
+We then also write the prior knowledge network, using the function \emph{writeNetwork}, which again produces a SIF file and corresponding attributes, and a dot file.  The SIF file has a corresponding edge attribute file that contains the present/absent information mapped back to the PKN, and the node attribute file contains information about the status of the node (compressed, non-observable/non-controllable, signal, inhibited, stimulated).  The dot file encodes the edge information as above and the node information in the color of the node: signals are in blue, inhibited nodes are in red, stimulated nodes are in green, and compressed/cut nodes are in white with dashed contour.   Examples of such files can be found on figures \ref{fig:scaffold} and \ref{fig:PKN}.
 
 \begin{figure*}
 \centerline{\includegraphics[width=0.5\textwidth]{Fig2.pdf}}
@@ -250,7 +286,7 @@ We then also write the prior knowledge network, using the function \emph{writeNe
 You can then write a report that contains relevant information about your analysis and links to the various plots that you created.  This will be in the form of an html file called CellNOptReport.html, which will be stored along with all of your plots in a directory that you create and name (the name of that folder is a parameter in the function \emph{writeReport}).  Please not that the function \emph{writeReport} will create the folder and move all of the files given by the list \emph{namesFiles} into this directory. The files given by the arguments \emph{dataPlot}, \emph{evolFit1}, \emph{optimResT1} will then be hyperlinked to your html report. 
 
 
-
+%TOSWITCH
 <<writeRes, eval=TRUE>>=
 writeScaffold(
 	ModelComprExpanded=ToyNCNOcutCompExp,
@@ -348,12 +384,13 @@ CNORwrap(
 	Model=NA)
 @
 
-Both of these versions will generate the graphs produced above on your graphics window, and as pdf's that will be hyperlinked to your html report, and you will be able to find all of these hyperlinked with your html report, all in a directory called by the \emph{Name} parameter, in your working directory.
+Both of these versions will generate the graphs produced above on your graphics window, and as PDF's that will be hyperlinked to your html report, and you will be able to find all of these hyperlinked with your html report, all in a directory called by the \emph{Name} parameter, in your working directory.
 
 <<eraseData, eval=TRUE, echo=FALSE>>=
 unlink("ToyDataMMB.csv")
 unlink("ToyPKNMMB.sif")
 unlink("Toy",recursive=TRUE)
+unlink("ToyModelMMB2.sif")
 @
 
 \section{A real example}
@@ -361,7 +398,7 @@ unlink("Toy",recursive=TRUE)
 This package also contains a slightly larger and more realistic data set, which is a part of the network analysed in \cite{julio2009} and comprises 40 species and 58 interactions in the PKN. This network was also used for the signaling challenge in DREAM 4 (see \url{http://www.the-dream-project.org/}).  The associated data was collected in hepatocellular carcinoma cell line HepG2 (see \cite{alexopoulos_networks_2010}).   The same analysis as above can be performed on this data set.  In order to load this data, you need to copy the files in the "DREAMModel" directory to you working directory (see below) then use \emph{readMIDAS}, \emph{readSif} and \emph{makeCNOlist}, or load the pre-formatted model and CNOlist objects, as above.
 
 <<getDREAM, eval=FALSE>>=
-#Option 1: copy the sif and MIDAS files (followed by readMIDAS, makeCNOlist and readSif)
+#Option 1: copy the SIF and MIDAS files (followed by readMIDAS, makeCNOlist and readSif)
 cpfile<-dir(system.file("DREAMModel",package="CellNOptR"),full=TRUE)
 file.copy(from=cpfile,to=getwd(),overwrite=TRUE)
 #Option 2: load the CNOlist and model objects
@@ -395,6 +432,144 @@ Our analysis is then complete and we can write our results (scaffold network (\e
 
 \clearpage
 
+\section{A toy example with two time points}
+
+In this section we will demonstrate the use of CellNOptR used when the data comprises two time points where we assume that different mechanisms of regulation are at play, which act on separate time scales.  The data set that we use is the toy model example from CellNOpt, adapted for an optimisation based on two time points (i.e. all signals are kept at the same value as t1 except for cJun and Jnk which go down to zero). The model that we will load is the toymodel from CellNOpt where we added a negative feedback between cJun and Jnk (!cJun=Jnk).  We are going to try and capture this feedback, assuming that this is a slow mechanism that shuts the cJun - Jnk branch down at the second, slower time scale.
+
+In this case the data comprises two time points that we assume are pseudo steady states corresponding to different time scales. The optimisation will therefore be performed in 2 steps, one that finds the reactions present at time 1, and one that finds the reactions that were not present at time 1 and might have entered into play at time 2, explaining the evolution of the signals from time 1 to time 2. First, we load the data and model, and perform the optimisation just as we did for the Toy model above.
+
+<<t2load, eval=TRUE>>=
+data(CNOlistToy2,package="CellNOptR")
+data(ToyModel2,package="CellNOptR")
+@
+
+<<t2plotCNOlist, eval=FALSE>>=
+plotCNOlist(CNOlistToy2)
+plotCNOlistPDF(CNOlist=CNOlistToy2,filename="ToyModelGraphT2.pdf")
+@
+
+%TOSWITCH
+<<t2Opt1, eval=TRUE>>=
+checkSignals(CNOlistToy2,ToyModel2)
+indicesToy2<-indexFinder(CNOlistToy2,ToyModel2,verbose=FALSE)
+ToyNCNOindices2<-findNONC(ToyModel2,indicesToy2,verbose=FALSE)
+ToyNCNOcut2<-cutNONC(ToyModel2,ToyNCNOindices2)
+indicesToyNCNOcut2<-indexFinder(CNOlistToy2,ToyNCNOcut2)
+ToyNCNOcutComp2<-compressModel(ToyNCNOcut2,indicesToyNCNOcut2)
+indicesToyNCNOcutComp2<-indexFinder(CNOlistToy2,ToyNCNOcutComp2)
+ToyNCNOcutCompExp2<-expandGates(ToyNCNOcutComp2)
+resECNOlistToy2<-residualError(CNOlistToy2)
+ToyFields4Sim2<-prep4Sim(ToyNCNOcutCompExp2)
+initBstring2<-rep(1,length(ToyNCNOcutCompExp2$reacID))
+ToyT1opt2<-gaBinaryT1(
+	CNOlist=CNOlistToy2,
+	Model=ToyNCNOcutCompExp2,
+	SimList=ToyFields4Sim2,
+	indexList=indicesToyNCNOcutComp2,
+	initBstring=initBstring2,
+	StallGenMax=10,
+	MaxTime=60,
+	verbose=FALSE)
+@
+
+<<t2OptT1plot, eval=FALSE>>=
+cutAndPlotResultsT1(
+	Model=ToyNCNOcutCompExp2,
+	bString=ToyT1opt2$bString,
+	SimList=ToyFields4Sim2,
+	CNOlist=CNOlistToy2,
+	indexList=indicesToyNCNOcutComp2,
+	plotPDF=TRUE)
+pdf("evolFitToy2T1.pdf")
+plotFit(OptRes=ToyT1opt2)
+dev.off()
+plotFit(OptRes=ToyT1opt2)
+@
+
+We can now optimise the second time point.
+
+%TOSWITCH
+<<t2OptT2, eval=TRUE>>=
+SimToyT12<-simulateT1(
+	CNOlist=CNOlistToy2,
+	Model=ToyNCNOcutCompExp2,
+	bStringT1=ToyT1opt2$bString,
+	SimList=ToyFields4Sim2,
+	indexList=indicesToyNCNOcutComp2)
+	
+ToyT1opt2T2<-gaBinaryT2(
+	CNOlist=CNOlistToy2,
+	Model=ToyNCNOcutCompExp2,
+	SimList=ToyFields4Sim2,
+	indexList=indicesToyNCNOcutComp2,
+	bStringT1=ToyT1opt2$bString,
+	SimResT1=SimToyT12,
+	StallGenMax=10,
+	MaxTime=60,
+	verbose=FALSE)
+@
+
+
+
+Finally, we produce all the plots and write the report.
+
+%TOSWITCH
+<<resSimT2, eval=TRUE, fig=TRUE>>=	
+cutAndPlotResultsT2(
+	Model=ToyNCNOcutCompExp2,
+	bStringT1=ToyT1opt2$bString,
+	bStringT2=ToyT1opt2T2$bString,
+	SimList=ToyFields4Sim2,
+	CNOlist=CNOlistToy2,
+	indexList=indicesToyNCNOcutComp2,
+	plotPDF=FALSE)
+@
+
+<<t2OptT2plot, eval=FALSE>>=	
+pdf("evolFitToy2T2.pdf")
+plotFit(OptRes=ToyT1opt2T2)
+dev.off()
+plotFit(OptRes=ToyT1opt2T2)
+writeScaffold(
+	ModelComprExpanded=ToyNCNOcutCompExp2,
+	optimResT1=ToyT1opt2,
+	optimResT2=ToyT1opt2T2,
+	ModelOriginal=ToyModel2,
+	CNOlist=CNOlistToy2)
+writeNetwork(
+	ModelOriginal=ToyModel2,
+	ModelComprExpanded=ToyNCNOcutCompExp2,
+	optimResT1=ToyT1opt2,
+	optimResT2=ToyT1opt2T2,
+	CNOlist=CNOlistToy2)
+namesFilesToy<-list(
+	dataPlot="ToyModelGraphT2.pdf",
+	evolFit1="evolFitToy2T1.pdf",
+	evolFit2="evolFitToy2T2.pdf",
+	SimResults2="ToyNCNOcutCompExp2SimResultsT1T2.pdf",
+	SimResults1="ToyNCNOcutCompExp2SimResultsT1.pdf",
+	Scaffold="Scaffold.sif",
+	ScaffoldDot="Scaffold.dot",
+	tscaffold="TimesScaffold.EA",
+	wscaffold="weightsScaffold.EA",
+	PKN="PKN.sif",
+	PKNdot="PKN.dot",
+	wPKN="TimesPKN.EA",
+	nPKN="nodesPKN.NA")
+writeReport(
+	ModelOriginal=ToyModel2,
+	ModelOpt=ToyNCNOcutCompExp2,
+	optimResT1=ToyT1opt2,
+	optimResT2=ToyT1opt2T2,
+	CNOlist=CNOlistToy2,
+	directory="testToy2",
+	namesFiles=namesFilesToy,
+	namesData=list(CNOlist="ToyModified4T2",Model="ToyModified4T2"),
+	resE=resECNOlistToy2)
+@
+
+\clearpage
+
 \begin{thebibliography}{1}
 
 \bibitem{alexopoulos_networks_2010}
@@ -420,7 +595,7 @@ J.~Saez-Rodriguez, L.~Alexopoulos, J.~Epperlein, R.~Samaga, D.~Lauffenburger, S.
 \newblock Discrete logic modelling as a means to link protein signalling networks with functional analysis of mammalian signal transduction.
 \newblock {\em Molecular Systems Biology}, 5:331, 2009.
 
-\bibitem{cytoscape}
+\bibitem{Cytoscape}
 P.~Shannon, A.~Markiel, O.~Ozier, N.S..~Baliga, J.T.~Wang, D.~Ramage,  N.~Amin, B.~Schiwkowski and T.~Ideker.
 \newblock Cytoscape: a software for integrated models of biomolecular interaction networks.
 \newblock {\em Genome Research}, 13(11):2498-504, 2003.

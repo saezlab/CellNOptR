@@ -53,7 +53,8 @@ the selective pressure in the genetic algorithm, default set to 1.2
 the number of best individuals that are propagated to the next generation in the genetic algorithm, default set to 5
 }
   \item{RelTol}{
-the relative tolerance for the best bitstring reported by the genetic algorithm, i.e.how different from the best solution can solutions be to be reported as well, default set to 0.1
+the relative tolerance for the best bitstring reported by the genetic algorithm,
+i.e., how different from the best solution, default set to 0.1
 }
   \item{verbose}{
 logical (default to TRUE) do you want the statistics of each generation to be printed on the screen?

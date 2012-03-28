@@ -7,7 +7,8 @@ Plot the results of an optimisation at t1
 This function takes a model and an optimised bitstring, it cuts the model according to the bitstring and plots the results of the simulation along with the experimental data.
 }
 \usage{
-cutAndPlotResultsT1(Model, bString, SimList, CNOlist, indexList, plotPDF = FALSE)
+cutAndPlotResultsT1(Model, bString, SimList, CNOlist, indexList, plotPDF =
+FALSE, tag = NULL, show=TRUE)
 }
 \arguments{
   \item{Model}{
@@ -27,6 +28,13 @@ an indexList, produced by indexFinder ran on the model and the CNOlist above
 }
   \item{plotPDF}{
 TRUE or FALSE; tells whether you want a pdf to be produced or not
+}
+  \item{tag}{
+NULL or string; tells whether you want to prefix filenames with a tag (replaces
+the default behaviour).
+}
+  \item{show}{
+TRUE of FALSE; FALSE tells not to show the plot, which can be useful when scripting.
 }
 }
 

@@ -1,3 +1,18 @@
+#
+#  This file is part of the CNO software
+#
+#  Copyright (c) 2011-2012 - EBI
+#
+#  File author(s): CNO developers (cno-dev@ebi.ac.uk)
+#
+#  Distributed under the GPLv2 License.
+#  See accompanying file LICENSE.txt or copy at
+#      http://www.gnu.org/licenses/gpl-2.0.html
+#
+#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#
+##############################################################################
+# $Id: writeNetwork.R 592 2012-02-22 17:18:16Z cokelaer $
 ##the global function is still called writeNetwork and still needs the same arguments 
 #(ModelComprExpanded, optimResT1, optimResT2, ModelOriginal, CNOlist), but it is divided into: 
 #	-a function writeSNetworkW that does the actual writing to files, 
@@ -6,15 +21,16 @@ writeNetwork<-function(
 	ModelOriginal,
 	ModelComprExpanded,
 	optimResT1,
-	optimResT2,
-	CNOlist){
-	
+	optimResT2=NA,
+	CNOlist, 
+    tag=NULL,verbose=FALSE){
+
 	nwInfo<-getNetworkInfo(
 		ModelOriginal=ModelOriginal,
 		ModelComprExpanded=ModelComprExpanded,
 		optimResT1=optimResT1,
 		optimResT2=optimResT2,
-		CNOlist=CNOlist)
+		CNOlist=CNOlist,verbose=verbose)
 		
 	writeNetworkW(
 		dN=nwInfo$dN,
@@ -22,7 +38,8 @@ writeNetwork<-function(
 		ModelOriginal=ModelOriginal,
 		sifFile=nwInfo$sifFile,
 		EAweights=nwInfo$EAweights,
-		nodesAttr=nwInfo$nodesAttr)
+		nodesAttr=nwInfo$nodesAttr, 
+        tag=tag)
 	
 	}
 	
@@ -31,27 +48,37 @@ writeNetwork<-function(
 ##############these are the functions used above
 #########################################################################
 #this is the bit that writes
-writeNetworkW<-function(dN,dM,ModelOriginal,sifFile,EAweights,nodesAttr){
+writeNetworkW<-function(dN,dM,ModelOriginal,sifFile,EAweights,nodesAttr, tag=NULL){
+
+ create_filename<-function(x, tag=NULL){
+        if (is.null(tag)){
+            return(x)
+        }
+        else{
+            return(paste(c(tag, "_", x), collapse=""))
+        }
+    }
+
 
 	writeDot(
 		dotNodes=dN,
 		dotMatrix=dM,
 		Model=ModelOriginal,
-		fileName="PKN.dot")
+		filename=create_filename("PKN.dot", tag=tag))
 		
 	write.table(
 		sifFile[,1:3],
-		file="PKN.sif",
+		file=create_filename("PKN.sif", tag=tag),
 		row.names=FALSE,col.names=FALSE,quote=FALSE,sep="\t")
 		
 	write.table(
 		EAweights,
-		file="TimesPKN.EA",
+		file=create_filename("TimesPKN.EA", tag=tag),
 		row.names=FALSE,col.names="Times",quote=FALSE,sep="\t")	
 		
 	write.table(
 		nodesAttr,
-		file="nodesPKN.NA",
+		file=create_filename("nodesPKN.NA", tag=tag),
 		row.names=FALSE,col.names="NodesType",quote=FALSE,sep="\t")	
 		
 	}	
@@ -62,7 +89,8 @@ getNetworkInfo<-function(
 	ModelComprExpanded,
 	optimResT1,
 	optimResT2,
-	CNOlist){
+	CNOlist,
+	verbose){
 
 	#These are used to create the string that holds the information about whether an edge is present
 #or not (BStimes)
@@ -243,13 +271,27 @@ for(i in 1:dim(adj)[1]){
 					}else{
 					
 						n<-n+1
+						#this sets those variables to NA if the path couldn't be mapped
+						rIn<-NA
+						rOut<-NA
 						
 						}
 						
 				}	
-				
-			OrigMap[rIn]<-max(OrigMap[rIn],adj[i,3])	
-			OrigMap[rOut]<-max(OrigMap[rOut],adj[i,3])
+			#if the path could be mapped, we record the mapping	
+			if(!is.na(rIn) && !is.na(rOut)){
+			
+				OrigMap[rIn]<-max(OrigMap[rIn],adj[i,3])	
+				OrigMap[rOut]<-max(OrigMap[rOut],adj[i,3])
+			#if the path couldn't be mapped (path too long), we print a warning, nad OrigMap 
+			#stays 0
+				}else{
+					
+					if(verbose == TRUE){
+						print("Please be aware that when mapping the scaffold network back to the PKN, compressed paths of length > 2 are ignored.")
+						}
+					
+					}
 			
 			}
 	}

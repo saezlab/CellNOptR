@@ -1,3 +1,18 @@
+#
+#  This file is part of the CNO software
+#
+#  Copyright (c) 2011-2012 - EBI
+#
+#  File author(s): CNO developers (cno-dev@ebi.ac.uk)
+#
+#  Distributed under the GPLv2 License.
+#  See accompanying file LICENSE.txt or copy at
+#      http://www.gnu.org/licenses/gpl-2.0.html
+#
+#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#
+##############################################################################
+# $Id: plotOptimResults.R 800 2012-03-22 16:24:22Z cokelaer $
 plotOptimResults<-function(
 	SimResults=SimResults,
 	expResults=expResults,
@@ -81,8 +96,8 @@ plotOptimResults<-function(
 					yValS4Diff<-yValS4Diff
 					}		
 					
-#Compute the mean difference between data and simulation, not taking into account t0 or NAs					
-			diff<-mean(abs(unlist(yVal4Diff)[2:length(yVal4Diff)]-unlist(yValS4Diff)[2:length(yValS4Diff)]),na.rm=TRUE)
+#Compute the mean difference between data and simulation, taking into account t0 but not NAs					
+			diff<-mean(abs(unlist(yVal4Diff)[1:length(yVal4Diff)]-unlist(yValS4Diff)[1:length(yValS4Diff)]),na.rm=TRUE)
 
 #Set the bg colour based on the above
 			if(is.na(diff)){
@@ -151,8 +166,20 @@ plotOptimResults<-function(
 				
 				
 			}
-#Plot the image plots that tell preseence/absence of cues			
-		image(t(matrix(as.numeric(valueCues[r,]),nrow=1)),col=c("white","black"),xaxt="n",yaxt="n")	
+    #Plot the image plots that tell preseence/absence of cues			
+    # 
+    data = t(matrix(as.numeric(valueCues[r,]),nrow=1))
+    if (all(data==1)==TRUE){
+        col=c("black")
+    }
+    else if (all(data==0)==TRUE){
+        col=c("white")
+    }
+    else{
+        col=c("white", "black")
+    }
+    image(data,col=col,xaxt="n",yaxt="n")
+
 		if(r == dim(expResults[[1]])[1]){
 			axis(
 				side=1,

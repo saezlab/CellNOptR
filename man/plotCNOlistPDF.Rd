@@ -7,13 +7,13 @@ Plots a CNOlist into a pdf file.
 This function is a wrapper for plotCNOlist, that plots the output directly in a pdf file.
 }
 \usage{
-plotCNOlistPDF(CNOlist, fileName)
+plotCNOlistPDF(CNOlist, filename)
 }
 \arguments{
   \item{CNOlist}{
 a CNOlist
 }
-  \item{fileName}{
+  \item{filename}{
 a name for your pdf file, eg. "plot.pdf"
 }
 }
@@ -30,6 +30,6 @@ plotCNolist, plotCNOlistLarge, plotCNOlistLargePDF
 tmpdir<-tempdir()
 setwd(tmpdir)
 data(CNOlistToy,package="CellNOptR")
-plotCNOlistPDF(CNOlist=CNOlistToy,fileName="ToyModelGraph.pdf")
+plotCNOlistPDF(CNOlist=CNOlistToy,filename="ToyModelGraph.pdf")
 }
 

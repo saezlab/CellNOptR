@@ -7,7 +7,7 @@ Make a CNOlist structure
 This function takes as input the output of readMIDAS and extracts the elements that are needed in a CNO project
 }
 \usage{
-makeCNOlist(dataset, subfield)
+makeCNOlist(dataset, subfield, verbose=TRUE)
 }
 \arguments{
   \item{dataset}{
@@ -15,6 +15,9 @@ output of readMIDAS
 }
   \item{subfield}{
 TRUE or FALSE, specifies if the column headers contain subfields or not i.e. if I should look for TR:sthg:sthg or just TR:sthg
+}
+  \item{verbose}{
+logical (default to TRUE) print information on the screen.
 }
 }
 \details{

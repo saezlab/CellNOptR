@@ -7,12 +7,16 @@ Reads in a csv MIDAS file
 This function takes in a single argument, the name of a csv MIDAS file containing the data, and returns a list that contains all the elements to build a CNOlist. The output of this function should be used as input for \code{makeCNOlist}.
 }
 \usage{
-readMIDAS(MIDASfile)
+readMIDAS(MIDASfile, verbose=TRUE)
 }
 \arguments{
   \item{MIDASfile}{
 a csv MIDAS file
 }
+  \item{verbose}{
+logical (default to TRUE) print information on the screen.
+}
+
 }
 \details{
 This function does not return a CNOlist, but the output of this function can be used directly into makeCNOlist to create one. The MIDAS file format is described in Saez-Rodriguez et al. (2008).

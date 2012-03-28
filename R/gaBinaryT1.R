@@ -1,3 +1,18 @@
+#
+#  This file is part of the CNO software
+#
+#  Copyright (c) 2011-2012 - EBI
+#
+#  File author(s): CNO developers (cno-dev@ebi.ac.uk)
+#
+#  Distributed under the GPLv2 License.
+#  See accompanying file LICENSE.txt or copy at
+#      http://www.gnu.org/licenses/gpl-2.0.html
+#
+#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#
+##############################################################################
+# $Id: gaBinaryT1.R 804 2012-03-22 16:56:26Z cokelaer $
 gaBinaryT1<-function(
 	CNOlist,
 	Model,
@@ -52,14 +67,18 @@ gaBinaryT1<-function(
 		ModelCut$interMat<-ModelCut$interMat[,as.logical(bitString)]
 		ModelCut$notMat<-ModelCut$notMat[,as.logical(bitString)]
 		ModelCut$reacID<-ModelCut$reacID[as.logical(bitString)]
-		SimListCut<-SimList
-		SimListCut$finalCube<-SimListCut$finalCube[as.logical(bitString),]
-		SimListCut$ixNeg<-SimListCut$ixNeg[as.logical(bitString),]
-		SimListCut$ignoreCube<-SimListCut$ignoreCube[as.logical(bitString),]
-		SimListCut$maxIx<-SimListCut$maxIx[as.logical(bitString)]
+
+		SimListCut<-cutSimList(SimList, bitString)
 		
 	#compute the simulated results	
 		SimResults<-simulatorT1(
+			CNOlist=CNOlist,
+			Model=ModelCut,
+			SimList=SimListCut,
+			indexList=indexList)
+
+    # We may want to to use the T0 information.
+		SimResultsT0<-simulatorT0(
 			CNOlist=CNOlist,
 			Model=ModelCut,
 			SimList=SimListCut,
@@ -68,16 +87,18 @@ gaBinaryT1<-function(
 	#Compute the score	
 		Score<-getFit(
 			SimResults=SimResults,
+			SimResultsT0=SimResultsT0,
 			CNOlist=CNOlist,
 			Model=ModelCut,
 			indexList=indexList,
 			timePoint="t1",
 			sizeFac=sizeFac,
-			NAFac=NAFac)
+			NAFac=NAFac,
+			nInTot=length(which(Model$interMat == -1)))
 		nDataP<-sum(!is.na(CNOlist$valueSignals[[2]]))
 		Score<-Score/nDataP
+
 		return(Score)
-		
 		}
 		
 #Loop

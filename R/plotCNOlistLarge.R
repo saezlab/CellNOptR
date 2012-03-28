@@ -1,7 +1,22 @@
+#
+#  This file is part of the CNO software
+#
+#  Copyright (c) 2011-2012 - EBI
+#
+#  File author(s): CNO developers (cno-dev@ebi.ac.uk)
+#
+#  Distributed under the GPLv2 License.
+#  See accompanying file LICENSE.txt or copy at
+#      http://www.gnu.org/licenses/gpl-2.0.html
+#
+#  CNO website: http://www.ebi.ac.uk/saezrodriguez/cno
+#
+##############################################################################
+# $Id: plotCNOlistLarge.R 595 2012-02-22 17:21:47Z cokelaer $
 #This function is a variant of plotCNOlist that works for bigger datasets and allows one 
 #to split the plots into n=nsplit plots (across the conditions dimension)
 
-plotCNOlistLarge<-function(CNOlist,nsplit=4){
+plotCNOlistLarge<-function(CNOlist,nsplit=4, newDevice=FALSE){
 
 #check that CNOlist is a CNOlist
 	if(!is.list(CNOlist)){
@@ -20,12 +35,23 @@ plotCNOlistLarge<-function(CNOlist,nsplit=4){
 			"valueSignals"))){
 		stop("This function expects as input a CNOlist as output by makeCNOlist")
 		}	
-		
-	splits<-dim(CNOlist$valueCues)[1]/nsplit	
+
+    L = dim(CNOlist$valueCues)[1] # number of signals/Cues
+    if (nsplit<=0 | nsplit>=L){
+        stop("nsplit must be strictly positive and smaller than the number of signals")
+    }
+
+
+	splits<-dim(CNOlist$valueCues)[1]/nsplit
 	splits<-floor(splits)
 	CNOlistOriginal<-CNOlist
 	
 	for(i in 1:nsplit){
+        if (newDevice==TRUE) { # this flag allows to plot the results in nsplit different 
+                               # devices, which is useful for scripting, otherwise only  
+                               # the last plot is shown
+            dev.new()
+        }
 		CNOlist<-CNOlistOriginal
 		
 		if(i == nsplit){
@@ -54,13 +80,21 @@ plotCNOlistLarge<-function(CNOlist,nsplit=4){
 		
 		for(c in 1:dim(CNOlist$valueSignals[[1]])[2]){
 			par(fg="blue",mar=c(0.5,0.5,0.7,0))
-			plot(x=xVal, y=rep(-5,length(xVal)), ylim=c(yMin, yMax),xlab=NA,ylab=NA,xaxt="n",yaxt="n")
+
+
+            tryCatch(
+    			plot(x=xVal, y=rep(-5,length(xVal)), ylim=c(yMin, yMax),xlab=NA,ylab=NA,xaxt="n",yaxt="n"),
+                error=function(e) stop(c("CNOError: an error occurred while
+plotting. You may want to try again with a larger number of figures nsplit
+by providing the nsplit option (suggestion: nsplit=",floor(L/25), ")")))
+
 			text(
 				labels=CNOlist$namesSignals[c],
 				x=((xVal[length(xVal)]-xVal[1])/2),
 				y=(yMin+((yMax-yMin)/2)),
 				cex=1)
 			}
+     
 		plot(
 			x=xVal, 
 			y=rep(-5,length(xVal)), 

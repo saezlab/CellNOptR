@@ -7,7 +7,7 @@ Write a model, and attached features, to a dot file
 This function writes a model to a Graphviz dot file with encoded features such as edge weight and nodes status (see details).
 }
 \usage{
-writeDot(dotNodes,dotMatrix,Model,fileName)
+writeDot(dotNodes,dotMatrix,Model,filename)
 }
 \arguments{
   \item{dotNodes}{
@@ -19,7 +19,7 @@ internal variables created by writeNetwork or writeScaffold; dotMatrix is a matr
   \item{Model}{
 A model to be plotted, if used inside writeNetwork then this should be the previous knowledge network (ModelOriginal), if inside writeScaffold then this should be the scaffold (ModelComprExpanded)
 }
-  \item{fileName}{
+  \item{filename}{
 a name for the file
 }
 }

@@ -1,7 +1,7 @@
 \name{ToyModel}
 \docType{data}
 \alias{ToyModel}
-\title{Toy mode}
+\title{Toy model}
 \description{This data object contains the Toy model from the package vignette, already loaded and formatted as a Model object.}
 \usage{ToyModel}
 \format{ToyModel is a list with fields "reacID" (character vector), "namesSpecies" (character vector), "interMat" (numerical matrix), "notMat"(numerical matrix). }

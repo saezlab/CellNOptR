@@ -4,15 +4,19 @@
 Expand the gates of a model
 }
 \description{
-This function takes in a model and splits all AND gates into ORs.  In addition, wherever there are more than one and up to 5 reactions coming into one node, it creates all possible ANDs combinations of them, but considering only ANDs with 2 and 3 inputs
+This function takes in a model and splits all AND gates into ORs.  In addition,
+wherever there are more than one, it creates all possible ANDs combinations of
+them, but considering only ANDs with 2, 3 or 4 inputs according to the user
+argument (default is 2)
 }
 \usage{
-expandGates(Model)
+expandGates(Model, ignoreList=NA, maxInputsPerGate=2)
 }
 \arguments{
-  \item{Model}{
-a model structure
-}
+  \item{Model}{a model structure}
+  \item{ignoreList}{a list of reactions indices to ignore}
+  \item{maxInputsPerGate}{maximum number of input per gates (Default is 2; up
+to 4)}
 }
 \details{
 This function returns a model with additional fields that help keep track of the processing done on the network.  I would advice not to overwrite on the initial model but rather to assign the result of this function to a variable with a different name.
@@ -23,7 +27,7 @@ returns a Model, with additional fields:
 \item{newANDs}{list that contains an element for each new '&' gate, named by the name of this new and reac, and containing a vector of the names of the reactions from which it was created (contains all the reacs in that pool, not the particular ones, this could be improved)}
 }
 \author{
-C.Terfve
+C.Terfve. T. Cokelaer
 }
 \note{
 This function could be simplified in the future.
@@ -42,5 +46,5 @@ ToyNCNOcut<-cutNONC(ToyModel,ToyNCNOindices)
 indicesToyNCNOcut<-indexFinder(CNOlistToy,ToyNCNOcut)
 ToyNCNOcutComp<-compressModel(ToyNCNOcut,indicesToyNCNOcut)
 indicesToyNCNOcutComp<-indexFinder(CNOlistToy,ToyNCNOcutComp)
-ToyNCNOcutCompExp<-expandGates(ToyNCNOcutComp)
+ToyNCNOcutCompExp<-expandGates(ToyNCNOcutComp, maxInputsPerGate=4)
 }

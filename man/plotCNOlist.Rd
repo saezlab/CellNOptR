@@ -4,7 +4,9 @@
 Plot the data in a  CNOlist
 }
 \description{
-This function plots the data in a CNOlist as a matrix of plots with a  row for each condition and a column for each signal, and an extra plot for each row that specifies which cues are present.
+This function plots the data in a CNOlist as a matrix of plots with a  row for
+each condition and a column for each signal, and an extra plot for each row that
+specifies which cues are present..
 }
 \usage{
 plotCNOlist(CNOlist)

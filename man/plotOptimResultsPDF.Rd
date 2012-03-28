@@ -7,7 +7,7 @@ Plot the data and simulated values in a pdf file
 This is a wrapper for \code{plotOptimResults}
 }
 \usage{
-plotOptimResultsPDF(SimResults = SimResults, expResults = expResults, times = times, namesCues = namesCues, namesSignals = namesSignals, valueCues = valueCues, fileName)
+plotOptimResultsPDF(SimResults = SimResults, expResults = expResults, times = times, namesCues = namesCues, namesSignals = namesSignals, valueCues = valueCues, filename)
 }
 \arguments{
   \item{SimResults}{
@@ -28,7 +28,7 @@ a vector of names, typically \code{CNOlist$namesSignals}
   \item{valueCues}{
 a matrix of dimensions (number of conditions) * (number of cues), typically \code{CNOlist$valueCues}
 }
-  \item{fileName}{
+  \item{filename}{
 a name for your file, eg. "plot.pdf"
 }
 }
@@ -78,5 +78,5 @@ plotOptimResultsPDF(
 	namesCues=CNOlistToy$namesCues,
 	namesSignals=CNOlistToy$namesSignals,
 	valueCues=CNOlistToy$valueCues, 
-	fileName="Toyfull.pdf")
+	filename="Toyfull.pdf")
 }

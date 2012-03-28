@@ -12,7 +12,7 @@ data(CNOlistToy,package="CellNOptR")
 data(ToyModel,package="CellNOptR")
 CNOlistToy
 plotCNOlist(CNOlistToy)
-plotCNOlistPDF(CNOlist=CNOlistToy,fileName="ToyModelGraph.pdf")
+plotCNOlistPDF(CNOlist=CNOlistToy,filename="ToyModelGraph.pdf")
 checkSignals(CNOlistToy,ToyModel)
 indicesToy<-indexFinder(CNOlistToy,ToyModel,verbose=TRUE)
 ToyNCNOindices<-findNONC(ToyModel,indicesToy,verbose=TRUE)
@@ -21,7 +21,7 @@ indicesToyNCNOcut<-indexFinder(CNOlistToy,ToyNCNOcut)
 ToyNCNOcutComp<-compressModel(ToyNCNOcut,indicesToyNCNOcut)
 indicesToyNCNOcutComp<-indexFinder(CNOlistToy,ToyNCNOcutComp)
 ToyNCNOcutCompExp<-expandGates(ToyNCNOcutComp)
-resECNOlistToy<-ResidualError(CNOlistToy)
+resECNOlistToy<-residualError(CNOlistToy)
 ToyFields4Sim<-prep4Sim(ToyNCNOcutCompExp)
 initBstring<-rep(1,length(ToyNCNOcutCompExp$reacID))
 ToyT1opt<-gaBinaryT1(CNOlist=CNOlistToy,Model=ToyNCNOcutCompExp,SimList=ToyFields4Sim,indexList=indicesToyNCNOcutComp,initBstring=initBstring,verbose=TRUE)
@@ -68,7 +68,7 @@ setwd("CNOR_analysis")
 data(CNOlistDREAM,package="CellNOptR")
 data(DreamModel,package="CellNOptR")
 plotCNOlist(CNOlistDREAM)
-plotCNOlistPDF(CNOlist=CNOlistDREAM,fileName="DREAMdataGraph.pdf")
+plotCNOlistPDF(CNOlist=CNOlistDREAM,filename="DREAMdataGraph.pdf")
 checkSignals(CNOlistDREAM,DreamModel)
 indicesDream<-indexFinder(CNOlistDREAM,DreamModel,verbose=TRUE)
 #Find the index of the non-obs/non-ctrl
@@ -83,7 +83,7 @@ DreamNCNOcutComp<-compressModel(DreamNCNOcut,indicesDreamNCNOcut)
 indicesDreamNCNOcutComp<-indexFinder(CNOlistDREAM,DreamNCNOcutComp)
 #Expand the gates
 DreamNCNOcutCompExp<-expandGates(DreamNCNOcutComp)
-resECNOdream<-ResidualError(CNOlistDREAM)
+resECNOdream<-residualError(CNOlistDREAM)
 #Prepare for simulation
 DreamFields4Sim<-prep4Sim(DreamNCNOcutCompExp)
 #Optimisation
@@ -101,3 +101,69 @@ writeNetwork(ModelOriginal=DreamModel,ModelComprExpanded=DreamNCNOcutCompExp,opt
 #Write the report
 namesFilesDream<-list(dataPlot="DREAMdataGraph.pdf",evolFit1="evolFitDreamT1.pdf",evolFit2=NA,SimResults1="DreamNCNOcutCompExpSimResultsT1.pdf",SimResults2=NA,Scaffold="DreamNCNOcutCompExpScaffold.sif",ScaffoldDot="ModelModelComprExpandedScaffold.dot",tscaffold="DreamNCNOcutCompExpTimesScaffold.EA",wscaffold="DreamNCNOcutCompExpweightsScaffold.EA",PKN="DreamModelPKN.sif",PKNdot="DreamModelPKN.dot",wPKN="DreamModelTimesPKN.EA",nPKN="DreamModelnodesPKN.NA")
 writeReport(ModelOriginal=DreamModel,ModelOpt=DreamNCNOcutCompExp,optimResT1=DreamT1opt,optimResT2=NA,CNOlist=CNOlistDREAM,directory="testDREAM",namesFiles=namesFilesDream,namesData=list(CNOlist="Dream",Model="DreamModel"),resE=resECNOdream)
+################################################
+############The 2 time points################
+library(CellNOptR)
+dir.create("CNOR_analysis")
+setwd("CNOR_analysis")
+######
+cpfile<-dir(system.file("ToyModel",package="CellNOptR"),full=TRUE)
+file.copy(from=cpfile,to=getwd(),overwrite=TRUE)
+dataToy<-readMIDAS(MIDASfile='ToyDataMMB.csv')
+CNOlistToy<-makeCNOlist(dataset=dataToy,subfield=FALSE)
+CNOlistToy
+#Transform data for multiple time points
+CNOlistToy2<-CNOlistToy
+CNOlistToy2$valueSignals[[3]]<-CNOlistToy2$valueSignals[[2]]
+CNOlistToy2$valueSignals[[3]][,6:7]<-0
+CNOlistToy2$valueSignals[[2]][which(CNOlistToy2$valueSignals[[2]][,6] > 0),6]<-0.5
+CNOlistToy2$valueSignals[[2]][which(CNOlistToy2$valueSignals[[2]][,7] > 0),7]<-0.77118
+CNOlistToy2$timeSignals<-c(CNOlistToy2$timeSignals, 100)
+#In this model I added a negative fedback between cJun and Jnk (!cJun=Jnk)
+#this is the model to use with the data CNOlistToy2
+ToyModel2<-readSif(sifFile="ToyModelMMB2.sif")
+#####
+data(CNOlistToy2,package="CellNOptR")
+data(ToyModel2,package="CellNOptR")
+#
+plotCNOlist(CNOlistToy2)
+plotCNOlistPDF(CNOlist=CNOlistToy2,filename="ToyModelGraphT2.pdf")
+checkSignals(CNOlistToy2,ToyModel2)
+indexesToy2<-indexFinder(CNOlistToy2,ToyModel2,verbose=TRUE)
+ToyNCNOindices2<-findNONC(ToyModel2,indexesToy2,verbose=TRUE)
+ToyNCNOcut2<-cutNONC(ToyModel2,ToyNCNOindices2)
+indexesToyNCNOcut2<-indexFinder(CNOlistToy2,ToyNCNOcut2)
+ToyNCNOcutComp2<-compressModel(ToyNCNOcut2,indicesToyNCNOcut2)
+indicesToyNCNOcutComp2<-indexFinder(CNOlistToy2,ToyNCNOcutComp2)
+ToyNCNOcutCompExp2<-expandGates(ToyNCNOcutComp2)
+resECNOlistToy2<-residualError(CNOlistToy2)
+ToyFields4Sim2<-prep4Sim(ToyNCNOcutCompExp2)
+initBstring2<-rep(1,length(ToyNCNOcutCompExp2$reacID))
+ToyT1opt2<-gaBinaryT1(CNOlist=CNOlistToy2,Model=ToyNCNOcutCompExp2,SimList=ToyFields4Sim2,indexList=indicesToyNCNOcutComp2,initBstring=initBstring2,MaxTime=180)
+cutAndPlotResultsT1(Model=ToyNCNOcutCompExp2,bString=ToyT1opt2$bString,SimList=ToyFields4Sim2,CNOlist=CNOlistToy2,indexList=indicesToyNCNOcutComp2,plotPDF=TRUE)
+pdf("evolFitToy2T1.pdf")
+plotFit(OptRes=ToyT1opt2)
+dev.off()
+plotFit(OptRes=ToyT1opt2)
+#Optimise T2
+SimToyT12<-simulateT1(CNOlist=CNOlistToy2,Model=ToyNCNOcutCompExp2,bStringT1=ToyT1opt2$bString,SimList=ToyFields4Sim2,indexList=indicesToyNCNOcutComp2)
+ToyT1opt2T2<-gaBinaryT2(CNOlist=CNOlistToy2,Model=ToyNCNOcutCompExp2,SimList=ToyFields4Sim2,indexList=indicesToyNCNOcutComp2,bStringT1=ToyT1opt2$bString,SimResT1=SimToyT12,MaxTime=180)
+cutAndPlotResultsT2(Model=ToyNCNOcutCompExp2,bStringT1=ToyT1opt2$bString,bStringT2=ToyT1opt2T2$bString,SimList=ToyFields4Sim2,CNOlist=CNOlistToy2,indexList=indicesToyNCNOcutComp2,plotPDF=TRUE)
+pdf("evolFitToy2T2.pdf")
+plotFit(OptRes=ToyT1opt2T2)
+dev.off()
+plotFit(OptRes=ToyT1opt2T2)
+writeScaffold(ModelComprExpanded=ToyNCNOcutCompExp2,optimResT1=ToyT1opt2,optimResT2=ToyT1opt2T2,ModelOriginal=ToyModel2,CNOlist=CNOlistToy2)
+writeNetwork(ModelOriginal=ToyModel2,ModelComprExpanded=ToyNCNOcutCompExp2,optimResT1=ToyT1opt2,optimResT2=ToyT1opt2T2,CNOlist=CNOlistToy2)
+namesFilesToy<-list(dataPlot="ToyModelGraphT2.pdf",evolFit1="evolFitToy2T1.pdf",evolFit2="evolFitToy2T2.pdf",SimResults2="ToyNCNOcutCompExp2SimResultsT1T2.pdf",SimResults1="ToyNCNOcutCompExp2SimResultsT1.pdf",Scaffold="Scaffold.sif",ScaffoldDot="Scaffold.dot",tscaffold="TimesScaffold.EA",wscaffold="weightsScaffold.EA",PKN="PKN.sif",PKNdot="PKN.dot",wPKN="TimesPKN.EA",nPKN="nodesPKN.NA")
+writeReport(ModelOriginal=ToyModel2,ModelOpt=ToyNCNOcutCompExp2,optimResT1=ToyT1opt2,optimResT2=ToyT1opt2T2,CNOlist=CNOlistToy2,directory="testToy2",namesFiles=namesFilesToy,namesData=list(CNOlist="ToyModified4T2",Model="ToyModified4T2"),resE=resECNOlistToy2)
+################################################
+############The 2 time points -- one step################
+library(CellNOptR)
+dir.create("CNOR_analysis")
+setwd("CNOR_analysis")
+data(CNOlistToy2,package="CellNOptR")
+data(ToyModel2,package="CellNOptR")
+pList<-list(Data=CNOlistToy2,Model=ToyModel2,sizeFac = 1e-04, NAFac = 1, PopSize = 50, Pmutation = 0.5, MaxTime = 60, maxGens = 500, StallGenMax = 100, SelPress = 1.2, elitism = 5, RelTol = 0.1,verbose=TRUE)
+CNORwrap(paramsList=pList,Name="Toy",NamesData=list(CNOlist="ToyData2",Model="ToyModel2"),Data=NA,Model=NA,Time=2)
+

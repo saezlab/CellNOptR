@@ -7,11 +7,14 @@ Plot the evolution of an optimisation
 This function takes in the results of an optimisation by gaBinaryT1 and plots the evolution of best fit and average fit against generations.
 }
 \usage{
-plotFit(OptRes)
+plotFit(OptRes, filename = NULL)
 }
 \arguments{
   \item{OptRes}{
 an object created by the optimisation engine (gabinaryT1)
+}
+  \item{filename}{
+NULL or string: if provided, the plot is save in PDF format in the filename.
 }
 }
 \value{

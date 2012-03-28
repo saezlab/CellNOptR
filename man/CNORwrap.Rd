@@ -26,7 +26,7 @@ a string that will be used to name the project and all graphs produced
 a list with two elements:CNOlist and Model, each containing a string that is a reference for the user to know which model/data set was used (it will be included in the report)
 }
  \item{Time}{
-either 1 or 2: by default this is set to 1 because the 2 time points optimisation is not implemented in this version
+either 1 or 2: Do you want to perform a one time point steady state optimisation or a 2 time points pseudo steady state optimisation. By default this is set to 1.
 }
 }
 \details{

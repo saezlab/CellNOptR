@@ -9,7 +9,8 @@ This function writes the original previous knowledge network (the model that you
 This function also writes a Graphviz dot file that contains the same information (see \code{writeDot} for more information about the dot file conventions).
 }
 \usage{
-writeNetwork(ModelOriginal, ModelComprExpanded, optimResT1, optimResT2, CNOlist)
+writeNetwork(ModelOriginal, ModelComprExpanded, optimResT1, optimResT2, CNOlist,
+tag = NULL,verbose=FALSE)
 }
 \arguments{
   \item{ModelOriginal}{
@@ -22,10 +23,18 @@ The scaffold model (i.e. compressed and expanded)
 The results of the optimisation process at t1
 }
   \item{optimResT2}{
-The results of the optimisation process at t2 (set this to NA, the t2 optimisation is not implemented in this version).
+The results of the optimisation process at t2 (set this to NA if you have performed a one time point optimisation).
 }
   \item{CNOlist}{
 The CNOlist on which the optimisation is based
+}
+
+  \item{tag}{
+NULL or string; tells whether you want to prefix filenames with a tag (replaces
+the default behaviour).
+}
+  \item{verbose}{
+If verbose=TRUE, the function prints a message every time an edge in the scaffold network couldn't be mapped back to the PKN
 }
 }
 \details{

@@ -1,4 +1,19 @@
-writeDot<-function(dotNodes,dotMatrix,Model,fileName){
+#
+#  This file is part of the CNO software
+#
+#  Copyright (c) 2011-2012 - EBI
+#
+#  File author(s): CNO developers (cno-dev@ebi.ac.uk)
+#
+#  Distributed under the GPLv2 License.
+#  See accompanying file LICENSE.txt or copy at
+#      http://www.gnu.org/licenses/gpl-2.0.html
+#
+#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#
+##############################################################################
+# $Id: writeDot.R 546 2012-02-17 15:19:37Z cokelaer $
+writeDot<-function(dotNodes,dotMatrix,Model,filename){
 
 #Write the dot file for the PKN:
 #Use the internal variables created by writeNetwork:
@@ -29,8 +44,19 @@ writeDot<-function(dotNodes,dotMatrix,Model,fileName){
 	#a vector when the node has more than one attribute, I could then look into the identity 
 	#of the entries of this vector and define a color depending on this
 		nClass[i]<-dotNodes[match(nodes[i],dotNodes[,1]),2]
-		}
-		
+
+        # search for this node. Is it repeated ?
+        indices = grep(nodes[i], dotNodes[,1])
+        if (length(indices)>1){
+            # It may belong to both signal and inhibited classes, so let us
+            # check:
+            classes = dotNodes[indices, 2]
+            if ("signal" %in% classes && "inhibited" %in% classes){
+                nClass[i] = "bicolor"
+	        }
+        }
+    }	
+
 	AndNodes<-grep(pattern="(and\\d+$)",nodes,perl=TRUE,ignore.case=FALSE)	
 	
 	if(length(AndNodes) != 0){
@@ -55,7 +81,7 @@ writeDot<-function(dotNodes,dotMatrix,Model,fileName){
 		}
 		
 	notSinks<-apply(Model$interMat,1,findSinks)
-	sinks<-rownames(Model$interMat[!notSinks,])
+	sinks<-rownames(Model$interMat)[!notSinks]
 	
 #now find the distances from nodes to source/sink
 	ModeltoGraphNEL<-function(Model){
@@ -138,68 +164,79 @@ writeDot<-function(dotNodes,dotMatrix,Model,fileName){
 	
 #3.Write the header and nodes part of the dot file
 #Write the header
-	cat('digraph G{\nsize="8.5,11";\n{rank=source;',file=fileName,append=TRUE,sep="")
-	cat(which(rankNodes == "source"),file=fileName,append=TRUE,sep=";")
-	cat(';}\n{rank=same;',file=fileName,append=TRUE,sep="")
-	cat(which(rankNodes == "1"),file=fileName,append=TRUE,sep=";")
+    # if this function is called manually outside of CNOWrap, then the file may
+    # not be empty and therefore the final content canot be interpreted by dot
+    # executable. 
+    f = file(filename, "w")
+    close(f)
+
+    # now we can concatenate safely
+	cat('digraph G{\nsize="8.5,11";\n{rank=source;',file=filename,append=TRUE,sep="")
+	cat(which(rankNodes == "source"),file=filename,append=TRUE,sep=";")
+	cat(';}\n{rank=same;',file=filename,append=TRUE,sep="")
+	cat(which(rankNodes == "1"),file=filename,append=TRUE,sep=";")
 	
 	for(i in 2:max(rankNodes[-which(rankNodes=="source"|rankNodes=="sink")])){
-		cat(';}\n{rank=same;',file=fileName,append=TRUE,sep="")
-		cat(which(rankNodes == i),file=fileName,append=TRUE,sep=";")
+		cat(';}\n{rank=same;',file=filename,append=TRUE,sep="")
+		cat(which(rankNodes == i),file=filename,append=TRUE,sep=";")
 		}
 		
-	cat(';}\n',file=fileName,append=TRUE,sep="")
-	cat('{rank=sink;',file=fileName,append=TRUE,sep="")
-	cat(which(rankNodes == "sink"),file=fileName,append=TRUE,sep=";")
-	cat(';}\n',file=fileName,append=TRUE,sep="")
+	cat(';}\n',file=filename,append=TRUE,sep="")
+	cat('{rank=sink;',file=filename,append=TRUE,sep="")
+	cat(which(rankNodes == "sink"),file=filename,append=TRUE,sep=";")
+	cat(';}\n',file=filename,append=TRUE,sep="")
 	
 #write the nodes
 	for(i in 1:length(nodes)){
-		cat(i,file=fileName,append=TRUE,sep="")
+		cat(i,file=filename,append=TRUE,sep="")
 		
 		if(is.na(nClass[i])){
 		
 			cat(' [color="black" shape="ellipse" style="solid" label="',
-				file=fileName,append=TRUE,sep="")
-			cat(nodes[i],file=fileName,append=TRUE,sep="")
+				file=filename,append=TRUE,sep="")
+			cat(nodes[i],file=filename,append=TRUE,sep="")
 			cat('" fontname=Helvetica fontsize=22.0 ];\n',
-				file=fileName,append=TRUE,sep="")
+				file=filename,append=TRUE,sep="")
 		
 			}else{
 			
 				if(nClass[i] == "signal"){
 					cat(' [color="lightblue" shape="ellipse" style="filled" label="',
-						file=fileName,append=TRUE,sep="")
+						file=filename,append=TRUE,sep="")
+					}
+				if(nClass[i] == "bicolor"){
+					cat(' [fillcolor="lightblue" color="orangered" shape="ellipse" style="filled, bold, diagonals" label="',
+						file=filename,append=TRUE,sep="")
 					}
 					
 				if(nClass[i] == "inhibited"){
 					cat(' [color="orangered" shape="ellipse" style="filled" label="',
-						file=fileName,append=TRUE,sep="")
+						file=filename,append=TRUE,sep="")
 					}
 					
 				if(nClass[i] == "stimulated"){
 					cat(' [color="olivedrab3" shape="ellipse" style="filled" label="',
-						file=fileName,append=TRUE,sep="")
+						file=filename,append=TRUE,sep="")
 					}
 					
 				if(nClass[i] == "ncno"){
 					cat(' [color="lightblue" shape="ellipse" style="filled" label="',
-						file=fileName,append=TRUE,sep="")
+						file=filename,append=TRUE,sep="")
 					}
 					
 				if(nClass[i] == "compressed"){
 					cat(' [color="black" shape="ellipse" style="dashed" label="',
-						file=fileName,append=TRUE,sep="")
+						file=filename,append=TRUE,sep="")
 					}
 					
 				if(nClass[i] == "dummy"){
-					cat(' [color="grey90" shape="circle" style="filled" label="" fontname=Helvetica fontsize=22.0 fixedsize=true width="0.050000" height="0.050000" ];\n',file=fileName,append=TRUE,sep="")
+					cat(' [color="grey90" shape="circle" style="filled" label="" fontname=Helvetica fontsize=22.0 fixedsize=true width="0.050000" height="0.050000" ];\n',file=filename,append=TRUE,sep="")
 					}
 					
 				if(nClass[i] != "dummy"){
-					cat(nodes[i],file=fileName,append=TRUE,sep="")
+					cat(nodes[i],file=filename,append=TRUE,sep="")
 					cat('" fontname=Helvetica fontsize=22.0 ];\n',
-						file=fileName,append=TRUE,sep="")
+						file=filename,append=TRUE,sep="")
 					}	
 					
 				}
@@ -224,36 +261,36 @@ writeDot<-function(dotNodes,dotMatrix,Model,fileName){
 #a. get the reaction input->output
 		cat(
 			paste(match(dotMatrix[i,1],nodes),"->",match(dotMatrix[i,3],nodes),sep=" "),
-			file=fileName,append=TRUE,sep="")
+			file=filename,append=TRUE,sep="")
 		
 #b.get the color
 		if(dotMatrix[i,4] == 0){
 			cat('[ color="grey90" label="" weight="1.000000" penwidth="',
-				file=fileName,append=TRUE,sep="")
+				file=filename,append=TRUE,sep="")
 			}
 			
 		if(dotMatrix[i,4] == 1){
 			cat('[ color="forestgreen" label="" weight="1.000000" penwidth="',
-				file=fileName,append=TRUE,sep="")
+				file=filename,append=TRUE,sep="")
 			}	
 			
 		if(dotMatrix[i,4] == 2){
 			cat('[ color="blue" label="" weight="1.000000" penwidth="',
-				file=fileName,append=TRUE,sep="")
+				file=filename,append=TRUE,sep="")
 			}	
 			
 #c. get the penwidth from  the weights	
-		cat(weightsE[i],file=fileName,append=TRUE,sep="")
+		cat(weightsE[i],file=filename,append=TRUE,sep="")
 		
 #get the arrowhead
 		if(dotMatrix[i,2] == 1){
-			cat('" arrowhead="normal" style="solid"];\n',file=fileName,append=TRUE,sep="")
+			cat('" arrowhead="normal" style="solid"];\n',file=filename,append=TRUE,sep="")
 			}
 			
 		if(dotMatrix[i,2] == -1){
-			cat('" arrowhead="tee" style="solid"];\n',file=fileName,append=TRUE,sep="")
+			cat('" arrowhead="tee" style="solid"];\n',file=filename,append=TRUE,sep="")
 			}	
 		}
-	cat("}",file=fileName,append=TRUE,sep="")	
+	cat("}",file=filename,append=TRUE,sep="")	
 }
 	

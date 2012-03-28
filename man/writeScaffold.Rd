@@ -4,10 +4,11 @@
 Writes the scaffold network to a sif file (with attributes) and to a dot file
 }
 \description{
-This function writes a cityscape sif file for the scaffold network, with an associated edge attribute file that holds whether the edge is present at t1,t2 or not present at all and another associated edge attribute file that holds the weights of the edges. This function also writes a dot file that contains the same information (see \code{writeDot} for more information about the dot file conventions).
+This function writes a cytoscape SIF file for the scaffold network, with an associated edge attribute file that holds whether the edge is present at t1,t2 or not present at all and another associated edge attribute file that holds the weights of the edges. This function also writes a dot file that contains the same information (see \code{writeDot} for more information about the dot file conventions).
 }
 \usage{
-writeScaffold(ModelComprExpanded, optimResT1, optimResT2, ModelOriginal, CNOlist)
+writeScaffold(ModelComprExpanded, optimResT1, optimResT2, ModelOriginal,
+CNOlist, tag=NULL)
 }
 \arguments{
   \item{ModelComprExpanded}{
@@ -17,13 +18,16 @@ The scaffold model (i.e. compressed and expanded)
 The results of the optimisation process at t1
 }
   \item{optimResT2}{
-The results of the optimisation process at t2 (set this to NA, the t2 optimisation is not implemented in this version).
+The results of the optimisation process at t2 (set this to NA if you have performed a one time point optimisation).
 }
   \item{ModelOriginal}{
 The PKN model
 }
   \item{CNOlist}{
 The CNOlist on which the optimisation is based 
+}
+\item{tag}{
+NULL or string; tells whether you want to prefix filenames with a tag (replaces the default behaviour).
 }
 }
 \details{

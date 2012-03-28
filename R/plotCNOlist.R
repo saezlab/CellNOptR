@@ -1,3 +1,18 @@
+#
+#  This file is part of the CNO software
+#
+#  Copyright (c) 2011-2012 - EBI
+#
+#  File author(s): CNO developers (cno-dev@ebi.ac.uk)
+#
+#  Distributed under the GPLv2 License.
+#  See accompanying file LICENSE.txt or copy at
+#      http://www.gnu.org/licenses/gpl-2.0.html
+#
+#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#
+##############################################################################
+# $Id: plotCNOlist.R 592 2012-02-22 17:18:16Z cokelaer $
 plotCNOlist<-function(CNOlist){
 
 #check that CNOlist is a CNOlist
@@ -68,20 +83,52 @@ plotCNOlist<-function(CNOlist){
 				}
 				
 			}
-			
-		image(
-			t(matrix(c(CNOlist$valueStimuli[r,],CNOlist$valueInhibitors[r,]),nrow=1)),
-			col=c("white","black"),xaxt="n",yaxt="n")	
-		
-		if(r == dim(CNOlist$valueSignals[[1]])[1]){
-			axis(
-				side=1,
-				at=seq(from=0, to=1,length.out=length(CNOlist$namesCues)),
-				labels=c(CNOlist$namesStimuli,paste(CNOlist$namesInhibitors,"-i",sep="")),
-				las=3,cex.axis=1)
-			}
-			
-		}
-		
-	}
+
+            # The image (cues) last columns
+			if (length(CNOlist$namesInhibitors) != 0){
+                data = t(matrix(c(CNOlist$valueStimuli[r,],CNOlist$valueInhibitors[r,]),nrow=1))
+                # create the color vector
+                if (all(data==1)==TRUE){
+                    col=c("black")
+                }
+                else if (all(data==0)==TRUE){
+                    col=c("white")
+                }
+                else{
+                    col=c("white", "black")
+                }
+                image(data,col=col,xaxt="n",yaxt="n")
+            }
+            else{ # special case of no inhibitors
+                data = t(matrix(CNOlist$valueStimuli[r,],nrow=1))
+                # create the color vector
+                if (all(data==1)==TRUE){
+                    col=c("black")
+                }
+                else if (all(data==0)==TRUE){
+                    col=c("white")
+                }
+                else{
+                    col=c("white", "black")
+                }
+                image(data, col=col,xaxt="n",yaxt="n")
+            }
+
+        # the axis last column
+        if(r == dim(CNOlist$valueSignals[[1]])[1]){
+            # special case of no inhibitors
+            if (length(CNOlist$namesInhibitors) == 0){
+                labels = c(CNOlist$namesStimuli)
+            }
+            else{
+                labels=c(CNOlist$namesStimuli,paste(CNOlist$namesInhibitors,"-i",sep=""))
+            }
+
+            axis(
+                side=1,
+                at=seq(from=0, to=1,length.out=length(CNOlist$namesCues)),
+                labels=labels, las=3,cex.axis=1)   
+        }
+    }
+}
 

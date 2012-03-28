@@ -34,10 +34,16 @@ If you would like to compute the output of a model that contains some of the gat
 This function outputs a single matrix of format similar to valueSignals in the CNOlist but that contains an output for each species in the model.  This matrix is the simulated equivalent of valueSignals at time 1, if you consider only the columns given by indexSignals.
 }
 \references{
-J. Saez-Rodriguez, L. G. Alexopoulos, J. Epperlein, R. Samaga, D. A. Lauffenburger, S. Klamt and P. K. Sorger. Discrete logic modeling as a means to link protein signaling networks with functional analysis of
-mammalian signal transduction, Molecular Systems Biology, 5:331, 2009.
-
-M. K. Morris, J. Saez-Rodriguez, D. Clarke, P. K. Sorger, D. A. Lauffenburger. Training Signaling Pathway Maps to Biochemical Data with Constrained Fuzzy Logic: Quantitative Analysis of Liver Cell Responses to Inflammatory Stimuli, PLoS Comp. Biol., 7(3): e1001099, 2011.
+\enumerate{
+\item{J. Saez-Rodriguez, L. G. Alexopoulos, J. Epperlein, R. Samaga, D. A.
+Lauffenburger, S. Klamt and P. K. Sorger. Discrete logic modeling as a means to
+link protein signaling networks with functional analysis of mammalian signal
+transduction, Molecular Systems Biology, 5:331, 2009.}
+\item{M. K. Morris, J. Saez-Rodriguez, D. Clarke, P. K. Sorger, D. A.
+Lauffenburger. Training Signaling Pathway Maps to Biochemical Data with
+Constrained Fuzzy Logic: Quantitative Analysis of Liver Cell Responses to
+Inflammatory Stimuli, PLoS Comp. Biol., 7(3): e1001099, 2011.}
+}
 }
 \author{
 C. Terfve

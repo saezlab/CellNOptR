@@ -1,3 +1,18 @@
+#
+#  This file is part of the CNO software
+#
+#  Copyright (c) 2011-2012 - EBI
+#
+#  File author(s): CNO developers (cno-dev@ebi.ac.uk)
+#
+#  Distributed under the GPLv2 License.
+#  See accompanying file LICENSE.txt or copy at
+#      http://www.gnu.org/licenses/gpl-2.0.html
+#
+#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#
+##############################################################################
+# $Id: CNORwrap.R 491 2012-02-02 17:59:17Z cokelaer $
 #This function is a wrapper around the whole CNOR analysis, it performs the following steps:
 #1.Plot the CNOlist
 #2.Checks data to model compatibility
@@ -43,7 +58,7 @@ CNORwrap<-function(paramsList,Data,Model,Name,NamesData,Time=1){
 	plotCNOlist(paramsList$Data)
 	plotCNOlistPDF(
 		CNOlist=paramsList$Data,
-		fileName=paste(Name,"DataPlot.pdf",sep="")
+		filename=paste(Name,"DataPlot.pdf",sep="")
 		)
 		
 #2.Checks data to model compatibility
@@ -117,14 +132,51 @@ CNORwrap<-function(paramsList,Data,Model,Name,NamesData,Time=1){
 	plotFit(OptRes=T1opt)
 	
 #15.Optimise t2	
-#Not implemented in this version
-	T2opt<-NA
+	if(Time==2){
 	
+		SimT1<-simulateT1(
+			CNOlist=paramsList$Data,
+			Model=NCNOcutCompExp,
+			bStringT1=T1opt$bString,
+			SimList=fields4Sim,
+			indexList=IndicesNCNOcutComp)
+			
+		T2opt<-gaBinaryT2(
+			CNOlist=paramsList$Data,
+			Model=NCNOcutCompExp,
+			SimList=fields4Sim,
+			indexList=IndicesNCNOcutComp,
+			bStringT1=T1opt$bString,
+			SimResT1=SimT1,
+			sizeFac=paramsList$sizeFac,
+			NAFac=paramsList$NAFac,
+			PopSize=paramsList$PopSize,
+			Pmutation=paramsList$Pmutation,
+			MaxTime=paramsList$MaxTime,
+			maxGens=paramsList$maxGens,
+			StallGenMax=paramsList$StallGenMax,
+			SelPress=paramsList$SelPress,
+			elitism=paramsList$elitism,
+			RelTol=paramsList$RelTol,
+			verbose=paramsList$verbose)
+			
+		cutAndPlotResultsT2(Model=NCNOcutCompExp,bStringT1=T1opt$bString,bStringT2=T2opt$bString,SimList=fields4Sim,CNOlist=paramsList$Data,indexList=IndicesNCNOcutComp,plotPDF=TRUE)
+		
+		pdf(paste(Name,"evolFitT2.pdf",sep=""))
+		plotFit(OptRes=T2opt)
+		dev.off()
+		plotFit(OptRes=T2opt)
+		
+		}else{
+		
+			T2opt<-NA
+			
+			}
 #16.Write the scaffold and PKN
 #and
 #17.Write the report
 	if(Time==2){
-#not implemented in this version
+
 
 		writeScaffold(
 			ModelComprExpanded=NCNOcutCompExp,
