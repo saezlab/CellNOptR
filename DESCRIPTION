@@ -4,7 +4,7 @@ Title: R version of CellNOpt, boolean features only
 Version: 1.2.0
 Date: 2012-03-28
 Author: C.Terfve, T.Cokelaer
-Maintainer: C.Terfve <terfve@ebi.ac.uk>
+Maintainer: T.Cokelaer <cokelaer@ebi.ac.uk>
 Depends: RBGL, graph
 Suggests: Rgraphviz
 biocViews: CellBasedAssays, CellBiology, Proteomics, Bioinformatics, TimeCourse
