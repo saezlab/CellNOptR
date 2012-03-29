@@ -38,11 +38,6 @@ plotModel <- function(model, cnolist=NULL, bString=NULL, indexIntegr=NA,
   }
 
 
-  if (length(bString)!=length(model$reacID) & is.null(bString)==FALSE){
-      stop(paste("If the bString argument is provided it must have the same",
-        "  length as model$reacID. ", "The model has ", length(model$reacID), 
-        "  edges whereas the bitstring has a length of ", length(bString), sep=""))
-   }
 
     # Some required library to build the graph and plot the results using
     # graphviz.
@@ -83,7 +78,7 @@ plotModel <- function(model, cnolist=NULL, bString=NULL, indexIntegr=NA,
     }
 
     # Input data. If the model is a character, we guess that the user provided
-    # the MODEL filename (sif format) that we can read.
+    # the MODEL filename (sif format) that we can read directly.
     if (typeof(model) == "character"){
         raw = read.table(model)  # read the PKN data
         # build the unique vertices from the column 1 and 3 of the SIF file
@@ -99,6 +94,11 @@ plotModel <- function(model, cnolist=NULL, bString=NULL, indexIntegr=NA,
     # "node1+node2=node3"
     # This block is the tricky part of the function. Change with care.
     else if (typeof(model)=="list" && any("namesSpecies" == names(model))){ 
+        if (length(bString)!=length(model$reacID) & is.null(bString)==FALSE){
+            stop(paste("If the bString argument is provided it must have the same",
+            "  length as model$reacID. ", "The model has ", length(model$reacID), 
+            "  edges whereas the bitstring has a length of ", length(bString), sep=""))
+        }
         # namesSpecies == names(model) try to check if model resemble the output of readSif ?
         # ideally we should have a type.
 
