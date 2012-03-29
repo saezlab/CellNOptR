@@ -38,7 +38,7 @@ plotModel <- function(model, cnolist=NULL, bString=NULL, indexIntegr=NA,
   }
 
 
-  if (length(bString)!=length(model$reacID)){
+  if (length(bString)!=length(model$reacID) & is.null(bString)==FALSE){
       stop(paste("If the bString argument is provided it must have the same",
         "  length as model$reacID. ", "The model has ", length(model$reacID), 
         "  edges whereas the bitstring has a length of ", length(bString), sep=""))
