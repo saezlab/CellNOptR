@@ -183,7 +183,7 @@ default value is 2.
 
 \subsection{Preprocessing function}
 
-In \emph{CellNOptR} (version greater than 0.99.24), a function called
+In \emph{CellNOptR} (version 1.1.1 and above), a function called
 \emph{preprocessing} gathers the previous three preprocessing steps in a single command
 line:
 
