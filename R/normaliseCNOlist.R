@@ -12,7 +12,7 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: normaliseCNOlist.R 1586 2012-06-26 14:59:24Z cokelaer $
+# $Id: normaliseCNOlist.R 2267 2012-08-30 15:31:54Z cokelaer $
 normaliseCNOlist<-function(
     CNOlist,
     EC50Data=0.5,
@@ -23,22 +23,10 @@ normaliseCNOlist<-function(
     changeTh=0,
     norm2TorCtrl="time"){
 
-#check that CNOlist is a CNOlist
-    if(!is.list(CNOlist)){
-        stop("This function expects as input a CNOlist as output by makeCNOlist")
-        }
-    if(all(names(CNOlist) != c(
-        "namesCues",
-        "namesStimuli",
-        "namesInhibitors",
-        "namesSignals",
-        "timeSignals",
-        "valueCues",
-        "valueInhibitors",
-        "valueStimuli",
-        "valueSignals"))){
-        stop("This function expects as input a CNOlist as output by makeCNOlist")
-        }
+
+    if ((class(CNOlist)=="CNOlist")==FALSE){
+         CNOlist = CellNOptR::CNOlist(CNOlist)
+     }
 
 #Check that the parameters have the right format
     if(class(EC50Data) != "numeric" | length(EC50Data) != 1)
@@ -64,7 +52,7 @@ normaliseCNOlist<-function(
 #i.e. if Detection=0 and saturation=Inf, then all the matrices in NaNsList should be filled with 0s
 #this function also tags as NAs all the field that don't have a value (should be imported as NA)
 
-    NaNsList<-CNOlist$valueSignals
+    NaNsList<-CNOlist@signals
 
     DynamicRange<-function(x){
         x[which(x > saturation )]<-Inf
@@ -81,25 +69,25 @@ normaliseCNOlist<-function(
 
 #the following list will contain true for the fold changes that are negatives and significant,
 #and false for the other ones
-    negList<-CNOlist$valueSignals
+    negList<-CNOlist@signals
     negList<-lapply(negList,function(x) x<-matrix(data=FALSE,nrow=dim(x)[1],ncol=dim(x)[2]) )
 
 #the following list will contain true for the fold changes that are positive and significant,
 #and false for the other ones
-    posList<-CNOlist$valueSignals
+    posList<-CNOlist@signals
     posList<-lapply(posList,function(x) x<-matrix(data=FALSE,nrow=dim(x)[1],ncol=dim(x)[2]) )
 
 #the following matrix will contain the actual fold change values
-    FoldChangeList<-CNOlist$valueSignals
+    FoldChangeList<-CNOlist@signals
 
 #if norm2TorCtrl="time" then the relative change is simply matrix t1 - matrix t0
 #(ie each measurement is compared to the exact same condition at time 0)
     if(norm2TorCtrl == "time"){
 
         for(i in 2:length(FoldChangeList)){
-            FoldChangeList[[i]]<-abs(CNOlist$valueSignals[[i]] - CNOlist$valueSignals[[1]])/CNOlist$valueSignals[[1]]
-            negList[[i]][which((CNOlist$valueSignals[[i]] - CNOlist$valueSignals[[1]]) < (-1*changeTh))]<-TRUE
-            posList[[i]][which((CNOlist$valueSignals[[i]] - CNOlist$valueSignals[[1]]) > changeTh)]<-TRUE
+            FoldChangeList[[i]]<-abs(CNOlist@signals[[i]] - CNOlist@signals[[1]])/CNOlist@signals[[1]]
+            negList[[i]][which((CNOlist@signals[[i]] - CNOlist@signals[[1]]) < (-1*changeTh))]<-TRUE
+            posList[[i]][which((CNOlist@signals[[i]] - CNOlist@signals[[1]]) > changeTh)]<-TRUE
             }
 
         FoldChangeList[[1]]<-matrix(
@@ -124,17 +112,17 @@ normaliseCNOlist<-function(
             for(n in 1:dim(FoldChangeList[[i]])[1]){
 #First I treat the rows that are not ctrls
 
-                    if(sum(CNOlist$valueStimuli[n,]) != min(apply(CNOlist$valueStimuli,MARGIN=1,sum))){
+                    if(sum(CNOlist@stimuli[n,]) != min(apply(CNOlist@stimuli,MARGIN=1,sum))){
                         ctrlRow<-intersect(
                             which(
-                                apply(CNOlist$valueStimuli,MARGIN=1,sum) ==
-                                    min(apply(CNOlist$valueStimuli,MARGIN=1,sum))),
+                                apply(CNOlist@stimuli,MARGIN=1,sum) ==
+                                    min(apply(CNOlist@stimuli,MARGIN=1,sum))),
                             which(
-                                apply(CNOlist$valueInhibitors,MARGIN=1,
-                                    function(x) all(x == CNOlist$valueInhibitors[n,]))))
-                        FoldChangeList[[i]][n,]<-abs(CNOlist$valueSignals[[i]][n,] - CNOlist$valueSignals[[i]][ctrlRow,])/CNOlist$valueSignals[[i]][ctrlRow,]
-                        negList[[i]][n,which((CNOlist$valueSignals[[i]][n,] - CNOlist$valueSignals[[i]][ctrlRow,]) < (-1*changeTh) )]<-TRUE
-                        posList[[i]][n,which((CNOlist$valueSignals[[i]][n,] - CNOlist$valueSignals[[i]][ctrlRow,]) > changeTh )]<-TRUE
+                                apply(CNOlist@inhibitors,MARGIN=1,
+                                    function(x) all(x == CNOlist@inhibitors[n,]))))
+                        FoldChangeList[[i]][n,]<-abs(CNOlist@signals[[i]][n,] - CNOlist@signals[[i]][ctrlRow,])/CNOlist@signals[[i]][ctrlRow,]
+                        negList[[i]][n,which((CNOlist@signals[[i]][n,] - CNOlist@signals[[i]][ctrlRow,]) < (-1*changeTh) )]<-TRUE
+                        posList[[i]][n,which((CNOlist@signals[[i]][n,] - CNOlist@signals[[i]][ctrlRow,]) > changeTh )]<-TRUE
 
                         }else{
 
@@ -172,11 +160,11 @@ normaliseCNOlist<-function(
         return(signalMax)
         }
 
-    signalMax<-SignalMax(signals=CNOlist$valueSignals,NaNsList=NaNsList)
+    signalMax<-SignalMax(signals=CNOlist@signals,NaNsList=NaNsList)
 
     #2.This bit takes a list of matrices and goes into each matrix
     #and divides each row by the vector containing the max values
-    PenaltyList<-CNOlist$valueSignals
+    PenaltyList<-CNOlist@signals
     PenaltyList<-lapply(
         PenaltyList,
         function(x){x<-apply(x,MARGIN=1,function(y){y<-y/signalMax});return(t(x))})
@@ -207,7 +195,7 @@ normaliseCNOlist<-function(
         NormData[[i]][which(NaNsList[[i]] == 1)]<-NaN
         }
 
-    CNOlist$valueSignals<-NormData
+    CNOlist@signals<-NormData
     return(CNOlist)
 
     }

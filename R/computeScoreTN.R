@@ -101,7 +101,11 @@ computeScoreTN<-function(CNOlist, model, simList=NULL, indexList=NULL,
         nInTot=length(which(model$interMat == -1)),
 		simResultsT0=NA)
 
-  nDataP <- sum(!is.na(CNOlist$valueSignals[[2]]))
+    if ((class(CNOlist)=="CNOlist")==FALSE){
+          CNOlist = CellNOptR::CNOlist(CNOlist)
+    }
+
+  nDataP <- sum(!is.na(CNOlist@signals[[2]]))
   Score <- Score/nDataP
 
 

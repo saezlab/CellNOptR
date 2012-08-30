@@ -12,7 +12,7 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: writeScaffold.R 1586 2012-06-26 14:59:24Z cokelaer $
+# $Id: writeScaffold.R 2267 2012-08-30 15:31:54Z cokelaer $
 #the global function will still be called writeScaffold and will still need the same arguments
 #(ModelComprExpanded,optimResT1,optimResT2,ModelOriginal=ToyModel,CNOlist), but it will be divided into a function writeScaffoldW that does
 #the actual writing to files,
@@ -30,8 +30,7 @@ writeScaffold<-function(
     sif<-getSifInfo(modelComprExpanded=modelComprExpanded,
         optimResT1=optimResT1,
         optimResT2=optimResT2,
-        modelOriginal=modelOriginal,
-        CNOlist=CNOlist)
+        modelOriginal=modelOriginal)
 
 #get the stuff that I need for the dot file
     dot<-getDotInfo(
@@ -142,8 +141,7 @@ getDotInfo<-function(modelComprExpanded,modelOriginal,CNOlist,sifFile){
 getSifInfo<-function(modelComprExpanded,
     optimResT1,
     optimResT2,
-    modelOriginal,
-    CNOlist){
+    modelOriginal){
 
     bString1<-optimResT1$bString
 

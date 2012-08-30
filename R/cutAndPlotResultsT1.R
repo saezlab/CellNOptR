@@ -12,12 +12,15 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: cutAndPlotResultsT1.R 2256 2012-08-29 15:49:30Z cokelaer $
+# $Id: cutAndPlotResultsT1.R 2267 2012-08-30 15:31:54Z cokelaer $
 
 cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList=NULL,
- plotPDF=FALSE, tag=NULL, tPt=CNOlist$timeSignals[2], plotParams=list(maxrow=10))
+ plotPDF=FALSE, tag=NULL, tPt=CNOlist@timepoints[2], plotParams=list(maxrow=10))
 {
 
+    if ((class(CNOlist)=="CNOlist")==FALSE){
+        CNOlist = CellNOptR::CNOlist(CNOlist)
+    } 
     if (is.null(simList)==TRUE){
         simList = prep4sim(model)
     }
@@ -47,8 +50,8 @@ cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList
     # if there is a lot of data, split up cnolist
     # make the max dimensions 10 x 10
 
-    dim1 = dim(CNOlist$valueSignals[[1]])[1]
-    dim2 = dim(CNOlist$valueSignals[[1]])[2]
+    dim1 = dim(CNOlist@signals[[1]])[1]
+    dim2 = dim(CNOlist@signals[[1]])[2]
 
     CNOlistSet = list()
     simResultsSet = list()
@@ -66,11 +69,11 @@ cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList
             simDiv = simResults
             finalN = div1 * a
             if(finalN > dim1) {finalN = dim1}
-            CNOdiv$valueCues = CNOdiv$valueCues[count1:finalN,]
-            CNOdiv$valueStimuli = CNOdiv$valueStimuli[count1:finalN,]
-            CNOdiv$valueInhibitors = CNOdiv$valueInhibitors[count1:finalN,]
-            for(b in 1:length(CNOdiv$valueSignals)) {
-                CNOdiv$valueSignals[[b]] = CNOdiv$valueSignals[[b]][count1:finalN,]
+            CNOdiv@cues = CNOdiv@cues[count1:finalN,]
+            CNOdiv@stimuli = CNOdiv@stimuli[count1:finalN,]
+            CNOdiv:inhibitors = CNOdiv@inhibitors[count1:finalN,]
+            for(b in 1:length(CNOdiv@signals)) {
+                CNOdiv@signals[[b]] = CNOdiv@signals[[b]][count1:finalN,]
             }
             for(d in 1:length(simDiv)) {
                 simDiv[[d]] = simDiv[[d]][count1:finalN,]

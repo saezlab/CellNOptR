@@ -15,9 +15,13 @@
 # $Id$
 
 cSimulator <- function(CNOlist, model, simList, indexList) {
+
+    if ((class(CNOlist)=="CNOlist")==FALSE){
+        CNOlist = CellNOptR::CNOlist(CNOlist)
+    }
 	
 	# check the structures
-	if(is.null(CNOlist$valueStimuli) || is.null(CNOlist$valueInhibitors)) {
+	if(is.null(CNOlist@stimuli) || is.null(CNOlist@inhibitors)) {
 		stop("This function needs 'valueStimuli' and 'valueInhibitors' in CNOlist")
 	}
 	
@@ -28,7 +32,7 @@ cSimulator <- function(CNOlist, model, simList, indexList) {
 	# variables
 	nStimuli <- as.integer(length(indexList$stimulated))
 	nInhibitors <- as.integer(length(indexList$inhibited))
-	nCond <- as.integer(dim(CNOlist$valueStimuli)[1])
+	nCond <- as.integer(dim(CNOlist@stimuli)[1])
 	nReacs <- as.integer(length(model$reacID))
 	nSpecies <- as.integer(length(model$namesSpecies))
 	nMaxInputs <- as.integer(dim(simList$finalCube)[2])
@@ -45,8 +49,8 @@ cSimulator <- function(CNOlist, model, simList, indexList) {
 	indexInhibitors <- as.integer(as.vector(indexList$inhibited)-1)
 
 	# cnolist
-	valueInhibitors <- as.integer(t(CNOlist$valueInhibitors))
-	valueStimuli <- as.integer(t(CNOlist$valueStimuli))
+	valueInhibitors <- as.integer(t(CNOlist@inhibitors))
+	valueStimuli <- as.integer(t(CNOlist@stimuli))
 
 	res = .Call("simulatorT1",
 		# variables	

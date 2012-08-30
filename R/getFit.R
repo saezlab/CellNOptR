@@ -12,7 +12,7 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: getFit.R 2196 2012-08-23 08:03:39Z cokelaer $
+# $Id: getFit.R 2267 2012-08-30 15:31:54Z cokelaer $
 getFit<-function(
     simResults,
     CNOlist,
@@ -25,7 +25,9 @@ getFit<-function(
     simResultsT0=NA
     ){
 
-
+    if ((class(CNOlist)=="CNOlist")==FALSE){
+         CNOlist = CellNOptR::CNOlist(CNOlist)
+     }
 
 
     simResults<-simResults[,indexList$signals]
@@ -49,15 +51,15 @@ getFit<-function(
     # if t0 is provided and we are interested in t1
     # then  score is based on t1 but also t0
     if (tPt == 2 && is.na(simResultsT0)==FALSE){
-        Diff0<-simResultsT0[,indexList$signals]-CNOlist$valueSignals[[1]]
-        Diff<-simResults-CNOlist$valueSignals[[tPt]]
+        Diff0<-simResultsT0[,indexList$signals]-CNOlist@signals[[1]]
+        Diff<-simResults-CNOlist@signals[[tPt]]
         r0<-Diff0^2
         r<-Diff^2
         r <- rbind(r0, r) # we can concatenate because it's matricial computation.
         deviationPen<-sum(r[!is.na(r)])/2
     }# otherwise, no need to take to into account
     else{
-        Diff<-simResults-CNOlist$valueSignals[[tPt]]
+        Diff<-simResults-CNOlist@signals[[tPt]]
         r<-Diff^2
         deviationPen<-sum(r[!is.na(r)])
     }
@@ -65,7 +67,7 @@ getFit<-function(
 
     NAPen<-NAFac*length(which(is.na(simResults)))
 
-    nDataPts<-dim(CNOlist$valueSignals[[tPt]])[1]*dim(CNOlist$valueSignals[[tPt]])[2]
+    nDataPts<-dim(CNOlist@signals[[tPt]])[1]*dim(CNOlist@signals[[tPt]])[2]
 
     nInputs<-length(which(model$interMat == -1))
 

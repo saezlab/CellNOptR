@@ -12,25 +12,13 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: indexFinder.R 1586 2012-06-26 14:59:24Z cokelaer $
+# $Id: indexFinder.R 2267 2012-08-30 15:31:54Z cokelaer $
 indexFinder<-function(CNOlist, model, verbose=FALSE){
 
-#check that CNOlist is a CNOlist
-    if(!is.list(CNOlist)){
-        stop("This function expects as input a CNOlist as output by makeCNOlist or normaliseCNOlist")
-        }
-    if(all(names(CNOlist) != c(
-        "namesCues",
-        "namesStimuli",
-        "namesInhibitors",
-        "namesSignals",
-        "timeSignals",
-        "valueCues",
-        "valueInhibitors",
-        "valueStimuli",
-        "valueSignals"))){
-        stop("This function expects as input a CNOlist as output by makeCNOlist")
-        }
+    if ((class(CNOlist)=="CNOlist")==FALSE){
+        CNOlist = CellNOptR::CNOlist(CNOlist)
+    } 
+
 
     #check that Model is a model list
 
@@ -53,13 +41,13 @@ indexFinder<-function(CNOlist, model, verbose=FALSE){
         }
 
     #Find the indexes of the signals
-    signals<-match(CNOlist$namesSignals,model$namesSpecies)
+    signals<-match(colnames(CNOlist@signals[[1]]),model$namesSpecies)
 
     #Find the indexes of the stimulated species
-    stimulated<-match(CNOlist$namesStimuli,model$namesSpecies)
+    stimulated<-match(colnames(CNOlist@stimuli),model$namesSpecies)
 
     #Find the indexes of the inhibited species
-    inhibited<-match(CNOlist$namesInhibitors,model$namesSpecies)
+    inhibited<-match(colnames(CNOlist@inhibitors),model$namesSpecies)
 
     #Print summaries
     if(verbose){

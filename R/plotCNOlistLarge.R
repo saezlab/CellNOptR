@@ -12,40 +12,27 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/cno
 #
 ##############################################################################
-# $Id: plotCNOlistLarge.R 2249 2012-08-28 16:56:37Z cokelaer $
+# $Id: plotCNOlistLarge.R 2267 2012-08-30 15:31:54Z cokelaer $
 #This function is a variant of plotCNOlist that works for bigger datasets and allows one
 #to split the plots into n=nsplit plots (across the conditions dimension)
 
 plotCNOlistLarge<-function(CNOlist,nsplit=4, newDevice=FALSE){
 
+    if ((class(CNOlist)=="CNOlist")==FALSE){
+         CNOlist = CellNOptR::CNOlist(CNOlist)
+     }
+
     opar = par(no.readonly = TRUE)
     on.exit(par(opar))
 
-#check that CNOlist is a CNOlist
-    if(!is.list(CNOlist)){
-        stop("This function expects as input a CNOlist as output by makeCNOlist or normaliseCNOlist")
-        }
-    if(
-        all(names(CNOlist) != c(
-            "namesCues",
-            "namesStimuli",
-            "namesInhibitors",
-            "namesSignals",
-            "timeSignals",
-            "valueCues",
-            "valueInhibitors",
-            "valueStimuli",
-            "valueSignals"))){
-        stop("This function expects as input a CNOlist as output by makeCNOlist")
-        }
 
-    L = dim(CNOlist$valueCues)[1] # number of signals/Cues
+    L = dim(CNOlist@cues)[1] # number of signals/Cues
     if (nsplit<=0 | nsplit>=L){
         stop("nsplit must be strictly positive and smaller than the number of signals")
     }
 
 
-    splits<-dim(CNOlist$valueCues)[1]/nsplit
+    splits<-dim(CNOlist@cues)[1]/nsplit
     splits<-floor(splits)
     CNOlistOriginal<-CNOlist
 
@@ -58,30 +45,30 @@ plotCNOlistLarge<-function(CNOlist,nsplit=4, newDevice=FALSE){
         CNOlist<-CNOlistOriginal
 
         if(i == nsplit){
-            indices<-(indices[length(indices)]+1):dim(CNOlistOriginal$valueCues)[1]
+            indices<-(indices[length(indices)]+1):dim(CNOlistOriginal@cues)[1]
             }
 
         indices<-((1:splits)+((i-1)*splits))
-        CNOlist$valueCues<-CNOlist$valueCues[indices,]
-        CNOlist$valueStimuli<-CNOlist$valueStimuli[indices,]
-        CNOlist$valueInhibitors<-CNOlist$valueInhibitors[indices,]
-        CNOlist$valueSignals[[1]]<-CNOlist$valueSignals[[1]][indices,]
+        CNOlist@cues<-CNOlist@cues[indices,]
+        CNOlist@stimuli<-CNOlist@stimuli[indices,]
+        CNOlist@inhibitors<-CNOlist@inhibitors[indices,]
+        CNOlist@signals[[1]]<-CNOlist@signals[[1]][indices,]
 
-        for(n in 2:length(CNOlist$valueSignals)){
-            CNOlist$valueSignals[[n]]<-CNOlist$valueSignals[[n]][indices,]
+        for(n in 2:length(CNOlist@signals)){
+            CNOlist@signals[[n]]<-CNOlist@signals[[n]][indices,]
             }
 
         par(
-            mfrow=c(nr=dim(CNOlist$valueSignals[[1]])[1]+1,nc=dim(CNOlist$valueSignals[[1]])[2]+2),
+            mfrow=c(nr=dim(CNOlist@signals[[1]])[1]+1,nc=dim(CNOlist@signals[[1]])[2]+2),
             cex=0.5,
             pch=20,
             mar=c(0.5,0.5,0,0),
             oma=c(3,2,2,2))
-        yMax<-max(unlist(lapply(CNOlist$valueSignals,function(x) max(x, na.rm=TRUE))))
-        yMin<-min(unlist(lapply(CNOlist$valueSignals,function(x) min(x, na.rm=TRUE))))
-        xVal<-CNOlist$timeSignals
+        yMax<-max(unlist(lapply(CNOlist@signals,function(x) max(x, na.rm=TRUE))))
+        yMin<-min(unlist(lapply(CNOlist@signals,function(x) min(x, na.rm=TRUE))))
+        xVal<-CNOlist@timepoints
 
-        for(c in 1:dim(CNOlist$valueSignals[[1]])[2]){
+        for(c in 1:dim(CNOlist@signals[[1]])[2]){
             par(fg="blue",mar=c(0.5,0.5,0.7,0))
 
 
@@ -92,7 +79,7 @@ plotting. You may want to try again with a larger number of figures nsplit
 by providing the nsplit option (suggestion: nsplit=",floor(L/25), ")")))
 
             text(
-                labels=CNOlist$namesSignals[c],
+                labels=colnames(CNOlist@signals[[1]])[c],
                 x=((xVal[length(xVal)]-xVal[1])/2),
                 y=(yMin+((yMax-yMin)/2)),
                 cex=1)
@@ -117,16 +104,16 @@ by providing the nsplit option (suggestion: nsplit=",floor(L/25), ")")))
             y=(yMin+((yMax-yMin)/2)),cex=1)
         par(fg="black",mar=c(0.5,0.5,0,0))
 
-        for(r in 1:dim(CNOlist$valueSignals[[1]])[1]){
+        for(r in 1:dim(CNOlist@signals[[1]])[1]){
 
-            for(c in 1:dim(CNOlist$valueSignals[[1]])[2]){
-                yVal<-lapply(CNOlist$valueSignals,function(x) {x[r,c]})
+            for(c in 1:dim(CNOlist@signals[[1]])[2]){
+                yVal<-lapply(CNOlist@signals,function(x) {x[r,c]})
 
                 plot(x=xVal,y=yVal,ylim=c(yMin, yMax),xlab=NA,ylab=NA,xaxt="n",yaxt="n")
                 lines(x=xVal,y=yVal,ylim=c(yMin, yMax),xlab=NA,ylab=NA,xaxt="n",yaxt="n")
 
                 #add the axis annotations: if we're on the last row, add the x axis
-                if(r == dim(CNOlist$valueSignals[[1]])[1]){
+                if(r == dim(CNOlist@signals[[1]])[1]){
                     axis(side=1,at=xVal)
                     }
 
@@ -139,25 +126,25 @@ by providing the nsplit option (suggestion: nsplit=",floor(L/25), ")")))
                 }
 
             image(
-                t(matrix(CNOlist$valueStimuli[r,],nrow=1)),
+                t(matrix(CNOlist@stimuli[r,],nrow=1)),
                 col=c("white","black"),xaxt="n",yaxt="n")
 
-            if(r == dim(CNOlist$valueSignals[[1]])[1]){
+            if(r == dim(CNOlist@signals[[1]])[1]){
                 axis(
                     side=1,
-                    at=seq(from=0, to=1,length.out=length(CNOlist$namesStimuli)),
-                    labels=CNOlist$namesStimuli,las=3,cex.axis=1)
+                    at=seq(from=0, to=1,length.out=length(CNOlist@stimuli)),
+                    labels=CNOlist@stimuli,las=3,cex.axis=1)
                 }
 
             image(
-                t(matrix(CNOlist$valueInhibitors[r,],nrow=1)),
+                t(matrix(CNOlist@inhibitors[r,],nrow=1)),
                 col=c("white","black"),xaxt="n",yaxt="n")
 
-            if(r == dim(CNOlist$valueSignals[[1]])[1]){
+            if(r == dim(CNOlist@signals[[1]])[1]){
                 axis(
                     side=1,
-                    at=seq(from=0, to=1,length.out=length(CNOlist$namesInhibitors)),
-                    labels=paste(CNOlist$namesInhibitors,"-i",sep=""),
+                    at=seq(from=0, to=1,length.out=length(CNOlist@inhibitors)),
+                    labels=paste(CNOlist@inhibitors,"-i",sep=""),
                     las=3,cex.axis=1)
             }
 

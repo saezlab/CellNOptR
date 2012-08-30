@@ -17,10 +17,15 @@
 # this is the code from simulatorT1 simulatorT1 was written in c
 
 rSimulatorT1 <- function(CNOlist, model, simList, indexList) {
+
+
+    if ((class(CNOlist)=="CNOlist")==FALSE){
+         CNOlist = CellNOptR::CNOlist(CNOlist)
+     }
     
 	nSp <- dim(model$interMat)[1] 
 	nReacs <- dim(model$interMat)[2]
-	nCond <- dim(CNOlist$valueStimuli)[1]
+	nCond <- dim(CNOlist@stimuli)[1]
 	maxIpg <- dim(simList$finalCube)[2]
 
     if(is.null(dim(model$interMat))) {
@@ -48,11 +53,11 @@ rSimulatorT1 <- function(CNOlist, model, simList, indexList) {
 
     # see warning on the top
     # set the initial values of the stimuli
-    initValues[,indexList$stimulated] <- CNOlist$valueStimuli
+    initValues[,indexList$stimulated] <- CNOlist@stimuli
 
     # see warning on the top
     # flip the inhibitors so that 0=inhibited/1=non-inhibitted
-    valueInhibitors <- 1-CNOlist$valueInhibitors
+    valueInhibitors <- 1-CNOlist@inhibitors
     valueInhibitors[which(valueInhibitors == 1)] <- NA
 
     # see warning on the top
@@ -163,7 +168,7 @@ rSimulatorT1 <- function(CNOlist, model, simList, indexList) {
     	# reset the inhibitors and stimuli
     	for (stim in 1:length(indexList$stimulated)) {
             stimM <- cbind(
-                CNOlist$valueStimuli[,stim],
+                CNOlist@stimuli[,stim],
                 newInput[,indexList$stimulated[stim]])
             maxNA <- function(x){
                 return(max(x,na.rm=TRUE))
@@ -172,7 +177,7 @@ rSimulatorT1 <- function(CNOlist, model, simList, indexList) {
             newInput[,indexList$stimulated[stim]] <- stimV
 		}
     	
-    	valueInhibitors <- 1-CNOlist$valueInhibitors
+    	valueInhibitors <- 1-CNOlist@inhibitors
     	newInput[,indexList$inhibited] <- valueInhibitors*newInput[,indexList$inhibited]
 
     	# replace NAs with zeros to avoid having the NA penalty applying to unconnected species

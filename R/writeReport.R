@@ -12,7 +12,7 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: writeReport.R 2256 2012-08-29 15:49:30Z cokelaer $
+# $Id: writeReport.R 2267 2012-08-30 15:31:54Z cokelaer $
 writeReport<-function(
 	modelOriginal,
 	modelOpt,
@@ -36,6 +36,14 @@ writeReport<-function(
 		nPKN=NA),
 	namesData=list(CNOlist=NA,model=NA),
 	resE=NULL){
+
+ if ((class(CNOlist)=="CNOlist")==FALSE){
+        CNOlist = CellNOptR::CNOlist(CNOlist)
+    } 
+
+
+
+
 
     if (is.null(resE)==TRUE){
         resE<-residualError(CNOlist)
@@ -144,7 +152,7 @@ writeReport<-function(
 	cat(
 		paste('\n <LI>Residual error: t1: ',resE["t1"],sep=""), 
 		append = TRUE, file = htmlfile)
-	nDataP<-sum(!is.na(CNOlist$valueSignals[[2]]))
+	nDataP<-sum(!is.na(CNOlist@signals[[2]]))
 	scaledResE<-resE["t1"]/nDataP
 	cat(
 		paste(' (scaled: ',round(scaledResE,digits=4),' )',sep=""), 
@@ -152,7 +160,7 @@ writeReport<-function(
 		
 	if(!is.na(resE["t2"])) {
 		cat(paste('; t2: ',resE["t2"],sep=""), append = TRUE, file = htmlfile)
-		nDataP<-sum(!is.na(CNOlist$valueSignals[[3]]))
+		nDataP<-sum(!is.na(CNOlist@signals[[3]]))
 		scaledResE<-resE["t2"]/nDataP
 		cat(
 			paste(' (scaled: ',round(scaledResE,digits=4),' )',sep=""), 
@@ -160,7 +168,7 @@ writeReport<-function(
 		cat(
 			paste('; t1andt2: ',resE["t1andt2"],sep=""), 
 			append = TRUE, file = htmlfile)
-		nDataP<-sum(!is.na(CNOlist$valueSignals[[3]]))+sum(!is.na(CNOlist$valueSignals[[2]]))
+		nDataP<-sum(!is.na(CNOlist@signals[[3]]))+sum(!is.na(CNOlist@signals[[2]]))
 		scaledResE<-resE["t1andt2"]/nDataP
 		cat(
 			paste(' (scaled: ',round(scaledResE,digits=4),' )',sep=""), 

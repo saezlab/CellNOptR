@@ -18,6 +18,13 @@ cutAndPlot <- function(CNOlist, model, bStrings, plotPDF=FALSE, tag=NULL,
  plotParams=list(maxrow=10))
 {
 
+
+     if ((class(CNOlist)=="CNOlist")==FALSE){
+        CNOlist = CellNOptR::CNOlist(CNOlist)
+    } 
+
+
+
     # bitStrings must be a list of bitString (T1, T2, ...TN)
     tPt = length(bStrings)+1
 

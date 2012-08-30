@@ -1,13 +1,16 @@
 writeMIDAS <- function(CNOlist, filename)
 {
 
-    cnolist = CNOlist
 
-    namesCues = cnolist$namesCues
-    namesStimuli = cnolist$namesStimuli
-    namesInhibitors = cnolist$namesInhibitors
-    namesSignals = cnolist$namesSignals
-    timeSignals = cnolist$timeSignals
+    if ((class(CNOlist)=="CNOlist")==FALSE){
+         cnolist = CellNOptR::CNOlist(CNOlist)
+    }
+
+    namesCues = colnames(cnolist@cues)
+    namesStimuli = colnames(cnolist@stimuli)
+    namesInhibitors = colnames(cnolist@inhibitors)
+    namesSignals = colnames(cnolist@signals[[1]])
+    timeSignals = cnolist@timepoints
 
     nCues = length(namesCues)
     nStimuli = length(namesStimuli)
@@ -17,7 +20,7 @@ writeMIDAS <- function(CNOlist, filename)
 
     # First column is cellline
     nCols = 1 + nStimuli + nInhibitors + nSignals * 2 
-    nConds = dim(cnolist$valueSignals[[1]])[1]
+    nConds = dim(cnolist@signals[[1]])[1]
     nRows = nConds * nTimes
 
     # build the header
@@ -49,16 +52,16 @@ writeMIDAS <- function(CNOlist, filename)
         i2 = i1 + nConds - 1
 
         j1 = 2; j2 = j1 + nStimuli - 1
-        data[i1:i2, j1:j2] = cnolist$valueStimuli
+        data[i1:i2, j1:j2] = cnolist@stimuli
 
         j1 = j2 + 1; j2 = j1 + nInhibitors - 1
-        data[i1:i2, j1:j2] = cnolist$valueInhibitors
+        data[i1:i2, j1:j2] = cnolist@inhibitors
 
         j1 = j2 + 1; j2 = j1 + nSignals - 1
         data[i1:i2, j1:j2] = rep(timeSignals[time], nSignals)
 
         j1 = j2 + 1; j2 = j1 + nSignals - 1
-        data[i1:i2,j1:j2] = cnolist$valueSignals[[time]] 
+        data[i1:i2,j1:j2] = cnolist@signals[[time]] 
     }
 
 

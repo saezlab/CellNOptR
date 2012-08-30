@@ -18,7 +18,14 @@ cutAndPlotResultsTN <-function(CNOlist, model,bStrings, plotPDF=FALSE,
     tag=NULL, plotParams=list(maxrow=10))
 {
 
-  tPt=CNOlist$timeSignals[1:length(bStrings)+1]
+ if ((class(CNOlist)=="CNOlist")==FALSE){
+        CNOlist = CellNOptR::CNOlist(CNOlist)
+    } 
+
+
+
+
+  tPt=CNOlist@timepoints[1:length(bStrings)+1]
   simList = prep4sim(model)
   indexList = indexFinder(CNOlist, model)
 

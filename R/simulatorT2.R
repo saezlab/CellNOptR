@@ -25,9 +25,13 @@ simulatorT2 <-function(
 same prototype and is using a C simulator. You can still use this function but
 it is not giong to be maintained after version 1.4.0. " )
 
+    if ((class(CNOlist)=="CNOlist")==FALSE){
+         CNOlist = CellNOptR::CNOlist(CNOlist)
+    }
+
     nSp<-dim(model$interMat)[1]
     nReacs<-dim(model$interMat)[2]
-    nCond<-dim(CNOlist$valueStimuli)[1]
+    nCond<-dim(CNOlist@stimuli)[1]
     maxIpg<-dim(simList$finalCube)[2]
 
     if(is.null(dim(model$interMat))){
@@ -119,7 +123,7 @@ it is not giong to be maintained after version 1.4.0. " )
 
     for(stim in 1:length(indexList$stimulated)){
 
-        stimM<-cbind(CNOlist$valueStimuli[,stim],newInput[,indexList$stimulated[stim]])
+        stimM<-cbind(CNOlist@stimuli[,stim],newInput[,indexList$stimulated[stim]])
 
         maxNA<-function(x){
             return(max(x,na.rm=TRUE))
@@ -130,7 +134,7 @@ it is not giong to be maintained after version 1.4.0. " )
 
         }
 
-    valueInhibitors<-1-CNOlist$valueInhibitors
+    valueInhibitors<-1-CNOlist@inhibitors
     newInput[,indexList$inhibited]<-valueInhibitors*newInput[,indexList$inhibited]
     newInput[is.na(newInput)]<-0
     outputPrev[is.na(outputPrev)]<-0
@@ -184,14 +188,14 @@ it is not giong to be maintained after version 1.4.0. " )
 
 #Reset the inhibitors and stimuli
         for(stim in 1:length(indexList$stimulated)){
-            stimM<-cbind(CNOlist$valueStimuli[,stim],newInput[,indexList$stimulated[stim]])
+            stimM<-cbind(CNOlist@stimuli[,stim],newInput[,indexList$stimulated[stim]])
             maxNA<-function(x){
                 return(max(x,na.rm=TRUE))
                 }
             stimV<-apply(stimM,1,maxNA)
             newInput[,indexList$stimulated[stim]]<-stimV
             }
-        valueInhibitors<-1-CNOlist$valueInhibitors
+        valueInhibitors<-1-CNOlist@inhibitors
         newInput[,indexList$inhibited]<-valueInhibitors*newInput[,indexList$inhibited]
 
 #Set all the nodes that are targets of a t2 reaction to the state that they had at the first iteration

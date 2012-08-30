@@ -6,9 +6,10 @@
 
 \title{Class \code{CNOlist}}
 \description{
-This function takes as input the filename of a MIDAS file and returns an
-instance of CNOlist class. It provides an object oriented approach to manipulate
-CNOlist. This function calls \link{readMIDAS} and \link{makeCNOlist}.
+This function takes as input the filename of a MIDAS file (or the list returned
+by \link{makeCNOlist}) and returns an instance of CNOlist class. It provides an 
+object oriented approach to manipulate CNOlist. This function calls
+\link{readMIDAS} and \link{makeCNOlist}.
 }
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("CNOlist", ...)}.
@@ -24,8 +25,13 @@ Objects can be created by calls of the form \code{new("CNOlist", ...)}.
   }
 }
 \section{Methods}{
-No methods defined with class "CNOlist" in the signature.
+    \describe{
+    \item{plot}{\code{signature(object = "CNOlist")}: calls
+       \code{\link{plotCNOlist}} on the object.}
+
+    }
 }
+
 \author{
 T.Cokelaer
 }
@@ -43,6 +49,6 @@ cnolist@inhibitors
 cnolist@signals
 cnolist@timepoints
 cnolist@stimuli
-
+plot(cnolist)
 }
 \keyword{classes}

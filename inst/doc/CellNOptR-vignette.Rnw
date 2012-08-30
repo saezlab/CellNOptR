@@ -3,18 +3,30 @@
 %\VignettePackage{CellNOptR}
 
 \documentclass{article}
-\usepackage{Sweave}
-\usepackage{url}
+\usepackage{Sweave, fullpage}
+\usepackage{url, color}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks, linkcolor=blue
+}
+% 10 
+% 11 \usepackage{authblk}
+% 12 \usepackage[T1]{fontenc}
+% 13 \usepackage[utf8]{inputenc}
+% 14 
+
+
+
 
 
 \title{Training of boolean logic models of signalling networks using prior
-knowledge networks and perturbation data with \emph{CellNOptR} \\\small{(version 1.3.29
+knowledge networks and perturbation data with \emph{CellNOptR} \\\small{(version 1.3.30
 and above)}}
 
 
 
 
-\author{Camille Terfve, Thomas Cokelaer, Julio Saez-Rodriguez}
+\author{Camille Terfve, Thomas Cokelaer, Aidan MacNamara, Julio Saez-Rodriguez}
 
 \begin{document}
 \maketitle
@@ -24,9 +36,15 @@ and above)}}
 
 \tableofcontents
 
-\section{A few words before we start...}
+\section{Installation}
 
-This software is written in the R language, so in order to use it you will need to have R installed on your computer.  For more information and download of R, please refer to \url{http://www.r-project.org/}.   For more information about how to install R packages, please refer to \url{http://cran.r-project.org/doc/manuals/R-admin.html#Installing-packages}.  This package relies on a Bioconductor package called RBGL, which you can install by typing:
+This software is written in the R language, so in order to use it you will need
+to have R installed on your computer.  For more information and download of R,
+please refer to \url{http://www.r-project.org/}.   For more information about
+how to install R packages, please refer to
+\url{http://cran.r-project.org/doc/manuals/R-admin.html#Installing-packages}.
+This package relies on several Bioconductor package (RBGL, graph, methods) and
+optional package Rgraphivz. As an example, you can install RGBL package by typing:
 <<installRBGL, eval=FALSE>>=
 source("http://bioconductor.org/biocLite.R")
 biocLite("RBGL")
@@ -40,17 +58,19 @@ biocLite("CellNOptR")
 @
 
 or from a tar ball as follows:
-<<installPackage, eval=FALSE>>=
+<<installPackage2, eval=FALSE>>=
 install.packages("path_to_CellNOptR/CellNOptR_1.0.0.tar.gz",
     repos=NULL, type="source")
 @
 or, using the R GUI by clicking on "Packages \& Data" then "Package installer", then choosing "local source" from the dropdown menu, clicking "install", choosing \emph{CellNOptR\_1.0.0.tar.gz} and finally clicking "open".
 
-A series of books about R can be found on the R project website (\url{http://www.r-project.org/}), and many tutorials are available on the internet. If you are a complete beginner, all you need to know is that by typing "?nameOfFunction" you get the help page about the function that you are interested in, and by typing
-<<Rdummies, eval=FALSE>>=
-a<-4+5
-@
-you assign the value 4+5=9 to the variable a, and if the expression on the right of the arrow is a function then you assign the result of the function to the variable on the left side of the arrow. If you type the name of your variable only, R shows you the content of this variable.
+A series of books about R can be found on the R project website
+(\url{http://www.r-project.org/}), and many tutorials are available on the
+internet. If you are a complete beginner, all you need to know is that by typing
+"?nameOfFunction" you get the help page about the function that you are
+interested in.
+
+
 
 \section{Introduction}
 
@@ -75,14 +95,18 @@ You can either copy and paste the lines of code in this document (not including 
 
 For easiness of use we also provide (in the doc folder of this package) a text
 file CellNOptR-examples.R which contains some  R commands being used in this
-tutorial.  We recommend that you use that script as a template for your
-analyses.  In the doc folder of this package you will also find a file called
-CellNOptR0\_1flowchart.pdf which graphically describes the pipeline of this
-package and places all of the functions of this package relative to each other.
-Squared nodes in this flowchart are steps that should not be omitted in a normal
-analysis, whereas elliptic nodes are optional in most analyses.
+tutorial.  
 
-The first step of an analysis with \emph{CellNOptR} is to load the library, and create a directory where you can perform your analysis, then set it as your working directory.
+%We recommend that you use that script as a template for your
+%analyses.  In the doc folder of this package you will also find a file called
+%CellNOptR0\_1flowchart.pdf which graphically describes the pipeline of this
+%package and places all of the functions of this package relative to each other.
+%Squared nodes in this flowchart are steps that should not be omitted in a normal
+%analysis, whereas elliptic nodes are optional in most analyses.
+
+The first step of an analysis with \emph{CellNOptR} is to load the library, and
+create a directory where you can perform your analysis, then set it as your
+working directory.
 
 <<Ropts, echo=FALSE, results=hide>>=
 options(width=70)
@@ -97,41 +121,124 @@ dir.create("CNOR_analysis")
 setwd("CNOR_analysis")
 @
 
+\section{Quick Start}
+
+Assuming that you have a prior knowledge network stored in SIF format and a
+MIDAS file, the optimisation of your problem can be done in a couple of steps:
+
+<<quickstart, eval=FALSE>>=
+# ---------------------- load the library and get a SIF and MIDAS file
+library(CellNOptR)
+#
+# ---------------------- examples are provided in CellNOptR
+data("ToyModel", package="CellNOptR")
+data("CNOlistToy", package="CellNOptR")
+pknmodel = ToyModel
+cnolist = CNOlist(CNOlistToy)
+#
+# ---------------------- but you can read your own files:
+pknmodel = readSIF("ToyModel.sif")
+cnolist = CNOlist("ToyDataMMB.csv")
+#
+# ---------------------- pre process the network
+model = preprocessing(cnolist, pknmodel)
+#
+# ---------------------- perform the analysis
+res = gaBinaryT1(cnolist, model)
+#
+# ---------------------- plot the results
+cutAndPlot(cnolist, model, list(res$bString))
+@
+
+
+
+See the following sections for details.
+
+
 
 \section{Loading the data and prior knowledge network.}
 
+Let us first create a directory where to store the file that will be created:
 
-The example that we use is the toy model example from CellNOpt, which is a data set and associated network that have been created in silico. This data and network can be found in the inst/ToyModel directory of this package.  The data is read using the function readMIDAS, which as the name states expects a MIDAS formatted csv file (see the documentation of DataRail and \cite{datarail} for more information about that file format).  Please note that this data is already normalised for boolean modelling. If it had not been the case we would have had to normalise the data first to scale it between 0 and 1, which can be done using the  \emph{normaliseCNOlist} function of CellNOptR (see the help of this function for more information about the normalisation procedure). This normalisation procedure is the one used in \cite{julio2009} as implemented in \emph{DataRail}.
-
-<<getData, eval=TRUE>>=
+<<directory, eval=TRUE, results=hide>>=
 cpfile<-dir(system.file("ToyModel",package="CellNOptR"),full=TRUE)
 file.copy(from=cpfile,to=getwd(),overwrite=TRUE)
-dataToy<-readMIDAS("ToyDataMMB.csv")
-CNOlistToy<-makeCNOlist(dataToy,subfield=FALSE)
 @
 
-Alternatively, you can also load the data already formatted as a CNOlist.
+The example that we use is the toy model example from CellNOpt, which is a data
+set and associated network that have been created in silico. This data and
+network can be found in the inst/ToyModel directory of this package.  The data
+is read using the function \emph{readMIDAS}, which as the name states expects a MIDAS
+formatted CSV file (see the documentation of DataRail and \cite{datarail} for
+more information about that file format). Then, you will need to convert the
+data into a \emph{CNOlist}, which is the data structure used in
+\emph{CellNOptR}. Please note that this data is already
+normalised for boolean modelling. If it had not been the case we would have had
+to normalise the data first to scale it between 0 and 1, which can be done using
+the  \emph{normaliseCNOlist} function of CellNOptR (see the help of this
+function for more information about the normalisation procedure). This
+normalisation procedure is the one used in \cite{julio2009} as implemented in
+\emph{DataRail}. 
+
+
+Before version 1.3.30, you would type the following commands to create a
+CNOlist:
+
+<<getData, eval=TRUE>>=
+dataToy<-readMIDAS("ToyDataMMB.csv", verbose=FALSE)
+CNOlistToy<-makeCNOlist(dataToy,subfield=FALSE, verbose=FALSE)
+@
+
+Alternatively, this data is provided within \emph{CellNOptR} so you can also
+load it as follows
 
 <<getData2, eval=TRUE>>=
-data(CNOlistToy,package="CellNOptR")
+data(CNOlistToy,package="CellNOptR", verbose=FALSE)
 @
 
-A CNOlist is the central data object of this package, it is equivalent to the CNOproject object in \emph{CellNOpt}.  It is the object that contains measurements of elements of a prior knowledge network under different combinations of perturbations of other nodes in the network.  A CNOlist comprises the following fields: namesSignals, namesCues, namesStimuli, namesInhibitors  which are vectors holding the names of the measured, stimulated and inhibited, stimulated, and inhibited species, respectively.  The fields valueCues (and its derivatives valueStimuli and valueInhibitors) are boolean matrices that contain for each condition (row) a 1 when the corresponding cue (column) is present, and a zero otherwise.  You can have a look at your data and the CNOlist format by typing:
+However, since version 1.3.30, you can use the \emph{CNOlist} class to load the
+data in a single command line
 
-<<showCNO, eval=TRUE, results=hide>>=
+<<cnolistClass, eval=TRUE, results=hide>>=
+CNOlistToy = CNOlist("ToyDataMMB.csv")
+@
+
+Note for the users familiar with the previous commands (\emph{readMIDAS} and
+and \emph{makeCNOlist}) that you can easily convert the old
+data structure into an instance of CNOlist class:
+
+<<cnolistClass2, eval=FALSE>>=
+data(CNOlistToy,package="CellNOptR")
+CNOlistToy = CNOlist(CNOlistToy)
+@
+
+A CNOlist is the central data object of this package; it contains
+measurements of elements of a prior knowledge network under different
+combinations of perturbations of other nodes in the network.  A CNOlist
+comprises the following attributes: signals, cues, stimuli,
+inhibitors  and timepoints. The attributes cues (and its derivatives stimuli and
+inhibitors) are boolean
+matrices that contain for each condition (row) a 1 when the corresponding cue
+(column) is present, and a zero otherwise.  
+
+
+You can have a look at your data and the CNOlist format by typing:
+
+<<showCNO, eval=TRUE>>=
 CNOlistToy
 @
 
-You can also visualise your data using the function  \emph{plotCNOlist} which
+You can also visualise your data using the method \emph{plot} (or a function
+called \emph{plotCNOlist}) which
 will produce a plot on your screen with a subplot for each signal and each
 condition, and an image plot for each condition that contains the information
 about which cues are present in each condition. This plot can also be produced
 and stored in your working directory as a single PDF file using the function
-\emph{nplotCNOlistPDF}.
+\emph{plotCNOlistPDF}.
 
 \begin{center}
 <<plotCNO, fig=TRUE>>=
-plotCNOlist(CNOlistToy)
+plot(CNOlistToy)
 @
 \end{center}
 
@@ -159,15 +266,18 @@ Having loaded both the data set and corresponding model, we run a check to make 
 
 <<indices, eval=TRUE>>=
 checkSignals(CNOlistToy,ToyModel)
-# deprecated since version 1.3.28: no need to use indexFinder anymore
-# indicesToy<-indexFinder(CNOlistToy,ToyModel,verbose=TRUE)
 @
 
-The SIF model that you have just loaded is visible on figure \ref{fig:PKNsif} as displayed by Cytoscape.
+The SIF model that you have just loaded is visible on figure \ref{fig:PKNsif} as
+displayed by \emph{plotModel} (requires Rgrqphviz to be installed).
+
+<<plotModel, eval=TRUE, fig=FALSE>>=
+plotModel(ToyModel, CNOlistToy)
+@
 
 \begin{figure*}
-\centerline{\includegraphics[width=0.4\textwidth]{Fig1.png}}
-\caption{Prior knowledge network (original SIF file visualised by Cytoscape) for the Toy Model example.}
+\centerline{\includegraphics[width=0.5\textwidth, height=8cm]{CellNOptR-vignette-plotModel.pdf}}
+\caption{Prior knowledge network (original SIF file visualised by \emph{plotModel}) for the Toy Model example.}
 \label{fig:PKNsif}
 \end{figure*}
 
@@ -176,7 +286,7 @@ The SIF model that you have just loaded is visible on figure \ref{fig:PKNsif} as
 Prior to optimisation, the model has to be pre-processed in 3 steps: removal of non-observable/non-controllable species, compression, and expansion.  Each one of these steps is described in more details below.
 
 Since version 0.99.24, a \emph{preprocessing} function is available and makes the
-following 3 step in 1 command line. However, the description of the 3 steps remains
+following 3 steps in 1 command line. However, the description of the 3 steps remains
 available here below. If you do not bother about details, you can jump directly to section \ref{sec:preproc}.
 
 \subsection{Finding and cutting the non observable and non controllable species}
@@ -256,13 +366,18 @@ model (please remember that although the data is normalised in this pipeline, it
 is not discretised, and therefore we compare 0/1 values to continuous values
 between 0 and 1). This value is important because however good is our
 optimisation, the value of the goodness of fit term cannot go under this
-residual error. Then, we create an initial bit string for the optimisation,
+residual error. 
+
+<<resError, eval=TRUE>>=
+resECNOlistToy<-residualError(CNOlistToy)
+@
+
+
+Then, we create an initial bit string for the optimisation,
 which in this case is just a string of 1s, but could be a meaningful string if
 you have prior expectation about the topology of the model.
 
-<<misc4Sim, eval=TRUE>>=
-resECNOlistToy<-residualError(CNOlistToy)
-#ToyFields4Sim<-prep4sim(ToyNCNOcutCompExp)
+<<initbs, eval=TRUE>>=
 initBstring<-rep(1,length(ToyNCNOcutCompExp$reacID))
 @
 
@@ -555,7 +670,7 @@ cutAndPlot(
 \begin{figure*}
 \centerline{\includegraphics[width=\textwidth]{Fig7.pdf}}
 \caption{output of the cutAndPlot function on the 2-time dat set.}
-\label{fig:DREAMscaffold}
+\label{fig:DREAMscaffold2}
 \end{figure*}
 
 \clearpage

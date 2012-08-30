@@ -16,9 +16,14 @@
 
 cutAndPlotResultsT2 <-function(model, bStringT1, bStringT2, CNOlist, simList=NULL,
     indexList=NULL, plotPDF=FALSE, tag=NULL, 
-    tPt=CNOlist$timeSignals[2:3], plotParams=list(maxrow=10))
+    tPt=CNOlist@timepoints[2:3], plotParams=list(maxrow=10))
 {
     warning("cutAndPlotResultsT2 is a deprecated function. Use cutAndPlotResultsTN instead. ")
+
+
+   if ((class(CNOlist)=="CNOlist")==FALSE){
+        CNOlist = CellNOptR::CNOlist(CNOlist)
+    } 
 
     # ideally, CNOlist must be first argument but this function is deprecated
     # anyway, so keep as it is for back compatibility.
@@ -61,8 +66,8 @@ cutAndPlotResultsT2 <-function(model, bStringT1, bStringT2, CNOlist, simList=NUL
     # if there is a lot of data, split up cnolist
     # make the max dimensions 10 x 10
 
-    dim1 = dim(CNOlist$valueSignals[[1]])[1]
-    dim2 = dim(CNOlist$valueSignals[[1]])[2]
+    dim1 = dim(CNOlist@signals[[1]])[1]
+    dim2 = dim(CNOlist@signals[[1]])[2]
 
     CNOlistSet = list()
     simResultsSet = list()
@@ -80,11 +85,11 @@ cutAndPlotResultsT2 <-function(model, bStringT1, bStringT2, CNOlist, simList=NUL
             simDiv = simResults
             finalN = div1 * a
             if(finalN > dim1) {finalN = dim1}
-            CNOdiv$valueCues = CNOdiv$valueCues[count1:finalN,]
-            CNOdiv$valueStimuli = CNOdiv$valueStimuli[count1:finalN,]
-            CNOdiv$valueInhibitors = CNOdiv$valueInhibitors[count1:finalN,]
-            for(b in 1:length(CNOdiv$valueSignals)) {
-                CNOdiv$valueSignals[[b]] = CNOdiv$valueSignals[[b]][count1:finalN,]
+            CNOdiv@cues = CNOdiv@cues[count1:finalN,]
+            CNOdiv@stimuli = CNOdiv@stimuli[count1:finalN,]
+            CNOdiv@inhibitors = CNOdiv@inhibitors[count1:finalN,]
+            for(b in 1:length(CNOdiv@signals)) {
+                CNOdiv@signals[[b]] = CNOdiv@signals[[b]][count1:finalN,]
             }
             for(d in 1:length(simDiv)) {
                 simDiv[[d]] = simDiv[[d]][count1:finalN,]

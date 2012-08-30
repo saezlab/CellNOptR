@@ -17,12 +17,10 @@
 CNORbool<-function(CNOlist, model, paramsList=defaultParameters(),
     compression=TRUE, expansion=TRUE, cutNONC=TRUE, verbose=FALSE)
 {
-    # just an alis
-    cnolist = CNOlist
 
-    # if filenames provided, need to call the proper functions
-    if (is.character(cnolist)==TRUE){
-        cnolist = makeCNOlist(readMIDAS(cnolist), subfield=FALSE)
+
+    if ((class(CNOlist)=="CNOlist")==FALSE){
+        cnolist = CellNOptR::CNOlist(CNOlist)
     }
     if (is.character(model)==TRUE){
         model = readSIF(model)
@@ -58,7 +56,7 @@ CNORbool<-function(CNOlist, model, paramsList=defaultParameters(),
     bStrings[[1]] = T1opt$bString
 
 
-    if (length(cnolist$valueSignals)==2){
+    if (length(cnolist@signals)==2){
         return(list(model=model, bStrings=bStrings))
     }
 
@@ -66,7 +64,7 @@ CNORbool<-function(CNOlist, model, paramsList=defaultParameters(),
     Times = 1
     T2opt<-NA # default value
 
-    for (i in 3:length(cnolist$valueSignals)){
+    for (i in 3:length(cnolist@signals)){
         Times = Times + 1
         print(paste("Entering gaBinaryTN (time=", Times, ")", sep=" "))
 

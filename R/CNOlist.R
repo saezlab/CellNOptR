@@ -47,12 +47,26 @@ setClass("CNOlist",
 
 
 ## constructor
-#CNOlist <-function(cues, inhibitors, stimuli, signals, ...){
-#    new("CNOlist", cues=cues, inhibitors=inhibitors,
-#        stimuli=stimuli, signals=signals, ...)
-#}
-CNOlist <-function(MIDASfile, subfield=FALSE, verbose=FALSE){
-    res = internal_CNOlist(MIDASfile, subfield, verbose)
+CNOlist <-function(data, subfield=FALSE, verbose=FALSE){
+
+    # input can a filename or the old (still used) CNOlist returned by
+    # makeCNOlist function. subfield and verbose used only if MIDASfile is a
+    # string.
+    if (is.character(data)== TRUE){
+        res = internal_CNOlist_from_file(data, subfield, verbose)
+    }else {
+        if (is.list(data)==TRUE){
+            if ("namesCues" %in% names(data) == TRUE){
+                res = internal_CNOlist_from_makeCNOlist(data) 
+            }else{
+                stop("Not a valid list. Does not seem to be returned by CellNOptR::makeCNOlist")
+            }
+        }else{
+        stop("Input data must be a filename or the output of CellNOptR::makeCNOlist function")
+        }
+    }
+
+
     new("CNOlist", cues=res$cues, inhibitors=res$inhibitors,
         stimuli=res$stimuli, signals=res$signals, timepoints=res$timepoints)
 }
@@ -78,34 +92,42 @@ setMethod(show, "CNOlist", function(object) {
     cat("signals:", colnames(signals(object)[[1]]), "\n")
 })
 
-
-
-
-
-
+setMethod("plot", signature(x="CNOlist", y="missing"), function(x, y){
+    plotCNOlist(x)
+})
 
 
 # used by the constructor not for export.
-internal_CNOlist <- function(MIDASfile, subfield=FALSE, verbose=FALSE)
+# open a MIDAS file (given a  filename) and create the instance of CNOlist
+internal_CNOlist_from_file <- function(MIDASfile, subfield=FALSE, verbose=FALSE)
 {
     x <- readMIDAS(MIDASfile, verbose=verbose)
-    y <- makeCNOlist(x, subfield=subfield, verbose=verbose)
+    cnolist <- makeCNOlist(x, subfield=subfield, verbose=verbose)
+    res <- internal_CNOlist_from_makeCNOlist(cnolist)
+    return(res)
+}
 
-    myCues <- y$valueCues
-    colnames(myCues) <- y$namesCues
 
-    myInhibitors <- y$valueInhibitors
-    colnames(myInhibitors) <- y$namesInhibitors
+# used by the constructor not for export.
+# open a MIDAS file (given a  filename) and create the instance of CNOlist
+internal_CNOlist_from_makeCNOlist <- function(cnolist)
+{
 
-    myStimuli <- y$valueStimuli
-    colnames(myStimuli) <- y$namesStimuli
+    myCues <- cnolist$valueCues
+    colnames(myCues) <- cnolist$namesCues
 
-    mySignals <- y$valueSignals
-    names(mySignals) <- y$timeSignals
+    myInhibitors <- cnolist$valueInhibitors
+    colnames(myInhibitors) <- cnolist$namesInhibitors
+
+    myStimuli <- cnolist$valueStimuli
+    colnames(myStimuli) <- cnolist$namesStimuli
+
+    mySignals <- cnolist$valueSignals
+    names(mySignals) <- cnolist$timeSignals
     mySignals <-
-        lapply(mySignals, "colnames<-", y$namesSignals)
+        lapply(mySignals, "colnames<-", cnolist$namesSignals)
 
-    myTimePoints <- y$timeSignals
+    myTimePoints <- cnolist$timeSignals
 
     #CNOlist(myCues, myInhibitors, myStimuli, mySignals)
     return( list(cues=myCues, inhibitors=myInhibitors, stimuli=myStimuli,

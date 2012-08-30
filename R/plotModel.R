@@ -23,7 +23,6 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
 #   # g$graph contains the model transformed into a graph object
 
   # edgecolor could be forestgreen
-  cnolist = CNOlist
 
   if (is.null(graphvizParams$arrowsize)==TRUE) {
     graphvizParams$arrowsize=2
@@ -36,6 +35,15 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
   }
   if (is.null(graphvizParams$edgecolor)==TRUE) {
     graphvizParams$edgecolor="black"
+  }
+  if (is.null(graphvizParams$nodeLabels)==TRUE) {
+    graphvizParams$nodeLabels=NULL
+  }
+  if (is.null(graphvizParams$nodeWidth)==TRUE) {
+    graphvizParams$nodeWidth=2
+  }
+  if (is.null(graphvizParams$nodeHeight)==TRUE) {
+    graphvizParams$nodeHeight=1
   }
   if (is.null(graphvizParams$nodeLabels)==TRUE) {
     graphvizParams$nodeLabels=NULL
@@ -73,13 +81,15 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
         }
     }
 
-    # Input data. If the cnolist is a character, we guess that the user provided the MIDAS
+    # If the cnolist is a character, we guess that the user provided the MIDAS
     # filename from which we can try to construct the cnolist.
-    if (typeof(cnolist) == "character"){
-        tryCatch({cnolist = makeCNOlist(readMIDAS(cnolist, verbose=FALSE), subfield=FALSE)},
-            error=function(e){stop("An error occured while trying to create the cnolist.
-            Invalid MIDAS file provided maybe?")})
+    
+    if ((class(CNOlist)=="CNOlist")==FALSE){
+        cnolist = CellNOptR::CNOlist(CNOlist)
+    } else{
+        cnolist = CNOlist
     }
+    
 
     # Input data. If the model is a character, we guess that the user provided
     # the MODEL filename (sif format) that we can read directly.
@@ -181,9 +191,9 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
 
     if (is.null(cnolist) == FALSE){ # if a cnolist is provided, fill
                                     # signals/stimulis/inhitors
-        stimuli <- cnolist$namesStimuli
-        signals <- cnolist$namesSignals
-        inhibitors <- cnolist$namesInhibitors
+        stimuli <- colnames(cnolist@stimuli)
+        signals <- colnames(cnolist@signals[[1]])
+        inhibitors <- colnames(cnolist@inhibitors)
     }
 
     # check that the signal and stimuli are indeed in the list of vertices
@@ -215,7 +225,7 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
 
     # --------------------------------------- Build the node and edges attributes list
     nodeAttrs = createNodeAttrs(g, vertices, stimuli, signals, inhibitors, NCNO,
-compressed, nodeLabels=graphvizParams$nodeLabels)
+compressed, graphvizParams)
 
     res = createEdgeAttrs(v1, v2, edges, BStimes, Integr,
         user_edgecolor=graphvizParams$edgecolor)
@@ -460,7 +470,11 @@ subGraph(stimuli, g)? Does the stimuli from your MIDAS are present in the model
 # Create the node attributes and save in a list to be used either by the
 # plot function of the nodeRenderInfo function.
 createNodeAttrs <- function(g, vertices, stimuli, signals, inhibitors, NCNO,
-compressed, nodeLabels=NULL){
+compressed, graphvizParams){
+
+    nodeLabels = graphvizParams$nodeLabels
+    nodeWidth = graphvizParams$nodeWidth
+    nodeHeight = graphvizParams$nodeHeight
 
     # ----------------------------------------------- Build the node attributes list
     fillcolor <- list()
@@ -481,8 +495,8 @@ compressed, nodeLabels=NULL){
         style[s] <- "filled,bold"
         lty[s] <- "solid"
         label[s] <- s
-        height[s] <- 1
-        width[s] <- 2
+        height[s] <- nodeHeight
+        width[s] <- nodeWidth
         fixedsize[s] <- FALSE
         shape[s] <- "ellipse"
     }

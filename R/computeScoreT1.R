@@ -18,7 +18,6 @@
 # todo: this is similar to wha is done in gaBinaryT1. need to do the same for T2
 computeScoreT1<-function(CNOlist, model, bString, simList=NULL, indexList=NULL, 
     sizeFac=0.0001, NAFac=1){
-
     # simList and indexList are computed inside this function. 
     # However, for back-compatibility, we keep the arguments so that if
     # provided, we can still use them.
@@ -42,7 +41,6 @@ computeScoreT1<-function(CNOlist, model, bString, simList=NULL, indexList=NULL,
         model=modelCut,
         simList=simListCut,
         indexList=indexList)
-
     # We may want to use the T0 information.
     simResultsT0<-simulatorT0(
         CNOlist=CNOlist,
@@ -62,7 +60,11 @@ computeScoreT1<-function(CNOlist, model, bString, simList=NULL, indexList=NULL,
         nInTot=length(which(model$interMat == -1)),
         simResultsT0=simResultsT0)
 
-  nDataP <- sum(!is.na(CNOlist$valueSignals[[2]]))
+
+  if ((class(CNOlist)=="CNOlist")==FALSE){
+       CNOlist = CellNOptR::CNOlist(CNOlist)
+  }
+  nDataP <- sum(!is.na(CNOlist@signals[[2]]))
   Score <- Score/nDataP
 
 

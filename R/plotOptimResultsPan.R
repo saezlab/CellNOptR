@@ -19,26 +19,14 @@ CNOlist=CNOlist, formalism=c("ss1","ss2","ssN","dt","ode"), pdf=FALSE,
 pdfFileName="", tPt=NULL, plotParams=list(margin=0.1, width=15, height=12,
 cmap_scale=1, cex=1.6)) {
 
-    # check that CNOlist is a CNOlist
-    if(!is.list(CNOlist)) {
-        stop("This function expects as input a CNOlist as output by makeCNOlist or normaliseCNOlist")
-    }
 
-    if(all(names(CNOlist) != c(
-            "namesCues",
-            "namesStimuli",
-            "namesInhibitors",
-            "namesSignals",
-            "timeSignals",
-            "valueCues",
-            "valueInhibitors",
-            "valueStimuli",
-            "valueSignals"))) {
-    stop("This function expects as input a CNOlist as output by makeCNOlist")
-    }
+    if ((class(CNOlist)=="CNOlist")==FALSE){
+         CNOlist = CellNOptR::CNOlist(CNOlist)
+     }
+
     formalism <- match.arg(formalism)
     # index valueSignals according to tPt
-    valueSignalsI = sapply(c(0,tPt), function(x) which(CNOlist$timeSignals==x))
+    valueSignalsI = sapply(c(0,tPt), function(x) which(CNOlist@timepoints==x))
 
     if ("margin" %in% names(plotParams) == FALSE){
         plotParams$margin = 0.1
@@ -77,8 +65,8 @@ cmap_scale=1, cex=1.6)) {
         pdf(file=pdfFileName, width=plotParams$width, height=plotParams$height)
     }
 
-    Ncols = dim(CNOlist$valueSignals[[1]])[2]
-    Nrows = dim(CNOlist$valueSignals[[1]])[1]
+    Ncols = dim(CNOlist@signals[[1]])[2]
+    Nrows = dim(CNOlist@signals[[1]])[1]
 
     split.screen(c(1, Ncols+3))
     for(a in 1:(Ncols+2)) {
@@ -105,10 +93,10 @@ cmap_scale=1, cex=1.6)) {
     #yMin <- min(unlist(lapply(CNOlist$valueSignals, function(x) min(x,na.rm=TRUE))))
     yMin=0
     # time labels
-    xVal <- CNOlist$timeSignals[valueSignalsI]
+    xVal <- CNOlist@timepoints[valueSignalsI]
     if(formalism=="dt") {
         xValS = xCoords
-        norm = length(CNOlist$timeSignals)
+        norm = length(CNOlist@timepoints)
     } else if (formalism == "ss1") {
         xValS = c(0,tPt[1])
         norm = 2
@@ -119,10 +107,10 @@ cmap_scale=1, cex=1.6)) {
       xValS = c(0,tPt)
       norm = length(tPt)+1 # should be number of time points.
     } else if (formalism == "ode") {
-        xValS = CNOlist$timeSignals
-        xVal <- CNOlist$timeSignals
+        xValS = CNOlist@timepoints
+        xVal <- CNOlist@timepoints
         valueSignalsI = seq(1, length(xValS))
-        norm = length(CNOlist$timeSignals)
+        norm = length(CNOlist@timepoints)
     }else {
         xValS = xVal
     }
@@ -135,8 +123,8 @@ cmap_scale=1, cex=1.6)) {
     }
 
     # make valueSignals an array
-    valueSignalsArr = list2Array(CNOlist$valueSignals,
-    dim=c(dim(CNOlist$valueSignals[[1]]),length(CNOlist$valueSignals)))
+    valueSignalsArr = list2Array(CNOlist@signals,
+        dim=c(dim(CNOlist@signals[[1]]),length(CNOlist@signals)))
 
     # calculate the MSE
     allDiff = matrix(NA, nrow=dim(simResults)[1], ncol=dim(simResults)[2])
@@ -160,22 +148,22 @@ cmap_scale=1, cex=1.6)) {
     #diffMax = max(unlist(!is.na(allDiff)))
 
     # set the count for the split screen window
-    count1 = dim(CNOlist$valueSignals[[1]])[2]+4
+    count1 = dim(CNOlist@signals[[1]])[2]+4
 
     # plot headers
-    for(c in 1:dim(CNOlist$valueSignals[[1]])[2]) {
+    for(c in 1:dim(CNOlist@signals[[1]])[2]) {
         screen(count1)
         par(fg="blue",mar=c(margin, margin, margin, 0))
         plot(x=xVal, y=rep(-5,length(xVal)), ylim=c(yMin, yMax),
         xlab=NA,ylab=NA,xaxt="n",yaxt="n")
 
         text(
-            labels=CNOlist$namesSignals[c],
+            labels=colnames(CNOlist@signals[[1]])[c],
             x=((xVal[length(xVal)]-xVal[1])/2),
             y=(yMin+((yMax-yMin)/2)),
             cex=cex
         )
-        count1 = count1 + dim(CNOlist$valueSignals[[1]])[1]+1
+        count1 = count1 + dim(CNOlist@signals[[1]])[1]+1
     }
 
     # stim + inhib
@@ -194,7 +182,7 @@ cmap_scale=1, cex=1.6)) {
         y = (yMin+((yMax-yMin)/2)),cex=cex
     )
 
-    count1 = count1 + dim(CNOlist$valueSignals[[1]])[1]+1
+    count1 = count1 + dim(CNOlist@signals[[1]])[1]+1
        screen(count1)
     #par(fg="blue",mar=c(0.5,0.5,0.7,0))
     par(fg="blue",mar=c(margin, margin, margin, 0))
@@ -210,15 +198,15 @@ cmap_scale=1, cex=1.6)) {
 
 
     # new count for plotting results
-    countRow = dim(CNOlist$valueSignals[[1]])[2]+4
+    countRow = dim(CNOlist@signals[[1]])[2]+4
 
-    for(c in 1:dim(CNOlist$valueSignals[[1]])[2]) {
+    for(c in 1:dim(CNOlist@signals[[1]])[2]) {
         countRow=countRow+1
-        for(r in 1:dim(CNOlist$valueSignals[[1]])[1]) {
+        for(r in 1:dim(CNOlist@signals[[1]])[1]) {
 
             screen(countRow)
             par(fg="black",mar=c(margin, margin,0,0))
-            yVal <- lapply(CNOlist$valueSignals[valueSignalsI], function(x) {x[r,c]})
+            yVal <- lapply(CNOlist@signals[valueSignalsI], function(x) {x[r,c]})
             yValS <- simResults[r,c,]
             if(!is.na(allDiff[r,c])) {
                 #diff = (1 - (allDiff[r,c] / diffMax)) * 1000
@@ -242,8 +230,8 @@ cmap_scale=1, cex=1.6)) {
             xlab=NA, ylab=NA, xaxt="n", yaxt="n", col="blue", pch=16)
 
             # add the axis annotations: if we're on the last row, add the x axis
-            if(r == dim(CNOlist$valueSignals[[1]])[1]) {
-                axis(side=1,at=CNOlist$timeSignals)
+            if(r == dim(CNOlist@signals[[1]])[1]) {
+                axis(side=1,at=CNOlist@timepoints)
             }
 
             # add the axis annotations: if we're on the first column, add the y axis
@@ -257,54 +245,55 @@ cmap_scale=1, cex=1.6)) {
 
     sStim = countRow+1
 
-    for(c1 in 1:dim(CNOlist$valueSignals[[1]])[1]) {
+
+    for(c1 in 1:dim(CNOlist@signals[[1]])[1]) {
         screen(sStim)
         par(mar=c(margin, margin,0,0))
 
-        if(all(CNOlist$valueStimuli[c1,]==0)) {
+        if(all(CNOlist@stimuli[c1,]==0)) {
             image(
-                t(matrix(1-CNOlist$valueStimuli[c1,],nrow=1)),
+                t(matrix(1-CNOlist@stimuli[c1,],nrow=1)),
                 col=c("white"),xaxt="n",yaxt="n"
             )
         } else {
             image(
-                t(matrix(1-CNOlist$valueStimuli[c1,],nrow=1)),
+                t(matrix(1-CNOlist@stimuli[c1,],nrow=1)),
                 col=c("black","white"),xaxt="n",yaxt="n"
             )
         }
-        if(c1 == dim(CNOlist$valueSignals[[1]])[1]) {
+        if(c1 == dim(CNOlist@signals[[1]])[1]) {
             axis(
                 side=1,
-                at=seq(from=0, to=1,length.out=length(CNOlist$namesStimuli)),
-                labels=CNOlist$namesStimuli,las=3,cex.axis=1.2
+                at=seq(from=0, to=1,length.out=length(colnames(CNOlist@stimuli))),
+                labels=colnames(CNOlist@stimuli),las=3,cex.axis=1.2
             )
         }
         sStim = sStim+1
     }
 
     sInhib = sStim+1
-       for(i1 in 1:dim(CNOlist$valueSignals[[1]])[1]) {
+       for(i1 in 1:dim(CNOlist@signals[[1]])[1]) {
         screen(sInhib)
         par(mar=c(0.5,0.5,0,0))
 
-        if (length(CNOlist$namesInhibitors) >1){
+        if (length(colnames(CNOlist@inhibitors)) >1){
             image(
-                t(matrix(CNOlist$valueInhibitors[i1,],nrow=1)),
+                t(matrix(CNOlist@inhibitors[i1,],nrow=1)),
                 col=c("white","black"),xaxt="n",yaxt="n"
             )
-            if(i1 == dim(CNOlist$valueSignals[[1]])[1]) {
+            if(i1 == dim(CNOlist@signals[[1]])[1]) {
                 axis(
                     side=1,
-                    at=seq(from=0, to=1,length.out=length(CNOlist$namesInhibitors)),
-                    labels=paste(CNOlist$namesInhibitors,"i",sep=""),
+                    at=seq(from=0, to=1,length.out=length(colnames(CNOlist@inhibitors))),
+                    labels=paste(colnames(CNOlist@inhibitors),"i",sep=""),
                     las=3,cex.axis=1.2
                 )
             }
         }
         sInhib = sInhib+1
     }
-    screen(dim(CNOlist$valueSignals[[1]])[2]+3)
-    splitProp = 1/(dim(CNOlist$valueSignals[[1]])[1]+1)
+    screen(dim(CNOlist@signals[[1]])[2]+3)
+    splitProp = 1/(dim(CNOlist@signals[[1]])[1]+1)
     sSplit = matrix(c(0,1,(1-splitProp),1,0,1,0,(1-splitProp)),ncol=4, byrow=T)
     split.screen(sSplit)
     screen(sInhib)
