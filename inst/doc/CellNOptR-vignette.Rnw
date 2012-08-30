@@ -144,7 +144,7 @@ cnolist = CNOlist("ToyDataMMB.csv")
 model = preprocessing(cnolist, pknmodel)
 #
 # ---------------------- perform the analysis
-res = gaBinaryT1(cnolist, model)
+res = gaBinaryT1(cnolist, model, verbose=FALSE)
 #
 # ---------------------- plot the results
 cutAndPlot(cnolist, model, list(res$bString))
@@ -237,10 +237,17 @@ and stored in your working directory as a single PDF file using the function
 \emph{plotCNOlistPDF}.
 
 \begin{center}
-<<plotCNO, fig=TRUE>>=
+<<plotCNO, fig=TRUE, include=FALSE>>=
 plot(CNOlistToy)
 @
 \end{center}
+
+
+\begin{figure*}
+\centerline{\includegraphics[width=7cm, height=7cm]{CellNOptR-vignette-plotCNO.pdf}}
+\caption{CNOlist data shown by plotting function (either \emph{plot} or \emph{plotCNOlist}) }
+\label{fig:plotCNO}
+\end{figure*}
 
 
 <<ploCNOPDF, eval=TRUE, results=hide>>=
@@ -271,7 +278,7 @@ checkSignals(CNOlistToy,ToyModel)
 The SIF model that you have just loaded is visible on figure \ref{fig:PKNsif} as
 displayed by \emph{plotModel} (requires Rgrqphviz to be installed).
 
-<<plotModel, eval=TRUE, fig=FALSE>>=
+<<plotModel, eval=TRUE, fig=TRUE, include=FALSE>>=
 plotModel(ToyModel, CNOlistToy)
 @
 
@@ -280,6 +287,8 @@ plotModel(ToyModel, CNOlistToy)
 \caption{Prior knowledge network (original SIF file visualised by \emph{plotModel}) for the Toy Model example.}
 \label{fig:PKNsif}
 \end{figure*}
+
+\clearpage
 
 \section{Preprocessing the model}
 
@@ -664,12 +673,12 @@ cutAndPlot(
     model=ToyNCNOcutCompExp2,
     bStrings=list(ToyT1opt2$bString, ToyT1opt2T2$bString),
     CNOlist=CNOlistToy2,
-    plotPDF=TRUE, plotParams=list(cex=0.8, cmap_scale=0.5))
+    plotPDF=TRUE, plotParams=list(cex=0.8, cmap_scale=0.5, margin=0.2))
 @
 
 \begin{figure*}
-\centerline{\includegraphics[width=\textwidth]{Fig7.pdf}}
-\caption{output of the cutAndPlot function on the 2-time dat set.}
+\centerline{\includegraphics[width=10cm, height=10cm]{Fig7.pdf}}
+\caption{Output of the \emph{cutAndPlot} function on the 2-time data set.}
 \label{fig:DREAMscaffold2}
 \end{figure*}
 
