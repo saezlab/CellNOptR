@@ -12,7 +12,7 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: readMIDAS.R 594 2012-02-22 17:19:17Z cokelaer $
+# $Id: readMIDAS.R 1365 2012-05-30 09:17:23Z cokelaer $
 readMIDAS<-function(MIDASfile, verbose=TRUE){
 
     # Read the data. 
@@ -102,8 +102,17 @@ readMIDAS<-function(MIDASfile, verbose=TRUE){
         print(paste("Your data set comprises measurements on ", length(DVcol)," different species"))
     }
 
+    # first, replace all CellType string into CellLine.
+    CellType<-grep(pattern="(TR:\\w*:CellType)",
+        x=colnames(data),ignore.case=TRUE,perl=TRUE,value=TRUE)
+    for (x in CellType){
+        names(data)[names(data)==x] <- sub(":CellType", ":CellLine",x)
+    }
+
+    # then look at all CellLine strings before removing them.
     CellLine<-grep(pattern="(TR:\\w*:CellLine)",
         x=colnames(data),ignore.case=TRUE,perl=TRUE,value=TRUE)
+
 
     if(length(CellLine) != 0){
 
@@ -122,16 +131,16 @@ readMIDAS<-function(MIDASfile, verbose=TRUE){
         if (verbose){
             print(paste("Your data set comprises ", length(TRcol),"stimuli and inhibitors"))
         }
-        warning("There is no cell line information. If some of your TR columns represents the cell lines, please indicate it in your file by naming them 'TR:name:CellLine'")
+        warning("There is no cell line information. If some of your TR columns represents the cell lines, please indicate it in your file by naming them 'TR:name:CellLine' (you may use TR:name:CellType' as well.")
     }
 
     if (verbose){
         print("Please be aware that CNO only handles measurements on one cell line at this time.")
     }
 
-    TRcol<-grep(pattern="TR",x=colnames(data),ignore.case=FALSE)
-    DAcol<-grep(pattern="DA",x=colnames(data),ignore.case=FALSE)
-    DVcol<-grep(pattern="DV",x=colnames(data),ignore.case=FALSE)
+    TRcol<-grep(pattern="TR:",x=colnames(data),ignore.case=FALSE)
+    DAcol<-grep(pattern="DA:",x=colnames(data),ignore.case=FALSE)
+    DVcol<-grep(pattern="DV:",x=colnames(data),ignore.case=FALSE)
     data<-data[,c(TRcol,DAcol,DVcol)]
 
 
@@ -166,11 +175,12 @@ readMIDAS<-function(MIDASfile, verbose=TRUE){
     }
 
 
+
     return(list(
         dataMatrix=data,
-        TRcol=grep(pattern="TR",x=colnames(data),ignore.case=FALSE),
-        DAcol=grep(pattern="DA",x=colnames(data),ignore.case=FALSE),
-        DVcol=grep(pattern="DV",x=colnames(data),ignore.case=FALSE)))
+        TRcol=grep(pattern="TR:",x=colnames(data),ignore.case=FALSE),
+        DAcol=grep(pattern="DA:",x=colnames(data),ignore.case=FALSE),
+        DVcol=grep(pattern="DV:",x=colnames(data),ignore.case=FALSE)))
 
     }
 

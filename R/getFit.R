@@ -12,54 +12,70 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: getFit.R 804 2012-03-22 16:56:26Z cokelaer $
+# $Id: getFit.R 2196 2012-08-23 08:03:39Z cokelaer $
 getFit<-function(
-	SimResults,
-	CNOlist,
-	Model,
-	indexList,
-	timePoint=c("t1","t2"),
-	sizeFac=0.0001,
-	NAFac=1,
-	nInTot, 
-    SimResultsT0=NA
+    simResults,
+    CNOlist,
+    model,
+    indexList,
+    timePoint=c("t1","t2"),
+    sizeFac=0.0001,
+    NAFac=1,
+    nInTot,
+    simResultsT0=NA
     ){
-	
-	SimResults<-SimResults[,indexList$signals]
-	
-	if(timePoint == "t1") tPt<-2
-	if(timePoint == "t2") tPt<-3
+
+
+
+
+    simResults<-simResults[,indexList$signals]
+
+
+    # for back compatibility, timePoint ca be "t1" or "t2" but developers should
+    # use an integer.
+    if(timePoint == "t1"){
+        tPt<-2
+    }
+    else{
+        if(timePoint == "t2"){
+            tPt<-3
+        }
+        else{
+            tPt<-timePoint
+        }
+    }
+
 
     # if t0 is provided and we are interested in t1
     # then  score is based on t1 but also t0
-    if (tPt == 2 && is.na(SimResultsT0)==FALSE){
-        Diff0<-SimResultsT0[,indexList$signals]-CNOlist$valueSignals$t0
-        Diff<-SimResults-CNOlist$valueSignals[[tPt]]
-    	r0<-Diff0^2
-	    r<-Diff^2
+    if (tPt == 2 && is.na(simResultsT0)==FALSE){
+        Diff0<-simResultsT0[,indexList$signals]-CNOlist$valueSignals[[1]]
+        Diff<-simResults-CNOlist$valueSignals[[tPt]]
+        r0<-Diff0^2
+        r<-Diff^2
         r <- rbind(r0, r) # we can concatenate because it's matricial computation.
-	    deviationPen<-sum(r[!is.na(r)])/2
+        deviationPen<-sum(r[!is.na(r)])/2
     }# otherwise, no need to take to into account
     else{
-        Diff<-SimResults-CNOlist$valueSignals[[tPt]]
-    	r<-Diff^2
-    	deviationPen<-sum(r[!is.na(r)])
+        Diff<-simResults-CNOlist$valueSignals[[tPt]]
+        r<-Diff^2
+        deviationPen<-sum(r[!is.na(r)])
     }
-    
-	
-	NAPen<-NAFac*length(which(is.na(SimResults)))
-	
-	nDataPts<-dim(CNOlist$valueSignals[[tPt]])[1]*dim(CNOlist$valueSignals[[tPt]])[2]
-	
-	nInputs<-length(which(Model$interMat == -1))
-	
-	# nInTot: number of inputs of expanded model
-	# nInputs: number of inputs of cut model
-	sizePen<-(nDataPts*sizeFac*nInputs)/nInTot
-	
-	score<-deviationPen+NAPen+sizePen
-	
-	return(score)
-	
-	}
+
+
+    NAPen<-NAFac*length(which(is.na(simResults)))
+
+    nDataPts<-dim(CNOlist$valueSignals[[tPt]])[1]*dim(CNOlist$valueSignals[[tPt]])[2]
+
+    nInputs<-length(which(model$interMat == -1))
+
+    # nInTot: number of inputs of expanded model
+    # nInputs: number of inputs of cut model
+    sizePen<-(nDataPts*sizeFac*nInputs)/nInTot
+
+    score<-deviationPen+NAPen+sizePen
+
+    return(score)
+
+    }
 

@@ -13,30 +13,30 @@
 #
 ##############################################################################
 # $Id$
-cutSimList <- function(SimList, bitString)
+cutSimList <- function(simList, bString)
 {
-    bitString = as.logical(bitString)
-    SimListCut <- SimList
-    finalCube <- SimListCut$finalCube[bitString,]
-    ixNeg <-SimListCut$ixNeg[bitString,]
-    ignoreCube <- SimListCut$ignoreCube[bitString,]
-    maxIx <- SimListCut$maxIx[bitString]
+    bString = as.logical(bString)
+    simListCut <- simList
+    finalCube <- simListCut$finalCube[bString,]
+    ixNeg <-simListCut$ixNeg[bString,]
+    ignoreCube <- simListCut$ignoreCube[bString,]
+    maxIx <- simListCut$maxIx[bString]
     # in some cases the finalcube is a matrix but list of integer, so we
     # need to convert back to a matrix. Happens for simple models only hence
     # the warning.
     if (is.matrix(finalCube) == FALSE){
         #warning("converting back to matrix in prep4sim")
-        SimListCut$finalCube<-matrix(finalCube,
+        simListCut$finalCube<-matrix(finalCube,
             dimnames=list(names(finalCube), 1))
-        SimListCut$ixNeg<-matrix(ixNeg, dimnames=list(names(ixNeg), 1))
-        SimListCut$ignoreCub<-matrix(ignoreCube,dimnames=list(names(ignoreCube), 1))
-        SimListCut$maxIx<-matrix(maxIx,dimnames=list(names(maxIx), 1))
+        simListCut$ixNeg<-matrix(ixNeg, dimnames=list(names(ixNeg), 1))
+        simListCut$ignoreCub<-matrix(ignoreCube,dimnames=list(names(ignoreCube), 1))
+        simListCut$maxIx<-matrix(maxIx,dimnames=list(names(maxIx), 1))
     }
     else{
-        SimListCut$finalCube = finalCube
-        SimListCut$ixNeg<-ixNeg
-        SimListCut$ignoreCube<-ignoreCube
-        SimListCut$maxIx<-maxIx
+        simListCut$finalCube = finalCube
+        simListCut$ixNeg<-ixNeg
+        simListCut$ignoreCube<-ignoreCube
+        simListCut$maxIx<-maxIx
     }
-    return(SimListCut)
+    return(simListCut)
 }

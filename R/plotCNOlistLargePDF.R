@@ -12,11 +12,11 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/cno
 #
 ##############################################################################
-# $Id: plotCNOlistLargePDF.R 596 2012-02-22 17:22:13Z cokelaer $
+# $Id: plotCNOlistLargePDF.R 1586 2012-06-26 14:59:24Z cokelaer $
 plotCNOlistLargePDF <-
 function(CNOlist,filename,nsplit, width=14, height=7){
-	pdf(file=filename,width=width,height=height)
-	plotCNOlistLarge(CNOlist,nsplit=nsplit,newDevice=FALSE)
-	dev.off()
-	}
+    pdf(file=filename,width=width,height=height)
+    plotCNOlistLarge(CNOlist,nsplit=nsplit,newDevice=FALSE)
+    dev.off()
+    }
 

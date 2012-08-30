@@ -12,10 +12,23 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: simulatorT1.R 1825 2012-07-24 13:39:54Z aidanmac $
+# $Id$
 
-simulatorT1 <- function(CNOlist,model,simList,indexList) {
 
-	simRes = cSimulator(CNOlist, model, simList, indexList)
-	return(simRes)
+writeSIF <- function(model, filename){
+
+    # convert internal model structure to a SIF matrix
+    sif = model2sif(model)
+
+    # and save it into a file
+    if (file.exists(filename)==FALSE){
+        write.table(sif[,1:3],file=filename,
+            row.names=FALSE,col.names=FALSE,quote=FALSE,sep="\t")
+    }
+    else{
+       stop(paste("File ", filename, "already exists.",  sep=""))
+    }
+
+
 }
+

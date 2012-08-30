@@ -12,61 +12,100 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: cutNONC.R 491 2012-02-02 17:59:17Z cokelaer $
-cutNONC<-function(Model,NONCindexes){
+# $Id: cutNONC.R 1586 2012-06-26 14:59:24Z cokelaer $
 
-	if(length(NONCindexes) == 0){
-	
-		newModel=Model
-		
-		}else{
-		
-			newspecies<-Model$namesSpecies[-NONCindexes]
-			newInterMat<-Model$interMat[-NONCindexes,]
-			newNotMat<-Model$notMat[-NONCindexes,]
-			
-#this function finds whether a given vector contains at least one input and one output or not
-#it returns true if the re is an in/out missing
-			EmptyInOut<-function(x){
-			
-				input<-match(-1,x,nomatch=0)
-				output<-match(1,x,nomatch=0)
-				
-				if((input == 0) | (output == 0)){
-					return(TRUE)
-					}else{
-						return(FALSE)
-						}
-						
-				}
-				
-			reac2remove<-apply(newInterMat,2,EmptyInOut)
-			
-			if(any(reac2remove)){
-			
-				reac2remove<-which(reac2remove)
-				newInterMat<-newInterMat[,-reac2remove]
-				newNotMat<-newNotMat[,-reac2remove]
-				newreacID<-Model$reacID[-reac2remove]
-				
-				}else{
-				
-					newModel<-list(
-						reacID=Model$reacID,
-						namesSpecies=newspecies,
-						interMat=newInterMat,
-						notMat=newNotMat)
-					
-					}
-			
-			newModel<-list(
-				reacID=newreacID,
-				namesSpecies=newspecies,
-				interMat=newInterMat,
-				notMat=newNotMat)
-			
-			}
-			
-	return(newModel)
-	}
+cutNONC <- function(model, NONCindexes) {
+
+    #####     FUNCTIONS    #####
+
+    multipleInOut <- function(x) {
+
+        spInReac = which(x != 0)
+        inputs = length(which(x==-1))
+
+        if((inputs > 1) && length(intersect(spInReac,NONCindexes))) {
+            return(TRUE)
+        } else {
+            return(FALSE)
+        }
+    }
+
+    emptyInOut<-function(x) {
+
+        input <- match(-1,x,nomatch=0)
+        output <- match(1,x,nomatch=0)
+
+        if((input == 0) | (output == 0)) {
+            return(TRUE)
+        } else {
+            return(FALSE)
+        }
+    }
+
+    #####    /FUNCTIONS/    #####
+
+
+    if(length(NONCindexes) == 0) {
+
+        newModel=model
+
+    } else {
+
+        # if there are AND gates in the PKN, find out
+        # if any NONCs are parts of AND gates
+        editReac = apply(model$interMat,2,multipleInOut)
+        newSpecies <- model$namesSpecies[-NONCindexes]
+        newInterMat <- model$interMat[-NONCindexes,]
+        newNotMat <- model$notMat[-NONCindexes,]
+
+        # this function finds whether a given vector contains at least one input and one output or not
+        # it returns true if the re is an in/out missing
+
+        # modify to account for AND gates:
+        # some NONC sp may be part of an AND gate with non-NONC sp
+        # if this is the case, remove the NONC edge, not the reaction from reacID
+
+        # rebuild reacIDs from matrix
+        toEdit = as.numeric(which(editReac==TRUE))
+        for(a in toEdit) {
+            andInput = rownames(newInterMat)[which(newInterMat[,a] == -1)]
+            andInd = which(newInterMat[,a] == -1)
+            if(length(intersect(which(newNotMat[,a]==1),which(newInterMat[,a]==-1)))) {
+                andNeg = intersect(which(newNotMat[,a]==1),which(newInterMat[,a]==-1))
+                    for(p in 1:length(andNeg)) {
+                        andInput[which(andInd==andNeg[p])] = paste("!", andInput[which(andInd==andNeg[p])], sep="")
+                    }
+            }
+
+            LHS = paste(andInput,collapse="+", sep="")
+            colnames(newInterMat)[a] = paste(LHS, "=", rownames(newInterMat)[which(newInterMat[,a] == 1)], sep="")
+        }
+
+        reac2remove <- apply(newInterMat,2,emptyInOut)
+
+        if(any(reac2remove)) {
+
+            reac2remove <- which(reac2remove)
+            newInterMat <- newInterMat[,-reac2remove]
+            newNotMat <- newNotMat[,-reac2remove]
+            newreacID <- colnames(newInterMat)
+
+            newModel <- list(
+                reacID=newreacID,
+                namesSpecies=newSpecies,
+                interMat=newInterMat,
+                notMat=newNotMat
+            )
+        } else {
+            newModel <- list(
+                reacID=colnames(newInterMat),
+                namesSpecies=newSpecies,
+                interMat=newInterMat,
+                notMat=newNotMat)
+        }
+    }
+
+    return(newModel)
+
+}
 

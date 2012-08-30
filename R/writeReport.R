@@ -12,32 +12,39 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: writeReport.R 592 2012-02-22 17:18:16Z cokelaer $
+# $Id: writeReport.R 2256 2012-08-29 15:49:30Z cokelaer $
 writeReport<-function(
-	ModelOriginal,
-	ModelOpt,
+	modelOriginal,
+	modelOpt,
 	optimResT1,
 	optimResT2,
 	CNOlist,
 	directory,
 	namesFiles=list(
 		dataPlot=NA,
-		evolFit1=NA,
-		evolFit2=NA,
-		SimResults2=NA,
-		SimResults1=NA,
-		Scaffold=NA,
+		evolFitT1=NA,
+		evolFitT2=NA,
+		simResultsT1=NA,
+		simResultsT2=NA,
+		scaffold=NA,
+		scaffoldDot=NA,
 		tscaffold=NA,
 		wscaffold=NA,
-		PKN=NA,
+        PKN=NA,
+		PKNdot=NA,
 		wPKN=NA,
 		nPKN=NA),
-	namesData=list(CNOlist=NA,Model=NA),
-	resE){
+	namesData=list(CNOlist=NA,model=NA),
+	resE=NULL){
+
+    if (is.null(resE)==TRUE){
+        resE<-residualError(CNOlist)
+    }
+
 	
 #Create a report directory and copy css and logos in there
 	dir.create(directory)	
-	cpfile<-dir(system.file("templates",package="CellNOptR"),full=TRUE)
+	cpfile<-dir(system.file("templates",package="CellNOptR"),full.names=TRUE)
 	resultsdir<-file.path(getwd(),directory)
 	file.copy(from=cpfile,to=resultsdir,overwrite=TRUE)
 	
@@ -98,30 +105,30 @@ writeReport<-function(
 	cat(
 		paste(
 			'\n  <td class="tabs"> <h3><a href="',
-			namesFiles$SimResults1,
+			namesFiles$simResultsT1,
 			'" title="Simulation results t1" target=blank >Simulation Results t1</a></h3> </td> ',
 			sep=""), 
 		append = TRUE, file = htmlfile)
 	cat(
 		paste(
 			'\n  <td class="tabs"> <h3><a href="',
-			namesFiles$evolFit1,
+			namesFiles$evolFitT1,
 			'" title="Evolution of fit t1" target=blank >Evolution of fit t1</a></h3> </td> ',
 			sep=""), 
 		append = TRUE, file = htmlfile)
 		
-	if(!is.na(namesFiles$evolFit2)){
+	if(!is.na(namesFiles$evolFitT2)){
 		cat(
 			paste(
 				'\n  <td class="tabs"> <h3><a href="',
-				namesFiles$SimResults2,
+				namesFiles$simResultsT2,
 				'" title="Simulation results t2" target=blank >Simulation Results t2</a></h3> </td> ',
 				sep=""), 
 			append = TRUE, file = htmlfile)
 		cat(
 			paste(
 				'\n  <td class="tabs"> <h3><a href="',
-				namesFiles$evolFit2,
+				namesFiles$evolFitT2,
 				'" title="Evolution of fit t2" target=blank >Evolution of fit t2</a></h3> </td> ',
 				sep=""), 
 			append = TRUE, file = htmlfile)
@@ -132,7 +139,7 @@ writeReport<-function(
 		paste('<tr> \n <br> General information: \n <UL> \n <LI>data: ',namesData$CNOlist,sep=""), 
 		append = TRUE, file = htmlfile)
 	cat(
-		paste('\n <LI>time point(s): ',ifelse(is.na(namesFiles$evolFit2),1,2),sep=""), 
+		paste('\n <LI>time point(s): ',ifelse(is.na(namesFiles$evolFitT2),1,2),sep=""), 
 		append = TRUE, file = htmlfile)
 	cat(
 		paste('\n <LI>Residual error: t1: ',resE["t1"],sep=""), 
@@ -161,61 +168,61 @@ writeReport<-function(
 		}
 		
 	cat(
-		paste('\n <LI>previous knowledge network: ',namesData$Model,sep=""), 
+		paste('\n <LI>previous knowledge network: ',namesData$model,sep=""), 
 		append = TRUE, file = htmlfile)
 	cat(
 		paste(
 			'\n <LI>PKN: ',
-			dim(ModelOriginal$interMat)[1],' species and ',
-			dim(ModelOriginal$interMat)[2],' interactions',sep=""), 
+			dim(modelOriginal$interMat)[1],' species and ',
+			dim(modelOriginal$interMat)[2],' interactions',sep=""), 
 		append = TRUE, file = htmlfile)
 	cat(
 		paste(
 			'\n <LI>Scaffold (compressed and expanded): ',
-			dim(ModelOpt$interMat)[1],' species and ',
-			dim(ModelOpt$interMat)[2],' interactions', '\n </UL>\n'), 
+			dim(modelOpt$interMat)[1],' species and ',
+			dim(modelOpt$interMat)[2],' interactions', '\n </UL>\n'), 
 		append = TRUE, file = htmlfile)
 	cat(
 		paste(
 			'<br> Optimisation t1: \n<UL> \n <LI>generations: ',
-			dim(optimResT1$Results)[1],' (best model obtained after ',
-			optimResT1$Results[dim(optimResT1$Results)[1],"Stall_Generation"],') \n', sep=""),
+			dim(optimResT1$results)[1],' (best model obtained after ',
+			optimResT1$results[dim(optimResT1$results)[1],"Stall_Generation"],') \n', sep=""),
 		append = TRUE, file = htmlfile)
  	cat(
  		paste(
  			'<LI>best string: ',sum(optimResT1$bString),
  			' interactions, objective function = ',
- 			optimResT1$Results[dim(optimResT1$Results)[1],
+ 			optimResT1$results[dim(optimResT1$results)[1],
  			"Best_score_Gen"],'\n', sep=""),
  		append = TRUE, file = htmlfile)
  	cat(
  		paste(
  			'<LI>number of strings within the tolerance limits: ',
- 			dim(optimResT1$StringsTol)[1],' \n</UL>\n', sep=""),
+ 			dim(optimResT1$stringsTol)[1],' \n</UL>\n', sep=""),
  		append = TRUE, file = htmlfile)
  		
-	if(!is.na(namesFiles$evolFit2)){
+	if(!is.na(namesFiles$evolFitT2)){
 		cat(paste(
 			'<br> Optimisation t2: \n<UL> \n <LI>generations: ',
-			dim(optimResT2$Results)[1],' (best model obtained after ',
-			optimResT2$Results[dim(optimResT2$Results)[1],
+			dim(optimResT2$results)[1],' (best model obtained after ',
+			optimResT2$results[dim(optimResT2$results)[1],
 			"Stall_Generation"],') \n', sep=""),append = TRUE, file = htmlfile)
  		cat(paste(
  			'<LI>best string: ',sum(optimResT2$bString),
  			' additional interactions, objective function = ',
- 			optimResT2$Results[dim(optimResT2$Results)[1],"Best_score_Gen"],
+ 			optimResT2$results[dim(optimResT2$results)[1],"Best_score_Gen"],
  			'\n', sep=""),append = TRUE, file = htmlfile)
  		cat(paste(
  			'<LI>number of strings within the tolerance limits: ',
- 			dim(optimResT2$StringsTol)[1],'\n</UL>\n', sep="")
+ 			dim(optimResT2$stringsTol)[1],'\n</UL>\n', sep="")
  			,append = TRUE, file = htmlfile)
 		}
 		
  	cat(paste(
  		'<br> Scaffold network:\n <UL>\n <LI>cytoscape sif format: ',
- 		namesFiles$Scaffold,'\n',sep=""),append = TRUE, file = htmlfile)
+ 		namesFiles$scaffold,'\n',sep=""),append = TRUE, file = htmlfile)
  	cat(paste(
- 		'<LI>graphviz dot format: ',namesFiles$ScaffoldDot,'\n',sep=""),
+ 		'<LI>graphviz dot format: ',namesFiles$scaffoldDot,'\n',sep=""),
  		append = TRUE, file = htmlfile)
  	cat(paste(
  		'<LI>edge attribute files: ',namesFiles$wscaffold,' and ',

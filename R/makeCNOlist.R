@@ -12,7 +12,7 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: makeCNOlist.R 596 2012-02-22 17:22:13Z cokelaer $
+# $Id: makeCNOlist.R 1586 2012-06-26 14:59:24Z cokelaer $
 makeCNOlist<-function(dataset,subfield, verbose=TRUE){
 
     #check that all the needed elements are present
@@ -101,16 +101,26 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
         namesStimuli<-namesStimuli[-grep(pattern="NOINHIB", namesStimuli)]
         }
 
+    if(sum("NO-INHIB" %in% namesCues) != 0){
+        stop("Found a column with NO-INHIB tag. MIDAS files must use NOINHIB instead. Fix your MIDAS file please")
+    }
+    if(sum("NO-LIG" %in% namesCues) != 0){
+        stop("Found a column with NO-LIG tag. MIDAS files do not accept NO-LIG. use NOINHIB or NOCYTO instead. Fix your MIDAS file please")
+    }
+    if(sum("NO-CYTO" %in% namesCues) != 0){
+        stop("Found a column with NO-CYTO tag. MIDAS file must use NOCYTO instead. Fix your MIDAS file please")
+    }
+
     #now extract the names of the signals
     namesSignals<-colnames(dataset$dataMatrix)[dataset$DAcol]
     namesSignals<-sub(
         pattern="(DA:p-)",
-        x=namesSignals, 
+        x=namesSignals,
         replacement="",
-        perl=TRUE)    
+        perl=TRUE)
     namesSignals<-sub(
         pattern="(DA:)",
-        x=namesSignals, 
+        x=namesSignals,
         replacement="",
         perl=TRUE)
 
@@ -121,13 +131,12 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
     #Build the valueCues matrix (i.e. a matrix with nrows=nrows in dataMatrix and ncol=number of cues,
     #filled with 0/1 if the particular cue is present or not)
 
-#1.I create a matrix that is a subset of the data, and only contains the TR columns 
+#1.I create a matrix that is a subset of the data, and only contains the TR columns
 #(the cellLine TR column was removed previously)
 
 #2.I remove the columns with NOCYTO or NOINHIB (if they exist), they don't bring any info
 
     if(length(grep(pattern="NOCYTO",colnames(dataset$dataMatrix)[dataset$TRcol])) != 0){
-
         nocyto<-grep(pattern="NOCYTO",colnames(dataset$dataMatrix)[dataset$TRcol])
         TRcol<-dataset$TRcol[-nocyto]
         cues<-dataset$dataMatrix[,TRcol]
@@ -145,23 +154,23 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
         }
 
 #3. The cues sub-data frame now contains 1 if the cue is present and 0/NA otherwise,
-#so I just need to transform the data frame into a numerical matrix 
+#so I just need to transform the data frame into a numerical matrix
 #and replace the NA in there by zeros
     cues<-as.matrix(cues,nrow=dim(cues)[1],ncol=dim(cues)[2],byrow=TRUE)
     cues[is.na(cues)]<-0
 
-#Build the valueSignals matrices. I am going to build one big matrix 
+#Build the valueSignals matrices. I am going to build one big matrix
 #that includes all the time points, and then I will split it into one matrix for each time point
 #And then I will arrange the valueCues matrix accordingly
     valueSignals<-as.matrix(dataset$dataMatrix[,dataset$DVcol])
-    
+
 #This bit will create an index that contains all rows with timept1, 2, 3,...
 
 #1.First I create a matrix that holds the time information for each row
     times<-as.matrix(dataset$dataMatrix[,dataset$DAcol])
-    
-#2. Now I check that all the columns are tha same, i.e. that each row 
-#will contain data on the same time point    
+
+#2. Now I check that all the columns are tha same, i.e. that each row
+#will contain data on the same time point
 
     if (length(dataset$DAcol)>1){
         check<-rep(FALSE,(length(dataset$DAcol)-1))
@@ -169,13 +178,13 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
             check[i]<-all.equal(times[,i],times[,(i+1)])
             }
         if(sum(check) != length(check))    {
-           warning("Each row of your data file should contain measurements at the same time point. 
+           warning("Each row of your data file should contain measurements at the same time point.
                The times for the first DA column will be considered as the times for all measurements")
            }
     }
 #3.Now I will only use the first column of times
 
-#First, I create a vector timeRows that contains the indexes of the rows that contain data 
+#First, I create a vector timeRows that contains the indexes of the rows that contain data
 #about each time point (in increasing order of time), and the vector whereTimes that contain`
 #the info about how many rows I have for each time (which will allow me to extract the right
 #entries from timesRows)
@@ -190,29 +199,29 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
     for(i in 1:ntimes){
         timesRows<-c(timesRows,which(times == timeSignals[i]))
         whereTimes[i]<-length(which(times == timeSignals[i]))
-        }        
+        }
 
-    timesRows<-timesRows[2:length(timesRows)]    
+    timesRows<-timesRows[2:length(timesRows)]
 
 #Check that we have data across all conditions for all time points except zero
     if(length(unique(whereTimes[2:length(whereTimes)])) != 1){
         warning("This program expects data across all conditions at all time points (except t=0) ")
         }
     if (verbose){
-        print("Please be aware that if you only have some conditions at time zero (e.g.only inhibitor/no inhibitor), the measurements for these conditions will be copied across matching conditions at t=0")        
+        print("Please be aware that if you only have some conditions at time zero (e.g.only inhibitor/no inhibitor), the measurements for these conditions will be copied across matching conditions at t=0")
     }
-#Do the t=0 matrix, and produce a new cues matrix, that does not contain duplicates 
+#Do the t=0 matrix, and produce a new cues matrix, that does not contain duplicates
 #(1 row per condition and different matrices will be build for the different times)
-    valueSignals<-list(t0=matrix(data=0,nrow=whereTimes[2],ncol=length(dataset$DVcol)))
-    
-#This vector tells me which columns of the cues matrix I should pay attention to when 
-#copying data across for time=0    
+    valueSignals<-list(matrix(data=0,nrow=whereTimes[2],ncol=length(dataset$DVcol)))
 
-    # bug report 31 and 
+#This vector tells me which columns of the cues matrix I should pay attention to when
+#copying data across for time=0
+
+    # bug report 31 and
     if (dim(cues)[2] >1){
         # bug report 44
         if (whereTimes[1] == 1){
-            zerosCond <- 0 
+            zerosCond <- 0
         }
         else{
             zerosCond<-apply(cues[timesRows[1:whereTimes[1]],],1,function(x) which(x > 0))
@@ -234,7 +243,7 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
         if(length(present) == 0){
             for(n in timesRows[(whereTimes[1]+1):(whereTimes[1]+whereTimes[2])]){
                     if(sum(cues[n,zerosCond]) == 0){
-                        valueSignals$t0[count,]<-as.numeric(dataset$dataMatrix[i,dataset$DVcol])
+                        valueSignals[[1]][count,]<-as.numeric(dataset$dataMatrix[i,dataset$DVcol])
                         newcues[count,]<-cues[n,]
                         count=count+1
                         }
@@ -242,9 +251,9 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
         }else{
             for(n in timesRows[(whereTimes[1]+1):(whereTimes[1]+whereTimes[2])]){
                 if(length(zerosCond[which(cues[n,zerosCond] > 0)]) == length(present)){
-                    if(all(zerosCond[which(cues[n,zerosCond] > 0)] == present) && 
+                    if(all(zerosCond[which(cues[n,zerosCond] > 0)] == present) &&
                         length(which(cues[n,zerosCond] > 0)) != 0){
-                        valueSignals$t0[count,]<-as.numeric(dataset$dataMatrix[i,dataset$DVcol])
+                        valueSignals[[1]][count,]<-as.numeric(dataset$dataMatrix[i,dataset$DVcol])
                         newcues[count,]<-cues[n,]
                         count=count+1
                     }
@@ -273,21 +282,22 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
         valueInhibitors<-newcues[,grep(
             pattern="Inhibitor",x=colnames(cues),ignore.case=TRUE)]
         valueStimuli<-newcues[,grepl(pattern="Inhibitor",x=colnames(cues),ignore.case=TRUE)==FALSE]
-        
+
         }else{
-        
+
             valueInhibitors<-newcues[,grep(pattern="(i$)",x=colnames(cues),ignore.case=FALSE,perl=TRUE)]
             valueStimuli <- newcues[,grepl(pattern="(i$)",x=colnames(cues),ignore.case=FALSE,perl=TRUE)==FALSE]
-            
+
             }
     if(is.null(dim(valueInhibitors))){
         valueInhibitors<-as.matrix(valueInhibitors,nrow=dim(newcues)[1])
         }
-        
+
     if(is.null(dim(valueStimuli))){
         valueStimuli<-as.matrix(valueStimuli,nrow=dim(newcues)[1])
         }
-        
+
+
     return(list(
         namesCues=namesCues,
         namesStimuli=namesStimuli,
@@ -298,7 +308,7 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
         valueInhibitors=valueInhibitors,
         valueStimuli=valueStimuli,
         valueSignals=valueSignals))
-    
+
     }
 
 

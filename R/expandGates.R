@@ -12,25 +12,26 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: expandGates.R 782 2012-03-20 15:10:23Z cokelaer $
-expandGates<-function(Model, ignoreList=NA,maxInputsPerGate=2){
+# $Id: expandGates.R 1586 2012-06-26 14:59:24Z cokelaer $
+expandGates<-function(model, ignoreList=NA,maxInputsPerGate=2){
 
+    Model = model
     # check that Model is a Model list
-    if(!is.list(Model)) stop("This function expects as input a Model as output by readSif")
+    if(!is.list(Model)) stop("This function expects as input a Model as output by readSIF")
     if(length(Model) == 4) {
         if(all(names(Model) != c("reacID", "namesSpecies","interMat","notMat"))){
-            stop("This function expects as input a Model as output by readSif")
-            }    
+            stop("This function expects as input a Model as output by readSIF")
+            }
         }
     if(length(Model) == 5) {
         if(all(names(Model) != c("reacID", "namesSpecies","interMat","notMat","speciesCompressed"))) {
-            stop("This function expects as input a Model as output by readSif")
-        }    
-    }    
-    
+            stop("This function expects as input a Model as output by readSIF")
+        }
+    }
+
     SplitANDs <- list(initialReac=c("split1","split2"))
     splitR <- 1
-    
+
     # split all the ANDs
     # remove any ANDs 2/3 and save >3 to add later
     # +3 won't get added here again but are part of prior knowledge if contained within PKN
@@ -42,7 +43,7 @@ expandGates<-function(Model, ignoreList=NA,maxInputsPerGate=2){
   #TODO: move into readSIF ?
   if (initialReacN == 1){
         Model$interMat <- as.matrix(Model$interMat)
-   } 
+   }
 
     # which reactions have ignoreList as output?
     if(!is.na(ignoreList[1])) {
@@ -52,15 +53,15 @@ expandGates<-function(Model, ignoreList=NA,maxInputsPerGate=2){
             }
         }
     }
-    
+
     for(r in 1:initialReacN) {
         inNodes <- which(Model$interMat[,r] == -1)
         if(length(inNodes) > 1) {
             if(length(inNodes) > 3) {
-                andToAdd = c(andToAdd, r)    
+                andToAdd = c(andToAdd, r)
             }
             remove.and = c(remove.and, r)
-            
+
             if(!any(reacs2Ignore == r)) {
                 outNode <- which(Model$interMat[,r] == 1)
                 newReacs <- matrix(data=0,nrow=dim(Model$interMat)[1],ncol=length(inNodes))
@@ -84,37 +85,37 @@ expandGates<-function(Model, ignoreList=NA,maxInputsPerGate=2){
             }
         }
     }
-    
-    # ***** ADDED *****    
+
+    # ***** ADDED *****
     # remove 'AND' gates that will be made anyway
     # save anything > 3 to add at end
-    
+
     if(length(andToAdd)) {
         toAdd = list()
         toAdd$notMat <- Model$notMat[,andToAdd]
         toAdd$interMat <- Model$interMat[,andToAdd]
         toAdd$reacID <- Model$reacID[andToAdd]
     } else {
-        toAdd <- NA    
+        toAdd <- NA
     }
-    
+
     if(length(remove.and)) {
         Model$notMat <- Model$notMat[,-remove.and]
         Model$interMat <- Model$interMat[,-remove.and]
         Model$reacID <- Model$reacID[-remove.and]
     }
-    
+
     # ***** ADDED *****
 
-    # the list SplitANDs now contains a named element for each AND reac that has been split, 
+    # the list SplitANDs now contains a named element for each AND reac that has been split,
     # and each element contains a vector with the names of the reactions that result from the split
     # create combinations of ORs
     # the newANDs list will contain an element for each new '&' gate, named by the name of this new and
     # reac, and containing a vector of the names of the reactions from which it was created
-    
+
     newANDs <- list(finalReac=c("or1","or2"))
     ANDsadded <- 1
-    total.list = 1:length(Model$namesSpecies)    
+    total.list = 1:length(Model$namesSpecies)
 
 
     # functions to get lhs and rhs of reactions
@@ -134,14 +135,14 @@ expandGates<-function(Model, ignoreList=NA,maxInputsPerGate=2){
                 inNode<-which(x == -1)
             }
             inSp <- apply(inReacs,2,findInput)
-  
-            # let  
+
+            # let
             # find the input species first and store in a vector
             inSpecies = apply(as.matrix(colnames(inReacs)), 1, getlhs)
             outname = Model$namesSpecies[sp]
 
             # just for sanity check, all outputs must be the same
-            outnames = apply(as.matrix(colnames(inReacs)), 1, getrhs)   
+            outnames = apply(as.matrix(colnames(inReacs)), 1, getrhs)
             if (length(unique(outnames))!=1 | outname!=outnames[1]){
                 stop("error in expandGates. should not happen here.please report")
             }
@@ -150,7 +151,7 @@ expandGates<-function(Model, ignoreList=NA,maxInputsPerGate=2){
             myrownames = rownames(Model$interMat)
 
             # first the 2 inputs cases
-            
+
             combinations = combn(seq(1,length(inSpecies)), 2)
 
             for (this in seq(1, dim(combinations)[2])){
@@ -162,12 +163,12 @@ expandGates<-function(Model, ignoreList=NA,maxInputsPerGate=2){
                 realname2 = ifelse(substr(inSpecies[j], 1,1) =="!",substr(inSpecies[j],2,10000), inSpecies[j])
 
                 realnames = c(realname1,realname2)
-                if (any(combn(realnames,2)[1,] == combn(realnames,2)[2,])){  # exclude reaction if any name are indentical 
+                if (any(combn(realnames,2)[1,] == combn(realnames,2)[2,])){  # exclude reaction if any name are indentical
                     next()
                 }
 
-                # create the new reaction Id to be used as a column name 
-                newcolname = paste(paste(inSpecies[i], inSpecies[j],sep="+"),outname, sep="=") 
+                # create the new reaction Id to be used as a column name
+                newcolname = paste(paste(inSpecies[i], inSpecies[j],sep="+"),outname, sep="=")
                 if (newcolname %in% colnames(Model$interMat)){
                     next() # skip if exist already
                 }
@@ -176,25 +177,25 @@ expandGates<-function(Model, ignoreList=NA,maxInputsPerGate=2){
                 # fill the interMat (-1 if in lhs, 1 if in rhs)
                 values = as.matrix(rep(0, length(Model$namesSpecies)))
                 colnames(values)<-newcolname
-                values[which(myrownames == realname1)]<- -1 
-                values[which(myrownames == realname2)]<- -1 
-                values[which(myrownames == outname)]<- 1 
+                values[which(myrownames == realname1)]<- -1
+                values[which(myrownames == realname2)]<- -1
+                values[which(myrownames == outname)]<- 1
                 Model$interMat= cbind(Model$interMat, values)
 
                 # now, the notMat, 0 by default
                 values = as.matrix(rep(0, length(Model$namesSpecies)))
                 colnames(values)<-newcolname
                 if (substr(inSpecies[i],1,1) == "!"){ #look first specy
-                    values[which(myrownames == realname1)]<- 1 
+                    values[which(myrownames == realname1)]<- 1
                 }
                 if (substr(inSpecies[j],1,1) == "!"){# and second one
-                    values[which(myrownames == realname2)]<- 1 
+                    values[which(myrownames == realname2)]<- 1
                 }
                 Model$notMat= cbind(Model$notMat, values)
 
                 # finally, fill the newAnd list
-                newreac1 = paste(inSpecies[i], outname, sep="=") 
-                newreac2 = paste(inSpecies[j], outname, sep="=") 
+                newreac1 = paste(inSpecies[i], outname, sep="=")
+                newreac2 = paste(inSpecies[j], outname, sep="=")
                 newANDs[[length(newANDs)+1]] <- c(newreac1, newreac2)
                 names(newANDs)[[length(newANDs)]] <- newcolname
             }
@@ -215,9 +216,9 @@ expandGates<-function(Model, ignoreList=NA,maxInputsPerGate=2){
                 realname1 = ifelse(substr(inSpecies[i], 1,1)=="!",substr(inSpecies[i],2,10000), inSpecies[i])
                 realname2 = ifelse(substr(inSpecies[j], 1,1) =="!",substr(inSpecies[j],2,10000), inSpecies[j])
                 realname3 = ifelse(substr(inSpecies[k], 1,1) =="!",substr(inSpecies[k],2,10000), inSpecies[k])
-                
+
                 realnames = c(realname1,realname2, realname3)
-                if (any(combn(realnames,2)[1,] == combn(realnames,2)[2,])){  # exclude reaction if any name are indentical 
+                if (any(combn(realnames,2)[1,] == combn(realnames,2)[2,])){  # exclude reaction if any name are indentical
                     next()
                 }
                 newcolname <- paste(paste(inSpecies[i], inSpecies[j],inSpecies[k],
@@ -232,9 +233,9 @@ expandGates<-function(Model, ignoreList=NA,maxInputsPerGate=2){
                 colnames(values)<-newcolname
                 for (name in inSpecies){
                     realname = ifelse(substr(name, 1,1)=="!",substr(name,2,10000), name)
-                    values[which(myrownames == realname)]<- -1 
+                    values[which(myrownames == realname)]<- -1
                 }
-                values[which(myrownames == outname)]<- 1 
+                values[which(myrownames == outname)]<- 1
                 Model$interMat= cbind(Model$interMat, values)
 
                 # now, the notMat
@@ -243,15 +244,15 @@ expandGates<-function(Model, ignoreList=NA,maxInputsPerGate=2){
                 for (name in inSpecies){
                     if (substr(name,1,1) == "!"){
                         realname = ifelse(substr(name, 1,1) =="!", substr(name,2,10000), name)
-                        values[which(myrownames == realname)]<- 1 
+                        values[which(myrownames == realname)]<- 1
                     }
                 }
                 Model$notMat= cbind(Model$notMat, values)
-    
+
                 # finally the newAnd
-                newreac1 = paste(inSpecies[i], outname, sep="=") 
-                newreac2 = paste(inSpecies[j], outname, sep="=") 
-                newreac3 = paste(inSpecies[k], outname, sep="=") 
+                newreac1 = paste(inSpecies[i], outname, sep="=")
+                newreac2 = paste(inSpecies[j], outname, sep="=")
+                newreac3 = paste(inSpecies[k], outname, sep="=")
                 newANDs[[length(newANDs)+1]] <- c(newreac1, newreac2, newreac3)
                 names(newANDs)[[length(newANDs)]] <- newcolname
             }
@@ -275,7 +276,7 @@ expandGates<-function(Model, ignoreList=NA,maxInputsPerGate=2){
                 realname3 = ifelse(substr(inSpecies[k], 1,1) =="!",substr(inSpecies[k],2,10000), inSpecies[k])
                 realname4 = ifelse(substr(inSpecies[l], 1,1) =="!",substr(inSpecies[l],2,10000), inSpecies[l])
                 realnames = c(realname1,realname2, realname3, realname4)
-                if (any(combn(realnames,2)[1,] == combn(realnames,2)[2,])){  # exclude reaction if any name are indentical 
+                if (any(combn(realnames,2)[1,] == combn(realnames,2)[2,])){  # exclude reaction if any name are indentical
                     next()
                 }
                 newcolname <- paste(paste(inSpecies[i], inSpecies[j],inSpecies[k],inSpecies[l],
@@ -290,9 +291,9 @@ expandGates<-function(Model, ignoreList=NA,maxInputsPerGate=2){
                 colnames(values)<-newcolname
                 for (name in inSpecies){
                     realname = ifelse(substr(name, 1,1)=="!",substr(name,2,10000), name)
-                    values[which(myrownames == realname)]<- -1 
+                    values[which(myrownames == realname)]<- -1
                 }
-                values[which(myrownames == outname)]<- 1 
+                values[which(myrownames == outname)]<- 1
                 Model$interMat= cbind(Model$interMat, values)
 
                 # now, the notMat
@@ -301,20 +302,20 @@ expandGates<-function(Model, ignoreList=NA,maxInputsPerGate=2){
                 for (name in inSpecies){
                     if (substr(name,1,1) == "!"){
                         realname = ifelse(substr(name, 1,1) =="!", substr(name,2,10000), name)
-                        values[which(myrownames == realname)]<- 1 
+                        values[which(myrownames == realname)]<- 1
                     }
                 }
                 Model$notMat= cbind(Model$notMat, values)
-    
+
                 # finally the newAnd
-                newreac1 = paste(inSpecies[i], outname, sep="=") 
-                newreac2 = paste(inSpecies[j], outname, sep="=") 
-                newreac3 = paste(inSpecies[k], outname, sep="=") 
-                newreac4 = paste(inSpecies[l], outname, sep="=") 
+                newreac1 = paste(inSpecies[i], outname, sep="=")
+                newreac2 = paste(inSpecies[j], outname, sep="=")
+                newreac3 = paste(inSpecies[k], outname, sep="=")
+                newreac4 = paste(inSpecies[l], outname, sep="=")
                 newANDs[[length(newANDs)+1]] <- c(newreac1, newreac2, newreac3, newreac4)
                 names(newANDs)[[length(newANDs)]] <- newcolname
 
-            } # end if length(inSp) == 2 
+            } # end if length(inSp) == 2
 
         }
     }
@@ -323,16 +324,16 @@ expandGates<-function(Model, ignoreList=NA,maxInputsPerGate=2){
 #    Model$reacID = Model$reacID[-dup.index2]
 #    Model$interMat = Model$interMat[,-dup.index2]
 #    Model$notMat = Model$notMat[,-dup.index2]
-    
+
     if(!is.na(toAdd)) {
         Model$notMat = cbind(Model$notMat, toAdd$notMat)
         Model$interMat = cbind(Model$interMat, toAdd$interMat)
         Model$reacID = c(Model$reacID, toAdd$reacID)
     }
-    
-    ModelExp <- Model
-    ModelExp$SplitANDs <- SplitANDs
-    ModelExp$newANDs <- newANDs
-    return(ModelExp)
+
+    modelExp <- Model
+    modelExp$SplitANDs <- SplitANDs
+    modelExp$newANDs <- newANDs
+    return(modelExp)
 }
 

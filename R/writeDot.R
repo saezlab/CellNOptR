@@ -12,8 +12,8 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: writeDot.R 546 2012-02-17 15:19:37Z cokelaer $
-writeDot<-function(dotNodes,dotMatrix,Model,filename){
+# $Id: writeDot.R 1691 2012-07-09 15:30:22Z cokelaer $
+writeDot<-function(dotNodes, dotMatrix, model, filename){
 
 #Write the dot file for the PKN:
 #Use the internal variables created by writeNetwork:
@@ -72,21 +72,21 @@ writeDot<-function(dotNodes,dotMatrix,Model,filename){
 		return(notSource)
 		}
 		
-	notSources<-apply(Model$interMat,1,findSources)
-	sources<-rownames(Model$interMat[!notSources,])
+	notSources<-apply(model$interMat,1,findSources)
+	sources<-rownames(model$interMat[!notSources,])
 	
 	findSinks<-function(x){
 		notSink<-any(x == -1)
 		return(notSink)
 		}
 		
-	notSinks<-apply(Model$interMat,1,findSinks)
-	sinks<-rownames(Model$interMat)[!notSinks]
+	notSinks<-apply(model$interMat,1,findSinks)
+	sinks<-rownames(model$interMat)[!notSinks]
 	
 #now find the distances from nodes to source/sink
-	ModeltoGraphNEL<-function(Model){
+	modeltoGraphNEL<-function(model){
 	
-		vertices<-Model$namesSpecies
+		vertices<-model$namesSpecies
 		edgeList<-vector("list", length=length(vertices))
 		names(edgeList)<-vertices	
 	#edgeList is a list with an element edges and an element weights, both of the same size
@@ -94,7 +94,7 @@ writeDot<-function(dotNodes,dotMatrix,Model,filename){
 	#the indexes of the nodes to which the node in question has an edge
 	
 		for(sp in 1:length(vertices)){
-			reacs<-which(Model$interMat[sp,] == -1)
+			reacs<-which(model$interMat[sp,] == -1)
 			
 			if(length(reacs) == 0){
 			
@@ -102,12 +102,12 @@ writeDot<-function(dotNodes,dotMatrix,Model,filename){
 				
 				}else{	
 				
-					targets<-which(Model$interMat[,reacs[1]] == 1)
+					targets<-which(model$interMat[,reacs[1]] == 1)
 					
 					if(length(reacs) > 1){
 					
 						for(r in 2:length(reacs)){
-							targets<-c(targets, which(Model$interMat[,reacs[r]] == 1))
+							targets<-c(targets, which(model$interMat[,reacs[r]] == 1))
 							}
 							
 						}
@@ -122,7 +122,7 @@ writeDot<-function(dotNodes,dotMatrix,Model,filename){
 		return(graph)
 		}
 		
-	graphModel<-ModeltoGraphNEL(Model)	
+	graphModel<-modeltoGraphNEL(model)	
 	distMatrix<-floyd.warshall.all.pairs.sp(graphModel)
 	rankNodes<-rep(Inf, length(nodes))
 	
@@ -176,10 +176,12 @@ writeDot<-function(dotNodes,dotMatrix,Model,filename){
 	cat(';}\n{rank=same;',file=filename,append=TRUE,sep="")
 	cat(which(rankNodes == "1"),file=filename,append=TRUE,sep=";")
 	
-	for(i in 2:max(rankNodes[-which(rankNodes=="source"|rankNodes=="sink")])){
-		cat(';}\n{rank=same;',file=filename,append=TRUE,sep="")
-		cat(which(rankNodes == i),file=filename,append=TRUE,sep=";")
-		}
+	if (length(rankNodes)>=2){
+        for(i in 2:max(rankNodes[-which(rankNodes=="source"|rankNodes=="sink")])){
+		    cat(';}\n{rank=same;',file=filename,append=TRUE,sep="")
+    		cat(which(rankNodes == i),file=filename,append=TRUE,sep=";")
+	    	}
+    }
 		
 	cat(';}\n',file=filename,append=TRUE,sep="")
 	cat('{rank=sink;',file=filename,append=TRUE,sep="")

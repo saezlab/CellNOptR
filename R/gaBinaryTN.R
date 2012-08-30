@@ -13,10 +13,10 @@
 #
 ##############################################################################
 # $Id$
-gaBinaryT2 <-function(
+gaBinaryTN <-function(
     CNOlist,
     model,
-    bStringT1,
+    bStrings,
     sizeFac=0.0001,
     NAFac=1,
     popSize=50,
@@ -31,17 +31,22 @@ gaBinaryT2 <-function(
     priorBitString=NULL,
     maxSizeHashTable=5000){
 
-    # ---- section related to T2  ----
     #Find the bits to optimise
-    timeIndex = 3
+    N = length(bStrings)
+    bStringPrev = bStrings[[N]]
+    timeIndex = N + 2   # +1 for T0 and +1 for the current time (bStrings length is N-1 indeed)
 
-    bits2optimise<-which(bStringT1 == 0)
+    bits2optimise<-which(bStringPrev == 0)
     bLength<-length(bits2optimise)
 
+   if (is.list(bStrings)==FALSE){
+         stop("CellNOpt Error: 3d argument called bStrings must be a list of vectors. Each vector representing a bit string")
+     }
+
+    # compute it once for all (recomputed many times in computeScore otherwise)
+    simResPrev<-simulateTN(CNOlist=CNOlist, model=model, bStrings=bStrings)
     simList = prep4sim(model)
     indexList = indexFinder(CNOlist, model)
-
-    simResT1<-simulateTN(CNOlist=CNOlist, model=model, bStrings=list(bStringT1))
 
     # ---- section related to T2  end ----
 
@@ -76,8 +81,14 @@ gaBinaryT2 <-function(
             } # otherwise let us keep going
         }
 
-        Score = computeScoreTN(CNOlist, model, simList, indexList, 
-			simResT1, bStringT1, bitString, timeIndex=timeIndex, sizeFac=sizeFac, NAFac=NAFac)
+        # must use bstrings concatenate with the proposal not just the previous
+        # and next. Works for T2 but not for TN.
+        #Score = computeScoreTN(CNOlist, model, simList, indexList, 
+	    #	simResPrev, bStringPrev, bitString, timeIndex=timeIndex, sizeFac=sizeFac, NAFac=NAFac)
+        bStrings[[N+1]] = bitString
+
+        Score = computeScoreTN(CNOlist, model, simList, indexList, simResPrev, bStringPrev=NULL,  bStringNext=NULL,
+            bStrings=bStrings, timeIndex=timeIndex, sizeFac=sizeFac, NAFac=NAFac)
 
         return(Score)
     }
@@ -234,15 +245,15 @@ gaBinaryT2 <-function(
 
 
 
-#addPriorKnowledge <- function(pop, priorBitString){
-#    if (is.null(priorBitString) == TRUE){
-#        return(pop)
-#    }
-#    else{
-#        for (i in 1:dim(pop)[1]){
-#            pop[i,!is.na(priorBitString)] = priorBitString[!is.na(priorBitString)]
-#        }
-#    }
-#   return(pop)
-#}
+addPriorKnowledge <- function(pop, priorBitString){
+    if (is.null(priorBitString) == TRUE){
+        return(pop)
+    }
+    else{
+        for (i in 1:dim(pop)[1]){
+            pop[i,!is.na(priorBitString)] = priorBitString[!is.na(priorBitString)]
+        }
+    }
+   return(pop)
+}
 

@@ -12,10 +12,20 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: simulatorT1.R 1825 2012-07-24 13:39:54Z aidanmac $
+# $Id$
 
-simulatorT1 <- function(CNOlist,model,simList,indexList) {
+cutModel <- function(model, bString){
+    bs = as.logical(bString)
+    newmodel <- list()
+    newmodel$interMat <- model$interMat[, bs]
+    newmodel$notMat <- model$notMat[, bs]
+    newmodel$reacID <- model$reacID[bs]
+    newmodel$namesSpecies <- model$namesSpecies
 
-	simRes = cSimulator(CNOlist, model, simList, indexList)
-	return(simRes)
+    # could also add the times used in times > T1 if times
+    # newmodel$times <- bStringTimes[which(bStringTimes != 0)]
+
+    return(newmodel)
 }
+
+

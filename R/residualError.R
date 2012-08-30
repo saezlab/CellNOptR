@@ -12,7 +12,7 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: residualError.R 595 2012-02-22 17:21:47Z cokelaer $
+# $Id: residualError.R 1658 2012-07-05 13:05:14Z cokelaer $
 residualError<-function(CNOlist){
 
 #check that CNOlist is a CNOlist
@@ -31,22 +31,35 @@ residualError<-function(CNOlist){
 		"valueSignals"))){
 		stop("This function expects as input a CNOlist as output by makeCNOlist")
 		}
-		
-	resErr<-rep(NA,3)
-	names(resErr)<-c("t1","t2","t1andt2")
-	Diff1<-round(CNOlist$valueSignals[[2]])-CNOlist$valueSignals[[2]]
-	resErr[1]<-sum(Diff1^2,na.rm=TRUE)
-	
-	if(length(CNOlist$valueSignals) == 3){
-		Diff2<-round(CNOlist$valueSignals[[3]])-CNOlist$valueSignals[[3]]
-		resErr[2]<-sum(Diff2^2,na.rm=TRUE)
-		resErr[3]<-resErr[1]+resErr[2]
-		}
-		
-	if(length(CNOlist$valueSignals) > 3){
-		warning("This version of the software only handles 2 time points")
-		}
-		
+
+    nTimes = length(CNOlist$timeSignals) - 1  # we do not take into account t0
+
+
+	resErr<-rep(NA, nTimes + 2) # for back compatibility, we will store t1andt2
+                                # (+1) but we also store the total (+1)
+
+    # build up the name of the columns: t1, t2, ...tN, t1andt2, total
+    namesresErr = NULL
+    for (i in 1:nTimes){
+        namesresErr = cbind(namesresErr, paste("t", i, sep=""))
+    }
+    namesresErr = cbind(namesresErr, "t1andt2")
+    namesresErr = cbind(namesresErr, "total")
+    names(resErr) <- namesresErr
+
+    # compute errors at each time 
+    for (i in 1:nTimes){
+        # we skip time 0. t1 starts at index 2 hence the i+1
+        Diff <- round(CNOlist$valueSignals[[i+1]])-CNOlist$valueSignals[[i+1]]
+        resErr[i]<-sum(Diff^2, na.rm=TRUE)
+    }
+
+    # compute the total and t1andt2 columns
+    resErr["total"]<-sum(resErr, na.rm=T) # should be before t1ant2 being filled
+	if(length(CNOlist$valueSignals) >= 3){
+        resErr[nTimes+1]<-resErr["t1"]+resErr["t2"]
+    }
+
 	return(resErr)	
 	}
 

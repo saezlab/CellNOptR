@@ -14,23 +14,23 @@
 ##############################################################################
 # $Id$
 
-defaultParameters<-function(Data=NA, Model=NA){
+defaultParameters<-function(data=NA, model=NA){
 
     paramsList<-list()
-    paramsList$Data<-Data
-    paramsList$Model<-Model
+    paramsList$data<-data
+    paramsList$model<-model
 
     # GA parameters
     paramsList$sizeFac<-1e-04
     paramsList$NAFac<-1
-    paramsList$PopSize<-50
-    paramsList$Pmutation<-0.5
-    paramsList$MaxTime<-3*60
+    paramsList$popSize<-50
+    paramsList$pMutation<-0.5
+    paramsList$maxTime<-3*60
     paramsList$maxGens<-500
-    paramsList$StallGenMax<-100
-    paramsList$SelPress<-1.2
+    paramsList$stallGenMax<-100
+    paramsList$selPress<-1.2
     paramsList$elitism<-5
-    paramsList$RelTol<-0.1
+    paramsList$relTol<-0.1
     paramsList$verbose<-FALSE
 
     return(paramsList)

@@ -12,13 +12,15 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: compressModel.R 590 2012-02-22 17:16:50Z cokelaer $
-compressModel<-function(Model, indexes){
+# $Id: compressModel.R 1586 2012-06-26 14:59:24Z cokelaer $
+compressModel<-function(model, indexes){
+
+    Model = model
 
     #this will hold the indices of the species that we have to look at (i.e. not signal nor cue)
     species<-seq(1:length(Model$namesSpecies))
     #species<-species[-c(indexes$signals,indexes$stimulated,indexes$inhibited)]
-    # TODO: is.na proposed by Aidan fix. 
+    # TODO: is.na proposed by Aidan fix.
     if(is.na(indexes$inhibited[1])) {
         species <- species[-c(indexes$signals,indexes$stimulated)]
     } else {
@@ -38,21 +40,21 @@ compressModel<-function(Model, indexes){
         #the species has one output minimum
         if(length(outReac) != 0){
 
-            #If the species has only one input        
-            if(length(inReac) == 1 && length(which(Model$interMat[,inReac] == -1)) == 1) { 
+            #If the species has only one input
+            if(length(inReac) == 1 && length(which(Model$interMat[,inReac] == -1)) == 1) {
                 #TODO aidan fix why was the second condition added?
 
-				# find the input element
+                # find the input element
                 input <- which(Model$interMat[,inReac] == -1)
 
                 # find the output elements
                 if(length(outReac) > 1) outputs <- apply(Model$interMat[,outReac],2,function(x) which(x == 1))
                 if(length(outReac) == 1) outputs <- which(Model$interMat[,outReac] == 1)
-            
+
                 # check that the input is not an & gate, and that none of the downstream
                 # elements is the output element
-                if(length(input) == 1 && !any(outputs == input[1]) 
-                    && !any(abs(Model$interMat[,inReac] + Model$interMat[,outReac[1]]) > 1)) { 
+                if(length(input) == 1 && !any(outputs == input[1])
+                    && !any(abs(Model$interMat[,inReac] + Model$interMat[,outReac[1]]) > 1)) {
                     # TODO: fix properly: the case where the input is also part of an 'AND' gate in the output. outcome: don't compress
                     # need to create new reacs, that go from input to outputs, and to remove the old reacs
 
@@ -63,18 +65,18 @@ compressModel<-function(Model, indexes){
                     newNots = matrix(NA, nrow=dim(Model$notMat)[1], ncol=length(outReac))
                     rownames(newNots) = Model$namesSpecies
                     newReacIDs = rep(NA, length(outReac))
-                    
+
                     for(r in 1:length(outReac)) {
                         newReacs[,r] <- Model$interMat[,inReac] + Model$interMat[,outReac[r]]
                         # TODO: check this?
                         newNots[,r] <- Model$notMat[,outReac[r]]
-                        if(Model$notMat[sp,outReac[r]] == 1 && Model$notMat[which(Model$interMat[,inReac]==-1),inReac]==1) 
+                        if(Model$notMat[sp,outReac[r]] == 1 && Model$notMat[which(Model$interMat[,inReac]==-1),inReac]==1)
                         newNots[input,r] <- 0
-                        if(Model$notMat[sp,outReac[r]] == 0 && Model$notMat[which(Model$interMat[,inReac]==-1),inReac]==0) 
+                        if(Model$notMat[sp,outReac[r]] == 0 && Model$notMat[which(Model$interMat[,inReac]==-1),inReac]==0)
                         newNots[input,r] <- 0
-                        if(Model$notMat[sp,outReac[r]] == 1 && Model$notMat[which(Model$interMat[,inReac]==-1),inReac]==0) 
+                        if(Model$notMat[sp,outReac[r]] == 1 && Model$notMat[which(Model$interMat[,inReac]==-1),inReac]==0)
                         newNots[input,r] <- 1
-                        if(Model$notMat[sp,outReac[r]] == 0 && Model$notMat[which(Model$interMat[,inReac]==-1),inReac]==1) 
+                        if(Model$notMat[sp,outReac[r]] == 0 && Model$notMat[which(Model$interMat[,inReac]==-1),inReac]==1)
                         newNots[input,r] <- 1
                         if(length(grep("+",names(outReac[r])))) {
                             andInput = rownames(newReacs)[which(newReacs[,r] == -1)]
@@ -85,20 +87,20 @@ compressModel<-function(Model, indexes){
                                     andInput[which(andInd==andNeg[p])] = paste("!", andInput[which(andInd==andNeg[p])], sep="")
                                 }
                             }
-                            
+
                             LHS = paste(andInput,collapse="+", sep="")
                             newReacIDs[r] = paste(LHS, "=", rownames(newReacs)[which(newReacs[,r] == 1)], sep="")
-                            
+
                         } else {
                             newReacIDs[r] <- paste(rownames(newReacs)[which(newReacs[,r] == -1)], "=", rownames(newReacs)[which(newReacs[,r] == 1)],sep="")
                             if(any(newNots[,r] == 1)) newReacIDs[r] <- paste("!", newReacIDs[4], sep="")
-                        }    
+                        }
 
                     }
 
                     colnames(newReacs) <- newReacIDs
                     colnames(newNots) <- newReacIDs
-                    
+
                     # now remove the reacs to remove and append the ones that have just been created
                     Model$interMat <- Model$interMat[,-reac2Remove]
                     Model$notMat <- Model$notMat[,-reac2Remove]
@@ -106,7 +108,7 @@ compressModel<-function(Model, indexes){
                     Model$interMat <- cbind(Model$interMat, newReacs)
                     Model$notMat <- cbind(Model$notMat,newNots)
                     Model$reacID <- c(Model$reacID,newReacIDs)
-                
+
                     if(length(outReac) == 1) {
                         colnames(Model$interMat)[dim(Model$interMat)[2]] <- newReacIDs
                         colnames(Model$notMat)[dim(Model$notMat)[2]] <- newReacIDs
@@ -115,24 +117,24 @@ compressModel<-function(Model, indexes){
                     # store which species has been compressed. This will be used to remove rows of the matrices
                     # after all is compressed (I don't do it know because then the indexes of the species that we
                     # have decided to look at in the beginning won't be valid anymore)
-                
+
                     speciesCompressed <- c(speciesCompressed,sp)
                 } #end of if(length(input) == 1 && !any(outputs == input[1]) && !any....
             } else {
 
                 # If the species has more than one input, but only one output
                 if(length(outReac) == 1 && length(which(Model$interMat[,outReac] == -1)) == 1) {
-                    
+
                     # find the output element
                     output <- which(Model$interMat[,outReac] == 1)
                     # find the input element(s)
                     inputs = list()
-                    
+
                     if(length(inReac) > 1) {
                         for(a in inReac) {
                             inputs = c(inputs, list(which(Model$interMat[,a] == -1)))
                         }
-                    } 
+                    }
                     if(length(inReac) == 1) inputs <- list(which(Model$interMat[,inReac] == -1))
 
                     # check that none of the downstream elements is the output element
@@ -159,7 +161,7 @@ compressModel<-function(Model, indexes){
                                     newNots[inputs[[r]][b]] <- ifelse((newNots[inputs[[r]][b]] == 1), 0, 1)
                                 }
                             }
-                                    
+
                             if(length(grep("+",names(inReac[r])))) {
                                 andInput = rownames(newReacs)[which(newReacs[,r] == -1)]
                                 andInd = which(newReacs[,r] == -1)
@@ -169,20 +171,20 @@ compressModel<-function(Model, indexes){
                                         andInput[which(andInd==andNeg[p])] = paste("!", andInput[which(andInd==andNeg[p])], sep="")
                                     }
                                 }
-                            
+
                             LHS = paste(andInput,collapse="+",sep="")
                             newReacIDs[r] = paste(LHS, "=", rownames(newReacs)[which(newReacs[,r] == 1)], sep="")
-                            
+
                             } else {
                                 newReacIDs[r] <- paste(rownames(newReacs)[which(newReacs[,r] == -1)], "=", rownames(newReacs)[which(newReacs[,r] == 1)],sep="")
                                 if(any(newNots[,r] == 1)) newReacIDs[r] <- paste("!", newReacIDs[4], sep="")
-                            }    
+                            }
 
                         }}
-                        
+
                         colnames(newReacs) <- newReacIDs
                         colnames(newNots) <- newReacIDs
-                        
+
                         Model$interMat <- Model$interMat[,-reac2Remove]
                         Model$notMat <- Model$notMat[,-reac2Remove]
                         Model$reacID <- Model$reacID[-reac2Remove]
@@ -192,9 +194,9 @@ compressModel<-function(Model, indexes){
                         if(length(inReac) == 1) {
                             colnames(Model$interMat)[dim(Model$interMat)[2]] <- newReacIDs
                             colnames(Model$notMat)[dim(Model$notMat)[2]] <- newReacIDs
-                        }    
-                
-                        speciesCompressed <- c(speciesCompressed,sp)    
+                        }
+
+                        speciesCompressed <- c(speciesCompressed,sp)
                     }
                 }
             }
@@ -229,7 +231,7 @@ compressModel<-function(Model, indexes){
         ModelCompressed$notMat<-ModelCompressed$notMat[,match(uniqueR,colnames(ModelCompressed$notMat))]
         }
 
-    return(ModelCompressed)    
+    return(ModelCompressed)
 
 }
 
