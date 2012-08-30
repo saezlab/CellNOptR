@@ -1,15 +1,15 @@
-\name{gaBinaryT2}
-\alias{gaBinaryT2}
+\name{gaBinaryTN}
+\alias{gaBinaryTN}
 \title{
-Genetic algorithm for time point 2
+Genetic algorithm for time point N
 }
 \description{
-This is the genetic algorithm for time point 2, that should follow optimisation based on time point 1.
+This is the genetic algorithm for time point N, that should follow optimisation based on time point 1.
 
-Deprecated in version 1.3.28. Use \link{gaBinaryTN} instead.
+Replaces \link{gaBinaryT2} since verson 1.3.28
 }
 \usage{
-gaBinaryT2(CNOlist, model,  bStringT1, sizeFac = 1e-04, NAFac = 1,
+gaBinaryTN(CNOlist, model,  bStrings, sizeFac = 1e-04, NAFac = 1,
 popSize = 50, pMutation = 0.5, maxTime = 60, maxGens = 500,
 stallGenMax = 100, selPress = 1.2, elitism = 5, relTol = 0.1, verbose=TRUE,
 priorBitString=NULL, maxSizeHashTable=5000)
@@ -22,7 +22,7 @@ a CNOlist on which the score is based (based on valueSignals[[3]], i.e. data at 
 a model structure, as created by \code{readSIF}, normally pre-processed but that
 is not a requirement of this function
 }
-  \item{bStringT1}{
+  \item{bStrings}{
 the optimal bitstring from optimisation at time 1 (i.e. a vector of 0s and 1s)
 }
   \item{sizeFac}{
@@ -87,8 +87,7 @@ This function returns a list with elements:
 C.Terfve, T. Cokelaer
 }
 \seealso{
-\link{getFit}, \link{prep4sim}, \link{indexFinder}, \link{simulatorT1},
-\link{simulatorT2}, \link{gaBinaryT2}
+\link{getFit}, \link{simulatorT1}, \link{simulatorT2}, \link{gaBinaryT2}
 
 }
 \examples{
@@ -112,10 +111,10 @@ ToyT1<-gaBinaryT1(
 
 #Optimise T2
 
-ToyT2<-gaBinaryT2(
+ToyT2<-gaBinaryTN(
 	CNOlist=CNOlistToy2,
 	model=model,
-	bStringT1=ToyT1$bString,
+	bStrings=list(ToyT1$bString),
 	maxGens=10,
 	popSize = 10,
 	verbose=FALSE)

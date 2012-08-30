@@ -1,20 +1,20 @@
 \name{indexFinder}
 \alias{indexFinder}
 \title{
-Finds the indices, in the Model fields, of the species that are measured/inhibited/stimulated
+Finds the indices, in the model fields, of the species that are measured/inhibited/stimulated
 }
 \description{
-This function finds the indices, in the Model fields, of the species that are measured/inhibited/stimulated. It looks for their position in Model$namesSpecies which has the same order as the rows of interMat and notMat, and therefore these indexes can be used there as well.
+This function finds the indices, in the model fields, of the species that are measured/inhibited/stimulated. It looks for their position in model$namesSpecies which has the same order as the rows of interMat and notMat, and therefore these indexes can be used there as well.
 }
 \usage{
-indexFinder(CNOlist, Model,verbose=FALSE)
+indexFinder(CNOlist, model,verbose=FALSE)
 }
 \arguments{
   \item{CNOlist}{
 a CNOlist structure, as produced by makeCNOlist
 }
-  \item{Model}{
-a model structure, as produced by readSif
+  \item{model}{
+a model structure, as produced by readSIF
 }
   \item{verbose}{
 do you want information about the cues and signals identities printed on the screen? Default if false but we would advise to set it to true when the function is called for the first time.
@@ -30,8 +30,9 @@ a list with fields:
 C. Terfve
 }
 \seealso{
-makeCNOlist, ReadSif
+\link{makeCNOlist}, \link{readSIF}
 }
+\note{For internal usage since version 1.3.28}
 \examples{
 data(CNOlistToy,package="CellNOptR")
 data(ToyModel,package="CellNOptR")

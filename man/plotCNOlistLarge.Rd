@@ -35,7 +35,7 @@ This function just produces plots on your graphics window.
 C. Terfve
 }
 \seealso{
-plotCNOlist, plotCNOlistPDF, plotCNOlistLargePDF
+\link{plotCNOlist}, \link{plotCNOlistPDF}, \link{plotCNOlistLargePDF}
 }
 \examples{
 data(CNOlistDREAM,package="CellNOptR")

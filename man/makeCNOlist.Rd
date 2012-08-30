@@ -21,9 +21,16 @@ logical (default to TRUE) print information on the screen.
 }
 }
 \details{
-Be aware that most of the functions in this package, including this one, expect the data to contain measurements at time 0, but these should all be equal to zero according to the normalisation procedure that should be used. Therefore, if you have on time point, the files valueSignals contains two matrices, one for t0 and one for t1.
+Be aware that most of the functions in this package, including this one, expect
+the data to contain measurements at time 0, but these should all be equal to
+zero according to the normalisation procedure that should be used. Therefore, if
+you have one time point, the files valueSignals contains two matrices, one for t0 and one for t1.
 
-I there are replicate rows in the MIDAS file (i.e. identical cues and identical time), this function averages the values of the measurements for these replicates.
+If there are replicate rows in the MIDAS file (i.e., identical cues and
+identical time), this function averages the values of the measurements for these
+replicates.
+
+Columns with the following tags are ignored: NOINHIB, NO-INHIB, NO-LIG, NOCYTO.
 
 }
 \value{
@@ -46,7 +53,7 @@ mammalian signal transduction, Molecular Systems Biology, 5:331, 2009.
 C. Terfve
 }
 \seealso{
-readMIDAS
+\link{readMIDAS}, \link{CNOlist-class}
 }
 \examples{
 tmpdir<-tempdir()

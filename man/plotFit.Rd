@@ -7,10 +7,10 @@ Plot the evolution of an optimisation
 This function takes in the results of an optimisation by gaBinaryT1 and plots the evolution of best fit and average fit against generations.
 }
 \usage{
-plotFit(OptRes, filename = NULL)
+plotFit(optRes, filename = NULL)
 }
 \arguments{
-  \item{OptRes}{
+  \item{optRes}{
 an object created by the optimisation engine (gabinaryT1)
 }
   \item{filename}{
@@ -24,32 +24,23 @@ This function doesn't return anything, it just produces a plot in your graphics 
 C. Terfve
 }
 \seealso{
-gabinaryT1
+\link{gaBinaryT1}
 }
 \examples{
 data(CNOlistToy,package="CellNOptR")
 data(ToyModel,package="CellNOptR")
 
 #process the model
-
-indicesToy<-indexFinder(CNOlistToy,ToyModel,verbose=FALSE)
-ToyComp<-compressModel(ToyModel,indicesToy)
-indicesToyComp<-indexFinder(CNOlistToy,ToyComp)
-ToyCompExp<-expandGates(ToyComp)
+model = preprocessing(CNOlistToy,ToyModel)
 
 #optimise
 
-ToyFields4Sim<-prep4Sim(ToyCompExp)
-initBstring<-rep(1,length(ToyCompExp$reacID))
 ToyT1opt<-gaBinaryT1(
 	CNOlist=CNOlistToy,
-	Model=ToyCompExp,
-	SimList=ToyFields4Sim,
-	indexList=indicesToyComp,
-	initBstring=initBstring,
-	maxGens=2,
-	PopSize=5,
+	model=model,
+	maxGens=10,
+	popSize=10,
 	verbose=FALSE)
 
-plotFit(OptRes=ToyT1opt)
+plotFit(optRes=ToyT1opt)
 }

@@ -7,17 +7,18 @@ Plot the data and simulated values
 This function is the equivalent of CNOPlotFits, it plots the data and the simulated values,  along with an image plot that tells which cues were present.  The plots are coloured according to the fit between data and simulated data.
 }
 \usage{
-plotOptimResults(SimResults = SimResults, expResults = expResults, times = times, namesCues = namesCues, namesSignals = namesSignals, valueCues = valueCues)
+plotOptimResults(simResults, expResults, times, namesCues, namesSignals,
+valueCues, formalism="new")
 }
 \arguments{
-  \item{SimResults}{
+  \item{simResults}{
 a list with a field for each time point, each containing a matrix of dimensions (number of conditions) * (number of signals), with the first field being t0.  Typically produced by simulating a model and then extracting the columns that correspond to signals
 }
   \item{expResults}{
 same as above, but contains the experimental results, ie this is \code{CNOlist$valueSignals}
 }
   \item{times}{
-a vector of times, its length should be the same as the number of fields in SimResults and ExpResults
+a vector of times, its length should be the same as the number of fields in simResults and ExpResults
 }
   \item{namesCues}{
 a vector of names, typically \code{CNOlist$namesCues}
@@ -27,6 +28,11 @@ a vector of names, typically \code{CNOlist$namesSignals}
 }
   \item{valueCues}{
 a matrix of dimensions (number of conditions) * (number of cues), typically \code{CNOlist$valueCues}
+}
+  \item{formalism}{
+New convention is to take the time=0 data set into account to compute the MSE.
+you can use the previous convetion by setting this argument to something
+different from the default value.
 }
 }
 \details{
@@ -57,22 +63,22 @@ setwd(tmpdir)
 data(CNOlistToy,package="CellNOptR")
 data(ToyModel,package="CellNOptR")
 indicesToy<-indexFinder(CNOlistToy,ToyModel,verbose=TRUE)
-ToyFields4Sim<-prep4Sim(ToyModel)
+ToyFields4Sim<-prep4sim(ToyModel)
 
 #simulate model
 
-Sim<-simulatorT1(CNOlist=CNOlistToy,Model=ToyModel,SimList=ToyFields4Sim,indexList=indicesToy)
+Sim<-simulatorT1(CNOlist=CNOlistToy,model=ToyModel, simList=ToyFields4Sim, indexList=indicesToy)
 
 #format data and results
 
-SimRes<-Sim[,indicesToy$signals]
-SimResults<-list(t0=matrix(data=0,nrow=dim(SimRes)[1],ncol=dim(SimRes)[2]),t1=SimRes)
+simRes<-Sim[,indicesToy$signals]
+simResults<-list(t0=matrix(data=0,nrow=dim(simRes)[1],ncol=dim(simRes)[2]),t1=simRes)
 expResults<-list(t0=CNOlistToy$valueSignals[[1]],t1=CNOlistToy$valueSignals[[2]])
 
 #plot
 
 plotOptimResults(
-	SimResults=SimResults,
+	simResults=simResults,
 	expResults=expResults,
 	times=CNOlistToy$timeSignals[1:2],
 	namesCues=CNOlistToy$namesCues,

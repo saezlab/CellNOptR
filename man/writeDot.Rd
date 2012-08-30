@@ -7,7 +7,7 @@ Write a model, and attached features, to a dot file
 This function writes a model to a Graphviz dot file with encoded features such as edge weight and nodes status (see details).
 }
 \usage{
-writeDot(dotNodes,dotMatrix,Model,filename)
+writeDot(dotNodes,dotMatrix,model,filename)
 }
 \arguments{
   \item{dotNodes}{
@@ -16,8 +16,8 @@ internal variables created by writeNetwork or writeScaffold; dotNodes is a matri
   \item{dotMatrix}{
 internal variables created by writeNetwork or writeScaffold; dotMatrix is a matrix with 4 or 5 columns, and a row for each reaction:the first column holds the name of the input node, the second column holds the sign of the reaction (-1 if negative, 1 if positive), the third column holds the name of the output node, the fourth column holds the time stamp (0,1,2), an optional 5th column holds the weights of the edges
 }
-  \item{Model}{
-A model to be plotted, if used inside writeNetwork then this should be the previous knowledge network (ModelOriginal), if inside writeScaffold then this should be the scaffold (ModelComprExpanded)
+  \item{model}{
+A model to be plotted, if used inside writeNetwork then this should be the previous knowledge network (modelOriginal), if inside writeScaffold then this should be the scaffold (modelComprExpanded)
 }
   \item{filename}{
 a name for the file
@@ -36,7 +36,7 @@ Emden R. Gansner ,  Stephen C. North. An Open Graph Visualization System and Its
 C. Terfve
 }
 \seealso{
-writeNetwork, writeScaffold
+\link{writeNetwork}, \link{writeScaffold}
 }
 \examples{
 tmpdir<-tempdir()
@@ -59,23 +59,21 @@ ToyNCNOcutCompExp<-expandGates(ToyNCNOcutComp)
 
 #optimise
 
-ToyFields4Sim<-prep4Sim(ToyNCNOcutCompExp)
+ToyFields4Sim<-prep4sim(ToyNCNOcutCompExp)
 initBstring<-rep(1,length(ToyNCNOcutCompExp$reacID))
 ToyT1opt<-gaBinaryT1(
 	CNOlist=CNOlistToy,
-	Model=ToyNCNOcutCompExp,
-	SimList=ToyFields4Sim,
-	indexList=indicesToyNCNOcutComp,
+	model=ToyNCNOcutCompExp,
 	initBstring=initBstring, 
 	maxGens=2,
-	PopSize=5, 
+	popSize=5, 
 	verbose=TRUE)
 
 #write network
 
 writeNetwork(
-	ModelOriginal=ToyModel,
-	ModelComprExpanded=ToyNCNOcutCompExp,
+	modelOriginal=ToyModel,
+	modelComprExpanded=ToyNCNOcutCompExp,
 	optimResT1=ToyT1opt,
 	optimResT2=NA,
 	CNOlist=CNOlistToy)

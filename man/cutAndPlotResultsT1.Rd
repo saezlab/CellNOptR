@@ -7,23 +7,27 @@ Plot the results of an optimisation at t1
 This function takes a model and an optimised bitstring, it cuts the model according to the bitstring and plots the results of the simulation along with the experimental data.
 }
 \usage{
-cutAndPlotResultsT1(Model, bString, SimList, CNOlist, indexList, plotPDF =
-FALSE, tag = NULL, show=TRUE)
+cutAndPlotResultsT1(model, bString, simList=NULL, CNOlist, indexList=NULL, plotPDF =
+FALSE, tag = NULL, tPt=CNOlist$timeSignals[2],  plotParams = list(maxrow=10))
+
 }
+
 \arguments{
-  \item{Model}{
+  \item{model}{
 a model (the full one that was used for optimisation)
 }
   \item{bString}{
-a bitstring for T1  as output by gabinaryT1 (i.e. a vector of 1s and 0s)
+a bitstring for T1  as output by gaBinaryT1 (i.e. a vector of 1s and 0s)
 }
-  \item{SimList}{
-a simlist corresponding to the model, as output by prep4Sim
+  \item{simList}{
+deprecated argument kept for back compatibility. 
+a simlist corresponding to the model, as output by prep4sim
 }
   \item{CNOlist}{
 a CNOlist, corresponding to the optimisation one
 }
   \item{indexList}{
+deprecated argument kept for back compatibility. 
 an indexList, produced by indexFinder ran on the model and the CNOlist above
 }
   \item{plotPDF}{
@@ -33,19 +37,23 @@ TRUE or FALSE; tells whether you want a pdf to be produced or not
 NULL or string; tells whether you want to prefix filenames with a tag (replaces
 the default behaviour).
 }
-  \item{show}{
-TRUE of FALSE; FALSE tells not to show the plot, which can be useful when scripting.
-}
-}
+  \item{tPt}{
+The number of time points in the data.}
 
+\item{plotParams}{
+a list of option related to the PDF and plotting outputs. (1) maxrow
+is the maximum number of row used to plot the results. See  \link{plotOptimResultsPan}
+for other fields.
+}
+}
 \value{
-This function doesn't return anything, it only plots the graph in your graphic window, and in a pdf file if asked
+This function returns a list of filenames that have been created.
 }
 \author{
-C.Terfve
+C.Terfve, T. Cokelaer,A. MacNamara
 }
 \seealso{
-gabinaryT1, prep4Sim
+\link{gaBinaryT1}
 }
 \examples{
 #load data
@@ -54,34 +62,20 @@ data(CNOlistToy,package="CellNOptR")
 data(ToyModel,package="CellNOptR")
 
 #pre-process model
-
-checkSignals(CNOlistToy,ToyModel)
-indicesToy<-indexFinder(CNOlistToy,ToyModel,verbose=FALSE)
-ToyNCNOindices<-findNONC(ToyModel,indicesToy,verbose=FALSE)
-ToyNCNOcut<-cutNONC(ToyModel,ToyNCNOindices)
-indicesToyNCNOcut<-indexFinder(CNOlistToy,ToyNCNOcut)
-ToyNCNOcutComp<-compressModel(ToyNCNOcut,indicesToyNCNOcut)
-indicesToyNCNOcutComp<-indexFinder(CNOlistToy,ToyNCNOcutComp)
-ToyNCNOcutCompExp<-expandGates(ToyNCNOcutComp)
+model = preprocessing(CNOlistToy, ToyModel)
 
 #optimise
-
-ToyFields4Sim<-prep4Sim(ToyNCNOcutCompExp)
-initBstring<-rep(1,length(ToyNCNOcutCompExp$reacID))
 ToyT1opt<-gaBinaryT1(
 	CNOlist=CNOlistToy,
-	Model=ToyNCNOcutCompExp,
-	SimList=ToyFields4Sim,
-	indexList=indicesToyNCNOcutComp,
-	initBstring=initBstring, 
+	model=model,
 	maxGens=2, 
-	PopSize = 5,
+	popSize = 5,
 	verbose=FALSE)
+
+#plotting
 cutAndPlotResultsT1(
-	Model=ToyNCNOcutCompExp,
-	bString=ToyT1opt$bString,
-	SimList=ToyFields4Sim,
+	model=model,
 	CNOlist=CNOlistToy,
-	indexList=indicesToyNCNOcutComp,
+	bString=ToyT1opt$bString,
 	plotPDF=FALSE)
 }

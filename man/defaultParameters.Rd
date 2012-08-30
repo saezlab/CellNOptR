@@ -7,15 +7,16 @@ Create a list of default parameters
 This function provides a list of default parameters including the Genetic
 Algorithm parameters.}
 \usage{
-defaultParameters(Data=NA, Model=NA)
+defaultParameters(data=NA, model=NA)
 }
 
 \arguments{
-  \item{Data}{
-   the CNOlist that contains the data that you will use
+  \item{data}{
+   a CNOlist structure, as created by \code{makeCNOlist}
   }
-  \item{Model}{
-    the model that you want to optimise
+  \item{model}{
+    a model structure, as created by \code{readSIF}, normally pre-processed but 
+    that is not a requirement of this function
   }
 }
 
@@ -26,13 +27,14 @@ defaultParameters(Data=NA, Model=NA)
 }
 
 \value{
-  \item{params}{a list of default parameters. }
+  \item{params}{a list with the fields: \code{data}, \code{model},
+\code{verbose} and all default parameters of \link{gaBinaryT1} }
 }
 \author{
  T. Cokelaer
 }
 \examples{
-data(ToyModel,package="CellNOptR")
-data(CNOlistToy,package="CellNOptR")
+data(ToyModel, package="CellNOptR")
+data(CNOlistToy, package="CellNOptR")
 params = defaultParameters(CNOlistToy, ToyModel)
 }

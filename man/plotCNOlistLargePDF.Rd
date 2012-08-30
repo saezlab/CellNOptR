@@ -38,7 +38,7 @@ This function doesn't return anything, it just produces a pdf file with your plo
 C. Terfve
 }
 \seealso{
-plotCNOlistLarge, plotCNOlist, plotCNOlistPDF
+\link{plotCNOlistLarge}, \link{plotCNOlist}, \link{plotCNOlistPDF}
 }
 \examples{
 tmpdir<-tempdir()

@@ -7,12 +7,12 @@ Cut a simList structure according to a bitstring
 This function is for developers only. 
 }
 \usage{
-cutSimList(SimList, bitString)
+cutSimList(simList, bString)
 }
 
 \arguments{
-  \item{SimList}{the SimList object to cut.}
-  \item{bitString}{the bitString to be used to cut the SimList object.}
+  \item{simList}{the simList object to cut.}
+  \item{bString}{the bitString to be used to cut the simList object.}
 }
 
 

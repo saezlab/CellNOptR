@@ -1,13 +1,15 @@
-\name{simulatorT1}
-\alias{simulatorT1}
+\name{cSimulator}
+\alias{cSimulator}
 \title{
-Simulation of a boolean model
+C-implementation of simulatorT1.
 }
 \description{
-This is the simulator, inspired from BoolSimEngMKM in the Matlab CellNOpt, to be used on one time point simulations
+This is the simulator, inspired from BoolSimEngMKM in the Matlab CellNOpt, to be
+used on one time point simulations. Use the R interface provided by
+\link{simulatorT1}.
 }
 \usage{
-simulatorT1(CNOlist, model, simList, indexList)
+cSimulator(CNOlist, model, simList, indexList)
 }
 \arguments{
   \item{CNOlist}{
@@ -46,23 +48,8 @@ Inflammatory Stimuli, PLoS Comp. Biol., 7(3): e1001099, 2011.}
 }
 }
 \author{
-C. Terfve
+A. MacNamara based on former simulatorT1 version from C.Terfve.
 }
 \seealso{
-\link{simulateTN}, \link{cutAndPlotResultsT1}
-}
-\examples{
-#This computes the output of the full model, which is normally not done on a stand alone basis, but if you have a model and would like to visualise its output compared to your data, then this is what you should do
-
-data(CNOlistToy,package="CellNOptR")
-data(ToyModel,package="CellNOptR")
-
-indicesToy<-indexFinder(CNOlistToy,ToyModel,verbose=TRUE)
-ToyFields4Sim<-prep4sim(ToyModel)
-
-Sim<-simulatorT1(
-	CNOlist=CNOlistToy,
-	model=ToyModel,
-	simList=ToyFields4Sim,
-	indexList=indicesToy)
+\link{simulatorT1}.
 }

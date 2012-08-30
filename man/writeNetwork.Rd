@@ -9,14 +9,14 @@ This function writes the original previous knowledge network (the model that you
 This function also writes a Graphviz dot file that contains the same information (see \code{writeDot} for more information about the dot file conventions).
 }
 \usage{
-writeNetwork(ModelOriginal, ModelComprExpanded, optimResT1, optimResT2, CNOlist,
+writeNetwork(modelOriginal, modelComprExpanded, optimResT1, optimResT2, CNOlist,
 tag = NULL,verbose=FALSE)
 }
 \arguments{
-  \item{ModelOriginal}{
+  \item{modelOriginal}{
 The PKN model
 }
-  \item{ModelComprExpanded}{
+  \item{modelComprExpanded}{
 The scaffold model (i.e. compressed and expanded)
 }
   \item{optimResT1}{
@@ -28,7 +28,6 @@ The results of the optimisation process at t2 (set this to NA if you have perfor
   \item{CNOlist}{
 The CNOlist on which the optimisation is based
 }
-
   \item{tag}{
 NULL or string; tells whether you want to prefix filenames with a tag (replaces
 the default behaviour).
@@ -38,7 +37,7 @@ If verbose=TRUE, the function prints a message every time an edge in the scaffol
 }
 }
 \details{
-The weights of the edges are computed as the mean across models within the relative tolerance limits, as output in the results from the optimisation \code{$StringsTol}. Strings that are in \code{$StringsTol} are the ones that are within the relative tolerance limits around the best solution in the population across all generations of the optimisation. 
+The weights of the edges are computed as the mean across models within the relative tolerance limits, as output in the results from the optimisation \code{$stringsTol}. Strings that are in \code{$stringsTol} are the ones that are within the relative tolerance limits around the best solution in the population across all generations of the optimisation. 
 
 !If there is no time 2, then the argument optimResT2 should be = NA
 
@@ -77,23 +76,21 @@ ToyNCNOcutCompExp<-expandGates(ToyNCNOcutComp)
 
 #optimise
 
-ToyFields4Sim<-prep4Sim(ToyNCNOcutCompExp)
+ToyFields4Sim<-prep4sim(ToyNCNOcutCompExp)
 initBstring<-rep(1,length(ToyNCNOcutCompExp$reacID))
 ToyT1opt<-gaBinaryT1(
 	CNOlist=CNOlistToy,
-	Model=ToyNCNOcutCompExp,
-	SimList=ToyFields4Sim,
-	indexList=indicesToyNCNOcutComp,
+	model=ToyNCNOcutCompExp,
 	initBstring=initBstring,
 	verbose=TRUE,
 	maxGens=2,
-	PopSize=5)
+	popSize=5)
 
 #write network
 
 writeNetwork(
-	ModelOriginal=ToyModel,
-	ModelComprExpanded=ToyNCNOcutCompExp,
+	modelOriginal=ToyModel,
+	modelComprExpanded=ToyNCNOcutCompExp,
 	optimResT1=ToyT1opt,
 	optimResT2=NA,
 	CNOlist=CNOlistToy)

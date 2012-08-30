@@ -15,16 +15,23 @@ a CNOlist
 }
 }
 \details{
-Be aware that it is expected that \code{$valueSignals[[1]]} holds t0 (all signals=0) and \code{$valueSignals[[2]]} holds t1, \code{$valueSignals[[3]]} holds t2. If you give a CNOlist with more than 3 elements in valueSignals you will get a warning message but the function should still work based on the first 2 time points. If you give a CNOlist with only 2 elements in valueSignals (i.e. you don't have a time 2), the function will fill in the residual error t1 and leave t2 and t1andt2 = NA
+Be aware that it is expected that \code{$valueSignals[[1]]} holds t0 (all
+signals=0) and \code{$valueSignals[[2]]} holds t1, \code{$valueSignals[[3]]}
+holds t2 and so on. The output is a list of residual errors at each time greater
+than 2. In addition, the total error is stored. For back compatibility, an
+additional field called t1andt2 is stored (NA is only t1 provided). 
+
 }
 \value{
-a vector with named entries t1, t2 and t1andt2 that hold the residual error for when only t1 is considered, only t2 is considered, or both are considered
+a vector with named entries t1, t2, ...tn, t1andt2 and total. If only t1 is
+provided, t1andt2 is set to NA. The field t1andt2 may be removed in the future.
+Use the field called total instead.
 }
 \author{
-C. Terfve
+C. Terfve, T. Cokelaer
 }
 \seealso{
-makeCNOlist, normaliseCNOlist, GetFit
+\link{makeCNOlist}, \link{normaliseCNOlist}, \link{getFit}
 }
 \examples{
 data(CNOlistToy,package="CellNOptR")

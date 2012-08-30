@@ -1,5 +1,5 @@
-\name{simulatorT1}
-\alias{simulatorT1}
+\name{simulatorT0}
+\alias{simulatorT0}
 \title{
 Simulation of a boolean model
 }
@@ -7,7 +7,7 @@ Simulation of a boolean model
 This is the simulator, inspired from BoolSimEngMKM in the Matlab CellNOpt, to be used on one time point simulations
 }
 \usage{
-simulatorT1(CNOlist, model, simList, indexList)
+simulatorT0(CNOlist, model, simList, indexList)
 }
 \arguments{
   \item{CNOlist}{
@@ -46,7 +46,7 @@ Inflammatory Stimuli, PLoS Comp. Biol., 7(3): e1001099, 2011.}
 }
 }
 \author{
-C. Terfve
+T. Cokelaer
 }
 \seealso{
 \link{simulateTN}, \link{cutAndPlotResultsT1}
@@ -60,7 +60,7 @@ data(ToyModel,package="CellNOptR")
 indicesToy<-indexFinder(CNOlistToy,ToyModel,verbose=TRUE)
 ToyFields4Sim<-prep4sim(ToyModel)
 
-Sim<-simulatorT1(
+Sim<-simulatorT0(
 	CNOlist=CNOlistToy,
 	model=ToyModel,
 	simList=ToyFields4Sim,

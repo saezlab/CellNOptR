@@ -1,15 +1,23 @@
-\name{simulatorT1}
-\alias{simulatorT1}
+\name{simulatorTN}
+\alias{simulatorTN}
 \title{
-Simulation of a boolean model
+Simulation of a boolean model at any time points dependent on a previous one.
 }
 \description{
-This is the simulator, inspired from BoolSimEngMKM in the Matlab CellNOpt, to be used on one time point simulations
+This is a the simulator at TN using a C implementation. The computation relies
+on the time TN-1. T1 is a special case that is solved by using
+\link{simulatorT2}.
 }
 \usage{
-simulatorT1(CNOlist, model, simList, indexList)
+simulatorTN(simResultsPrev, CNOlist, model, simList, indexList, timeIndex=3)
 }
 \arguments{
+  \item{simResultsPrev}{
+a matrix that is the output of simulatorTN (i.e. one row per condition and one
+column per species IN THE MODEL)
+
+}
+
   \item{CNOlist}{
 a CNOlist
 }
@@ -21,6 +29,10 @@ a simList as created by prep4sim, that has also already been cut to contain only
 }
   \item{indexList}{
 an indexList as created by indexFinder
+}
+\item{timeIndex}{
+3 by default to behave like deprecated function simulatorT2. This is the
+timeIndex at which the simulation is requested.
 }
 }
 \details{
@@ -46,7 +58,7 @@ Inflammatory Stimuli, PLoS Comp. Biol., 7(3): e1001099, 2011.}
 }
 }
 \author{
-C. Terfve
+T. Cokelaer, based on \link{cSimulator} (A. MacNamara)
 }
 \seealso{
 \link{simulateTN}, \link{cutAndPlotResultsT1}
@@ -60,9 +72,9 @@ data(ToyModel,package="CellNOptR")
 indicesToy<-indexFinder(CNOlistToy,ToyModel,verbose=TRUE)
 ToyFields4Sim<-prep4sim(ToyModel)
 
-Sim<-simulatorT1(
-	CNOlist=CNOlistToy,
-	model=ToyModel,
-	simList=ToyFields4Sim,
-	indexList=indicesToy)
+#Sim<-simulatorTN(
+#	CNOlist=CNOlistToy,
+#	model=ToyModel,
+#	simList=ToyFields4Sim,
+#	indexList=indicesToy)
 }

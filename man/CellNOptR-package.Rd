@@ -12,17 +12,16 @@ This package does optimisation of boolean logic networks of signalling pathways 
 \tabular{ll}{
 Package: \tab CellNOptR\cr
 Type: \tab Package\cr
-Version: \tab 1.1.2\cr
-Date: \tab 2011-03-31\cr
+Version: \tab 1.3.29\cr
+Date: \tab 2012-08-29\cr
 License: \tab GPLv2\cr
 LazyLoad: \tab yes\cr
 }
 }
 \author{
-C.Terfve, T.Cokelaer
+T. Cokelaer, A. MacNamara, F. Eduati, S. Schrier, C. Terfve
 
-
-Maintainer: C.Terfve <terfve@ebi.ac.uk>
+Maintainer: T. Cokelaer <cokelaer@ebi.ac.uk>
 }
 \references{
 J. Saez-Rodriguez, L. G. Alexopoulos, J. Epperlein, R. Samaga, D. A. Lauffenburger, S. Klamt and P. K. Sorger. Discrete logic modeling as a means to link protein signaling networks with functional analysis of
@@ -33,42 +32,17 @@ mammalian signal transduction, Molecular Systems Biology, 5:331, 2009.
 \examples{
 library(CellNOptR)
 
-tmpdir<-tempdir()
-setwd(tmpdir)
-
+# quick 1 time point optimisation of a Prior Knowledge Network to MIDAS data. 
 data(CNOlistToy,package="CellNOptR")
 data(ToyModel,package="CellNOptR")
+model = preprocessing(CNOlistToy, ToyModel)
+results = gaBinaryT1(CNOlistToy, model, verbose=FALSE)
+plotFit(results)
+cutAndPlot(CNOlistToy, model, list(results$bString))
 
-#From here there are 2 versions: 1. If you want to set the parameters yourself
-pList<-list(
-	Data=CNOlistToy,
-	Model=ToyModel,
-	sizeFac = 1e-04, 
-	NAFac = 1, 
-	PopSize = 10, 
-	Pmutation = 0.5, 
-	MaxTime = 60, 
-	maxGens = 5, 
-	StallGenMax = 5, 
-	SelPress = 1.2, 
-	elitism = 5, 
-	RelTol = 0.1,
-	verbose=TRUE)
-
-CNORwrap(
-	paramsList=pList,
-	Name="Toy",
-	NamesData=list(CNOlist="ToyData",Model="ToyModel"),
-	Data=NA,
-	Model=NA)
-
-#2. If you want to keep the default parameters
-\dontrun{
-CNORwrap(
-	paramsList=NA,
-	Name="Toy",
-	NamesData=list(CNOlist="ToyData",Model="ToyModel"),
-	Data=CNOlistToy,
-	Model=ToyModel)
+# Same as above and HTML report
+CNORwrap(name="Toy", 
+    namesData=list(CNOlist="ToyData",model="ToyModel"),
+    data=CNOlistToy, model=ToyModel)
 }
-}
+
