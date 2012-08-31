@@ -12,7 +12,7 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: checkSignals.R 2267 2012-08-30 15:31:54Z cokelaer $
+# $Id: checkSignals.R 2287 2012-08-31 16:29:19Z cokelaer $
 checkSignals<-function(CNOlist, model ){
 
     if ((class(CNOlist)=="CNOlist")==FALSE){
@@ -50,7 +50,7 @@ checkSignals<-function(CNOlist, model ){
     if(any(signalsMatch == 0)){
         warning(paste(
             "The following inhibitors from your CNOlist do not match any of the species in your model, and should be removed:",
-            toString(colnames(CNOlisti@inhibitors)[which(signalsMatch == 0)])
+            toString(colnames(CNOlist@inhibitors)[which(signalsMatch == 0)])
             ))
     }
 
