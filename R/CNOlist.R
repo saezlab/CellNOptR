@@ -92,9 +92,16 @@ setMethod(show, "CNOlist", function(object) {
     cat("signals:", colnames(signals(object)[[1]]), "\n")
 })
 
-setMethod("plot", signature(x="CNOlist", y="missing"), function(x, y){
+#setMethod("plot", signature(x="CNOlist", y="missing"), function(x, y, ...){
+#    plotCNOlist(x)
+#})
+
+setMethod("plot", "CNOlist", function(x, y, ...){
+
     plotCNOlist(x)
+
 })
+
 
 
 # used by the constructor not for export.

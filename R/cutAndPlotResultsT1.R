@@ -12,7 +12,7 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: cutAndPlotResultsT1.R 2267 2012-08-30 15:31:54Z cokelaer $
+# $Id: cutAndPlotResultsT1.R 2293 2012-09-03 12:30:47Z cokelaer $
 
 cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList=NULL,
  plotPDF=FALSE, tag=NULL, tPt=CNOlist@timepoints[2], plotParams=list(maxrow=10))
@@ -71,7 +71,7 @@ cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList
             if(finalN > dim1) {finalN = dim1}
             CNOdiv@cues = CNOdiv@cues[count1:finalN,]
             CNOdiv@stimuli = CNOdiv@stimuli[count1:finalN,]
-            CNOdiv:inhibitors = CNOdiv@inhibitors[count1:finalN,]
+            CNOdiv@inhibitors = CNOdiv@inhibitors[count1:finalN,]
             for(b in 1:length(CNOdiv@signals)) {
                 CNOdiv@signals[[b]] = CNOdiv@signals[[b]][count1:finalN,]
             }

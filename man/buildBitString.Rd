@@ -57,3 +57,4 @@ res$bsTimes
 # res$bsTimes = c(1,1,0,1,2,3)
 
 }
+\keyword{internal}

@@ -12,7 +12,7 @@ writeMIDAS <- function(CNOlist, filename)
     namesSignals = colnames(cnolist@signals[[1]])
     timeSignals = cnolist@timepoints
 
-    nCues = length(namesCues)
+    #nCues = length(namesCues)
     nStimuli = length(namesStimuli)
     nInhibitors = length(namesInhibitors)
     nSignals = length(namesSignals)

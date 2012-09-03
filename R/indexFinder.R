@@ -12,7 +12,7 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: indexFinder.R 2267 2012-08-30 15:31:54Z cokelaer $
+# $Id: indexFinder.R 2293 2012-09-03 12:30:47Z cokelaer $
 indexFinder<-function(CNOlist, model, verbose=FALSE){
 
     if ((class(CNOlist)=="CNOlist")==FALSE){
@@ -63,7 +63,7 @@ indexFinder<-function(CNOlist, model, verbose=FALSE){
         }
 
     #Return a list of indexes
-    indexes<-list(signals=signals,stimulated=stimulated,inhibited=inhibited)
+    return(list(signals=signals,stimulated=stimulated,inhibited=inhibited))
 
 }
 
