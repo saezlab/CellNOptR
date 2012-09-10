@@ -81,13 +81,15 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
         }
     }
 
-    # If the cnolist is a character, we guess that the user provided the MIDAS
-    # filename from which we can try to construct the cnolist.
-    
-    if ((class(CNOlist)=="CNOlist")==FALSE){
-        cnolist = CellNOptR::CNOlist(CNOlist)
-    } else{
-        cnolist = CNOlist
+    # If the cnolist is a NULL, nothing to do
+    if (is.null(CNOlist)==TRUE){
+        cnolist = NULL
+    } else { # if not a CNOlist, try to convert it 
+        if ((class(CNOlist)=="CNOlist")==FALSE){
+            cnolist = CellNOptR::CNOlist(CNOlist)
+        } else{
+            cnolist = CNOlist
+        }
     }
     
 
