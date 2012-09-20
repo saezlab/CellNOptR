@@ -1,9 +1,11 @@
 writeMIDAS <- function(CNOlist, filename)
 {
 
-
     if ((class(CNOlist)=="CNOlist")==FALSE){
          cnolist = CellNOptR::CNOlist(CNOlist)
+    }
+    else{
+        cnolist = CNOlist
     }
 
     namesCues = colnames(cnolist@cues)

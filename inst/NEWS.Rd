@@ -1,6 +1,17 @@
 \title{NEWS}
 \name{CellNOptR NEWS}
 
+\section{CHANGES IN VERSION 1.3.33: (2012-09-20)}{
+    \itemize{
+        \item{BUG FIX}
+            \itemize{
+                \item{writeMIDAS uses the new CNOlist class as an input. For
+back compatibility, the input can also be the data frame output by makeCNOlist;
+this option was buggy, which is now fixed.}
+            }
+}
+
+
 \section{CHANGES IN VERSION 1.3.32: (2012-09-10)}{
     \itemize{
         \item{BUG FIX}

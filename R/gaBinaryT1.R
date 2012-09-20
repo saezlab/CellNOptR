@@ -12,7 +12,7 @@
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
 #
 ##############################################################################
-# $Id: gaBinaryT1.R 2174 2012-08-21 16:19:19Z cokelaer $
+# $Id: gaBinaryT1.R 2455 2012-09-20 09:20:00Z cokelaer $
 gaBinaryT1<-function(
     CNOlist,
     model,
@@ -34,6 +34,10 @@ gaBinaryT1<-function(
     # by default initial bit string is made of ones.
     if (is.null(initBstring)==TRUE){
         initBstring<-rep(1,length(model$reacID))
+    }
+
+    if ((class(CNOlist)=="CNOlist")==FALSE){
+        CNOlist = CellNOptR::CNOlist(CNOlist)
     }
 
     # ---- section related to T1  ----

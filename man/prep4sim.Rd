@@ -25,9 +25,10 @@ this function returns a list with fields:
 \item{ignoreCube}{logical matrix of the same size as the 2 above, that tells whether the particular cell is filled or not}
 \item{maxIx}{row vector that stores, for each reac, the location of its output}
 \item{modelname}{stores the name of the model from which these fields were derived}
+\item{maxInput}{stores the max number of inputs observed in the model for a single reaction}
 }
 \author{
-C. Terfve
+C. Terfve, T. Cokelaer
 }
 \seealso{
 \link{simulatorT1}

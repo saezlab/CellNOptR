@@ -53,7 +53,7 @@ prep4sim<-function(model){
         ixNeg=ixNeg,
         ignoreCube=ignoreCube,
         maxIx=maxIx,
-        modelname=modelname)
+        modelname=modelname, maxInput=maxInput)
 
     return(Fields4Sim)
     }
