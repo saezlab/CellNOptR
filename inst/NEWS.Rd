@@ -9,6 +9,7 @@
 back compatibility, the input can also be the data frame output by makeCNOlist;
 this option was buggy, which is now fixed.}
             }
+    }
 }
 
 
