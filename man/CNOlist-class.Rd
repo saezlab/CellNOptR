@@ -1,9 +1,9 @@
 \name{CNOlist-class}
 \docType{class}
 \alias{CNOlist-class}
+\alias{CNOlist,ANY}
 \alias{CNOlist}
 \alias{show,CNOlist-method}
-\alias{plot,CNOlist-method}
 
 \title{Class \code{"CNOlist"}}
 \description{
