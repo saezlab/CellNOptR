@@ -7,8 +7,8 @@ Compute the score of a model
 This function computes the value of the objective function for a model and an associated data set, as a sum of a term that computes the fit of model to data, a term that penalises the NA values produced by the model, and a term that penalises increasing size of the model.
 }
 \usage{
-getFit(simResults, CNOlist, model, indexList, timePoint=c("t1", "t2"),
-sizeFac=1e-04, NAFac=1, nInTot, simResultsT0=NA)
+getFit(simResults, CNOlist, model, indexList=NULL, timePoint=c("t1", "t2"),
+sizeFac=1e-04, NAFac=1, nInTot, simResultsT0=NULL)
 }
 \arguments{
   \item{simResults}{
@@ -21,8 +21,12 @@ a CNOlist to compare the simulated results with
 a model that has already been cut to contain only the reactions in the optimal bitstring
 }
   \item{indexList}{
-list of indexes as produced by indexFinder
+list of indexes as produced by indexFinder. User should not use this parameter
+that is kept for back compatibility with previous version of the simulator
+written in R. The new simulator (C code) does not neccesitate the usage of the
+indexList parameter in this function anymore.
 }
+
   \item{timePoint}{
 "t1" or "t2" tells which time point we are looking at. If timePoint=t1 then we will compare the simResults to the results stored in CNOlist$valueSignals[[2]].  If timePoint=t1 then we will compare the simResults to the results stored in CNOlist$valueSignals[[2]]
 }
@@ -70,11 +74,11 @@ simResults<-simulatorT1(
 	model=ToyModel,
 	simList=ToyFields4Sim,
 	indexList=indicesToy)
+simResults = simResults[, indicesToy$signals]
 Score<-getFit(
 	simResults=simResults,
 	CNOlist=CNOlistToy,
 	model=ToyModel,
-	indexList=indicesToy,
 	timePoint="t1", 
     nInTot=length(which(ToyModel$interMat == -1))
     )

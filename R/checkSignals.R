@@ -1,18 +1,18 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2011-2012 - EBI
+#  Copyright (c) 2011-2012 - EMBL - European Bioinformatics Institute
 #
 #  File author(s): CNO developers (cno-dev@ebi.ac.uk)
 #
-#  Distributed under the GPLv2 License.
+#  Distributed under the GPLv3 License.
 #  See accompanying file LICENSE.txt or copy at
-#      http://www.gnu.org/licenses/gpl-2.0.html
+#      http://www.gnu.org/licenses/gpl-3.0.html
 #
-#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: checkSignals.R 2287 2012-08-31 16:29:19Z cokelaer $
+# $Id: checkSignals.R 3369 2013-03-12 14:34:12Z cokelaer $
 checkSignals<-function(CNOlist, model ){
 
     if ((class(CNOlist)=="CNOlist")==FALSE){
@@ -23,7 +23,7 @@ checkSignals<-function(CNOlist, model ){
     if(!is.list(model)){
         stop("This function expects as input a Model as output by readSIF")
     }
-    if(all(names(model) != c("reacID", "namesSpecies","interMat","notMat"))){
+    if( !all( c("reacID", "namesSpecies","interMat","notMat") %in% names(model)))  {
         stop("This function expects as input a Model as output by readSIF")
     }
 

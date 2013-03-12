@@ -1,6 +1,51 @@
 \title{NEWS}
 \name{CellNOptR NEWS}
 
+
+\section{CHANGES IN VERSION 1.6.0: (2013-03-12)}{
+Changes since 1.4.0
+\itemize{
+    \item{BUG FIX}
+        \itemize{
+            \item{readMIDAS: DV, DA and TR can now be in the specy name}
+            \item{makeCNOlist: bug fixed when only one experiment was present}
+            \item{plotModel: figures where in B and W due to issue in Rgraphviz package}
+            \item{gaBinaryT family: (1) fix bug when only one model found within
+            the tolerance. (2) a faster hash table used in the optimisation. }
+        }
+
+
+    \item{CHANGES}
+        \itemize{
+            \item{writeSIF: can overwrite existing file with a parameter}
+            \item{remove cutAndPlotResultsT2: use cutAndPlotResultsTN instead or
+                cutAndPlot}
+            \item{plotOptimResultsPan: NA are now rendered in gray and species
+                 are rectangle instead of ellipses. The black line connecting
+                measurements is printed.  The ylim for the y axis can be set
+                manually to overwrite the default behaviour.        }
+          \item{ readSIF can now read relation "A 1 B C D E" as excepted in SIF
+            format.}
+          \item{makeCNOlist/CNOlist: variances available in the structure}
+}
+    
+    \item{NEW FEATURES}
+        \itemize{
+            \item{CNOdata: a function to fetch data from www.cellnopt.org}
+            \item{plotModel}
+            \item{exhaustive function: a simple exhaustive function to perform optimisation for small models}
+            \item{cutCNOlist: cut a cnolist given a list of species}
+            \item{CNOlist: 3 new methods: length, randomize and plot accepts either one or 2 cnolist arguments.}
+            \item{randomizeCNOlist: function to perform different randomization of the data}
+            \item{model2igraph function}
+            \item{compatCNOlist to convert CNOlist back to old style; used by CNORode}
+        }
+}
+}
+
+
+
+
 \section{CHANGES IN VERSION 1.3.33: (2012-09-20)}{
     \itemize{
         \item{BUG FIX}

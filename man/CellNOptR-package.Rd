@@ -12,9 +12,9 @@ This package does optimisation of boolean logic networks of signalling pathways 
 \tabular{ll}{
 Package: \tab CellNOptR\cr
 Type: \tab Package\cr
-Version: \tab 1.3.33\cr
-Date: \tab 2012-09-20\cr
-License: \tab GPLv2\cr
+Version: \tab 1.5.20\cr
+Date: \tab 2012-03-12\cr
+License: \tab GPLv3\cr
 LazyLoad: \tab yes\cr
 }
 }
@@ -35,14 +35,17 @@ library(CellNOptR)
 # quick 1 time point optimisation of a Prior Knowledge Network to MIDAS data. 
 data(CNOlistToy,package="CellNOptR")
 data(ToyModel,package="CellNOptR")
-model = preprocessing(CNOlistToy, ToyModel)
-results = gaBinaryT1(CNOlistToy, model, verbose=FALSE)
+
+pknmodel = ToyModel
+cnolist = CNOlist(CNOlistToy)
+model = preprocessing(cnolist, pknmodel)
+results = gaBinaryT1(cnolist, model, verbose=FALSE)
 plotFit(results)
-cutAndPlot(CNOlistToy, model, list(results$bString))
+cutAndPlot(cnolist, model, list(results$bString))
 
 # Same as above and HTML report
 CNORwrap(name="Toy", 
     namesData=list(CNOlist="ToyData",model="ToyModel"),
-    data=CNOlistToy, model=ToyModel)
+    data=CNOlistToy, model=pknmodel)
 }
 

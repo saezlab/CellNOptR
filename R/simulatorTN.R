@@ -1,15 +1,15 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2011-2012 - EBI
+#  Copyright (c) 2011-2012 - EMBL - European Bioinformatics Institute
 #
 #  File author(s): CNO developers (cno-dev@ebi.ac.uk)
 #
-#  Distributed under the GPLv2 License.
+#  Distributed under the GPLv3 License.
 #  See accompanying file LICENSE.txt or copy at
-#      http://www.gnu.org/licenses/gpl-2.0.html
+#      http://www.gnu.org/licenses/gpl-3.0.html
 #
-#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
 # $Id$
@@ -53,12 +53,14 @@ simulatorTN <-function(simResultsPrev, CNOlist, model, simList, indexList, timeI
     indexSignals <- as.integer(as.vector(indexList$signals)-1)
     indexStimuli <- as.integer(as.vector(indexList$stimulated)-1)
     indexInhibitors <- as.integer(as.vector(indexList$inhibited)-1)
+    nSignals <- length(indexSignals)
 
     # cnolist
-    valueInhibitors <- as.integer(t(CNOlist@inhibitors))
-    valueStimuli <- as.integer(t(CNOlist@stimuli))
+    valueInhibitors <- as.integer(CNOlist@inhibitors)
+    valueStimuli <- as.integer(CNOlist@stimuli)
 
     # simResults
+
     valueSimResults = as.integer(t(simResultsPrev))
 
 
@@ -70,6 +72,7 @@ simulatorTN <-function(simResultsPrev, CNOlist, model, simList, indexList, timeI
         nCond,
         nReacs,
         nSpecies,
+        nSignals,
         nMaxInputs,
         nTimes,
 

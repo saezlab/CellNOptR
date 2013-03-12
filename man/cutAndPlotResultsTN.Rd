@@ -60,17 +60,17 @@ model = preprocessing(CNOlistToy2, ToyModel2)
 ToyT1<-gaBinaryT1(
 	CNOlist=CNOlistToy2,
 	model=model,
-	maxGens=2, 
-	popSize = 5,
+	maxGens=20, 
+	popSize = 10,
 	verbose=FALSE)
 
 #Optimise T2
 ToyT2<-gaBinaryTN(
 	CNOlist=CNOlistToy2,
 	model=model,
-	bString=list(ToyT1$bString),
-	maxGens=2, 
-	popSize = 5,
+	bStrings=list(ToyT1$bString),
+	maxGens=20, 
+	popSize = 10,
 	verbose=FALSE)
 
 cutAndPlotResultsTN(

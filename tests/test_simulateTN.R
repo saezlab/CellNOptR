@@ -20,8 +20,7 @@
 
 library(CellNOptR)
 pknmodel = readSIF(system.file("ToyModelT3/ToyModelT3.sif", package="CellNOptR"))
-data = readMIDAS(system.file("ToyModelT3/ToyDataT3.csv",  package="CellNOptR"))
-cnolist = makeCNOlist(data, subfield=FALSE)
+cnolist = CNOlist(system.file("ToyModelT3/ToyDataT3.csv",  package="CellNOptR"))
 
 model = preprocessing(cnolist, pknmodel)
 
@@ -33,7 +32,8 @@ bestBS = c(1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0,0)
 bestBS2 <- c(0,0,0,0,0,0,1) # given by running gaBinaryTN
 bestBS3 <- c(0,0,1,0,0,0) # given by running gaBinaryTN
 
-SimT1<-simulateTN(CNOlist=cnolist, model=model, bStrings=list(bestBS))
+
+SimT1<-simulateTN(CNOlist=cnolist, model=model, bString=list(bestBS))
 SimT2<-simulateTN(CNOlist=cnolist, model=model, bStrings=list(bestBS, bestBS2))
 SimT3<-simulateTN(CNOlist=cnolist, model=model, bStrings=list(bestBS, bestBS2, bestBS3))
 
@@ -41,7 +41,10 @@ score1 = computeScoreT1(cnolist, model, bString=bestBS)
 score2 = computeScoreTN(cnolist, model, bStrings=list(bestBS,bestBS2))
 score3 = computeScoreTN(cnolist, model, bStrings=list(bestBS,bestBS2, bestBS3))
 
-if (score1>0.01 || score2>0.01 || score3>0.01){
+print(score1)
+print(score2)
+print(score3)
+if (score1>0.01 || score2>0.024){
    stop("errore")
 }
 cutAndPlot(cnolist, model,bStrings=list(bestBS),plotPDF=TRUE, tag="test1")

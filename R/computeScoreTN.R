@@ -1,15 +1,15 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2011-2012 - EBI
+#  Copyright (c) 2011-2012 - EMBL - European Bioinformatics Institute
 #
 #  File author(s): CNO developers (cno-dev@ebi.ac.uk)
 #
-#  Distributed under the GPLv2 License.
+#  Distributed under the GPLv3 License.
 #  See accompanying file LICENSE.txt or copy at
-#      http://www.gnu.org/licenses/gpl-2.0.html
+#      http://www.gnu.org/licenses/gpl-3.0.html
 #
-#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
 # $Id$
@@ -87,14 +87,18 @@ computeScoreTN<-function(CNOlist, model, simList=NULL, indexList=NULL,
             timeIndex=timeIndex)
     }
 
+    # already done in the C simulator.
+    simResults = simResults[, indexList$signals]
 
+
+    ## todo: use the C simulator ? 
 
     #Compute the score
     Score <- getFit(
         simResults=simResults,
         CNOlist=CNOlist,
         model=modelCut,
-        indexList=indexList,
+        #indexList=NULL, # because we are using the C simulator thast cope with indexList directly
         timePoint=timeIndex,
         sizeFac=sizeFac,
         NAFac=NAFac,
@@ -104,10 +108,8 @@ computeScoreTN<-function(CNOlist, model, simList=NULL, indexList=NULL,
     if ((class(CNOlist)=="CNOlist")==FALSE){
           CNOlist = CellNOptR::CNOlist(CNOlist)
     }
-
   nDataP <- sum(!is.na(CNOlist@signals[[2]]))
   Score <- Score/nDataP
-
 
   return(Score)
 }

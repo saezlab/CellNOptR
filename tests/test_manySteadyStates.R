@@ -63,8 +63,8 @@ manySteadyStates <-function(
     simRes[[1]]<-simT1
     bStrings[[1]] = T1opt$bString
 
-    if (length(CNOlist$valueSignals)>2){
-        for(i in 3:length(CNOlist$valueSignals)){
+    if (length(CNOlist@signals)>2){
+        for(i in 3:length(CNOlist@signals)){
             Opt[[i-1]]<-gaBinaryTN(CNOlist=CNOlist,
                         model=model,
                         bStrings=bStrings,
@@ -95,21 +95,22 @@ library(CellNOptR)
 
 # one steady state
 data(CNOlistToy, package="CellNOptR")
+cnolist = CNOlist(CNOlistToy)
 data(ToyModel, package="CellNOptR")
-results = manySteadyStates(CNOlistToy, ToyModel)
+results = manySteadyStates(cnolist, ToyModel)
 print(results$bStrings)
 
 # two steady state
 data(CNOlistToy2, package="CellNOptR")
+cnolist = CNOlist(CNOlistToy2)
 data(ToyModel2, package="CellNOptR")
-results = manySteadyStates(CNOlistToy2, ToyModel2)
+results = manySteadyStates(cnolist, ToyModel2)
 print(results$bStrings)
 
 # 3 steady state
 ToyModel3 = readSIF(system.file("ToyModelT3/ToyModelT3.sif", package="CellNOptR"))
-CNOlistToy3 = makeCNOlist(readMIDAS(system.file("ToyModelT3/ToyDataT3.csv",
-    package="CellNOptR")), subfield=FALSE)
-results = manySteadyStates(CNOlistToy3, ToyModel3)
+cnolist = CNOlist(system.file("ToyModelT3/ToyDataT3.csv", package="CellNOptR"))
+results = manySteadyStates(cnolist, ToyModel3)
 print(results$bStrings)
 
 

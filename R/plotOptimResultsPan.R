@@ -1,15 +1,15 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2011-2012 - EBI
+#  Copyright (c) 2011-2012 - EMBL - European Bioinformatics Institute
 #
 #  File author(s): CNO developers (cno-dev@ebi.ac.uk)
 #
-#  Distributed under the GPLv2 License.
+#  Distributed under the GPLv3 License.
 #  See accompanying file LICENSE.txt or copy at
-#      http://www.gnu.org/licenses/gpl-2.0.html
+#      http://www.gnu.org/licenses/gpl-3.0.html
 #
-#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
 # $Id$
@@ -17,7 +17,7 @@
 plotOptimResultsPan <- function(simResults, yInterpol=NULL, xCoords=NULL,
 CNOlist=CNOlist, formalism=c("ss1","ss2","ssN","dt","ode"), pdf=FALSE,
 pdfFileName="", tPt=NULL, plotParams=list(margin=0.1, width=15, height=12,
-cmap_scale=1, cex=1.6)) {
+cmap_scale=1, cex=1.6, ymin=NULL)) {
 
 
     if ((class(CNOlist)=="CNOlist")==FALSE){
@@ -43,6 +43,16 @@ cmap_scale=1, cex=1.6)) {
     if ("cmap_scale" %in% names(plotParams) == FALSE){
         plotParams$cmap_scale = 1
     }
+    if ("lwd" %in% names(plotParams) == FALSE){
+        plotParams$lwd = 3
+    }
+    if ("pch" %in% names(plotParams) == FALSE){
+        plotParams$pch = 16
+    }
+    if ("ymin" %in% names(plotParams) == FALSE){
+        plotParams$ymin = NULL
+    }
+   
 
     # aliases
     margin = plotParams$margin
@@ -90,8 +100,14 @@ cmap_scale=1, cex=1.6)) {
     #yMax <- max(unlist(lapply(CNOlist$valueSignals, function(x) max(x,na.rm=TRUE))))
     yMax=1
     # minimum across all data points
-    #yMin <- min(unlist(lapply(CNOlist$valueSignals, function(x) min(x,na.rm=TRUE))))
-    yMin=0
+
+    if (is.null(plotParams$ymin)==FALSE){
+        yMin = plotParams$ymin
+    } else {
+        yMin <- min(unlist(lapply(CNOlist@signals, function(x) min(x,na.rm=TRUE))))
+    }
+
+
     # time labels
     xVal <- CNOlist@timepoints[valueSignalsI]
     if(formalism=="dt") {
@@ -200,6 +216,7 @@ cmap_scale=1, cex=1.6)) {
     # new count for plotting results
     countRow = dim(CNOlist@signals[[1]])[2]+4
 
+
     for(c in 1:dim(CNOlist@signals[[1]])[2]) {
         countRow=countRow+1
         for(r in 1:dim(CNOlist@signals[[1]])[1]) {
@@ -212,22 +229,30 @@ cmap_scale=1, cex=1.6)) {
                 #diff = (1 - (allDiff[r,c] / diffMax)) * 1000
                 diff = (1 - (allDiff[r,c] / 1.)**plotParams$cmap_scale) * Ncolors
             } else {
-                diff = 0
+                diff = -1
             }
 
-            if(diff<1) {diff=1}
-            if(diff>Ncolors) {diff=Ncolors}
-
-
-            bgcolor = heatCols[diff]
-
+            if(diff>Ncolors) {
+                diff=Ncolors
+            }
+            # this is a NA or NaN so what color ? 
+            if(diff==-1) {
+                bgcolor = "gray"
+            } else{
+                bgcolor = heatCols[diff]
+            }
             plot(x=xVal,y=yVal,ylim=c(yMin,yMax),xlab=NA,ylab=NA,xaxt="n",yaxt="n",)
             rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col=bgcolor)
+
+            # the measurements
+            lines(xVal, yVal, ylim=c(yMin, yMax), xlab=NA, ylab=NA, xaxt="n", yaxt="n", col="black", lty=1, lwd=1)
             points(x=xVal,y=yVal,ylim=c(yMin, yMax),xlab=NA,ylab=NA,xaxt="n",yaxt="n",pch=2)
+
+            # the simulated data
             lines(xValS, yValS, xlim=c(0,xValMax), ylim=c(yMin, yMax),
-            xlab=NA, ylab=NA, xaxt="n", yaxt="n", col="blue", lty=2, lwd=3)
+                xlab=NA, ylab=NA, xaxt="n", yaxt="n", col="blue", lty=2, lwd=plotParams$lwd)
             points(xValS, yValS, xlim=c(0,xValMax), ylim=c(yMin, yMax),
-            xlab=NA, ylab=NA, xaxt="n", yaxt="n", col="blue", pch=16)
+                xlab=NA, ylab=NA, xaxt="n", yaxt="n", col="blue", pch=plotParams$pch)
 
             # add the axis annotations: if we're on the last row, add the x axis
             if(r == dim(CNOlist@signals[[1]])[1]) {

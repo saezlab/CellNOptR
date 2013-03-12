@@ -1,20 +1,20 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2011-2012 - EBI
+#  Copyright (c) 2011-2012 - EMBL - European Bioinformatics Institute
 #
 #  File author(s): CNO developers (cno-dev@ebi.ac.uk)
 #
-#  Distributed under the GPLv2 License.
+#  Distributed under the GPLv3 License.
 #  See accompanying file LICENSE.txt or copy at
-#      http://www.gnu.org/licenses/gpl-2.0.html
+#      http://www.gnu.org/licenses/gpl-3.0.html
 #
-#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
 # $Id$
 
-cSimulator <- function(CNOlist, model, simList, indexList) {
+cSimulator <- function(CNOlist, model, simList, indexList, mode=1) {
 
     if ((class(CNOlist)=="CNOlist")==FALSE){
         CNOlist = CellNOptR::CNOlist(CNOlist)
@@ -38,19 +38,24 @@ cSimulator <- function(CNOlist, model, simList, indexList) {
 	nMaxInputs <- as.integer(dim(simList$finalCube)[2])
 	
 	# simList
-	finalCube = as.integer(as.vector(t(simList$finalCube))-1)
-	ixNeg = as.integer(as.vector(t(simList$ixNeg)))
-	ignoreCube = as.integer(as.vector(t(simList$ignoreCube)))
+	# used to be 
+    # >>> finalCube = as.integer(as.vector(t(simList$finalCube))-1)
+    # but as.vector(t is slow and can be replaced by just as.integer albeit
+    # appropriate C modifications
+	finalCube = as.integer(simList$finalCube-1)
+	ixNeg = as.integer(simList$ixNeg)
+	ignoreCube = as.integer(simList$ignoreCube)
 	maxIx = as.integer(simList$maxIx-1)
 	
 	# index
-	indexSignals <- as.integer(as.vector(indexList$signals)-1)
-	indexStimuli <- as.integer(as.vector(indexList$stimulated)-1)
-	indexInhibitors <- as.integer(as.vector(indexList$inhibited)-1)
+	indexSignals <- as.integer(indexList$signals-1)
+	indexStimuli <- as.integer(indexList$stimulated-1)
+	indexInhibitors <- as.integer(indexList$inhibited-1)
+    nSignals <- length(indexSignals)
 
 	# cnolist
-	valueInhibitors <- as.integer(t(CNOlist@inhibitors))
-	valueStimuli <- as.integer(t(CNOlist@stimuli))
+	valueInhibitors <- as.integer(CNOlist@inhibitors)
+	valueStimuli <- as.integer(CNOlist@stimuli)
 
 	res = .Call("simulatorT1",
 		# variables	
@@ -59,6 +64,7 @@ cSimulator <- function(CNOlist, model, simList, indexList) {
 		nCond,
 		nReacs,
 		nSpecies,
+        nSignals,
 		nMaxInputs,
 		# simList
 		finalCube,
@@ -71,8 +77,10 @@ cSimulator <- function(CNOlist, model, simList, indexList) {
 		indexInhibitors,
 		# cnolist
 		valueInhibitors,
-		valueStimuli
+		valueStimuli,
+        as.integer(mode)
 	)
-	
+# should not be cut because it is used in simulateTN as an input 
+#    res = res[,indexList$signals]
 	return(res)
 }

@@ -9,8 +9,11 @@ This function takes in a CNOlist and does the normalisation of the data between
 }
 \usage{
 normaliseCNOlist(CNOlist, EC50Data=0.5, HillCoef=2, EC50Noise=0.1, detection=0,
-    saturation=Inf, changeTh=0, norm2TorCtrl="time")
+    saturation=Inf, changeTh=0, norm2TorCtrl=NULL, mode="time", 
+    options=list(rescale_negative = T), verbose=FALSE)
 }
+
+
 \arguments{
   \item{CNOlist}{
 a CNOlist
@@ -19,7 +22,7 @@ a CNOlist
 parameter for the scaling of the data between 0 and 1, default=0.5
 }
   \item{HillCoef}{
-Hill coefficient for the scaling of the data, defat to 2
+Hill coefficient for the scaling of the data, default to 2
 }
   \item{EC50Noise}{
 parameter for the computation of a penalty for data comparatively smaller than
@@ -35,9 +38,22 @@ saturation level of the instrument, everything over this will be treated as NA, 
 threshold for relative change considered significant, default to 0
 }
   \item{norm2TorCtrl}{
-"time" or "ctrl": choice of a normalisation method: compute the relative change
-compared to the control at the same time, or to the same condition and
-measurement at time 0.
+deprecated since 1.5.0. Use the mode argument instead.
+}
+  \item{mode}{
+"time" or "ctrl" or "raw" (experimental): choice of a normalisation method:
+"ctrl" computes the relative change compared to the control at the same time.
+"time" computes the relative change compared to the same condition and
+measurement at time 0. "raw" does not take into account time zero data; data are
+relative to time 0 so can be positive or negative values.
+}
+\item{options}{
+rescale column with negative values to be in 0-1 range (experimental)
+
+}
+
+  \item{verbose}{
+prints some information if True (default is False)
 }
 }
 \details{
@@ -49,8 +65,8 @@ The normalisation procedure works as follows:
         NA,
 
     \item  values are transformed to fold changes relative to the same condition
-        at t0 (if \code{norm2TorCtrl="time"}) or the control condition (i.e. same
-        inhibitors, no stimuli) at the same time (if \code{norm2TorCtrl="ctrl"}),
+        at t0 (if \code{mode="time"}) or the control condition (i.e. same
+        inhibitors, no stimuli) at the same time (if \code{mode="ctrl"}),
     \item the fold changes are transformed with a Hill function
         \eqn{
         \frac{x^{HillCoef}}{ ((EC50Data^{HillCoef}) + (x^{HillCoef}))}
@@ -114,5 +130,5 @@ CNOlistToyN<-normaliseCNOlist(
 	detection = 0, 
 	saturation = Inf, 
 	changeTh = 0, 
-	norm2TorCtrl = "time")
+	mode = "time")
 }

@@ -1,13 +1,13 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2011-2012 - EBI
+#  Copyright (c) 2011-2012 - EMBL - European Bioinformatics Institute
 #
 #  File author(s): CNO developers (cno-dev@ebi.ac.uk)
 #
-#  Distributed under the GPLv2 License.
+#  Distributed under the GPLv3 License.
 #  See accompanying file LICENSE.txt or copy at
-#      http://www.gnu.org/licenses/gpl-2.0.html
+#      http://www.gnu.org/licenses/gpl-3.0.html
 #
 #  CNO website: http://www.ebi.ac.uk/saezrodriguez/cno
 #
@@ -29,11 +29,12 @@ setClass("CNOlist",
         inhibitors="matrix",
         stimuli="matrix",
         signals="list",
+        variances="list",
         timepoints="vector"),
     ## validity method
     validity=function(object) {
         msg <- NULL
-        nrow <- nrow(cues(object))
+        nrow <- nrow(getCues(object))
         signalNrows <- unique(sapply(signals(object), nrow))
         if (nrow != nrow(inhibitors(object)) ||
             nrow != nrow(stimuli(object)) ||
@@ -49,58 +50,156 @@ setClass("CNOlist",
 ## constructor
 CNOlist <-function(data, subfield=FALSE, verbose=FALSE){
 
+    res = NULL
     # input can a filename or the old (still used) CNOlist returned by
     # makeCNOlist function. subfield and verbose used only if MIDASfile is a
     # string.
     if (is.character(data)== TRUE){
         res = internal_CNOlist_from_file(data, subfield, verbose)
-    }else {
-        if (is.list(data)==TRUE){
-            if ("namesCues" %in% names(data) == TRUE){
-                res = internal_CNOlist_from_makeCNOlist(data) 
-            }else{
-                stop("Not a valid list. Does not seem to be returned by CellNOptR::makeCNOlist")
-            }
+    }
+
+    if (is.list(data)==TRUE){
+        if ("namesCues" %in% names(data) == TRUE){
+            res = internal_CNOlist_from_makeCNOlist(data) 
         }else{
-        stop("Input data must be a filename or the output of CellNOptR::makeCNOlist function")
+            stop("Not a valid list. Does not seem to be returned by CellNOptR::makeCNOlist")
         }
     }
 
+    if (class(data)=="CNOlist"){
+        # nothing to do already a cnolist
+        res = list(
+                cues=data@cues,
+                inhibitors=data@inhibitors,
+                stimuli=data@stimuli,
+                signals=data@signals,
+                variances=data@variances,
+                timepoints=data@timepoints)
+    }
+ 
+    if (is.null(res)==TRUE){
+        stop("Input data must be a filename or the output of CellNOptR::makeCNOlist function")
+    }
 
     new("CNOlist", cues=res$cues, inhibitors=res$inhibitors,
-        stimuli=res$stimuli, signals=res$signals, timepoints=res$timepoints)
+        stimuli=res$stimuli, signals=res$signals, variances=res$variances, timepoints=res$timepoints)
 }
 
+setGeneric("getCues", function(object){standardGeneric("getCues")})
+setGeneric("getInhibitors", function(object){standardGeneric("getInhibitors")})
+setGeneric("getStimuli", function(object){standardGeneric("getStimuli")})
+setGeneric("getSignals", function(object){standardGeneric("getSignals")})
+setGeneric("getVariances", function(object){standardGeneric("getVariances")})
+setGeneric("getTimepoints", function(object){standardGeneric("getTimepoints")})
 
 
-## accessors
-cues <- function(cnoList, ...) cnoList@cues
+setMethod("getCues", "CNOlist", function(object){return(object@cues)})
+setMethod("getInhibitors", "CNOlist", function(object){return(object@inhibitors)})
+setMethod("getStimuli", "CNOlist", function(object){return(object@stimuli)})
+setMethod("getSignals", "CNOlist", function(object){return(object@signals)})
+setMethod("getVariances", "CNOlist", function(object){return(object@variances)})
+setMethod("getTimepoints", "CNOlist", function(object){
+    # timepoints may have been modify on the fly so let us recomput it
+    object@timepoints = names(object@signals)
+    return(object@timepoints)
+
+})
+
+
+# timepoints will be updated if signals is changed so we should not provide any
+# setTimepoint method
+
+
+setGeneric("setSignals<-",function(object,value){standardGeneric("setSignals<-")})
+setReplaceMethod("setSignals","CNOlist", 
+    function(object,value){
+        object@signals<-value
+        return(object)
+    }
+)
+
+## internal accessors only ??
+#cues <- function(cnoList, ...) cnoList@cues
 inhibitors <- function(cnoList, ...) cnoList@inhibitors
 stimuli <- function(cnoList, ...) cnoList@stimuli
 signals <- function(cnoList, ...) cnoList@signals
-timepoints <- function(cnoList, ...) cnoList@timepoints
-#plot <- function(cnoList, ...) plotCNOlist(cnoList)
 
 
 ## show method
 setMethod(show, "CNOlist", function(object) {
     cat("class:", class(object), "\n")
-    cat("cues:", colnames(cues(object)), "\n")
-    cat("inhibitors:", colnames(inhibitors(object)), "\n")
-    cat("stimuli:", colnames(stimuli(object)), "\n")
+    cat("cues:", colnames(getCues(object)), "\n")
+    cat("inhibitors:", colnames(getInhibitors(object)), "\n")
+    cat("stimuli:", colnames(getStimuli(object)), "\n")
     cat("timepoints:", names(signals(object)), "\n")
     cat("signals:", colnames(signals(object)[[1]]), "\n")
+    cat("variances:", colnames(signals(object)[[1]]), "\n")
+    cat("--\nTo see the values of any data contained in this instance, just use the
+appropriate getter method (e.g., getCues(cnolist), getSignals(cnolist), ...\n\n")
 })
 
 #setMethod("plot", signature(x="CNOlist", y="missing"), function(x, y, ...){
 #    plotCNOlist(x)
 #})
 
-setMethod("plot", "CNOlist", function(x, y, ...){
-
+setMethod("plot", "CNOlist", function(x, y, ... ){
     plotCNOlist(x)
-
 })
+setMethod("plot", signature(x="CNOlist", y="CNOlist"), function(x, y, ... ){
+    plotCNOlist2(x,y)
+})
+
+setMethod("length", "CNOlist", function(x) length(x@signals))
+
+if (isGeneric("randomize")==FALSE){
+    setGeneric(
+        name="randomize",
+        def=function(object,sd=0.1, minValue=0,maxValue=1,mode="gaussian"){standardGeneric("randomize")}
+    )
+}
+#lockBinding("randomize", .GlobalEnv)
+
+
+setMethod("randomize", "CNOlist", 
+    definition=function(object, sd=0.1, minValue=0, maxValue=1,mode="uniform"){
+        res = randomizeCNOlist(object, sd=sd, mode=mode)
+        return(res)
+    }
+)
+
+# a method that convert back the CNOlist to a makeCNOlist useful for back
+# compatibility with other packages (e.g. ODE)
+setGeneric(
+    name="compatCNOlist",
+    def=function(object){standardGeneric("compatCNOlist")})
+setMethod("compatCNOlist", "CNOlist",
+    definition=function(object){
+        return(internal_compatCNOlist(object))})
+
+
+internal_compatCNOlist<-function(cnolist){
+
+
+    if (class(cnolist)=="CNOlist"){
+
+        # conversion
+        res = list(
+             namesCues=colnames(cnolist@cues),
+             namesStimuli=colnames(cnolist@stimuli),
+             namesInhibitors=colnames(cnolist@inhibitors),
+             namesSignals=colnames(cnolist@signals[[1]]),
+             timeSignals=getTimepoints(cnolist),
+             valueCues=cnolist@cues,
+             valueInhibitors=cnolist@inhibitors,
+             valueStimuli=cnolist@stimuli,
+             valueSignals=cnolist@signals)
+
+    } else{
+        res = cnolist
+    }
+
+    return(res)
+}
 
 
 
@@ -131,13 +230,23 @@ internal_CNOlist_from_makeCNOlist <- function(cnolist)
 
     mySignals <- cnolist$valueSignals
     names(mySignals) <- cnolist$timeSignals
-    mySignals <-
-        lapply(mySignals, "colnames<-", cnolist$namesSignals)
+    mySignals <- lapply(mySignals, "colnames<-", cnolist$namesSignals)
 
-    myTimePoints <- cnolist$timeSignals
+    if ("valueVariances" %in% names(cnolist)){
+        myVars <- cnolist$valueVariances
+        myVars <- lapply(myVars, "colnames<-", cnolist$namesSignals)
+    } else{
+        myVars = mySignals
+        for (time in 1:length(mySignals)){
+            myVars[[time]] = myVars[[time]] * NA
+        }
+    }
+
+    myTimePoints <- as.numeric(cnolist$timeSignals)
 
     #CNOlist(myCues, myInhibitors, myStimuli, mySignals)
     return( list(cues=myCues, inhibitors=myInhibitors, stimuli=myStimuli,
-        signals=mySignals, timepoints=myTimePoints))
+        signals=mySignals, variances=myVars, timepoints=myTimePoints))
 }
+
 

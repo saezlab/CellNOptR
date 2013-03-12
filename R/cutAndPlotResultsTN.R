@@ -1,15 +1,15 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2011-2012 - EBI
+#  Copyright (c) 2011-2012 - EMBL - European Bioinformatics Institute
 #
 #  File author(s): CNO developers (cno-dev@ebi.ac.uk)
 #
-#  Distributed under the GPLv2 License.
+#  Distributed under the GPLv3 License.
 #  See accompanying file LICENSE.txt or copy at
-#      http://www.gnu.org/licenses/gpl-2.0.html
+#      http://www.gnu.org/licenses/gpl-3.0.html
 #
-#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
 # $Id$
@@ -41,14 +41,16 @@ cutAndPlotResultsTN <-function(CNOlist, model,bStrings, plotPDF=FALSE,
     # t0
     Sim0 <- simulatorT0(CNOlist=CNOlist,model=modelCut,simList=simListCut,indexList=indexList)
     simResT0 <- as.matrix(Sim0[,indexList$signals])
+    #simResT0 = Sim0
 
     # simulate
     simResults<-list()
     simResults[[1]]<-simResT0
 
+
     for(i in 1:length(bStrings)){
-      simRes = simulateTN(CNOlist, model, bStrings[1:i])
-      cutRes<-simRes[,indexList$signals]
+      cutRes = simulateTN(CNOlist, model, bStrings[1:i])
+      cutRes<-cutRes[,indexList$signals]
       simResults[[i+1]]<-cutRes
     }
 
@@ -58,7 +60,7 @@ cutAndPlotResultsTN <-function(CNOlist, model,bStrings, plotPDF=FALSE,
       CNOlist=CNOlist,
       formalism="ssN",
       tPt=tPt,
-        plotParams=plotParams
+      plotParams=plotParams
       #timePoints=length(tPt)
     )
 

@@ -10,7 +10,8 @@ This function plots the data and simulated values according to each experiment i
 plotOptimResultsPan(simResults, yInterpol=NULL, xCoords=NULL,
 CNOlist=CNOlist, formalism=c("ss1","ss2","ssN","dt","ode"), pdf=FALSE,
 pdfFileName="", tPt=NULL, 
-plotParams = list(margin = 0.1, width=15, height=12, cmap_scale=1, cex=1.6))
+plotParams = list(margin = 0.1, width=15, height=12, cmap_scale=1, cex=1.6,
+ymin=NULL))
 
 }
 \arguments{
@@ -45,7 +46,8 @@ a list of option related to the PDF and plotting outputs. Currently, the
 following attributes are used: (1) margin of the boxes, (2) width and heigth used while creating the
 PDF, (3) cmap_scale a value that scales the colors towards small errors (<1) or
 large errors (>1); default is 1 (linear colormap) (4) cex is the fontsize used
-in the header.
+in the header (5) ymin sets the minimum y axis limit; by default it is the
+minimum value found over all data points and therefore can be negative.
 }
 }
 \details{
@@ -72,13 +74,12 @@ indicesToy <- indexFinder(CNOlistToy, ToyModel, verbose=TRUE)
 ToyFields4Sim <- prep4sim(ToyModel)
 
 # simulate model
-Sim <- simulatorT1(CNOlist=CNOlistToy, model=ToyModel, simList=ToyFields4Sim, indexList=indicesToy)
+simRes <- simulatorT1(CNOlist=CNOlistToy, model=ToyModel, simList=ToyFields4Sim, indexList=indicesToy)
+simRes = simRes[, indicesToy$signals]
 
 # format data and results
 
-simRes <- Sim[,indicesToy$signals]
 simResults <- list(t0=matrix(data=0, nrow=dim(simRes)[1], ncol=dim(simRes)[2]), t1=simRes)
-
 # plot
 plotOptimResultsPan(simResults,
   CNOlist=CNOlistToy,

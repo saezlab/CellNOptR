@@ -3,7 +3,29 @@
 \alias{CNOlist-class}
 \alias{CNOlist,ANY}
 \alias{CNOlist}
-\alias{show,CNOlist-method}
+
+
+% defines the generics here. This is the same as in cnolist-methods but is
+% required to prevent warnings.
+\alias{plot,CNOlist,CNOlist,CNOlist-method}
+
+
+\alias{randomize,CNOlist-method}
+\alias{getCues,CNOlist-method}
+\alias{getSignals,CNOlist-method}
+\alias{getInhibitors,CNOlist-method}
+\alias{getStimuli,CNOlist-method}
+\alias{getVariances,CNOlist-method}
+\alias{getTimepoints,CNOlist-method}
+\alias{compatCNOlist,CNOlist-method}
+\alias{length,CNOlist-method}
+\alias{setSignals<-,CNOlist-method}
+
+
+
+
+
+
 
 \title{Class \code{"CNOlist"}}
 \description{
@@ -22,35 +44,42 @@ Objects can be created by calls of the form \code{new("CNOlist", ...)}.
     \item{\code{inhibitors}:}{Object of class \code{"matrix"}  }
     \item{\code{stimuli}:}{Object of class \code{"matrix"} }
     \item{\code{signals}:}{Object of class \code{"list"}  }
-    \item{\code{timepoints}:}{Object of class \code{"vector"} timepoints contained in the signals matrix. }
-  }
-}
-\section{Methods}{
-  \describe{
-    \item{show}{\code{signature(object="CNOlist")}: ... }
-%    \item{plot}{\code{signature(x="CNOlist", y="missing")}: ... }
-    \item{plot}{\code{signature(x="CNOlist")}: Please see the help page for the \code{plot.CNOlist}  method in the \code{CellNOptR} package}
+    \item{\code{variances}:}{Object of class \code{"list"}  }
+    \item{\code{timepoints}:}{Object of class \code{"vector"} timepoints
+    contained in the signals matrix. }
 
-	 }
+  See \link{CNOlist-methods} for details
 }
+}
+
+
+\section{Methods}{
+  Available methods are plot, compatCNOlist, randomize, length.  See
+\link{CNOlist-methods} for details.
+}
+
+
 \author{
-T.Cokelaer
+T. Cokelaer
 }
 \seealso{
-\code{\link{readMIDAS}}, \code{\link{makeCNOlist}}
+\code{\link{randomizeCNOlist}}, \code{\link{plotCNOlist}}, \code{\link{plotCNOlist2}}
 }
 \examples{
 showClass("CNOlist")
 
 files<-dir(system.file("ToyModel",package="CellNOptR"),full=TRUE)
 cnolist  = CNOlist(files[[1]])
-# accessors:
-cnolist@cues
-cnolist@inhibitors
-cnolist@signals
-cnolist@timepoints
-cnolist@stimuli
+# getters:
+getCues(cnolist)
+getInhibitors(cnolist)
+getSignals(cnolist)
+getVariances(cnolist)
+getTimepoints(cnolist)
+getStimuli(cnolist)
 # In version 1.3.30 and above, use the plot method instead of former plotCNOlist function.
 plot(cnolist)
+new_cnolist = randomize(cnolist)
+length(cnolist)
 }
 \keyword{classes}

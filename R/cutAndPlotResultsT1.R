@@ -1,18 +1,18 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2011-2012 - EBI
+#  Copyright (c) 2011-2012 - EMBL - European Bioinformatics Institute
 #
 #  File author(s): CNO developers (cno-dev@ebi.ac.uk)
 #
-#  Distributed under the GPLv2 License.
+#  Distributed under the GPLv3 License.
 #  See accompanying file LICENSE.txt or copy at
-#      http://www.gnu.org/licenses/gpl-2.0.html
+#      http://www.gnu.org/licenses/gpl-3.0.html
 #
-#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: cutAndPlotResultsT1.R 2293 2012-09-03 12:30:47Z cokelaer $
+# $Id: cutAndPlotResultsT1.R 3354 2013-03-04 17:18:37Z cokelaer $
 
 cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList=NULL,
  plotPDF=FALSE, tag=NULL, tPt=CNOlist@timepoints[2], plotParams=list(maxrow=10))
@@ -40,10 +40,11 @@ cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList
     # t0
     Sim0 <- simulatorT0(CNOlist=CNOlist, model=modelCut, simList=simListCut, indexList=indexList)
     simRes0 <- as.matrix(Sim0[,indexList$signals])
-
+    #simRes0 = Sim0
     # t1
     Sim <- simulatorT1(CNOlist=CNOlist, model=modelCut, simList=simListCut, indexList=indexList)
     simRes <- as.matrix(Sim[,indexList$signals])
+    #simRes = Sim
 
     simResults <- list(t0=simRes0, t1=simRes)
 

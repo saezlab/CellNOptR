@@ -10,13 +10,16 @@ This function takes as input a model (as created by e.g., read from a SIF data s
 readSIF function) and save it into a file. 
 }
 \usage{
-writeSIF(model, filename)
+writeSIF(model, filename,  overwrite = FALSE)
 }
 \arguments{
   \item{model}{the model
   }
   \item{filename}{the filename
   }
+  \item{overwrite}{by default, do not overwrite a file.
+  }
+
 
 }
 

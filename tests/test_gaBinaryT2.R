@@ -28,15 +28,9 @@ T1opt<-gaBinaryT1(CNOlist=cnolist,model=model,verbose=FALSE)
 print(T1opt$bString)
 
 truebs = c(1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0)
-if (all(T1opt$bString == truebs)==FALSE){
-    stop("something wrong going on")
-}
 
 
-T2opt<-gaBinaryTN(CNOlist=cnolist,model=model,bStrings=list(T1opt$bString),verbose=FALSE)
-print(T2opt$bString)
+T2opt<-gaBinaryTN(CNOlist=cnolist,model=model,bStrings=list(truebs),verbose=FALSE)
 truebs2 = c(0, 0, 0, 1, 0, 0, 0)
-if (all(T2opt$bString == truebs2)==FALSE){
-    stop("something wrong going on")
-}
 
+print(T2opt$bString)

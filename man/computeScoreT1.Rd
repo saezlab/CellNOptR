@@ -13,7 +13,8 @@ sizeFac and NAFac are penalties added to the final score as described in
 }
 
 \usage{
-computeScoreT1(CNOlist, model, bString, simList=NULL, indexList=NULL, sizeFac=0.0001, NAFac=1)
+computeScoreT1(CNOlist, model, bString, simList=NULL, indexList=NULL,
+    sizeFac=0.0001, NAFac=1, timeIndex=2)
 
 }
 
@@ -43,6 +44,12 @@ computeScoreT1(CNOlist, model, bString, simList=NULL, indexList=NULL, sizeFac=0.
     \item{NAFac}{
     the scaling factor for the NA term in the objective function, default to 1    
     }
+  \item{timeIndex}{the index of the time point to optimize. Must be greater or
+    equal to 2 (1 corresponds to time=0). Must be less than the number of time
+    points. Default is 2. 
+    }
+
+
 }
 
 
@@ -59,7 +66,7 @@ computeScoreT1(CNOlist, model, bString, simList=NULL, indexList=NULL, sizeFac=0.
     data(CNOlistToy,package="CellNOptR")
     data(ToyModel,package="CellNOptR")
     model <- preprocessing(CNOlistToy,ToyModel)
-    score = computeScoreT1(CNOlistToy, model, bString=rep(1,16))
+    score = computeScoreT1(CNOlist(CNOlistToy), model, bString=rep(1,16))
 }
 
 

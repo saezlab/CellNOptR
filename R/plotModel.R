@@ -1,15 +1,15 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2011-2012 - EBI
+#  Copyright (c) 2011-2012 - EMBL - European Bioinformatics Institute
 #
 #  File author(s): CNO developers (cno-dev@ebi.ac.uk)
 #
-#  Distributed under the GPLv2 License.
+#  Distributed under the GPLv3 License.
 #  See accompanying file LICENSE.txt or copy at
-#      http://www.gnu.org/licenses/gpl-2.0.html
+#      http://www.gnu.org/licenses/gpl-3.0.html
 #
-#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
 # $Id$
@@ -22,8 +22,8 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
 #   g = plotModel(model, cnolist=cnolist)
 #   # g$graph contains the model transformed into a graph object
 
-  # edgecolor could be forestgreen
 
+  # user parameters to refine the layout, color, ...
   if (is.null(graphvizParams$arrowsize)==TRUE) {
     graphvizParams$arrowsize=2
     }
@@ -45,11 +45,35 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
   if (is.null(graphvizParams$nodeHeight)==TRUE) {
     graphvizParams$nodeHeight=1
   }
-  if (is.null(graphvizParams$nodeLabels)==TRUE) {
-    graphvizParams$nodeLabels=NULL
+  if (is.null(graphvizParams$viewEmptyEdges)==TRUE) {
+    graphvizParams$viewEmptyEdges = TRUE
+  }
+  # mode must be before andWidth and andHeight
+  if (is.null(graphvizParams$mode)==TRUE) {
+    graphvizParams$mode = "sbgn"
   }
 
+  if (graphvizParams$mode %in% c("sbgn", "classic") == FALSE){
+      stop("mode must be in 'classic' or 'sbgn'")
+    }
 
+  if (is.null(graphvizParams$andWidth)==TRUE) {
+    if (graphvizParams$mode == "classic"){
+        graphvizParams$andWidth = 0.2
+    }
+    if (graphvizParams$mode == "sbgn"){
+        graphvizParams$andWidth = 0.5
+    }
+
+  }
+  if (is.null(graphvizParams$andHeight)==TRUE) {
+    if (graphvizParams$mode == "classic"){
+        graphvizParams$andHeight = 0.2
+    }
+    if (graphvizParams$mode == "sbgn"){
+        graphvizParams$andHeight = 0.5
+    }
+  }
 
     # Some required library to build the graph and plot the results using
     # graphviz.
@@ -91,7 +115,9 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
             cnolist = CNOlist
         }
     }
-    
+   
+    # TODO: The following piece of code should be made modular
+ 
 
     # Input data. If the model is a character, we guess that the user provided
     # the MODEL filename (sif format) that we can read directly.
@@ -204,9 +230,7 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
         msg = signals[signals %in% vertices == FALSE]
         print("Those signals were not found in the vertices: ")
         print(msg)
-        stop("Check that the data and network are in agreement.")
     }
-
 
     # build the edges. IGraph does not use names for the vertices but ids
     # that starts at zero. Let us build a data.frame to store the correspondence
@@ -227,10 +251,11 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
 
     # --------------------------------------- Build the node and edges attributes list
     nodeAttrs = createNodeAttrs(g, vertices, stimuli, signals, inhibitors, NCNO,
-compressed, graphvizParams)
+        compressed, graphvizParams)
 
     res = createEdgeAttrs(v1, v2, edges, BStimes, Integr,
-        user_edgecolor=graphvizParams$edgecolor)
+        user_edgecolor=graphvizParams$edgecolor,
+        view_empty_edge=graphvizParams$viewEmptyEdges)
     # an alias
     edgeAttrs = res$edgeAttrs
 
@@ -243,7 +268,7 @@ compressed, graphvizParams)
         g = removeEdge(y[1], y[2], g)
     }
     # Some nodes are now connected to no other nodes. These nodes can be
-    # removed. In principle, this is only and nodes.
+    # removed. In principle, this is only "and" nodes.
     orphans = nodes(g)[(degree(g)$inDegree  + degree(g)$outDegree) ==0]
     for (x in orphans){
         if (x %in% stimuli == FALSE & x %in% inhibitors == FALSE & x %in% signals == FALSE){
@@ -279,61 +304,47 @@ compressed, graphvizParams)
     copyg <- g
 
     # current version of Rgraphviz (1.32 feb 2012) does not handle edgewidth
-    # properly. Anyway, using various edges decrease the lisibilty when
-    # width are small and color light, so for all edges have the same width
-    # of 3
+    # properly. A
     if (installed.packages()[,"Version"]["Rgraphviz"] <= "1.33.0"){
         #nodeAttrs$lty = "solid"
         print("plotModel: please upgrade to Rgraphviz >1.33.0 for best output")
-        edgelwd = 3
         nodelty = "solid"
         savedEdgeAttrs = edgeAttrs$color
         edgeAttrs$color = NULL
     }
     else{
-        #edgelwd=edgeAttrs$penwidth
-        edgelwd = 3
         nodelty=nodeAttrs$lty
     }
 
     # Set the node Rendering in Rgraphviz
-    # triangle shape does not exist in Rgraphviz. Switch them back to circle
-    shapes= nodeAttrs$shape
-    shapes[shapes=="triangle"] = "circle"
-
-    nodeRenderInfo(g) <- list(
-        fill=nodeAttrs$fillcolor,
-        col=nodeAttrs$color,
-        style=nodeAttrs$style,
-        lty=nodelty,
-        lwd=2,   # width of the nodes. IF provided, all nodes have the same width
-        label=nodeAttrs$label,
-        shape=shapes,
-        cex=0.4,
-        fontsize=fontsize,
-        iwidth=nodeAttrs$width,
-        iheight=nodeAttrs$height,
-        fixedsize=FALSE)
+    nodeRenderAttrs  <- setNodeRenderInfo(nodeAttrs, list(lwd=2, lty=nodelty, 
+       cex=0.4, fontsize=fontsize, fixedsize=FALSE))
+    nodeRenderInfo(g) <- nodeRenderAttrs
 
    # the arrowhead "normal" is buggy in Rgraphviz version 1.32 so switch to
    # "open" for now. However, the dot output keeps using the normal arrow.
    arrowhead2 = edgeAttrs$arrowhead
-   arrowhead2[arrowhead2=="normal"] = "open"
+   #arrowhead2[arrowhead2=="normal"] = "open"
 
-   # this statement must set recipEdges before calling edgeRenderInfo
-   # otherwise feedback loops are not shown properly.
-   graphRenderInfo(g) <-  list(recipEdges=recipEdges)
+    # this statement must set recipEdges before calling edgeRenderInfo
+    # otherwise feedback loops are not shown properly.
+    graphRenderInfo(g) <-  list(recipEdges=recipEdges)
+
+    edgeRenderAttrs  <- setEdgeRenderInfo(edgeAttrs,
+        list(arrowhead=arrowhead2, head=v2, tail=v1, 
+        lwd=3, lty="solid"))
+    edgeRenderInfo(g) <- edgeRenderAttrs
 
    # Set the edge Rendering in Rgraphviz
-   edgeRenderInfo(g) <- list(
-        col=edgeAttrs$color,
-        arrowhead=arrowhead2,
-        head=v2,
-        tail=v1,
-        label=edgeAttrs$label,
-        lwd=edgelwd,
-        lty="solid"    #this fails in some cases even with version >=1.33.1
-    )
+#   edgeRenderInfo(g) <- list(
+#        col=edgeAttrs$color,
+#        arrowhead=arrowhead2,
+#        head=v2,
+#        tail=v1,
+#        label=edgeAttrs$label,
+#        lwd=3,
+#        lty="solid"    #this fails in some cases even with version >=1.33.1
+#    )
     # hack for version of Rgraphviz 1.32. Set back the edgeAttr for the dot
     # output
     if (installed.packages()[,"Version"]["Rgraphviz"] <= "1.33.0"){
@@ -344,7 +355,8 @@ compressed, graphvizParams)
         # finally, the layout for a R plot
         x <- layoutGraph(g,layoutType="dot",recipEdges=recipEdges,attrs=attrs)
         renderGraph(x)
-        #plot(g,"dot",attrs=attrs,nodeAttrs=nodeAttrs,edgeAttrs=edgeAttrs, recipEdges=recipEdges)
+        nodeRenderInfo(x) <- nodeRenderAttrs
+        #edgeRenderInfo(x) <- edgeRenderAttrs
         edgeAttrs$lty=NULL    # why ?
         toDot(copyg, output_dot, nodeAttrs=nodeAttrs,edgeAttrs=edgeAttrs,attrs=attrs, recipEdges=recipEdges)
 
@@ -356,7 +368,18 @@ compressed, graphvizParams)
     }
     else{
         # finally, the layout for a R plot
+        #attrs$node = nodeRenderInfo(g)
+        #attrs$edge = edgeRenderInfo(g)
         x <- layoutGraph(g,layoutType="dot",subGList=clusters,recipEdges=recipEdges,attrs=attrs)
+
+
+        # known bug in Rgraphviz: renderInfo should be called again after the
+        # layout otherwise some attributes are lost in the renderGraph (e.g.,
+        # color)
+        # note that rendering is now made on x variable (not g)
+        nodeRenderInfo(x) <- nodeRenderAttrs
+        edgeRenderInfo(x) <- edgeRenderAttrs
+
         renderGraph(x)
         # and save into dot file.
         toDot(copyg, output_dot, nodeAttrs=nodeAttrs, subGList=clusters,
@@ -474,9 +497,13 @@ subGraph(stimuli, g)? Does the stimuli from your MIDAS are present in the model
 createNodeAttrs <- function(g, vertices, stimuli, signals, inhibitors, NCNO,
 compressed, graphvizParams){
 
+
     nodeLabels = graphvizParams$nodeLabels
     nodeWidth = graphvizParams$nodeWidth
     nodeHeight = graphvizParams$nodeHeight
+    andHeight = graphvizParams$andHeight
+    andWidth = graphvizParams$andWidth
+    mode = graphvizParams$mode
 
     # ----------------------------------------------- Build the node attributes list
     fillcolor <- list()
@@ -500,7 +527,7 @@ compressed, graphvizParams){
         height[s] <- nodeHeight
         width[s] <- nodeWidth
         fixedsize[s] <- FALSE
-        shape[s] <- "ellipse"
+        shape[s] <- "rectangle"
     }
 
     # user can provide a list of labels for the nodes. Usuful to show attributes
@@ -522,11 +549,13 @@ compressed, graphvizParams){
         fillcolor[s] <- "olivedrab3";
         color[s] <- "olivedrab3";
         style[s] <- "filled"
+        color[s] <- "black";
     }
     # The signal nodes
     for (s in signals){ #must be before the inhibitors to allow bicolors
         fillcolor[s] <- "lightblue";
         color[s] <-"lightblue";
+        color[s] <- "black";
     }
     # The inhibitor node, that may also belong to the signal category.
     for (s in inhibitors){
@@ -534,10 +563,12 @@ compressed, graphvizParams){
             fillcolor[s] <- "SkyBlue2"
             style[s] <- "filled,bold,diagonals"
             color[s] <-"orangered"
+        color[s] <- "black";
         }
         else{
             fillcolor[s] <- "orangered";
             color[s] <-"orangered";
+        color[s] <- "black";
         }
     }
     # The compressed nodes
@@ -557,34 +588,48 @@ compressed, graphvizParams){
     for (s in vertices){
         if (length(grep("and", s))>=1){
             color[s] = "black"
-            fillcolor[s] = "black"
-            width[s]=0.1
-            height[s]=0.1
+            if (mode=="sbgn"){
+                fillcolor[s] = "white"
+                label[s] = "and"
+            } else{
+                fillcolor[s] = "black"
+                label[s] = ""
+            }
+            width[s]=andWidth
+            height[s]=andHeight
             fixedsize[s]=FALSE
             shape[s]="circle"
-            label[s] = ""
 
         if (degree(g)$inDegree[s]==3){
-            fillcolor[s] = "blue"
-            shape[s]="triangle"
+            #fillcolor[s] = "blue"
+            if (mode=="classic"){
+                shape[s]="triangle"
+            }
+            width[s]=andWidth
+            height[s]=andHeight
         }
         if (degree(g)$inDegree[s]==4){
-            fillcolor[s] = "red"
-            shape[s]="rectangle"
+            #fillcolor[s] = "blue"
+            if (mode=="classic"){
+                shape[s]="rectangle"
+            }
+            width[s]=andWidth
+            height[s]=andHeight
         }
 
         }
     }
     nodeAttrs <- list(fillcolor=fillcolor, color=color, label=label, width=width, height=height,
         style=style, lty=lty, fixedsize=fixedsize, shape=shape)
-
     return(nodeAttrs)
 }
 
 
 # Create the node attributes and save in a list to be used either by the
 # plot function of the edgeRenderInfo function.
-createEdgeAttrs <- function(v1, v2, edges, BStimes ,Integr, user_edgecolor){
+createEdgeAttrs <- function(v1, v2, edges, BStimes ,Integr, user_edgecolor,
+    view_empty_edge=TRUE){
+
     edgewidth_c = 3 # default edge width
 
     # The edge attributes
@@ -626,11 +671,22 @@ createEdgeAttrs <- function(v1, v2, edges, BStimes ,Integr, user_edgecolor){
             # first, let us build the color
             if (edgecolor[edgename] == 'red'){
                 # if red, go from red to light pink color according to v value
-                color = rgb(1,1-(max(20,v)/100),1-(max(20,v)/100))
+                if (view_empty_edge==TRUE){
+                    print("showing red link even if empty")
+                    color = rgb(1,1-(max(20,v)/100),1-(max(20,v)/100))
+                }
+                else{
+                    color = rgb(1,1-v/100,1-v/100)
+                }
             }
             else if (edgecolor[edgename] == 'black'){
                 # if black, go from grey dark to grey light color according to v value
-                color = paste("grey", as.character(100.-max(20,v)), sep="")
+                if (view_empty_edge==TRUE){
+                    color = paste("grey", as.character(100.-max(20,v)), sep="")
+                }
+                else{
+                    color = paste("grey", as.character(100.-v), sep="")
+                }
             }
             else{
                 # otherwise, just keep the color identical and only add label
@@ -678,7 +734,38 @@ clean_dot <- function(filename)
     # if died, need to save back the "savedata"
     # otherwise, we can overwrite model.dot
     tryCatch(write(data, file=filename), error=function(e){print("Could not scan the dot file for cleaning (border.lwd and border.color). "); })
+}
 
+# Create the list of attributes for the nodes
+setNodeRenderInfo <- function(nodeAttrs, extraAttrs)
+{
+    attrs  <- list(
+        fill=nodeAttrs$fillcolor,
+        col=nodeAttrs$color,
+        style=nodeAttrs$style,
+        lty=extraAttrs$lty,
+        lwd=extraAttrs$lwd,   
+        label=nodeAttrs$label,
+        shape=nodeAttrs$shape,
+        cex=extraAttrs$cex,
+        fontsize=extraAttrs$fontsize,
+        iwidth=nodeAttrs$width,
+        iheight=nodeAttrs$height,
+        fixedsize=extraAttrs$fixedsize)
+    return(attrs)
+}
 
-
+# Create the list of attributes for the edges
+setEdgeRenderInfo <- function(edgeAttrs, extraAttrs)
+{
+   attrs <- list(
+        col=edgeAttrs$color,
+        arrowhead=extraAttrs$arrowhead,
+        head=extraAttrs$v2,
+        tail=extraAttrs$v1,
+        label=edgeAttrs$label,
+        lwd=extraAttrs$lwd,
+        lty=extraAttrs$lty    #this fails in some cases even with version >=1.33.1
+    )
+    return(attrs)
 }

@@ -10,7 +10,7 @@ This function is the genetic algorithm to be used to optimise a model by fitting
 gaBinaryT1(CNOlist, model, initBstring=NULL, sizeFac = 1e-04, 
     NAFac = 1, popSize = 50, pMutation = 0.5, maxTime = 60, maxGens = 500,
     stallGenMax = 100, selPress = 1.2, elitism = 5, relTol = 0.1, verbose=TRUE,
-    priorBitString=NULL, maxSizeHashTable=5000)
+    priorBitString=NULL, timeIndex=2)
 }
 \arguments{
   \item{CNOlist}{
@@ -68,11 +68,12 @@ be made of 0, 1 or NA (by default, this bitstring is set to NULL, which is
 equivalent to setting all bits to NA). Bits that are set
 to 0 or 1 are used to replace the bits created by the GA itself (see example).
 }
-  \item{maxSizeHashTable}{a hash table is use to store bitstring and related
-score. This allows the GA to be very efficient is the case of small models. The
-size of the hash table is 5000 by default, which may be too large for large
-models. 
-}
+
+  \item{timeIndex}{the index of the time point to optimize. Must be greater or
+equal to 2 (1 corresponds to time=0). Must be less than the number of time
+points. Default is 2. 
+    }
+
 
 }
 \details{
@@ -81,6 +82,7 @@ The whole procedure is described in details in Saez-Rodriguez et al. (2009). The
 \value{
 This function returns a list with elements:
 \item{bString}{the best bitstring}
+\item{bScore}{the best score}
 \item{results}{ a matrix with columns "Generation","Best_score","Best_bitString","Stall_Generation","Avg_Score_Gen","Best_score_Gen","Best_bit_Gen","Iter_time"}
 \item{stringsTol}{the bitstrings whose scores are within the tolerance}
 \item{stringsTolScores}{the scores of the above-mentioned strings}
@@ -110,7 +112,7 @@ ToyT1opt<-gaBinaryT1(
 	CNOlist=CNOlistToy,
 	model=model,
 	initBstring=initBstring,
-	maxGens=10, popSize=10, verbose=FALSE)
+	maxGens=100, popSize=10, verbose=FALSE)
 
 # During the optimisation, some bits can be overwritten by your prior knowledge 
 # First, you need to create a priorBitString made of NA where known bit values

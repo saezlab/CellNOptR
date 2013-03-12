@@ -1,18 +1,18 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2011-2012 - EBI
+#  Copyright (c) 2011-2012 - EMBL - European Bioinformatics Institute
 #
 #  File author(s): CNO developers (cno-dev@ebi.ac.uk)
 #
-#  Distributed under the GPLv2 License.
+#  Distributed under the GPLv3 License.
 #  See accompanying file LICENSE.txt or copy at
-#      http://www.gnu.org/licenses/gpl-2.0.html
+#      http://www.gnu.org/licenses/gpl-3.0.html
 #
-#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: readMIDAS.R 1365 2012-05-30 09:17:23Z cokelaer $
+# $Id: readMIDAS.R 3155 2013-01-09 15:24:58Z cokelaer $
 readMIDAS<-function(MIDASfile, verbose=TRUE){
 
     # Read the data. 
@@ -66,9 +66,10 @@ readMIDAS<-function(MIDASfile, verbose=TRUE){
     }
 
     # Determine which are the informative columns (i.e. columns with useful data info and values)
-    TRcol<-grep(pattern="TR",x=colnames(data),ignore.case=FALSE)
-    DAcol<-grep(pattern="DA",x=colnames(data),ignore.case=FALSE)
-    DVcol<-grep(pattern="DV",x=colnames(data),ignore.case=FALSE)
+    TRcol<-grep(pattern="TR:",x=colnames(data),ignore.case=FALSE)
+    DAcol<-grep(pattern="DA:",x=colnames(data),ignore.case=FALSE)
+    DVcol<-grep(pattern="DV:",x=colnames(data),ignore.case=FALSE)
+    #data<-data[,c(TRcol,DAcol,DVcol)]
 
     # Print information about the data set 
     if (verbose){
@@ -94,7 +95,7 @@ readMIDAS<-function(MIDASfile, verbose=TRUE){
             data<-data[,-DAcol]
 
             }else{
-                warning("You have more data values columns (DV columns) than data points columns (DV columns)")
+                warning("DA columns and DV columns do not match.")
                 }
         }
 
@@ -138,6 +139,7 @@ readMIDAS<-function(MIDASfile, verbose=TRUE){
         print("Please be aware that CNO only handles measurements on one cell line at this time.")
     }
 
+    # data has been changed so we need to extract columns indices again
     TRcol<-grep(pattern="TR:",x=colnames(data),ignore.case=FALSE)
     DAcol<-grep(pattern="DA:",x=colnames(data),ignore.case=FALSE)
     DVcol<-grep(pattern="DV:",x=colnames(data),ignore.case=FALSE)

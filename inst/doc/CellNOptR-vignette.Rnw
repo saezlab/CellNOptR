@@ -38,13 +38,12 @@ and above)}}
 
 \section{Installation}
 
-This software is written in the R language, so in order to use it you will need
-to have R installed on your computer.  For more information and download of R,
-please refer to \url{http://www.r-project.org/}.   For more information about
-how to install R packages, please refer to
+Before starting, make sure you have installed the latest version of R (3.0).
+For more information and download of R, please refer to \url{http://www.r-project.org/}.   
+For more information about how to install R packages, please refer to
 \url{http://cran.r-project.org/doc/manuals/R-admin.html#Installing-packages}.
-This package relies on several Bioconductor package (RBGL, graph, methods) and
-optional package Rgraphivz. As an example, you can install RGBL package by typing:
+This package relies on several Bioconductor package (RBGL, graph, methods,
+etc.). As an example, you can install RGBL package by typing:
 <<installRBGL, eval=FALSE>>=
 source("http://bioconductor.org/biocLite.R")
 biocLite("RBGL")
@@ -76,26 +75,24 @@ interested in.
 
 The package \emph{CellNOptR} integrates prior knowledge about protein signalling
 networks and perturbation data to infer functional characteristics of a
-signalling network. This package is based on methods described
-in\cite{julio2009}, and implemented in the Matlab toolbox \emph{CellNOpt}
-(available at
-\url{http://www.ebi.ac.uk/saezrodriguez/software.html#CellNetOptimizer}). More
-information about the methods and application of the Matlab pipeline can be
-found in reference \cite{CNObc}. This is a reduced version of
-\emph{CellNetOptimiser} that performs optimisation of boolean networks. However,
-continuous (ordinary differential equation-based) and constrained fuzzy logic
-versions are also in development.  This package also includes some data
-importing and normalising capabilities that are performed using the
+signalling network. \emph{CellNOptR} is a reduced version of
+\emph{CellNetOptimiser}
+\url{http://www.ebi.ac.uk/saezrodriguez/software.html#CellNetOptimizer}).
+It performs optimisation using a boolean formalism only\cite{julio2009}.
+However, it includes some data importing and normalising capabilities (as in 
 \emph{DataRail} toolbox \cite{datarail} in the MatLab pipeline (available at
-\url{http://www.ebi.ac.uk/saezrodriguez/software.html#DataRail}).
+\url{http://www.ebi.ac.uk/saezrodriguez/software.html#DataRail}). Moreover it
+is used by other packages that implement more complex formalisms. Such packages
+are available on BioConductor as well: CNORdt, CNORode (ordinary
+equation-based), CNORfuzzy (constrained fuzzy logic).
+More information about the methods and application of the Matlab pipeline can be
+found in reference \cite{CNObc} and \url{http://www.cellnopt.org}. 
 
-A typical analysis using \emph{CellNOptR} will be described here in detail on a toy example and on a realistic example.  The whole analysis can also be performed in one step using a wrapper function, and this is what is described in section 6.
 
-You can either copy and paste the lines of code in this document (not including the \(>\)) or type them yourself.
-
-For easiness of use we also provide (in the doc folder of this package) a text
-file CellNOptR-examples.R which contains some  R commands being used in this
-tutorial.  
+This tutorial shows how to use \emph{CellNOptR} to analyse 1 or 2 time points
+data sets on a toy example (1 time point), a realistic example and another toy
+example (with 2 time points).  The whole analysis can also be performed in one
+step using a wrapper function as described in section 6.
 
 %We recommend that you use that script as a template for your
 %analyses.  In the doc folder of this package you will also find a file called
@@ -136,11 +133,11 @@ data("CNOlistToy", package="CellNOptR")
 pknmodel = ToyModel
 cnolist = CNOlist(CNOlistToy)
 #
-# ---------------------- but you can read your own files:
-pknmodel = readSIF("ToyModel.sif")
-cnolist = CNOlist("ToyDataMMB.csv")
+# ---------------------- alternatively you can read your own files:
+# pknmodel = readSIF("ToyModel.sif")
+# cnolist = CNOlist("ToyDataMMB.csv")
 #
-# ---------------------- pre process the network
+# ---------------------- preprocess the network
 model = preprocessing(cnolist, pknmodel)
 #
 # ---------------------- perform the analysis
@@ -181,8 +178,8 @@ normalisation procedure is the one used in \cite{julio2009} as implemented in
 \emph{DataRail}. 
 
 
-Before version 1.3.30, you would type the following commands to create a
-CNOlist:
+Before version 1.3.30, you would type the following combinaison of commands to create a
+CNOlist from a MIDAS file:
 
 <<getData, eval=TRUE>>=
 dataToy<-readMIDAS("ToyDataMMB.csv", verbose=FALSE)
@@ -205,7 +202,7 @@ CNOlistToy = CNOlist("ToyDataMMB.csv")
 
 Note for the users familiar with the previous commands (\emph{readMIDAS} and
 and \emph{makeCNOlist}) that you can easily convert the old
-data structure into an instance of CNOlist class:
+data structure into an instance of CNOlist class as follows:
 
 <<cnolistClass2, eval=FALSE>>=
 data(CNOlistToy,package="CellNOptR")
@@ -260,7 +257,7 @@ Alternatively, you can create your network file as a text file formatted as a SI
 
 
 <<getModel, eval=TRUE>>=
-ToyModel<-readSIF("ToyPKNMMB.sif")
+pknmodel<-readSIF("ToyPKNMMB.sif")
 @
 
 <<getModel2, eval=TRUE>>=
@@ -272,14 +269,14 @@ Having loaded both the data set and corresponding model, we run a check to make 
 %If this is the case, then we can look for the indices of the species that are present in our dataset in our model, using \emph{indexFinder}. This step will have to be repeated every time an operation is done on the model that removes or reorders species.
 
 <<indices, eval=TRUE>>=
-checkSignals(CNOlistToy,ToyModel)
+checkSignals(CNOlistToy,pknmodel)
 @
 
 The SIF model that you have just loaded is visible on figure \ref{fig:PKNsif} as
-displayed by \emph{plotModel} (requires Rgrqphviz to be installed).
+displayed by \emph{plotModel} (requires Rgraphviz to be installed).
 
 <<plotModel, eval=TRUE, fig=TRUE, include=FALSE>>=
-plotModel(ToyModel, CNOlistToy)
+plotModel(pknmodel, CNOlistToy)
 @
 
 \begin{figure*}
@@ -303,9 +300,9 @@ available here below. If you do not bother about details, you can jump directly 
 Non observable nodes are those that do not have a path to any measured species in the PKN, whereas non controllable nodes are those that do not receive any information from a species that is perturbed in the data.  As we won't be able to conclude anything about these species, we will find them and remove them from the model. Please note that in this particular case there are no nodes to cut, but we still include these steps here because they are necessary in a general case.
 
 <<NONC, eval=TRUE>>=
-indicesToy<-indexFinder(CNOlistToy,ToyModel,verbose=TRUE)
-ToyNCNOindices<-findNONC(ToyModel,indicesToy,verbose=TRUE)
-ToyNCNOcut<-cutNONC(ToyModel,ToyNCNOindices)
+indicesToy<-indexFinder(CNOlistToy,pknmodel,verbose=TRUE)
+ToyNCNOindices<-findNONC(pknmodel,indicesToy,verbose=TRUE)
+ToyNCNOcut<-cutNONC(pknmodel,ToyNCNOindices)
 indicesToyNCNOcut<-indexFinder(CNOlistToy,ToyNCNOcut)
 @
 
@@ -341,7 +338,7 @@ a target node are generally not known.
 This step, performed by the function \emph{expandGates}, will create additional fields \emph{SplitANDs} and \emph{newANDs} in the model that inform you about new edges that have been crated from splitting 'AND' hyperedges, and about new hyperedges that have been created from combinations of edges.
 
 <<expand, eval=TRUE>>=
-ToyNCNOcutCompExp<-expandGates(ToyNCNOcutComp, maxInputsPerGate=3)
+model<-expandGates(ToyNCNOcutComp, maxInputsPerGate=3)
 @
 Note that here we set the option \emph{maxInputsPerGate} to 3 whereas the
 default value is 2.
@@ -353,7 +350,7 @@ In \emph{CellNOptR} (from version 1.2), a function called
 line:
 
 <<expand, eval=TRUE>>=
-ToyNCNOcutCompExp <- preprocessing(CNOlistToy, ToyModel, expansion=TRUE,
+model <- preprocessing(CNOlistToy, pknmodel, expansion=TRUE,
     compression=TRUE, cutNONC=TRUE, verbose=FALSE)
 @
 In the previous commands, although the default behaviour of the preprocessing function is to perform the expansion, compression and removing of
@@ -387,28 +384,35 @@ which in this case is just a string of 1s, but could be a meaningful string if
 you have prior expectation about the topology of the model.
 
 <<initbs, eval=TRUE>>=
-initBstring<-rep(1,length(ToyNCNOcutCompExp$reacID))
+initBstring<-rep(1,length(model$reacID))
 @
 
 We can now start the optimisation, in this case with default values for all non essential parameters of the genetic algorithm. If you set the argument verbose to TRUE, this function will print the following information, at each generation: generation number, best score and best string at this generation, stall generation number, average score of this generation and iteration time. You can also find these informations in the object that is returned by this function, as well as the best string the b\emph{bString} field, and strings within the relative tolerance limits in \emph{StringsTol}.
 
 
-%TOSWITCH
 <<optim, eval=TRUE>>=
-ToyT1opt<-gaBinaryT1(CNOlist=CNOlistToy, model=ToyNCNOcutCompExp,
+ToyT1opt<-gaBinaryT1(CNOlist=CNOlistToy, model=model,
     initBstring=initBstring, verbose=FALSE)
 @
 
 We will now produce plots of our analysis.  First, we plot the results of simulating the data with our best model alongside the actual data set in a plot similar to that obtained above with \emph{plotCNOlist}, except that the simulated data is overlaid in dashed blue lines, and the background of the plot reflects the absolute difference between simulated and experimental data (greener=closer to 0; redder=closer to 1; white=NA, either for data or simulation).  Second, we will plot the evolution of the average score and best score during the evolution of the population of models, as a function of generations.  This is useful to detect problems in the optimisation.
 
 \begin{center}
-<<resSim, fig=FALSE, eval=FALSE>>=
-cutAndPlot(model=ToyNCNOcutCompExp, bStrings=list(ToyT1opt$bString),
+<<resSim, fig=F, eval=TRUE>>=
+cutAndPlot(model=model, bStrings=list(ToyT1opt$bString),
     CNOlist=CNOlistToy,plotPDF=TRUE)
 @
 \end{center}
+
+
+\begin{figure*}
+\centerline{\includegraphics[width=0.8\textwidth]{SimResultsT1_1.pdf}}
+\caption{Results of the cutAndPlot function on the Toy Model example.}
+\label{fig:scaffold}
+\end{figure*}
 \begin{center}
-%TOSWITCH
+
+
 <<plotFit, eval=TRUE, fig=TRUE>>=
 plotFit(optRes=ToyT1opt)
 @
@@ -420,7 +424,7 @@ Setting the plotPDF argument to "TRUE" means that a PDF figure will be produced 
 %TOSWITCH
 <<simFitPDF, results=hide, eval=TRUE>>=
 cutAndPlot(
-    model=ToyNCNOcutCompExp,
+    model=model,
     bStrings=list(ToyT1opt$bString),
     CNOlist=CNOlistToy,
     plotPDF=TRUE)
@@ -436,6 +440,43 @@ and so on). In the future, users should be able to provide the name. You can
 still call \emph{cutAndPlot} without the PDF option and use the R pdf function like in
 the example above when calling \emph{plotFit} function.
 
+
+\section{Plotting the optimised model}
+
+Once you have optimised the processed model the bitstring found correspond to
+the best model and you may want to look at the result:
+
+<<plotModelToy1, eval=T, fig=F, results=hide>>=
+plotModel(model, CNOlistToy, bString=ToyT1opt$bString)
+@
+
+<<label=plotModelToy1save, eval=TRUE, fig=FALSE, results=hide, echo=FALSE>>=
+plotModel(model, CNOlistToy, bString=ToyT1opt$bString, output="PDF", filename="plotModelToy1")
+@
+
+
+You may also want to look at the correspondence on the original model. To do so,
+you will need to mapback your best model on top of the PKN. This is done in two
+steps:
+
+<<plotModelToy2, eval=TRUE, fig=F, results=hide>>=
+bs = mapBack(model, pknmodel, ToyT1opt$bString)
+plotModel(pknmodel, CNOlistToy, bs, compressed=model$speciesCompressed)
+@
+
+<<plotModelToy2save, eval=TRUE, fig=F, results=hide, echo=FALSE>>=
+plotModel(pknmodel, CNOlistToy, bs, compressed=model$speciesCompressed,output="PDF", filename="plotModelToy2")
+@
+
+\begin{figure*}
+{\includegraphics[width=0.45\textwidth]{plotModelToy1.pdf}}
+{\includegraphics[width=0.45\textwidth]{plotModelToy2.pdf}}
+\caption{Processed model (left) and original PKN (right). The edges are on
+(black or red) or off (grey or pink) according to the best set of parameters
+found during the optimisation (the best bit string). To obtain the right hand
+side model, the mapBack function has been used. }
+\label{fig:PKN}
+\end{figure*}
 
 \section{Writing your results}
 
@@ -468,15 +509,15 @@ arguments \emph{dataPlot}, \emph{evolFitT1}, \emph{optimResT1} will then be hype
 %TOSWITCH
 <<writeRes, eval=TRUE>>=
 writeScaffold(
-    modelComprExpanded=ToyNCNOcutCompExp,
+    modelComprExpanded=model,
     optimResT1=ToyT1opt,
     optimResT2=NA,
-    modelOriginal=ToyModel,
+    modelOriginal=pknmodel,
     CNOlist=CNOlistToy)
 
 writeNetwork(
-    modelOriginal=ToyModel,
-    modelComprExpanded=ToyNCNOcutCompExp,
+    modelOriginal=pknmodel,
+    modelComprExpanded=model,
     optimResT1=ToyT1opt,
     optimResT2=NA,
     CNOlist=CNOlistToy)
@@ -497,8 +538,8 @@ namesFilesToy<-list(
     nPKN="nodesPKN.NA")
 
 writeReport(
-    modelOriginal=ToyModel,
-    modelOpt=ToyNCNOcutCompExp,
+    modelOriginal=pknmodel,
+    modelOpt=model,
     optimResT1=ToyT1opt,
     optimResT2=NA,
     CNOlist=CNOlistToy,
@@ -518,7 +559,7 @@ If you do not want to bother with all of these steps, there is a function that a
 <<getToy, eval=TRUE>>=
 dataToy<-readMIDAS("ToyDataMMB.csv")
 CNOlistToy<-makeCNOlist(dataToy,subfield=FALSE)
-ToyModel<-readSIF("ToyPKNMMB.sif")
+pknmodel<-readSIF("ToyPKNMMB.sif")
 @
 
 Then you have two possibilities, either you keep all optimisation parameters to their default values and just type
@@ -529,7 +570,7 @@ res <- CNORwrap(
     name="Toy",
     namesData=list(CNOlist="ToyData",model="ToyModel"),
     data=CNOlistToy,
-    model=ToyModel)
+    model=pknmodel)
 @
 
 or you want to have some control over the parameters of the optimisation, in which case you create a parameters list with fields \emph{Data} (the CNOlist containing your data),  \emph{model} (your model object),  \emph{sizeFac} (default to 1e-04), \emph{NAFac} (default to 1), \emph{popSize} (default to 50), \emph{pMutation} (default to 0.5), \emph{maxTime} (default to 60), \emph{maxGens} (default to 500), \emph{stallGenMax} (default to 100), \emph{selPress} (default to 1.2), \emph{elitism} (default to 5), \emph{relTol} (default to 0.1), \emph{verbose} (default to FALSE ). You can then call the wrapper function with this set of parameters.
@@ -539,7 +580,7 @@ unlink("Toy",recursive=TRUE)
 @
 
 <<wrap2, eval=TRUE>>=
-pList<-defaultParameters(CNOlistToy, ToyModel)
+pList<-defaultParameters(CNOlistToy, pknmodel)
 #pList$data = CNOlistToy
 #pList$model = ToyModel
 res <- CNORwrap(
@@ -618,61 +659,46 @@ In this case the data comprises two time points that we assume are pseudo steady
 <<t2load, eval=TRUE>>=
 data(CNOlistToy2,package="CellNOptR")
 data(ToyModel2,package="CellNOptR")
+pknmodel = ToyModel2
+cnolist = CNOlist(CNOlistToy2)
 @
 
 <<t2plotCNOlist, eval=TRUE>>=
-plotCNOlist(CNOlistToy2)
-plotCNOlistPDF(CNOlist=CNOlistToy2,filename="ToyModelGraphT2.pdf")
+plot(cnolist)
+plotCNOlistPDF(cnolist,filename="ToyModelGraphT2.pdf")
 @
 
 %TOSWITCH
 <<t2Opt1, eval=TRUE>>=
-ToyNCNOcutCompExp2 = preprocessing(CNOlistToy2,ToyModel2, verbose=FALSE)
-initBstring2<-rep(1,length(ToyNCNOcutCompExp2$reacID))
-ToyT1opt2<-gaBinaryT1(
-    CNOlist=CNOlistToy2,
-    model=ToyNCNOcutCompExp2,
-    initBstring=initBstring2,
-    stallGenMax=10,
-    maxTime=60,
-    verbose=FALSE)
+model = preprocessing(cnolist, pknmodel, verbose=FALSE)
+T1opt <- gaBinaryT1(cnolist, model, stallGenMax=10, maxTime=60, verbose=FALSE)
 @
 
-<<t2OptT1plot, eval=TRUE>>=
-cutAndPlot(
-    model=ToyNCNOcutCompExp2,
-    bStrings=list(ToyT1opt2$bString),
-    CNOlist=CNOlistToy2,
-    plotPDF=TRUE)
+<<t2OptT1plot, eval=TRUE, fig=F>>=
+cutAndPlot(model=model, bStrings=list(T1opt$bString),
+    CNOlist=cnolist, plotPDF=TRUE)
 pdf("evolFitToy2T1.pdf")
-plotFit(optRes=ToyT1opt2)
+plotFit(optRes=T1opt)
 dev.off()
-plotFit(optRes=ToyT1opt2)
+plotFit(optRes=T1opt)
 @
 
 We can now optimise the second time point.
 
 %TOSWITCH
 <<t2OptT2, eval=TRUE>>=
-ToyT1opt2T2<-gaBinaryTN(
-    CNOlist=CNOlistToy2,
-    model=ToyNCNOcutCompExp2,
-    bStrings=list(ToyT1opt2$bString),
-    stallGenMax=10,
-    maxTime=60,
-    verbose=FALSE)
+T2opt<-gaBinaryTN(cnolist, model,  bStrings=list(T1opt$bString),
+    stallGenMax=10, maxTime=60, verbose=FALSE)
 @
-
-
 
 Finally, we produce all the plots and write the report.
 
 %
-<<resSimT2, eval=TRUE, fig=FALSE>>=
+<<resSimT2, eval=TRUE, fig=F>>=
 cutAndPlot(
-    model=ToyNCNOcutCompExp2,
-    bStrings=list(ToyT1opt2$bString, ToyT1opt2T2$bString),
-    CNOlist=CNOlistToy2,
+    model=model,
+    bStrings=list(T1opt$bString, T2opt$bString),
+    CNOlist=cnolist,
     plotPDF=TRUE, plotParams=list(cex=0.8, cmap_scale=0.5, margin=0.2))
 @
 
@@ -684,49 +710,6 @@ cutAndPlot(
 
 \clearpage
 
-<<t2OptT2plot, eval=FALSE>>=
-pdf("evolFitToy2T2.pdf")
-plotFit(optRes=ToyT1opt2T2)
-dev.off()
-plotFit(optRes=ToyT1opt2T2)
-writeScaffold(
-    modelComprExpanded=ToyNCNOcutCompExp2,
-    optimResT1=ToyT1opt2,
-    optimResT2=ToyT1opt2T2,
-    modelOriginal=ToyModel2,
-    CNOlist=CNOlistToy2)
-writeNetwork(
-    modelOriginal=ToyModel2,
-    modelComprExpanded=ToyNCNOcutCompExp2,
-    optimResT1=ToyT1opt2,
-    optimResT2=ToyT1opt2T2,
-    CNOlist=CNOlistToy2)
-namesFilesToy<-list(
-    dataPlot="ToyModelGraphT2.pdf",
-    evolFitT1="evolFitToy2T1.pdf",
-    evolFitT2="evolFitToy2T2.pdf",
-    simResultsT2="SimResultsTN.pdf",
-    simResultsT1="SimResultsT1_1.pdf",
-    scaffold="Scaffold.sif",
-    scaffoldDot="Scaffold.dot",
-    tscaffold="TimesScaffold.EA",
-    wscaffold="weightsScaffold.EA",
-    PKN="PKN.sif",
-    PKNdot="PKN.dot",
-    wPKN="TimesPKN.EA",
-    nPKN="nodesPKN.NA")
-writeReport(
-    modelOriginal=ToyModel2,
-    modelOpt=ToyNCNOcutCompExp2,
-    optimResT1=ToyT1opt2,
-    optimResT2=ToyT1opt2T2,
-    CNOlist=CNOlistToy2,
-    directory="testToy2",
-    namesFiles=namesFilesToy,
-    namesData=list(CNOlist="ToyModified4T2",model="ToyModified4T2"))
-@
-
-\clearpage
 
 \begin{thebibliography}{1}
 

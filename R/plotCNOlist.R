@@ -1,18 +1,18 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2011-2012 - EBI
+#  Copyright (c) 2011-2012 - EMBL - European Bioinformatics Institute
 #
 #  File author(s): CNO developers (cno-dev@ebi.ac.uk)
 #
-#  Distributed under the GPLv2 License.
+#  Distributed under the GPLv3 License.
 #  See accompanying file LICENSE.txt or copy at
-#      http://www.gnu.org/licenses/gpl-2.0.html
+#      http://www.gnu.org/licenses/gpl-3.0.html
 #
-#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: plotCNOlist.R 2267 2012-08-30 15:31:54Z cokelaer $
+# $Id: plotCNOlist.R 3179 2013-01-21 12:50:13Z cokelaer $
 plotCNOlist<-function(CNOlist){
 
 #check that CNOlist is a CNOlist
@@ -46,14 +46,14 @@ plotCNOlist<-function(CNOlist){
             y=(yMin+((yMax-yMin)/2)),cex=2)
         }
 
-        plot(
-            x=xVal,
-            y=rep(-5,length(xVal)),
-            ylim=c(yMin, yMax),xlab=NA,ylab=NA,xaxt="n",yaxt="n")
-        text(
-            labels="Cues",
-            x=((xVal[length(xVal)]-xVal[1])/2),
-            y=(yMin+((yMax-yMin)/2)),cex=2)
+    plot(
+        x=xVal,
+        y=rep(-5,length(xVal)),
+        ylim=c(yMin, yMax),xlab=NA,ylab=NA,xaxt="n",yaxt="n")
+    text(
+        labels="Cues",
+        x=((xVal[length(xVal)]-xVal[1])/2),
+        y=(yMin+((yMax-yMin)/2)),cex=2)
 
     par(fg="black",mar=c(0.5,0.5,0,0))
 

@@ -14,6 +14,11 @@ simulateT1 <- function(CNOlist, model, bStringT1,simList, indexList){
     return(simulateTN(CNOlist, model, bStrings=list(bStringT1)))
 }
 
+simulateT2 <- function(CNOlist, model, bStringT1,simList, indexList){
+    warning("simulateT1 is a deprecated function. Use simulate instead. ")
+    return(simulateTN(CNOlist, model, bStrings=list(bStringT1)))
+}
+
 
 gaBinaryT2 <- function(CNOlist, model, simList, indexList, bStringT1,
     sizeFac=0.0001, NAFac=1, popSize=50, pMutation=0.5, maxTime=60,

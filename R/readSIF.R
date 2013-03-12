@@ -2,28 +2,57 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2011-2012 - EBI
+#  Copyright (c) 2011-2012 - EMBL - European Bioinformatics Institute
 #
 #  File author(s): Thomas Cokelaer <cokelaer@ebi.ac.uk>
 #
-#  Distributed under the GPLv2 License.
+#  Distributed under the GPLv3 License.
 #  See accompanying file LICENSE.txt or copy at
-#      http://www.gnu.org/licenses/gpl-2.0.html
+#      http://www.gnu.org/licenses/gpl-3.0.html
 #
-#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
 # $Id$
 readSIF<-function(sifFile){
 
-#Read the sif file
-    sif<-read.table(sifFile)
-    sif<-as.matrix(sif)
+    # Read the sif file expected 3 columns all over the file
+    status = tryCatch({
+            sif<-read.table(sifFile)
+            sif<-as.matrix(sif)
+            status = TRUE},
+        error = function(e) { status = FALSE })
 
-#Create the vector of names of species
+    # if the sif file has more than 3 columns e.g.:
+    # A 1 B C
+    # B 1 D
+    # then another parser is required:
+    if (status == FALSE){
+        data = readLines(sifFile)
+        # replace all tabs by spaces
+        data = gsub("\t", " ",data)
+        # replace all long whitespaces by a single space character
+        data = gsub("  *", " ",data)
+        sif = c()
+        # scan all lines and extract the reactions
+        for (line in data){
+            items = unlist(strsplit(line, " "))
+            LHS = items[1]
+            edge = items[2]
+            RHSs = items[-c(1,2)] # let us look at the RHS elements 
+            for (RHS in RHSs){
+                sif = c(sif, LHS)
+                sif = c(sif, edge)
+                sif = c(sif, RHS)
+            }
+        }
+        sif = matrix(sif, ncol=3, byrow=TRUE)
+    }
+
+    #Create the vector of names of species
     namesSpecies<-unique(c(as.character(sif[,1]), as.character(sif[,3])))
 
-#Create the vector of names or reactions
+    #Create the vector of names or reactions
 
     createReacID<-function(x){
         neg<-ifelse(test=(x[2] == "-1"), TRUE, FALSE)

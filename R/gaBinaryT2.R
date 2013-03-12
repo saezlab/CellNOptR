@@ -1,15 +1,15 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2011-2012 - EBI
+#  Copyright (c) 2011-2012 - EMBL - European Bioinformatics Institute
 #
 #  File author(s): CNO developers (cno-dev@ebi.ac.uk)
 #
-#  Distributed under the GPLv2 License.
+#  Distributed under the GPLv3 License.
 #  See accompanying file LICENSE.txt or copy at
-#      http://www.gnu.org/licenses/gpl-2.0.html
+#      http://www.gnu.org/licenses/gpl-3.0.html
 #
-#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
 # $Id$
@@ -28,8 +28,7 @@ gaBinaryT2 <-function(
     elitism=5,
     relTol=0.1,
     verbose=TRUE,
-    priorBitString=NULL,
-    maxSizeHashTable=5000){
+    priorBitString=NULL){
 
     # ---- section related to T2  ----
     #Find the bits to optimise
@@ -63,21 +62,23 @@ gaBinaryT2 <-function(
     PopTol<-rep(NA,bLength)
     PopTolScores<-NA
 
-    #Function that produces the score for a specific bitstring
-    getObj<-function(x, scoresHash=NULL){
 
-        bitString<-x
+    library(hash)
+    scores2Hash = hash()
 
-        # the hash table is used to speed up code. gain is guaranteed to be at least equal to elitism/popsize
-        if (is.null(scoresHash)==FALSE){
-            thisScore <- scoresHash[rownames(scoresHash) == paste(unlist(x), collapse=","),1]
-             if (length(thisScore) != 0){
-                 return(thisScore)
-            } # otherwise let us keep going
+    getObj<-function(x){
+
+        key = toString(.int2dec(x))
+        if (has.key(key, scores2Hash)==TRUE){
+            return(scores2Hash[[key]])
+        } else {
+            Score = computeScoreTN(CNOlist, model, simList, indexList, 
+                simResT1, bStringT1, x, timeIndex=timeIndex, 
+                sizeFac=sizeFac, NAFac=NAFac)
+            if (length(scores2Hash)<1000){
+                scores2Hash[[key]] =  Score
+            }
         }
-
-        Score = computeScoreTN(CNOlist, model, simList, indexList, 
-			simResT1, bStringT1, bitString, timeIndex=timeIndex, sizeFac=sizeFac, NAFac=NAFac)
 
         return(Score)
     }
@@ -94,10 +95,7 @@ gaBinaryT2 <-function(
     while(!stop){
 
         #compute the scores
-        scores<-apply(Pop,1,getObj, scoresHash=scoresHash)
-
-        # fill the hash table to speed up code
-        scoresHash<-fillHashTable(scoresHash, scores, Pop, maxSizeHashTable)
+        scores<-apply(Pop,1,getObj )
 
         #Fitness assignment: ranking, linear
         rankP<-order(scores,decreasing=TRUE)
@@ -206,10 +204,10 @@ gaBinaryT2 <-function(
     }
     #end of the while loop
 
-    PopTol<-PopTol[-1,]
+    PopTol<-as.matrix(PopTol[-1,])
     PopTolScores<-PopTolScores[-1]
     TolBs<-which(PopTolScores < scores[length(scores)]+tolScore)
-    PopTol<-PopTol[TolBs,]
+    PopTol<-as.matrix(PopTol[TolBs,])
     PopTolScores<-PopTolScores[TolBs]
     PopTolT<-cbind(PopTol,PopTolScores)
     PopTolT<-unique(PopTolT,MARGIN=1)
@@ -227,22 +225,26 @@ gaBinaryT2 <-function(
 
     return(list(
         bString=bestbit,
+        bScore=bestobj,
         results=res,
         stringsTol=PopTol,
         stringsTolScores=PopTolScores))
     }
 
 
+addPriorKnowledge <- function(pop, priorBitString){
+    if (is.null(priorBitString) == TRUE){
+        return(pop)
+    }
+    else{
+        for (i in 1:dim(pop)[1]){
+            pop[i,!is.na(priorBitString)] = priorBitString[!is.na(priorBitString)]
+        }
+    }
+   return(pop)
+}
 
-#addPriorKnowledge <- function(pop, priorBitString){
-#    if (is.null(priorBitString) == TRUE){
-#        return(pop)
-#    }
-#    else{
-#        for (i in 1:dim(pop)[1]){
-#            pop[i,!is.na(priorBitString)] = priorBitString[!is.na(priorBitString)]
-#        }
-#    }
-#   return(pop)
-#}
 
+.int2dec <- function(x){
+    return(sum(x*2^(rev(seq(x))-1)))
+}

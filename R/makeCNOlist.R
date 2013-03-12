@@ -1,18 +1,18 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2011-2012 - EBI
+#  Copyright (c) 2011-2012 - EMBL - European Bioinformatics Institute
 #
 #  File author(s): CNO developers (cno-dev@ebi.ac.uk)
 #
-#  Distributed under the GPLv2 License.
+#  Distributed under the GPLv3 License.
 #  See accompanying file LICENSE.txt or copy at
-#      http://www.gnu.org/licenses/gpl-2.0.html
+#      http://www.gnu.org/licenses/gpl-3.0.html
 #
-#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: makeCNOlist.R 1586 2012-06-26 14:59:24Z cokelaer $
+# $Id: makeCNOlist.R 3165 2013-01-15 14:25:40Z cokelaer $
 makeCNOlist<-function(dataset,subfield, verbose=TRUE){
 
     #check that all the needed elements are present
@@ -38,6 +38,10 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
         }
     }
 
+    # creates a variance matrix
+    variances = dataset$dataMatrix * 0
+
+
     while(length(duplRows) != 0){
         # the all(x == ) is buggy in the case of NA hence the compareNA function.
         #dupIndex<-apply(duplCond,MARGIN=1,function(x) all(x == duplCond[duplRows[1],]))
@@ -47,12 +51,18 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
         dupMatrix<-dataset$dataMatrix[dupIndex,]
         #compute the new row as the average across duplicate rows
         newRow<-colMeans(dupMatrix, na.rm=TRUE)
+        # variance for these rows
+        newVariance = apply(dupMatrix, MARGIN=2, FUN=var, na.rm=T)
 
         #replace the first duplicated row by the summarised one
         dataset$dataMatrix[dupIndex[1],]<-newRow
 
+        # same for the variance
+        variances[dupIndex[1],]<-newVariance
+
         #remove the other summarised rows
         dataset$dataMatrix<-dataset$dataMatrix[-dupIndex[2:length(dupIndex)],]
+        variances<-variances[-dupIndex[2:length(dupIndex)],]
 
         duplCond<-as.matrix(dataset$dataMatrix[,c(dataset$TRcol,dataset$DAcol)])
         duplRows<-which(duplicated(duplCond) == TRUE)
@@ -163,6 +173,7 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
 #that includes all the time points, and then I will split it into one matrix for each time point
 #And then I will arrange the valueCues matrix accordingly
     valueSignals<-as.matrix(dataset$dataMatrix[,dataset$DVcol])
+    valueVariance<-as.matrix(dataset$dataMatrix[,dataset$DVcol])
 
 #This bit will create an index that contains all rows with timept1, 2, 3,...
 
@@ -213,6 +224,7 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
 #Do the t=0 matrix, and produce a new cues matrix, that does not contain duplicates
 #(1 row per condition and different matrices will be build for the different times)
     valueSignals<-list(matrix(data=0,nrow=whereTimes[2],ncol=length(dataset$DVcol)))
+    valueVariance<-list(matrix(data=0,nrow=whereTimes[2],ncol=length(dataset$DVcol)))
 
 #This vector tells me which columns of the cues matrix I should pay attention to when
 #copying data across for time=0
@@ -244,6 +256,7 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
             for(n in timesRows[(whereTimes[1]+1):(whereTimes[1]+whereTimes[2])]){
                     if(sum(cues[n,zerosCond]) == 0){
                         valueSignals[[1]][count,]<-as.numeric(dataset$dataMatrix[i,dataset$DVcol])
+                        valueVariance[[1]][count,]<-as.numeric(variances[i,dataset$DVcol])
                         newcues[count,]<-cues[n,]
                         count=count+1
                         }
@@ -254,6 +267,7 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
                     if(all(zerosCond[which(cues[n,zerosCond] > 0)] == present) &&
                         length(which(cues[n,zerosCond] > 0)) != 0){
                         valueSignals[[1]][count,]<-as.numeric(dataset$dataMatrix[i,dataset$DVcol])
+                        valueVariance[[1]][count,]<-as.numeric(variances[i,dataset$DVcol])
                         newcues[count,]<-cues[n,]
                         count=count+1
                     }
@@ -265,14 +279,17 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
     #Now build the matrices for the other time points
     for(i in 2:length(timeSignals)){
         valuesTi<-matrix(data=0,nrow=whereTimes[2],ncol=length(dataset$DVcol))
+        valuesVarianceTi<-matrix(data=0,nrow=whereTimes[2],ncol=length(dataset$DVcol))
         for(n in 1:dim(newcues)[1]){
             rowsMatchCues<-apply(cues,1,function(x) all(x == newcues[n,]))
             rowsmatchTime<-times == timeSignals[i]
             rowsMatch<-which((rowsMatchCues + rowsmatchTime) == 2)
             valuesTi[n,]<-as.numeric(dataset$dataMatrix[rowsMatch,dataset$DVcol])
+            valuesVarianceTi[n,]<-as.numeric(variances[rowsMatch,dataset$DVcol])
             }
 
         valueSignals[[i]]<-valuesTi
+        valueVariance[[i]]<-valuesVarianceTi
 
         }
 
@@ -290,11 +307,11 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
 
             }
     if(is.null(dim(valueInhibitors))){
-        valueInhibitors<-as.matrix(valueInhibitors,nrow=dim(newcues)[1])
+        valueInhibitors<-matrix(valueInhibitors,nrow=dim(newcues)[1])
         }
 
     if(is.null(dim(valueStimuli))){
-        valueStimuli<-as.matrix(valueStimuli,nrow=dim(newcues)[1])
+        valueStimuli<-matrix(valueStimuli,nrow=dim(newcues)[1])
         }
 
 
@@ -307,9 +324,11 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
         valueCues=newcues,
         valueInhibitors=valueInhibitors,
         valueStimuli=valueStimuli,
-        valueSignals=valueSignals))
+        valueSignals=valueSignals,
+        valueVariances=valueVariance
+    ))
 
-    }
+}
 
 
 compareNA <- function(v1,v2) {

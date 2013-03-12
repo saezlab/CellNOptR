@@ -29,9 +29,11 @@ model = preprocessing(cnolist, pknmodel, verbose=FALSE)
 T1opt<-gaBinaryT1(CNOlist=cnolist,model=model,verbose=FALSE)
 
 truebs =c(1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0)
+print(truebs)
+print(T1opt$bString)
 
 # testing valid output
-if (all(T1opt$bString == truebs)==FALSE){
+if (dist(rbind(T1opt$bString, truebs))>2){
 stop("something wrong going on")
 }
 

@@ -7,6 +7,8 @@ useDynLib(CellNOptR)
 export(
     "buildBitString",
     "checkSignals",
+    "exhaustive",
+    "CNOdata", 
     "CNORwrap",
     "CNORbool",
     "CNOlist",
@@ -16,8 +18,8 @@ export(
     "cSimulator",
     "cutAndPlot",
     "cutAndPlotResultsT1",
-    "cutAndPlotResultsT2",
     "cutAndPlotResultsTN",
+    "cutCNOlist",
     "cutNONC",
     "cutSimList",
     "cutModel", 
@@ -33,8 +35,10 @@ export(
     "mapBack", 
     "makeCNOlist",
     "model2sif",
+    "model2igraph",
     "normaliseCNOlist",
     "plotCNOlist",
+    "plotCNOlist2",
     "plotCNOlistLarge",
     "plotCNOlistLargePDF",
     "plotCNOlistPDF",
@@ -45,6 +49,7 @@ export(
     "prep4sim",
     "prep4Sim",
     "preprocessing",
+    "randomizeCNOlist",
     "readMIDAS",
     "readSIF",
     "readSif",
@@ -66,4 +71,11 @@ export(
 # CNOlist class
 exportClasses(CNOlist)
 
-exportMethods("plot")
+# CNOlist class methods:
+exportMethods("plot", "randomize", "length", "compatCNOlist")
+exportMethods("getCues", "getSignals", "getStimuli", "getInhibitors", "getVariances", "getTimepoints")
+exportMethods("setSignals<-")
+
+
+
+

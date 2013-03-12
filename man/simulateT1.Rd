@@ -1,7 +1,8 @@
 \name{simulateT1}
 \alias{simulateT1}
 \title{
-deprecated since version 1.3.28. Cut and simulation of a boolean model at t1
+deprecated since version 1.3.28. Cut and simulation of a boolean model at t1. 
+Use simulateTN instead.
 }
 \description{
 This function cuts a model according to a bitstring optimised at T1, and
@@ -60,3 +61,5 @@ simRes<-simulateT1(
 	simList=ToyFields4Sim, 
 	indexList=indicesToy)
 }
+
+\keyword{internal}

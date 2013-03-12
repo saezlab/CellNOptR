@@ -5,7 +5,7 @@
 This function takes a CNOlist structure (output of makeCNOlist and readMIDAS) and save it a MIDAS format.
 }
 \usage{
-writeMIDAS(CNOlist, filename)
+writeMIDAS(CNOlist, filename,  timeIndices=NULL, overwrite=FALSE)
 }
 
 \arguments{
@@ -15,6 +15,15 @@ writeMIDAS(CNOlist, filename)
     \item{filename}{
         a filename. Not overwritten if it exists already    
     }
+    \item{timeIndices}{
+        select subset of the times to be saved. Works with indices (not time values)
+    }
+    \item{overwrite}{
+        overwrite the file if it exists already (Default is FALSE)
+    }
+
+
+
 }
 
 \author{
@@ -29,4 +38,5 @@ T. Cokelaer
    data(CNOlistToy)
    writeMIDAS(CNOlistToy, 'test.csv')
    readMIDAS('test.csv')
+   writeMIDAS(CNOlistToy, 'test.csv', timeIndices=c(1,2), overwrite=TRUE)
 }

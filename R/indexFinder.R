@@ -1,18 +1,18 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2011-2012 - EBI
+#  Copyright (c) 2011-2012 - EMBL - European Bioinformatics Institute
 #
 #  File author(s): CNO developers (cno-dev@ebi.ac.uk)
 #
-#  Distributed under the GPLv2 License.
+#  Distributed under the GPLv3 License.
 #  See accompanying file LICENSE.txt or copy at
-#      http://www.gnu.org/licenses/gpl-2.0.html
+#      http://www.gnu.org/licenses/gpl-3.0.html
 #
-#  CNO website: http://www.ebi.ac.uk/saezrodriguez/software.html
+#  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: indexFinder.R 2293 2012-09-03 12:30:47Z cokelaer $
+# $Id: indexFinder.R 3370 2013-03-12 14:34:26Z cokelaer $
 indexFinder<-function(CNOlist, model, verbose=FALSE){
 
     if ((class(CNOlist)=="CNOlist")==FALSE){
@@ -24,21 +24,12 @@ indexFinder<-function(CNOlist, model, verbose=FALSE){
 
     if(!is.list(model)) stop("This function expects as input a model as output by readSIF")
 
-    if(length(model) == 4) {
+    if( !all( c("reacID", "namesSpecies","interMat","notMat") %in% names(model))){
+        stop("This function expects as input a model as output by readSIF")
+    }
 
-        if(all(names(model) != c("reacID", "namesSpecies","interMat","notMat"))){
-            stop("This function expects as input a model as output by readSIF")
-            }
+        
 
-        }
-
-    if(length(model) == 5) {
-
-        if(all(names(model) != c("reacID", "namesSpecies","interMat","notMat","speciesCompressed"))){
-            stop("This function expects as input a Model as output by readSIF")
-            }
-
-        }
 
     #Find the indexes of the signals
     signals<-match(colnames(CNOlist@signals[[1]]),model$namesSpecies)

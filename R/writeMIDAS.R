@@ -1,4 +1,4 @@
-writeMIDAS <- function(CNOlist, filename)
+writeMIDAS <- function(CNOlist, filename, timeIndices=NULL, overwrite=FALSE)
 {
 
     if ((class(CNOlist)=="CNOlist")==FALSE){
@@ -8,22 +8,46 @@ writeMIDAS <- function(CNOlist, filename)
         cnolist = CNOlist
     }
 
+
+
+    # remove exiisting file if required
+    if (overwrite==TRUE){
+        if (file.exists(filename)==TRUE){
+            file.remove(filename)
+        }
+    } else {
+        if (file.exists(filename)==TRUE){
+            stop(paste("File ", filename, "already exists.",  sep=""))
+        }
+    }
+
+    timeSignals = cnolist@timepoints
     namesCues = colnames(cnolist@cues)
     namesStimuli = colnames(cnolist@stimuli)
     namesInhibitors = colnames(cnolist@inhibitors)
     namesSignals = colnames(cnolist@signals[[1]])
-    timeSignals = cnolist@timepoints
+
+
+    
 
     #nCues = length(namesCues)
     nStimuli = length(namesStimuli)
     nInhibitors = length(namesInhibitors)
     nSignals = length(namesSignals)
-    nTimes = length(timeSignals)
+    input_nTimes = length(timeSignals)
+    output_nTimes = length(timeSignals)
+    # if timeIndices provided, the inputs nTimes and output nTimes are different
+    if (is.null(timeIndices)==TRUE){
+        timeIndices = 1:input_nTimes
+    } else{
+        output_nTimes = length(timeIndices)
+    }
+
 
     # First column is cellline
     nCols = 1 + nStimuli + nInhibitors + nSignals * 2 
     nConds = dim(cnolist@signals[[1]])[1]
-    nRows = nConds * nTimes
+    nRows = nConds * output_nTimes
 
     # build the header
     colNames = c("TR:mock:CellLine")
@@ -40,45 +64,35 @@ writeMIDAS <- function(CNOlist, filename)
         colNames = cbind(colNames, paste("DV:", x, sep=""))
     }
 
-
-
     data = matrix(NA, nRows, nCols)
 
     # cellline is made of ones for now
     data[,1] = 1
 
     # fill the experiments first
-    for (time in 1:nTimes){
+    for (time in 1:length(timeIndices)){
 
-        i1 = 1 + (time - 1) * nConds
-        i2 = i1 + nConds - 1
+            i1 = 1 + (time - 1) * nConds
+            i2 = i1 + nConds - 1
 
-        j1 = 2; j2 = j1 + nStimuli - 1
-        data[i1:i2, j1:j2] = cnolist@stimuli
 
-        j1 = j2 + 1; j2 = j1 + nInhibitors - 1
-        data[i1:i2, j1:j2] = cnolist@inhibitors
+            j1 = 2; j2 = j1 + nStimuli - 1
+            data[i1:i2, j1:j2] = cnolist@stimuli
 
-        j1 = j2 + 1; j2 = j1 + nSignals - 1
-        data[i1:i2, j1:j2] = rep(timeSignals[time], nSignals)
+            j1 = j2 + 1; j2 = j1 + nInhibitors - 1
+            data[i1:i2, j1:j2] = cnolist@inhibitors
 
-        j1 = j2 + 1; j2 = j1 + nSignals - 1
-        data[i1:i2,j1:j2] = cnolist@signals[[time]] 
+            j1 = j2 + 1; j2 = j1 + nSignals - 1
+            data[i1:i2, j1:j2] = rep(timeSignals[timeIndices[time]], nSignals)
+
+            j1 = j2 + 1; j2 = j1 + nSignals - 1
+            data[i1:i2,j1:j2] = cnolist@signals[[timeIndices[time]]] 
     }
 
 
     # and save it into a file
-    if (file.exists(filename)==FALSE){
-        write.table(data, file=filename,
-            row.names=FALSE, col.names=colNames,quote=FALSE,sep=",")
-    }
-    else{
-       stop(paste("File ", filename, "already exists.",  sep=""))
-    }
-
-
-
-
+    write.table(data, file=filename,
+        row.names=FALSE, col.names=colNames,quote=FALSE,sep=",")
 
 }
 

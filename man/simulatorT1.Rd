@@ -7,7 +7,7 @@ Simulation of a boolean model
 This is the simulator, inspired from BoolSimEngMKM in the Matlab CellNOpt, to be used on one time point simulations
 }
 \usage{
-simulatorT1(CNOlist, model, simList, indexList)
+simulatorT1(CNOlist, model, simList, indexList, mode=1)
 }
 \arguments{
   \item{CNOlist}{
@@ -22,6 +22,8 @@ a simList as created by prep4sim, that has also already been cut to contain only
   \item{indexList}{
 an indexList as created by indexFinder
 }
+  \item{mode}{switch to use the cSimualor for time 0 or 1}
+
 }
 \details{
 Differences from the BoolSimEngMKM simulator include: 

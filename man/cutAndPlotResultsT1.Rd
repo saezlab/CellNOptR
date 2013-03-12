@@ -68,8 +68,8 @@ model = preprocessing(CNOlistToy, ToyModel)
 ToyT1opt<-gaBinaryT1(
 	CNOlist=CNOlistToy,
 	model=model,
-	maxGens=2, 
-	popSize = 5,
+	maxGens=20, 
+	popSize = 10,
 	verbose=FALSE)
 
 #plotting

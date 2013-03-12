@@ -5,20 +5,35 @@
 Read a SIF file and create a model object
 }
 \description{
-This function reads in a cityscape SIF file and creates a model object that can be used in the CellNOptR procedure.
+This function reads in a cytoscape SIF file and creates a model object that can be used in the CellNOptR procedure.
 }
 \usage{
 readSIF(sifFile)
 }
 \arguments{
   \item{sifFile}{
-the name of a SIF file
+The name of a SIF file (Cytoscape format). See details for the accepted format.
 }
 }
 \details{
-This function takes in a single argument, sifFile, that points to a previous
-knowledge network in SIF format i.e. sourceNode-tab-sign-tab-targetNode. If
-there are ANDs they should be introduced as dummy nodes called and# (don't
+The input argument is the name of a SIF file that contains a prior knowledge
+network. The SIF format (See http://wiki.cytoscape.org/Cytoscape_User_Manual/Network_Formats/) 
+can be of the form:
+
+\code{ nodeA typeA node2}
+
+or
+
+\code{ node2 typeB node3 node4}
+
+with space or tabulations in between types and nodes. Spaces and tabulations
+have different meaning in the original cytoscape format. However, we do not
+differentiate them. Therefore names of the nodes cannot have white space inside
+them.
+
+The accepted values for the types are -1 (inhibitor) or 1 (normal relation).
+
+If there are ANDs they should be introduced as dummy nodes called "and#" (don't
 forget the number after "and" otherwise this won't be recognised).  Please be
 aware that "and" nodes are not expected to be negated, i.e. there are not
 supposed to be !and1=xyz because that amounts to inverting the sign of all
