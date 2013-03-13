@@ -60,28 +60,10 @@ SEXP simulatorT1 (
     int nMaxInputs = INTEGER(nMaxInputs_in)[0];
     int mode = INTEGER(mode_in)[0];
 
-    int *maxIx;
-    int *indexStimuli;
-    int *indexInhibitors;
-    int *indexSignals;
-    int **finalCube;
-    int **ixNeg;
-    int **ignoreCube;
-    int **valueInhibitors;
-    int **valueStimuli;
-
-    int *end_ix;
     int count_species=0;    
 
     /* see stop conditions */
     float test_val = 1e-3;
-
-    /*  */
-    int **init_values;
-    int **output_prev;
-    int **new_input;
-	int **output_cube; 
-    int **temp_store;
 
 	int track_cond = 0; /* track condition */
 	int track_reac = 0; /* track reaction */
@@ -95,34 +77,36 @@ SEXP simulatorT1 (
     int count = 1;
     int diff;
 
-
-	end_ix = (int*) malloc(nSpecies * sizeof(int));
-
     counter = 0;
+    int *maxIx;
     maxIx = (int*) malloc(nReacs * sizeof(int));
     for (i = 0; i < nReacs; i++) {
         maxIx[i] = INTEGER(maxIx_in)[counter++];
     }
 
     counter = 0;
+    int *indexStimuli;
     indexStimuli = (int*) malloc(nStimuli * sizeof(int));
     for (i = 0; i < nStimuli; i++) {
         indexStimuli[i] = INTEGER(indexStimuli_in)[counter++];
     }
 
     counter = 0;
+    int *indexInhibitors;
     indexInhibitors = (int*) malloc(nInhibitors * sizeof(int));
     for (i = 0; i < nInhibitors; i++) {
         indexInhibitors[i] = INTEGER(indexInhibitors_in)[counter++];
     }
 
     counter = 0;
+    int *indexSignals;
     indexSignals = (int*) malloc(nSignals * sizeof(int));
     for (i = 0; i < nSignals; i++) {
         indexSignals[i] = INTEGER(indexSignals_in)[counter++] ; 
     }
 
     counter=0;
+    int **finalCube;
     finalCube = (int**) malloc(nReacs * sizeof(int*));
     for (i = 0; i < nReacs; i++) {
         finalCube[i] = (int*) malloc(nMaxInputs * sizeof(int));
@@ -132,6 +116,7 @@ SEXP simulatorT1 (
     }
 
     counter=0;
+    int **ixNeg;
     ixNeg = (int**) malloc(nReacs * sizeof(int*));
     for (i = 0; i < nReacs; i++) {
         ixNeg[i] = (int*) malloc(nMaxInputs * sizeof(int));
@@ -141,6 +126,7 @@ SEXP simulatorT1 (
     }
 
     counter=0;
+    int **ignoreCube;
     ignoreCube = (int**) malloc(nReacs * sizeof(int*));
     for (i = 0; i < nReacs; i++) {
         ignoreCube[i] = (int*) malloc(nMaxInputs * sizeof(int));
@@ -150,6 +136,7 @@ SEXP simulatorT1 (
     }
 
     counter=0;
+    int **valueInhibitors;
     if (mode==0){
         valueInhibitors = (int**) malloc(nCond * sizeof(int*));
         for (i = 0; i < nCond; i++) {
@@ -170,6 +157,7 @@ SEXP simulatorT1 (
     }
 
     counter=0;
+    int **valueStimuli;
     if (mode==0){
         valueStimuli = (int**) malloc(nCond * sizeof(int*));
         for (i = 0; i < nCond; i++) {
@@ -190,30 +178,9 @@ SEXP simulatorT1 (
     }
 
 
-    /* no need to set the initial values for those variables*/
-    temp_store = (int**) malloc(nCond*nReacs * sizeof(int*));
-    for (i = 0; i < nCond*nReacs; i++) {
-        temp_store[i] = (int*) malloc(nMaxInputs * sizeof(int));
-    }
-    output_prev = (int**) malloc(nCond*sizeof(int*));
-    new_input = (int**) malloc(nCond*sizeof(int*));
-    output_cube = (int**) malloc(nCond*sizeof(int*));
-    init_values = (int**) malloc(nCond*sizeof(int*));
-    for (i = 0; i < nCond; i++) {
-        output_prev[i] = (int*) malloc(nSpecies * sizeof(int*));
-        new_input[i] = (int*) malloc(nSpecies * sizeof(int*));
-        output_cube[i] = (int*) malloc(nSpecies * sizeof(int*));
-        init_values[i] = (int*) malloc(nSpecies * sizeof(int*));
-    }
-
-
- 
-
-    /*============================================================================*/
-
-    /* fill end_ix - how many reactions have each species as output*/
-    count_species=0;    
-    end_ix = (int*) malloc(nSpecies * sizeof(int));
+    // fill end_ix - how many reactions have each species as output
+    int end_ix[nSpecies];
+    count_species=0;
     for(i = 0; i < nSpecies; i++) {
         for(j = 0; j < nReacs; j++) {
             if(i == maxIx[j]) {
@@ -227,7 +194,8 @@ SEXP simulatorT1 (
     /* see stop conditions */
     test_val = 1e-3;
 
-    /* create an initial values matrix*/
+    /* create an initial values matrix*/    
+    int init_values[nCond][nSpecies];
     for(i = 0; i < nCond; i++) {
         for(j = 0; j < nSpecies; j++) {
             init_values[i][j] = NA;
@@ -261,16 +229,15 @@ SEXP simulatorT1 (
     }
 
     /* initialize main loop */
-
-    for (i=0; i<nCond; i++){
-        for (j=0; j<nSpecies; j++){
-            new_input[i][j] = init_values[i][j];
-        }
-    }
-    /*memcpy(new_input, init_values, sizeof(new_input));*/
+    int output_prev[nCond][nSpecies];
+    int new_input[nCond][nSpecies];
+    memcpy(new_input, init_values, sizeof(new_input));
     term_check_1 = 1;
     term_check_2 = 1;
     count = 1;
+    
+    
+    int temp_store[nCond * nReacs][nMaxInputs];
 
     /* ============================================================================*/
 
@@ -278,12 +245,7 @@ SEXP simulatorT1 (
     while(term_check_1 && term_check_2) {
 
         /* copy to outputPrev */
-        /*memcpy(output_prev, new_input, sizeof(output_prev));*/
-        for (i=0; i<nCond; i++){
-            for (j=0; j<nSpecies; j++){
-                output_prev[i][j] = new_input[i][j];
-            }
-        }
+        memcpy(output_prev, new_input, sizeof(output_prev));
 
 
         /* fill temp store
@@ -316,6 +278,7 @@ SEXP simulatorT1 (
         }
 
         /* compute the AND gates (find the min 0/1 of each row) */
+        int output_cube[nCond][nReacs]; // declare output_cube
         dial_reac = 0;
         dial_cond = 0;
         for(i = 0; i < nCond * nReacs; i++) {
@@ -453,14 +416,13 @@ SEXP simulatorT1 (
             else rans[i + nCond*j] = new_input[i][indexSignals[j]];
         }
     }
-
 */
+
 
     free(maxIx);
     free(indexStimuli);
     free(indexInhibitors);
     free(indexSignals);
-    free(end_ix);
 
     for (i = 0; i < nReacs; i++) {
         free(finalCube[i]);
@@ -486,23 +448,6 @@ SEXP simulatorT1 (
         free(valueStimuli[i]);
     }
     free(valueStimuli);
-
-
-    for (i=0; i<nCond*nReacs; i++){
-        free(temp_store[i]);
-    }
-    free(temp_store);
-
-    for (i=0; i<nCond; i++){
-        free(output_prev[i]);
-        free(new_input[i]);
-        free(init_values[i]);
-        free(output_cube[i]);
-    }
-    free(output_prev);
-    free(new_input);
-    free(init_values);
-    free(output_cube);
 
     UNPROTECT(1);
     return simResults;
