@@ -654,6 +654,7 @@ SEXP simulatorTN (
     free(indexSignals);
     free(end_ix);
     free(times);
+    free(reacsTN);
 
     for (i = 0; i < nSpecies; i++) {
         free(interMat[i]);
