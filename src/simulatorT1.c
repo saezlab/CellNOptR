@@ -231,7 +231,13 @@ SEXP simulatorT1 (
     /* initialize main loop */
     int output_prev[nCond][nSpecies];
     int new_input[nCond][nSpecies];
-    memcpy(new_input, init_values, sizeof(new_input));
+
+    for (i=0; i<nCond; i++){
+        for (j=0; j<nSpecies; j++){
+            new_input[i][j] = init_values[i][j];
+        }
+    }
+    /*memcpy(new_input, init_values, sizeof(new_input));*/
     term_check_1 = 1;
     term_check_2 = 1;
     count = 1;
@@ -245,7 +251,12 @@ SEXP simulatorT1 (
     while(term_check_1 && term_check_2) {
 
         /* copy to outputPrev */
-        memcpy(output_prev, new_input, sizeof(output_prev));
+/*        memcpy(output_prev, new_input, sizeof(output_prev));*/
+    for (i=0; i<nCond; i++){
+        for (j=0; j<nSpecies; j++){
+            output_prev[i][j] = new_input[i][j];
+        }
+    }
 
 
         /* fill temp store
