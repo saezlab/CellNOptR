@@ -406,7 +406,7 @@ cutAndPlot(model=model, bStrings=list(ToyT1opt$bString),
 
 
 \begin{figure*}
-\centerline{\includegraphics[width=0.8\textwidth]{SimResultsT1_1.pdf}}
+\centerline{\includegraphics[width=0.8\textwidth]{Fig8.pdf}}
 \caption{Results of the cutAndPlot function on the Toy Model example.}
 \label{fig:scaffold}
 \end{figure*}
