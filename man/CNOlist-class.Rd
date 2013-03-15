@@ -1,25 +1,30 @@
 \name{CNOlist-class}
 \docType{class}
 \alias{CNOlist-class}
-\alias{CNOlist,ANY}
+%\alias{CNOlist,ANY}
 \alias{CNOlist}
 
 
-% defines the generics here. This is the same as in cnolist-methods but is
-% required to prevent warnings.
-\alias{plot,CNOlist,CNOlist,CNOlist-method}
-
-
-\alias{randomize,CNOlist-method}
-\alias{getCues,CNOlist-method}
-\alias{getSignals,CNOlist-method}
-\alias{getInhibitors,CNOlist-method}
-\alias{getStimuli,CNOlist-method}
-\alias{getVariances,CNOlist-method}
-\alias{getTimepoints,CNOlist-method}
 \alias{compatCNOlist,CNOlist-method}
+\alias{getCues,CNOlist-method}
+\alias{getInhibitors,CNOlist-method}
+\alias{getSignals,CNOlist-method}
+\alias{getStimuli,CNOlist-method}
+\alias{getTimepoints,CNOlist-method}
+\alias{getVariances,CNOlist-method}
+\alias{plot,CNOlist,CNOlist-method}
+%\alias{plot,CNOlist,missing-method}
+%\alias{plot,CNOlist,CNOlist,CNOlist-method}
 \alias{length,CNOlist-method}
+\alias{randomize,CNOlist-method}
 \alias{setSignals<-,CNOlist-method}
+
+
+%\alias{plot,CNOlist-method}
+%\alias{plot,CNOlist,ANY,CNOlist-method}
+%\alias{plot,CNOlist,CNOlist,CNOlist-method}
+%\alias{plot,CNOlist,ANY}
+%\alias{plot,CNOlist,CNOlist}
 
 
 

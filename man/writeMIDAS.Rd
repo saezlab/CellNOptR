@@ -30,7 +30,7 @@ writeMIDAS(CNOlist, filename,  timeIndices=NULL, overwrite=FALSE)
 T. Cokelaer
 }
 \seealso{
-\link{makeCNOlist}, \link{readMIDAS}, \link{CNOlist}
+\link{makeCNOlist}, \link{readMIDAS}, \link{CNOlist-class}
 }
 \examples{
    tmpdir<-tempdir()

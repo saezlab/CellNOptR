@@ -43,12 +43,13 @@
 
 %\alias{plot}
 %\alias{plot,CNOlist}
-%\alias{plot,CNOlist,CNOlist,CNOlist-method}
-%\alias{plot,CNOlist,ANY,CNOlist-method}
+\alias{plot,CNOlist,CNOlist,CNOlist-method}
+%\alias{plot,CNOlist,CNOlist,CNOlist-methods}
+%\alias{plot,CNOlist,missing,CNOlist-method}
 
 
 
-\title{List of \link{CNOlist} methods}
+\title{List of \link{CNOlist-class} methods}
 \description{
  CNOlist is a class with a set of methods described here below.
 
@@ -100,7 +101,7 @@
 T.Cokelaer
 }
 \seealso{
-\code{\link{CNOlist}}, \code{\link{randomizeCNOlist}} \code{\link{makeCNOlist}}
+\code{\link{CNOlist-class}}, \code{\link{randomizeCNOlist}} \code{\link{makeCNOlist}}
 }
 \examples{
 showClass("CNOlist")

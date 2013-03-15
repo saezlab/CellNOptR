@@ -24,7 +24,7 @@ model, you can use this function.
 }
 
 \seealso{
-    \link{CNOlist}
+    \link{CNOlist-class}
 }
 
 \note{added in version 1.5.10}
