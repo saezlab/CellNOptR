@@ -30,16 +30,36 @@ prep4sim<-function(model){
     for(r in 1:length(model$reacID)){
 
         input<-which(model$interMat[,r] == -1)
-        finalCube[r,1:length(input)]<-input
 
-        if(length(input) < maxInput) finalCube[r,(length(input)+1):maxInput]<-1
 
-        neg<-model$notMat[input,r]
-        ixNeg[r,1:length(input)]<-(neg == 1)
-        ignoreCube[r,1:length(input)]<-FALSE
-        maxIx[r]<-which(model$interMat[,r] == 1)
+        if (length(input)>0){
+            finalCube[r,1:length(input)]<-input
 
+            if(length(input) < maxInput) finalCube[r,(length(input)+1):maxInput]<-1
+
+            neg<-model$notMat[input,r]
+            ixNeg[r,1:length(input)]<-(neg == 1)
+            ignoreCube[r,1:length(input)]<-FALSE
+            maxIx[r]<-which(model$interMat[,r] == 1)
+            }
+        else { 
+            # hack for the self loop that cannot be identified in the interMat
+            # if a reaction is of type A=A then lhs == rhs. If so, we can
+            # proceed to fill the matrices, otherwise we keep the default values
+            # (e.g., NA for finalCube)
+           lhs = unlist(strsplit(model$reacID[r], "="))[[1]] 
+           rhs = unlist(strsplit(model$reacID[r], "="))[[2]] 
+            if (lhs == rhs){
+               # if lhs equals rhs, this is a self loop and we should not
+               # expect any ! sign. No need to deal with neg and ixNeg
+                input = which(model$interMat[,r] == 1)
+                ignoreCube[r,1:length(input)] <- FALSE
+                finalCube[r, 1:length(input)] <- input
+                maxIx[r] <- input
+
+            }
         }
+    }
 
     rownames(finalCube)<-model$reacID
     rownames(ixNeg)<-model$reacID

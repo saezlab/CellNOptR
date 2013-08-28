@@ -2,6 +2,39 @@
 \name{CellNOptR NEWS}
 
 
+\section{CHANGES IN VERSION 1.8.0: (2013-08-28)}{
+Changes since 1.6.0
+\itemize{
+    \item{BUG FIX}
+        \itemize{
+            \item{readMIDAS: DV, DA and TR can now be in the specy name}
+            \item{prep4sim can read self loop}
+            \item{plotOptimResultsPan: fix special cases with one or no inhibitors/stimuli}
+            \item{fix bug in cutNONC: notMat was not populated}
+            \item{readSIF: can read and gates coded in big caps as well as small ones}
+            \item{writeMIDAS: manages absence of inhibitors}
+        }
+    \item{CHANGES}
+        \itemize{
+            \item{CNOlist: subfield parameter has been removed. Subfield are
+                automatically found from the header}
+            \item{expandAndGates are not limited to 4 inputs anymore}
+            \item{normaliseCNOlist: EC50 is set to 1 by default}
+
+
+        }
+    \item{NEW FEATURES}
+        \itemize{
+            \item{readSBMLQual: a function to read prior knowledge network in
+                SBMLqual format. !! This is a prototype. use with care for now.}
+            \item{cutCNOlist function can cut a MIDAS file over time}
+        }
+    }
+}
+    
+
+
+
 \section{CHANGES IN VERSION 1.6.0: (2013-03-12)}{
 Changes since 1.4.0
 \itemize{
@@ -40,7 +73,7 @@ Changes since 1.4.0
             \item{model2igraph function}
             \item{compatCNOlist to convert CNOlist back to old style; used by CNORode}
         }
-}
+    }
 }
 
 

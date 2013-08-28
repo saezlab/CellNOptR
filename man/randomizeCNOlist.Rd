@@ -1,7 +1,7 @@
 \name{randomizeCNOlist}
 \alias{randomizeCNOlist}
 \title{
-Normalisation for boolean modelling.
+add noise to the data contained in a CNOlist.
 }
 \description{
 This function takes in a CNOlist and does the normalisation of the data between

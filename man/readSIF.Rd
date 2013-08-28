@@ -26,6 +26,7 @@ or
 
 \code{ node2 typeB node3 node4}
 
+
 with space or tabulations in between types and nodes. Spaces and tabulations
 have different meaning in the original cytoscape format. However, we do not
 differentiate them. Therefore names of the nodes cannot have white space inside
@@ -38,6 +39,14 @@ forget the number after "and" otherwise this won't be recognised).  Please be
 aware that "and" nodes are not expected to be negated, i.e. there are not
 supposed to be !and1=xyz because that amounts to inverting the sign of all
 inputs of and1, which is more simply done at the inputs level.
+
+The SIF format can also include unconnected node that is a row with a single
+name:
+
+\code{nodeA}
+
+Although there would be no error, these type of rows are ignored. 
+
 }
 \value{
 a model list with fields:

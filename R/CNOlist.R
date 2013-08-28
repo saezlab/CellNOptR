@@ -48,14 +48,13 @@ setClass("CNOlist",
 
 
 ## constructor
-CNOlist <-function(data, subfield=FALSE, verbose=FALSE){
+CNOlist <-function(data, verbose=FALSE){
 
     res = NULL
     # input can a filename or the old (still used) CNOlist returned by
-    # makeCNOlist function. subfield and verbose used only if MIDASfile is a
-    # string.
+    # makeCNOlist function. 
     if (is.character(data)== TRUE){
-        res = internal_CNOlist_from_file(data, subfield, verbose)
+        res = internal_CNOlist_from_file(data, verbose)
     }
 
     if (is.list(data)==TRUE){
@@ -205,10 +204,39 @@ internal_compatCNOlist<-function(cnolist){
 
 # used by the constructor not for export.
 # open a MIDAS file (given a  filename) and create the instance of CNOlist
-internal_CNOlist_from_file <- function(MIDASfile, subfield=FALSE, verbose=FALSE)
+internal_CNOlist_from_file <- function(MIDASfile, verbose=FALSE)
 {
     x <- readMIDAS(MIDASfile, verbose=verbose)
+
+    # in the old makeCNOlist, there is a need for subfield. In cnolist, we
+    # automatically figure it out here below:
+    names = colnames(x$dataMatrix[x$TRcol])
+    
+    # Are all TR coded using subfield ?
+    all_subfield_s = sapply(names, function(x){x = grepl(":Stimuli", x)})
+    all_subfield_i = sapply(names, function(x){x = grepl(":Inhibitors", x)})
+    all_subfield = all(all_subfield_s | all_subfield_i)
+
+    # any subfield used ? 
+    any_subfield_s = any(sapply(names, function(x){x = grepl(":Stimuli", x)}))
+    any_subfield_i = any(sapply(names, function(x){x = grepl(":Inhibitors", x)}))
+
+    
+
+    any_subfield = any_subfield_s | any_subfield_i
+
+    if (all_subfield == F && any_subfield == T){
+        stop("If you use subfield in the MIDAS header, they should be used for all treatments adding :Stimuli or :Inhibitors after the species name (e.g., TR:<specy name>:Stimuli)")
+    }
+
+    if (all_subfield == F){
+        subfield = F
+    } else{
+        subfield = T
+    }
     cnolist <- makeCNOlist(x, subfield=subfield, verbose=verbose)
+
+
     res <- internal_CNOlist_from_makeCNOlist(cnolist)
     return(res)
 }

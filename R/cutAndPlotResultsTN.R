@@ -40,7 +40,7 @@ cutAndPlotResultsTN <-function(CNOlist, model,bStrings, plotPDF=FALSE,
 
     # t0
     Sim0 <- simulatorT0(CNOlist=CNOlist,model=modelCut,simList=simListCut,indexList=indexList)
-    simResT0 <- as.matrix(Sim0[,indexList$signals])
+    simResT0 <- as.matrix(Sim0[,indexList$signals, drop=F])
     #simResT0 = Sim0
 
     # simulate
@@ -55,7 +55,7 @@ cutAndPlotResultsTN <-function(CNOlist, model,bStrings, plotPDF=FALSE,
     }
 
 
-    plotOptimResultsPan(
+    mse = plotOptimResultsPan(
       simResults=simResults,
       CNOlist=CNOlist,
       formalism="ssN",
@@ -72,7 +72,7 @@ cutAndPlotResultsTN <-function(CNOlist, model,bStrings, plotPDF=FALSE,
       filename<-paste(tag, "SimResultsTN.pdf", sep="_")
     }
 
-    plotOptimResultsPan(
+    mse = plotOptimResultsPan(
       simResults=simResults,
       CNOlist=CNOlist,
       formalism="ssN",
@@ -83,4 +83,9 @@ cutAndPlotResultsTN <-function(CNOlist, model,bStrings, plotPDF=FALSE,
       #TimePoints=length(tPt)
     )
   }
+
+  outputFileNames = list()
+  return(list(mse=mse, filenames=outputFileNames))
+
+
 }

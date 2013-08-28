@@ -10,10 +10,11 @@ a CNOlist (see makeCNOlist and readMIDAS) or information related to the
 pre-processing steps (compression, NONC nodes, expansion gates).
 It can also be used to plot optimised model given the optimisation bitstring.}
 
+
 \usage{
 plotModel(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL, signals=NULL, 
 stimuli=NULL, inhibitors=NULL, NCNO=NULL, compressed=NULL, output="STDOUT",
-filename=NULL, graphvizParams=list(), remove_dot=TRUE)
+filename=NULL, graphvizParams=list(), show=TRUE, remove_dot=TRUE)
 }
 
 \arguments{
@@ -69,6 +70,7 @@ filename=NULL, graphvizParams=list(), remove_dot=TRUE)
         }
     }
 
+  \item{show}{ show the plot (default is True)}
 
   \item{remove_dot}{remove the dot file that has been created .default if
 False)}

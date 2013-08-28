@@ -12,7 +12,7 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: plotCNOlist.R 3179 2013-01-21 12:50:13Z cokelaer $
+# $Id: plotCNOlist.R 3635 2013-05-28 09:21:46Z cokelaer $
 plotCNOlist<-function(CNOlist){
 
 #check that CNOlist is a CNOlist
@@ -31,6 +31,9 @@ plotCNOlist<-function(CNOlist){
     )
 
     yMax<-max(unlist(lapply(CNOlist@signals,function(x) max(x, na.rm=TRUE))))
+    if (yMax<=1){
+        yMax = 1
+    }
     yMin<-min(unlist(lapply(CNOlist@signals,function(x) min(x, na.rm=TRUE))))
     xVal<-CNOlist@timepoints
 
@@ -61,9 +64,13 @@ plotCNOlist<-function(CNOlist){
 
         for(c in 1:dim(CNOlist@signals[[1]])[2]){
             yVal<-lapply(CNOlist@signals,function(x) {x[r,c]})
-
             plot(x=xVal,y=yVal,ylim=c(yMin, yMax),xlab=NA,ylab=NA,xaxt="n",yaxt="n")
             lines(x=xVal,y=yVal,ylim=c(yMin, yMax),xlab=NA,ylab=NA,xaxt="n",yaxt="n")
+            tryCatch(
+                {ystd = unlist(lapply(CNOlist@variances,function(x) {x[r,c]}))
+                .error.bar(unlist(xVal), unlist(yVal), ystd)},
+                error=function(e){}
+            )
 
             #add the annotation of the axis: if we're on the last row we need an x-axis
             if(r == dim(CNOlist@signals[[1]])[1]){
@@ -126,4 +133,17 @@ plotCNOlist<-function(CNOlist){
     par(oldPar)
 
 }
+
+
+.error.bar <- function(x, y, upper, lower=upper, length=0.1,...){
+     if(length(x) != length(y) | length(y) !=length(lower) | length(lower) != length(upper))
+         stop("vectors must be same length")
+
+     positives = upper > 0
+     x = x[positives]
+     y = y[positives]
+     upper = upper[positives]
+     lower = lower[positives]
+     arrows(x,y+upper, x, y-lower, angle=90, code=3, length=length, ...)
+     }
 

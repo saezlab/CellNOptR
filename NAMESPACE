@@ -50,6 +50,7 @@ export(
     "prep4Sim",
     "preprocessing",
     "randomizeCNOlist",
+    "readSBMLQual",
     "readMIDAS",
     "readSIF",
     "readSif",

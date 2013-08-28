@@ -12,10 +12,11 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: plotFit.R 3155 2013-01-09 15:24:58Z cokelaer $
+# $Id: plotFit.R 3522 2013-04-23 11:01:03Z cokelaer $
 plotFit<-function(optRes, filename=NULL){
 
    oldPar = par(no.readonly = TRUE)
+   on.exit(par(oldPar))
 
    if (is.null(filename)!=TRUE){
         pdf(filename)
@@ -41,7 +42,7 @@ plotFit<-function(optRes, filename=NULL){
         dev.off()
     }
 
-    par(oldPar)
+   # par(oldPar)
 
 } 
 

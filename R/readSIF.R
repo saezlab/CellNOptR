@@ -70,6 +70,9 @@ readSIF<-function(sifFile){
     if (any(substring(reacID, 1,4)=="!and")==TRUE){
         stop("Found an and gate with not edge. This is not possible check your SIF file. Must be 'and 1 specy', not 'and -1 specy' !!")
     }
+    if (any(substring(reacID, 1,4)=="!AND")==TRUE){
+        stop("Found an and gate with not edge. This is not possible check your SIF file. Must be 'and 1 specy', not 'and -1 specy' !!")
+    }
 #Create empty interMat and notMat
     interMat<-matrix(data=0,nrow=length(namesSpecies), ncol=dim(sif)[1])
     rownames(interMat)<-namesSpecies
@@ -77,6 +80,7 @@ readSIF<-function(sifFile){
     notMat<-matrix(data=0,nrow=length(namesSpecies), ncol=dim(sif)[1])
     rownames(notMat)<-namesSpecies
     colnames(notMat)<-reacID
+
 
 #Fill in interMat and notMat
     for(r in 1:length(reacID)){
@@ -94,9 +98,11 @@ readSIF<-function(sifFile){
 
 #1.detect them
     AndNodes<-grep(
-        pattern="(and\\d+$)",namesSpecies,perl=TRUE,ignore.case=FALSE)
+        pattern="([a,A][n,N][d,D]\\d+$)",namesSpecies,perl=TRUE,ignore.case=FALSE)
     AndNodesV<-grep(
-        pattern="(and\\d+$)",namesSpecies,perl=TRUE,ignore.case=FALSE,value=TRUE)
+        pattern="([a,A][n,N][d,D]\\d+$)",namesSpecies,perl=TRUE,ignore.case=FALSE,value=TRUE)
+
+
     if(length(AndNodes) != 0){
 
 #2.go through them
@@ -189,10 +195,12 @@ readSIF<-function(sifFile){
             notMat<-notMat[,-AndsReacs]
             interMat<-cbind(interMat,newReac)
             notMat<-cbind(notMat,newReacNot)
-            reacID<-c(reacID,newReacID)
-            interMat<-interMat[-which(rownames(interMat) == AndNodesV[i]),]
-            notMat<-notMat[-which(rownames(notMat) == AndNodesV[i]),]
 
+            reacID<-c(reacID,newReacID)
+            interMat<- as.matrix(interMat[-which(rownames(interMat) == AndNodesV[i]),], drop=F)
+            notMat <- as.matrix(notMat[-which(rownames(notMat) == AndNodesV[i]),], drop=F)
+
+            
             if(length(output) == 1){
 
                 colnames(interMat)[dim(interMat)[2]]<-newReacID
@@ -203,7 +211,7 @@ readSIF<-function(sifFile){
                     colnames(interMat)[(dim(interMat)[2]-length(newReacID)+1):dim(interMat)[2]]<-newReacID
                     colnames(notMat)[(dim(notMat)[2]-length(newReacID)+1):dim(notMat)[2]]<-newReacID
 
-                    }
+                }
             }
         }
 

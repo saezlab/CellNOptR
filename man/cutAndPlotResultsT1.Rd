@@ -47,7 +47,7 @@ for other fields.
 }
 }
 \value{
-This function returns a list of filenames that have been created.
+This function returns plotted MSEs and list of filenames generated (if any)
 }
 \author{
 C.Terfve, T. Cokelaer,A. MacNamara

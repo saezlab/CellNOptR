@@ -8,8 +8,6 @@ writeMIDAS <- function(CNOlist, filename, timeIndices=NULL, overwrite=FALSE)
         cnolist = CNOlist
     }
 
-
-
     # remove exiisting file if required
     if (overwrite==TRUE){
         if (file.exists(filename)==TRUE){
@@ -27,9 +25,6 @@ writeMIDAS <- function(CNOlist, filename, timeIndices=NULL, overwrite=FALSE)
     namesInhibitors = colnames(cnolist@inhibitors)
     namesSignals = colnames(cnolist@signals[[1]])
 
-
-    
-
     #nCues = length(namesCues)
     nStimuli = length(namesStimuli)
     nInhibitors = length(namesInhibitors)
@@ -42,7 +37,6 @@ writeMIDAS <- function(CNOlist, filename, timeIndices=NULL, overwrite=FALSE)
     } else{
         output_nTimes = length(timeIndices)
     }
-
 
     # First column is cellline
     nCols = 1 + nStimuli + nInhibitors + nSignals * 2 
@@ -70,17 +64,21 @@ writeMIDAS <- function(CNOlist, filename, timeIndices=NULL, overwrite=FALSE)
     data[,1] = 1
 
     # fill the experiments first
-    for (time in 1:length(timeIndices)){
+
+
+    for (time in seq_along(timeIndices)){
 
             i1 = 1 + (time - 1) * nConds
             i2 = i1 + nConds - 1
 
-
             j1 = 2; j2 = j1 + nStimuli - 1
+
             data[i1:i2, j1:j2] = cnolist@stimuli
 
-            j1 = j2 + 1; j2 = j1 + nInhibitors - 1
-            data[i1:i2, j1:j2] = cnolist@inhibitors
+            if (nInhibitors>0){
+                j1 = j2 + 1; j2 = j1 + nInhibitors - 1
+                data[i1:i2, j1:j2] = cnolist@inhibitors
+            } 
 
             j1 = j2 + 1; j2 = j1 + nSignals - 1
             data[i1:i2, j1:j2] = rep(timeSignals[timeIndices[time]], nSignals)

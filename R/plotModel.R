@@ -15,13 +15,12 @@
 # $Id$
 plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
     signals=NULL, stimuli=NULL, inhibitors=NULL, NCNO=NULL, compressed=NULL,
-    output="STDOUT", filename=NULL,graphvizParams=list(), remove_dot=TRUE){
+    output="STDOUT", filename=NULL,graphvizParams=list(), show=TRUE, remove_dot=TRUE){
 # Quick example:
 # ---------------
 #   filename = "ToyPKNMMB.sif"
 #   g = plotModel(model, cnolist=cnolist)
 #   # g$graph contains the model transformed into a graph object
-
 
   # user parameters to refine the layout, color, ...
   if (is.null(graphvizParams$arrowsize)==TRUE) {
@@ -193,7 +192,7 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
             Integr[CountReac]<-optIntegr[i]
             CountReac<-CountReac+1
           }else{
-            for (j in 1:length(inputs)){
+            for (j in seq_along(inputs)){
               v1[CountReac]<-inputs[j]
               edges[CountReac] = 1
               v2[CountReac]<-paste("and",CountAnds,sep="")
@@ -223,6 +222,7 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
         signals <- colnames(cnolist@signals[[1]])
         inhibitors <- colnames(cnolist@inhibitors)
     }
+
 
     # check that the signal and stimuli are indeed in the list of vertices
     # otherwise they will be failures later.
@@ -353,9 +353,11 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
 
     if (is.null(clusters)==TRUE){
         # finally, the layout for a R plot
-        x <- layoutGraph(g,layoutType="dot",recipEdges=recipEdges,attrs=attrs)
-        renderGraph(x)
-        nodeRenderInfo(x) <- nodeRenderAttrs
+        if (show==TRUE){
+            x <- layoutGraph(g,layoutType="dot",recipEdges=recipEdges,attrs=attrs)
+            renderGraph(x)
+            nodeRenderInfo(x) <- nodeRenderAttrs
+        }
         #edgeRenderInfo(x) <- edgeRenderAttrs
         edgeAttrs$lty=NULL    # why ?
         toDot(copyg, output_dot, nodeAttrs=nodeAttrs,edgeAttrs=edgeAttrs,attrs=attrs, recipEdges=recipEdges)
@@ -370,17 +372,19 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
         # finally, the layout for a R plot
         #attrs$node = nodeRenderInfo(g)
         #attrs$edge = edgeRenderInfo(g)
-        x <- layoutGraph(g,layoutType="dot",subGList=clusters,recipEdges=recipEdges,attrs=attrs)
+        if (show==TRUE){
+            x <- layoutGraph(g,layoutType="dot",subGList=clusters,recipEdges=recipEdges,attrs=attrs)
 
 
-        # known bug in Rgraphviz: renderInfo should be called again after the
-        # layout otherwise some attributes are lost in the renderGraph (e.g.,
-        # color)
-        # note that rendering is now made on x variable (not g)
-        nodeRenderInfo(x) <- nodeRenderAttrs
-        edgeRenderInfo(x) <- edgeRenderAttrs
-
-        renderGraph(x)
+            # known bug in Rgraphviz: renderInfo should be called again after the
+            # layout otherwise some attributes are lost in the renderGraph (e.g.,
+            # color)
+            # note that rendering is now made on x variable (not g)
+            nodeRenderInfo(x) <- nodeRenderAttrs
+            edgeRenderInfo(x) <- edgeRenderAttrs
+    
+            renderGraph(x)
+        }
         # and save into dot file.
         toDot(copyg, output_dot, nodeAttrs=nodeAttrs, subGList=clusters,
              attrs=attrs, recipEdges=recipEdges, edgeAttrs=edgeAttrs)
@@ -560,15 +564,22 @@ compressed, graphvizParams){
     # The inhibitor node, that may also belong to the signal category.
     for (s in inhibitors){
         if (length(grep(s, signals))>=1){
-            fillcolor[s] <- "SkyBlue2"
-            style[s] <- "filled,bold,diagonals"
+            #fillcolor[s] <- "SkyBlue2"
+            shape[s]="ellipse"
+            style[s] <- "filled,bold"
             color[s] <-"orangered"
-        color[s] <- "black";
-        }
-        else{
-            fillcolor[s] <- "orangered";
-            color[s] <-"orangered";
-        color[s] <- "black";
+        } else {
+            if (length(grep(s, stimuli))>=1){
+                #fillcolor[s] <- "SkyBlue2"
+                shape[s]="ellipse"
+                style[s] <- "filled,bold"
+                color[s] <-"orangered"
+            }
+            else{
+                fillcolor[s] <- "orangered";
+                color[s] <-"orangered";
+                color[s] <- "black";
+            }
         }
     }
     # The compressed nodes

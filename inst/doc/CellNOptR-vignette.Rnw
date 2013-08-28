@@ -710,6 +710,9 @@ cutAndPlot(
 
 \clearpage
 
+\section{What else}
+More tutorials can be found in www.cellnopt.org and \url{http://www.cellnopt.org/}
+in particulat on \url{http://www.cellnopt.org/doc/cnodocs/}.
 
 \begin{thebibliography}{1}
 

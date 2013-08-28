@@ -57,5 +57,5 @@ cutAndPlot <- function(CNOlist, model, bStrings, plotPDF=FALSE, tag=NULL,
          tag=tag) 
     }
     # if tPt=2 (default), call cutAndPlotResultsT2
-    #return(outputs)
+    return(outputs)
 }

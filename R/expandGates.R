@@ -12,7 +12,7 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: expandGates.R 3155 2013-01-09 15:24:58Z cokelaer $
+# $Id: expandGates.R 3859 2013-07-30 13:28:40Z cokelaer $
 expandGates<-function(model, ignoreList=NA,maxInputsPerGate=2){
 
     Model = model
@@ -316,6 +316,69 @@ expandGates<-function(model, ignoreList=NA,maxInputsPerGate=2){
                 names(newANDs)[[length(newANDs)]] <- newcolname
 
             } # end if length(inSp) == 2
+
+
+ if (maxInputsPerGate >= 5) {
+        for (mip in 5:maxInputsPerGate) {
+          if (length(inSpecies) >= mip & maxInputsPerGate >= 
+              mip) {
+            combinations = combn(seq(1, length(inSpecies)), 
+              mip)
+            indices = seq(1, dim(combinations)[2])
+          }
+          else {
+            indices = seq(length = 0)
+          }
+          for (this in indices) {
+            combs <- c()
+            realnames <- c()
+            for (i in 1:mip) {
+              combs[i] = combinations[i, this]
+              realnames[i] = ifelse(substr(inSpecies[combs[i]], 1, 1) == 
+                         "!", substr(inSpecies[i], 2, 10000), inSpecies[combs[i]])
+            }
+            if (any(combn(realnames, 2)[1, ] == combn(realnames, 
+                                         2)[2, ])) {
+              (next)()
+            }
+            newcolname <- paste(paste(inSpecies[combs], collapse = "+"), outname, 
+                                sep = "=")
+            if (newcolname %in% colnames(Model$interMat)) {
+              (next)()
+            }
+            Model$reacID <- c(Model$reacID, newcolname)
+            values = as.matrix(rep(0, length(Model$namesSpecies)))
+            colnames(values) <- newcolname
+            for (name in inSpecies) {
+              realname = ifelse(substr(name, 1, 1) == "!", 
+                substr(name, 2, 10000), name)
+              values[which(myrownames == realname)] <- -1
+            }
+            values[which(myrownames == outname)] <- 1
+            Model$interMat = cbind(Model$interMat, values)
+            values = as.matrix(rep(0, length(Model$namesSpecies)))
+            colnames(values) <- newcolname
+            for (name in inSpecies) {
+              if (substr(name, 1, 1) == "!") {
+                realname = ifelse(substr(name, 1, 1) == "!", 
+                  substr(name, 2, 10000), name)
+                values[which(myrownames == realname)] <- 1
+              }
+            }
+            Model$notMat = cbind(Model$notMat, values)
+            newreac1 = paste(inSpecies[i], outname, sep = "=")
+            newreac2 = paste(inSpecies[j], outname, sep = "=")
+            newreac3 = paste(inSpecies[k], outname, sep = "=")
+            newreac4 = paste(inSpecies[l], outname, sep = "=")
+            newreacs <- c()
+            for (i in 1:mip) {
+              newreacs[i] <- paste(inSpecies[combs[i]], outname, sep = "=")
+            }
+            newANDs[[length(newANDs) + 1]] <- newreacs # c(newreac1, newreac2, newreac3, newreac4)
+            names(newANDs)[[length(newANDs)]] <- newcolname
+          }
+        }
+      }
 
         }
     }

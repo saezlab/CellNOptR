@@ -8,7 +8,7 @@ This function takes in a CNOlist and does the normalisation of the data between
 0 and 1, according to two different procedures (see details).
 }
 \usage{
-normaliseCNOlist(CNOlist, EC50Data=0.5, HillCoef=2, EC50Noise=0.1, detection=0,
+normaliseCNOlist(CNOlist, EC50Data=0.5, HillCoef=2, EC50Noise=0., detection=0,
     saturation=Inf, changeTh=0, norm2TorCtrl=NULL, mode="time", 
     options=list(rescale_negative = T), verbose=FALSE)
 }
@@ -26,7 +26,7 @@ Hill coefficient for the scaling of the data, default to 2
 }
   \item{EC50Noise}{
 parameter for the computation of a penalty for data comparatively smaller than
-other time points or conditions.
+other time points or conditions. No effect if set to zero (default).
 }
   \item{detection}{
 minimum detection level of the instrument, everything smaller will be treated as noise (NA), default to 0

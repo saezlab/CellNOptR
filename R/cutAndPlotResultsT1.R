@@ -12,7 +12,7 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: cutAndPlotResultsT1.R 3354 2013-03-04 17:18:37Z cokelaer $
+# $Id: cutAndPlotResultsT1.R 3555 2013-05-07 10:49:14Z cokelaer $
 
 cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList=NULL,
  plotPDF=FALSE, tag=NULL, tPt=CNOlist@timepoints[2], plotParams=list(maxrow=10))
@@ -36,14 +36,13 @@ cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList
     # keep simList and indxList for back compatibility ?
     modelCut <- cutModel(model, bString)
     simListCut <- cutSimList(simList, bString)
-
     # t0
     Sim0 <- simulatorT0(CNOlist=CNOlist, model=modelCut, simList=simListCut, indexList=indexList)
-    simRes0 <- as.matrix(Sim0[,indexList$signals])
+    simRes0 <- as.matrix(Sim0[,indexList$signals,drop=F])
     #simRes0 = Sim0
     # t1
     Sim <- simulatorT1(CNOlist=CNOlist, model=modelCut, simList=simListCut, indexList=indexList)
-    simRes <- as.matrix(Sim[,indexList$signals])
+    simRes <- as.matrix(Sim[,indexList$signals,drop=F])
     #simRes = Sim
 
     simResults <- list(t0=simRes0, t1=simRes)
@@ -92,7 +91,7 @@ cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList
     outputFilenames = list()
     for(f in 1:length(CNOlistSet)) {
 
-        plotOptimResultsPan(
+        mse = plotOptimResultsPan(
             simResults=simResultsSet[[f]],
             CNOlist=CNOlistSet[[f]],
             formalism="ss1",
@@ -106,7 +105,7 @@ cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList
             } else {
                 filename <- paste(tag,"SimResultsT1",f,".pdf",sep="_")
             }
-            plotOptimResultsPan(
+            mse = plotOptimResultsPan(
                 simResults=simResultsSet[[f]],
                 CNOlist=CNOlistSet[[f]],
                 pdf=TRUE,
@@ -118,6 +117,6 @@ cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList
             outputFilenames[[f]] = filename
         }
     }
-    return(outputFilenames)
+    return(list(filenames=outputFilenames, mse=mse))
 }
 

@@ -12,7 +12,7 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: makeCNOlist.R 3165 2013-01-15 14:25:40Z cokelaer $
+# $Id: makeCNOlist.R 3938 2013-08-28 09:14:16Z cokelaer $
 makeCNOlist<-function(dataset,subfield, verbose=TRUE){
 
     #check that all the needed elements are present
@@ -77,11 +77,17 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
 
     if(subfield == TRUE){
         namesCues<-sub(pattern="(TR:)",x=namesCues, replacement="",perl=TRUE)
-        tagInhib<-grep(pattern="i:Inhibitor", x=namesCues)
-        # tagInhibL must be set now before namesCues is changed. See JIRA bug 27
-        tagInhibL<-grepl(pattern="i:Inhibitor", x=namesCues)
+        tagInhib<-grep(pattern=":Inhibitor", x=namesCues)
+        # tagInhibL is a logical version of the previous statement. 
+        # must be set now before namesCues is changed. See JIRA bug 27
+        tagInhibL<-grepl(pattern=":Inhibitor", x=namesCues)
+
+        # remove the trailing :Inhibitors and :Stimuli
         namesCues<-sub(pattern="(:\\w*$)",x=namesCues, replacement="",perl=TRUE)
+
+        # remove trailing i
         namesCues[tagInhib]<-sub(pattern="(i$)", x=namesCues[tagInhib], replacement="", perl=TRUE)
+
         # if no inhibitors, grep returns integer(0), so we now need to use grepl
         # (logical version of grep)
         namesStimuli<-namesCues[tagInhibL==FALSE]
@@ -115,6 +121,9 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
         stop("Found a column with NO-INHIB tag. MIDAS files must use NOINHIB instead. Fix your MIDAS file please")
     }
     if(sum("NO-LIG" %in% namesCues) != 0){
+        stop("Found a column with NO-LIG tag. MIDAS files do not accept NO-LIG. use NOINHIB or NOCYTO instead. Fix your MIDAS file please")
+    }
+    if(sum("NOLIG" %in% namesCues) != 0){
         stop("Found a column with NO-LIG tag. MIDAS files do not accept NO-LIG. use NOINHIB or NOCYTO instead. Fix your MIDAS file please")
     }
     if(sum("NO-CYTO" %in% namesCues) != 0){

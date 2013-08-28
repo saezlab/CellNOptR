@@ -12,7 +12,7 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: gaBinaryT1.R 3155 2013-01-09 15:24:58Z cokelaer $
+# $Id: gaBinaryT1.R 3855 2013-07-29 10:36:59Z cokelaer $
 gaBinaryT1<-function(
     CNOlist,
     model,
@@ -64,7 +64,6 @@ gaBinaryT1<-function(
     bestbit<-Pop[1,]
     bestobj<-Inf
     stop<-FALSE
-    obj<-rep(0,popSize)
     g<-0
     stallGen<-0
     res<-rbind(
@@ -217,7 +216,13 @@ gaBinaryT1<-function(
         names(resThisGen)<-c("Generation","Best_score","Best_bitString","Stall_Generation",
             "Avg_Score_Gen","Best_score_Gen","Best_bit_Gen","Iter_time")
 
-        if(verbose) print(resThisGen)
+        if(verbose) {
+            this = resThisGen
+            this[[3]] = substring(this[[3]], 1, 80)
+            this[[7]] = substring(this[[7]], 1, 80)
+            print(this)
+        }
+
 
         res<-rbind(res,resThisGen)
 

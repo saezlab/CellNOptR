@@ -39,8 +39,7 @@ for other fields.}
 }
 \note{New in version 1.3.28}
 \value{
-This function doesn't return anything, it only plots the graph in your graphic window, and in a pdf file if asked
-}
+This function returns plotted MSEs}
 \author{
 T. Cokelaer, A. MacNamara, Sarah Schrier, C. Terfve based on \link{cutAndPlotResultsT1}}
 

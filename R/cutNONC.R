@@ -12,7 +12,7 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: cutNONC.R 3155 2013-01-09 15:24:58Z cokelaer $
+# $Id: cutNONC.R 3575 2013-05-13 16:31:45Z cokelaer $
 
 cutNONC <- function(model, NONCindexes) {
 
@@ -79,6 +79,8 @@ cutNONC <- function(model, NONCindexes) {
 
             LHS = paste(andInput,collapse="+", sep="")
             colnames(newInterMat)[a] = paste(LHS, "=", rownames(newInterMat)[which(newInterMat[,a] == 1)], sep="")
+	    
+            colnames(newNotMat)[a] = colnames(newInterMat)[a]
         }
 
         reac2remove <- apply(newInterMat,2,emptyInOut)
