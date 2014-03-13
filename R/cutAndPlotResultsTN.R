@@ -85,7 +85,7 @@ cutAndPlotResultsTN <-function(CNOlist, model,bStrings, plotPDF=FALSE,
   }
 
   outputFileNames = list()
-  return(list(mse=mse, filenames=outputFileNames))
+  return(list(mse=mse, filenames=outputFileNames, simResults=simResults))
 
 
 }

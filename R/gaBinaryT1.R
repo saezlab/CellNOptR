@@ -12,7 +12,7 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: gaBinaryT1.R 3855 2013-07-29 10:36:59Z cokelaer $
+# $Id: gaBinaryT1.R 4106 2013-11-06 15:53:49Z cokelaer $
 gaBinaryT1<-function(
     CNOlist,
     model,
@@ -39,6 +39,8 @@ gaBinaryT1<-function(
     if ((class(CNOlist)=="CNOlist")==FALSE){
         CNOlist = CellNOptR::CNOlist(CNOlist)
     }
+
+    checkSignals(CNOlist, model)
 
     # should be after CNOlist conversion
     if (timeIndex<2){ stop("timeIndex must be >=2")}

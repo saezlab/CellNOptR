@@ -2,6 +2,30 @@
 \name{CellNOptR NEWS}
 
 
+\section{CHANGES IN VERSION 1.10.0: (2014-03-13)}{
+Changes since 1.8.0
+
+\itemize{
+    \item{BUG FIX}
+        \itemize{
+            \item{typos leading to failure fixed in cutCNOlist}
+            \item{typos leading to failure in CNOlist if variance were provided}
+        }
+    \item{CHANGES}
+        \itemize{
+            \item{Changed warning into errors in readMIDAS and checkSignals
+functions}
+        }
+    \item{NEW FEATURES}
+        \itemize{
+            \item{self loop can be read from the SIF files}
+            \item{readSBMLQual do not need to add dummy nodes anymore}
+        }
+}
+}
+
+
+
 \section{CHANGES IN VERSION 1.8.0: (2013-08-28)}{
 Changes since 1.6.0
 \itemize{

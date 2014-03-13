@@ -98,7 +98,7 @@ of time indices to remove data at different time  points.")
    # and the signal matrices
    if (length(indices_signals)>0){
        for (time in 1:length(cnolist@signals)){
-           cutCNOlist@signals[[time]] = t(as.matrix(cnolist@signals[[time]][,-indices_signals]))
+           cutCNOlist@signals[[time]] = as.matrix(cnolist@signals[[time]][,-indices_signals])
        }
     }
 

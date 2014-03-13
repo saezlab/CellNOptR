@@ -37,6 +37,8 @@ gaBinaryT2 <-function(
     bits2optimise<-which(bStringT1 == 0)
     bLength<-length(bits2optimise)
 
+    checkSignals(CNOlist, model)
+
     simList = prep4sim(model)
     indexList = indexFinder(CNOlist, model)
 

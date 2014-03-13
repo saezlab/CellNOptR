@@ -40,6 +40,9 @@ gaBinaryTN <-function(
 
     bits2optimise<-which(bStringPrev == 0)
     bLength<-length(bits2optimise)
+ 
+    checkSignals(CNOlist, model)
+
 
    if (is.list(bStrings)==FALSE){
          stop("CellNOpt Error: 3d argument called bStrings must be a list of vectors. Each vector representing a bit string")

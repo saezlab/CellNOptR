@@ -12,7 +12,7 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: cutNONC.R 3575 2013-05-13 16:31:45Z cokelaer $
+# $Id: cutNONC.R 4441 2014-03-10 15:01:28Z aidanmac $
 
 cutNONC <- function(model, NONCindexes) {
 
@@ -84,7 +84,13 @@ cutNONC <- function(model, NONCindexes) {
         }
 
         reac2remove <- apply(newInterMat,2,emptyInOut)
-
+        # check if reac2remove contains selfloops
+        # the condition below matches before '=' and checks this pattern after
+        matchIn = gsub("^!*([[:alnum:]]+)=.*","\\1", names(reac2remove))
+        potentialLoops = paste(matchIn,"=",matchIn,sep="")
+        # check for + or - loops
+        reac2remove[which(paste("!",potentialLoops,sep="")==names(reac2remove) | potentialLoops==names(reac2remove))] = FALSE
+        
         if(any(reac2remove)) {
 
             reac2remove <- which(reac2remove)

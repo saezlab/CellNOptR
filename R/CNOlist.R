@@ -191,6 +191,7 @@ internal_compatCNOlist<-function(cnolist){
              valueCues=cnolist@cues,
              valueInhibitors=cnolist@inhibitors,
              valueStimuli=cnolist@stimuli,
+             valueVariances=cnolist@variances,
              valueSignals=cnolist@signals)
 
     } else{

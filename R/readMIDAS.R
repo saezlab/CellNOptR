@@ -12,7 +12,7 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: readMIDAS.R 3464 2013-04-05 12:26:12Z cokelaer $
+# $Id: readMIDAS.R 4105 2013-11-06 15:49:33Z cokelaer $
 readMIDAS<-function(MIDASfile, verbose=TRUE){
 
     # Read the data. 
@@ -129,10 +129,8 @@ readMIDAS<-function(MIDASfile, verbose=TRUE){
         data<-data[,-grep(pattern="(TR:\\w*:CellLine)",x=colnames(data),ignore.case=TRUE,perl=TRUE,value=FALSE)]
     }
     else{
-        if (verbose){
-            print(paste("Your data set comprises ", length(TRcol),"stimuli and inhibitors"))
-        }
-        warning("There is no cell line information. If some of your TR columns represents the cell lines, please indicate it in your file by naming them 'TR:name:CellLine' (you may use TR:name:CellType' as well.")
+        
+        stop("There is no cell line information. You must provide one. Please indicate it in your file by naming them 'TR:name:CellLine' (you may use TR:name:CellType' as well.")
     }
 
     if (verbose){

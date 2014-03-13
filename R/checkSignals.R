@@ -12,7 +12,7 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: checkSignals.R 3369 2013-03-12 14:34:12Z cokelaer $
+# $Id: checkSignals.R 4106 2013-11-06 15:53:49Z cokelaer $
 checkSignals<-function(CNOlist, model ){
 
     if ((class(CNOlist)=="CNOlist")==FALSE){
@@ -30,7 +30,7 @@ checkSignals<-function(CNOlist, model ){
     # check that all of the signals in colnames(CNOlist@signals) match to one species in model$namesSpecies
     signalsMatch<-match(colnames(CNOlist@signals[[1]]),model$namesSpecies,nomatch=0)
     if(any(signalsMatch == 0)){
-        warning(paste(
+        stop(paste(
             "The following signals from your CNOlist do not match any of the species in your model, and should be removed:",
             toString(colnames(CNOlist@signals[[1]])[which(signalsMatch == 0)])
             ))
@@ -39,7 +39,7 @@ checkSignals<-function(CNOlist, model ){
     # same for stimuli 
     signalsMatch<-match(colnames(CNOlist@stimuli),model$namesSpecies,nomatch=0)
     if(any(signalsMatch == 0)){
-        warning(paste(
+        stop(paste(
             "The following stimuli from your CNOlist do not match any of the species in your model, and should be removed:",
             toString(colnames(CNOlist@stimuli)[which(signalsMatch == 0)])
             ))
@@ -48,7 +48,7 @@ checkSignals<-function(CNOlist, model ){
     # same for inhibitors
     signalsMatch<-match(colnames(CNOlist@inhibitors),model$namesSpecies,nomatch=0)
     if(any(signalsMatch == 0)){
-        warning(paste(
+        stop(paste(
             "The following inhibitors from your CNOlist do not match any of the species in your model, and should be removed:",
             toString(colnames(CNOlist@inhibitors)[which(signalsMatch == 0)])
             ))

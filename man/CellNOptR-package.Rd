@@ -12,8 +12,8 @@ This package does optimisation of boolean logic networks of signalling pathways 
 \tabular{ll}{
 Package: \tab CellNOptR\cr
 Type: \tab Package\cr
-Version: \tab 1.7.8\cr
-Date: \tab 2013-08-28\cr
+Version: \tab 1.10.0\cr
+Date: \tab 2014-03-13\cr
 License: \tab GPLv3\cr
 LazyLoad: \tab yes\cr
 }

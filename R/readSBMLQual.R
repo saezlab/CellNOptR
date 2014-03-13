@@ -89,7 +89,7 @@ readSBMLQual <- function(filename){
     sif = readSIF(fh)
 
     # hack/trick to replace self loop with a dummy node.
-    sif = .add_dummies(sif)
+    #sif = .add_dummies(sif)
 
     return(sif)
 

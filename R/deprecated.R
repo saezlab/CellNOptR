@@ -10,12 +10,12 @@ prep4Sim <- function(model, params){
 
 
 simulateT1 <- function(CNOlist, model, bStringT1,simList, indexList){
-    warning("simulateT1 is a deprecated function. Use simulate instead. ")
+    warning("simulateT1 is a deprecated function. Use simulateTN instead. ")
     return(simulateTN(CNOlist, model, bStrings=list(bStringT1)))
 }
 
 simulateT2 <- function(CNOlist, model, bStringT1,simList, indexList){
-    warning("simulateT1 is a deprecated function. Use simulate instead. ")
+    warning("simulateT1 is a deprecated function. Use simulateTN instead. ")
     return(simulateTN(CNOlist, model, bStrings=list(bStringT1)))
 }
 

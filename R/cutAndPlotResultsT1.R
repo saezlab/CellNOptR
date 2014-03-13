@@ -12,7 +12,7 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: cutAndPlotResultsT1.R 3555 2013-05-07 10:49:14Z cokelaer $
+# $Id: cutAndPlotResultsT1.R 4181 2013-11-28 11:04:35Z cokelaer $
 
 cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList=NULL,
  plotPDF=FALSE, tag=NULL, tPt=CNOlist@timepoints[2], plotParams=list(maxrow=10))
@@ -117,6 +117,6 @@ cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList
             outputFilenames[[f]] = filename
         }
     }
-    return(list(filenames=outputFilenames, mse=mse))
+    return(list(filenames=outputFilenames, mse=mse, simResults=simResultsSet))
 }
 
