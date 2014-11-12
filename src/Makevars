@@ -1,0 +1,3 @@
+PKG_CFLAGS = -I./include  
+
+#-pedantic -Wall -ansi 

@@ -1,0 +1,16 @@
+EGF	1	Ras
+EGF	1	PI3K
+TNFa	1	PI3K
+TNFa	1	TRAF6
+TRAF6	1	p38
+TRAF6	1	Jnk
+TRAF6	1	NFkB
+Jnk	1	cJun
+p38	1	Hsp27
+PI3K	1	Akt
+Ras	1	Raf
+Raf	1	Mek
+Akt	-1	Mek
+Mek	1	p90RSK
+Mek	1	Erk
+Erk	1	Hsp27
