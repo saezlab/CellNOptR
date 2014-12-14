@@ -130,8 +130,15 @@ exhaustive<-function(
     PopTol = matrix(PopTol[-1,], ncol=bLength)
     PopTolScores = matrix(PopTolScores[-1])
 
-    # todo
-    res = NULL
+    # a dummy matrix
+    res<-c(1, bestScore, toString(bestbit), 1, bestScore, 1, toString(bestbit),
+            as.numeric(1, units="secs"))
+
+    names(res)<-c("Generation","Best_score","Best_bitString","Stall_Generation",
+        "Avg_Score_Gen","Best_score_Gen","Best_bit_Gen","Iter_time")
+    res<-rbind(res,res)
+
+
 
     return(list(
         bString=bestbit,
