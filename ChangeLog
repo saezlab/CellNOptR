@@ -1,4 +1,6 @@
 .. keep this layout because it is used in CNODocs
+* 1.11.4:
+    * fix issue https://github.com/cellnopt/CellNOptR/issues/6
 
 * 1.11.3:
     * fix gray boxes in plotOptimResultsPan
