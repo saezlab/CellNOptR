@@ -1,4 +1,12 @@
 .. keep this layout because it is used in CNODocs
+
+
+* 1.11.5
+
+    * Fixing issue with time 0 not being simulated properly (see
+      https://github.com/cellnopt/CellNOptR/issues/6)
+      This fixes regression bug following fix made in release 1.11.3
+
 * 1.11.4:
     * fix issue https://github.com/cellnopt/CellNOptR/issues/6
 
