@@ -49,6 +49,8 @@ SEXP simulatorT1 (
     int selCounter = 0;
     double *rans;
 
+    int count_na_1 = 0;
+    int count_na_2 = 0;
 
     /* variables */
     int nStimuli = INTEGER(nStimuli_in)[0];
@@ -385,11 +387,20 @@ SEXP simulatorT1 (
             }
         }
 
+
+        count_na_1 = 0;
+        count_na_2 = 0;
         /* set 'NAs' (2s) to 0 */
         for(i = 0; i < nCond; i++) {
             for(j = 0; j < nSpecies; j++) {
-                if(new_input[i][j] == NA) {new_input[i][j] = 0;}
-                if(output_prev[i][j] == NA) {output_prev[i][j] = 0;}
+                if(new_input[i][j] == NA) {
+                    count_na_1++ ;
+                    new_input[i][j] = 0;
+                }
+                if(output_prev[i][j] == NA) {
+                    count_na_2++ ;
+                    output_prev[i][j] = 0;
+                }
             }
         }
 
@@ -404,6 +415,9 @@ SEXP simulatorT1 (
                                 one is greater than test_val */
                 }
             }
+        }
+        if (count_na_1!=count_na_2){
+            term_check_1 = 1;
         }
         /*term_check_1 = !(abs(diff) < test_val);*/
         term_check_2 = (count < (nSpecies * 1.2));
