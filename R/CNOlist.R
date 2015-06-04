@@ -105,17 +105,32 @@ setMethod("getTimepoints", "CNOlist", function(object){
 })
 
 
+
+crossInhibitedData <- function(object){
+          times = object@timepoints 
+
+          # identify names found in inhibitors and signals list
+          inhibitors = colnames(cnolist@inhibitors)[colnames(cnolist@inhibitors) %in% colnames(cnolist@signals[[1]])]
+
+          # only those ones must be crossed
+          print(inhibitors)
+          print(times)
+          for (inhibitor in inhibitors){
+              for (time in seq_along(times)){
+                  mask = cnolist@inhibitors[,inhibitor] == 1
+                  object@signals[[time]][mask, inhibitor] = NA
+              }
+          }
+    return(object)
+}
+
+
+
+
 # timepoints will be updated if signals is changed so we should not provide any
 # setTimepoint method
 
 
-setGeneric("setSignals<-",function(object,value){standardGeneric("setSignals<-")})
-setReplaceMethod("setSignals","CNOlist", 
-    function(object,value){
-        object@signals<-value
-        return(object)
-    }
-)
 
 ## internal accessors only ??
 #cues <- function(cnoList, ...) cnoList@cues

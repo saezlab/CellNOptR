@@ -1,5 +1,8 @@
 .. keep this layout because it is used in CNODocs
 
+* 1.11.6
+
+	* add new function called crossInhibitedData
 
 * 1.11.5
 
