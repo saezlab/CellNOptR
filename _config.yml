@@ -12,20 +12,20 @@ kramdown:
 permalink:        pretty
 
 # Setup
-title:            Tool-Name
-tagline:          Tagline for website
-description:      "Short description of the tool, for the sidebar"
+title:            CellNOpt
+tagline:          CellNOpt Documentation
+description:      "Identification of signaling models based on perturbation data and prior knowledge"
 #url:              https://github.com/saezlab/projectDocumentationTemplate
-baseurl:          /projectDocumentationTemplate/
-toollogo:         /projectDocumentationTemplate/tool_logo.png
+baseurl:          /cellnopt/
+toollogo:         /cellnopt/tool_logo.png
 
 author:
-  name:           'Author Name'
+  name:           'Enio Gjerga'
 
 paginate:         5
 
 # Custom vars
-version:          1.0.1
+version:          1.4.0
 
 github:
-  repo:           https://github.com/saezlab/projectDocumentationTemplate
+  repo:           https://github.com/cellnopt/CellNOptR
