@@ -14,7 +14,6 @@ CellNOpt is freely available under GPL license in R and Matlab languages. It can
 <img src="/cellnopt/public/index1.png" alt="Example result">
 
 ## CellNOpt Implementations
-
 ### _CellNOptR (R packages)_
 A series of packages are available in R. The core CellNOpt is available on BioConductor web site: CellNOptR, revision 1.4.0. Newest and oldest version are also available in our [Downloads](http://www.ebi.ac.uk/saezrodriguez/cno/downloads.html) page.
 
@@ -36,5 +35,3 @@ A Python package called cellnopt.wrapper provides a python interace to the R pac
 
 ### _Cytoscape Plugin (CytoCopter)_
 CytoCopteR is a Graphical User Interface designed as a Cytoscape plugin. It provides an interface to CellNOptR using Rserve. More information is available on [CytoCopter](http://www.cellnopt.org/cytocopter/index.html) page.
-
-
