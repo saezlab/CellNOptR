@@ -13,6 +13,7 @@ CellNOpt is freely available under GPL license in R and Matlab languages. It can
 
 <img src="/cellnopt/public/index1.png" alt="Example result">
 
+
 ## CellNOpt Implementations
 ### _CellNOptR (R packages)_
 A series of packages are available in R. The core CellNOpt is available on BioConductor web site: CellNOptR, revision 1.4.0. Newest and oldest version are also available in our [Downloads](http://www.ebi.ac.uk/saezrodriguez/cno/downloads.html) page.
@@ -36,6 +37,7 @@ A Python package called cellnopt.wrapper provides a python interace to the R pac
 ### _Cytoscape Plugin (CytoCopter)_
 CytoCopteR is a Graphical User Interface designed as a Cytoscape plugin. It provides an interface to CellNOptR using Rserve. More information is available on [CytoCopter](http://www.cellnopt.org/cytocopter/index.html) page.
 
+
 ## Complementary Tools
 ### _MEIGO_
 [MEIGO](http://www.iim.csic.es/~gingproc/meigo.html), a global optimization toolbox that includes a number of metaheuristic methods as well as a Bayesian inference method for parameter estimation, that can be applied to model training in CellNOpt. Available in R, Matlab, and Python. Presented in Egea et al BMC Bioinformatics, 214.
@@ -48,3 +50,7 @@ The [ColoMoTo](http://www.colomoto.org/) consortium nvolves other groups develop
 
 ### _PHONEMeS_
 [PHONEMeS](http://saezlab.github.io/PHONEMeS/) Toolbox dedicated to mass spectrometry analysis.
+
+
+## References
++ Main reference describing CellNOpt, which can be used to cite it: C Terfve, T Cokelaer, A MacNamara, D Henriques, E Goncalves, MK Morris, M van Iersel, DA Lauffenburger, J Saez-Rodriguez. [CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms](http://www.biomedcentral.com/1752-0509/6/133/abstract). BMC Systems Biology, 2012, 6:133 [PDF](http://www.biomedcentral.com/content/pdf/1752-0509-6-133.pdf)
