@@ -15,6 +15,7 @@ CellNOpt is freely available under GPL license in R and Matlab languages. It can
 
 
 ## CellNOpt Implementations
+
 ### _CellNOptR (R packages)_
 A series of packages are available in R. The core CellNOpt is available on BioConductor web site: CellNOptR, revision 1.4.0. Newest and oldest version are also available in our [Downloads](http://www.ebi.ac.uk/saezrodriguez/cno/downloads.html) page.
 
@@ -39,6 +40,7 @@ CytoCopteR is a Graphical User Interface designed as a Cytoscape plugin. It prov
 
 
 ## Complementary Tools
+
 ### _MEIGO_
 [MEIGO](http://www.iim.csic.es/~gingproc/meigo.html), a global optimization toolbox that includes a number of metaheuristic methods as well as a Bayesian inference method for parameter estimation, that can be applied to model training in CellNOpt. Available in R, Matlab, and Python. Presented in Egea et al BMC Bioinformatics, 214.
 
