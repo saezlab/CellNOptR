@@ -12,7 +12,7 @@ biocLite("CellNOptR")
 ```
 
 
-Other CNO formalisms are extension of the CellNOptR package and can only be installed after CellNOptR is present on the library of `R` packages:
+**Other CNO formalisms are extension of the CellNOptR package and can only be installed after CellNOptR is present on the library of `R` packages:**
 
 
 To install [CNORdt package](https://bioconductor.org/packages/release/bioc/html/CNORdt.html), start `R` and enter:
