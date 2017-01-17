@@ -3,7 +3,7 @@ layout: page
 title: Installation
 ---
 
-For installation of the **CellNOptR** package (which can be found [here](https://bioconductor.org/packages/release/bioc/html/CellNOptR.html)), open `R` and type:
+For installation of the [CellNOptR package](https://bioconductor.org/packages/release/bioc/html/CellNOptR.html), open `R` and type:
 
 ```R
 ## try http:// if https:// URLs are not supported
@@ -24,6 +24,7 @@ biocLite("CNORdt")
 ```
 
 
+
 To install [CNORfeeder package](https://bioconductor.org/packages/release/bioc/html/CNORfeeder.html), start `R` and enter:
 
 ```R
@@ -31,6 +32,7 @@ To install [CNORfeeder package](https://bioconductor.org/packages/release/bioc/h
 source("https://bioconductor.org/biocLite.R")
 biocLite("CNORfeeder")
 ```
+
 
 
 To install [CNORfuzzy package](https://bioconductor.org/packages/release/bioc/html/CNORfuzzy.html), start `R` and enter:
