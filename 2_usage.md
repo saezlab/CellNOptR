@@ -14,3 +14,7 @@ CellNOpt method derives a logic-based model from a *prior knowledge network* (PK
 # II. Network Processing
 
 To prepare the prior knowledge network for training, we first apply two pre-processing steps: **i)**In *compression* we reduce and simplify the network by removing species that are neither measured nor perturbed without impairing tha logical consistency of the network. **ii)**In *expansion* all the logical operations from each interactions are added.
+
+# III. Training
+
+Training involves the identification of the sub-models of the processed *PKN* which better explains and fits the data by minimizing the mean squared deviation \Theta_f between model prediction and the actual measurements. 
