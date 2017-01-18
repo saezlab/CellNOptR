@@ -17,4 +17,10 @@ To prepare the prior knowledge network for training, we first apply two pre-proc
 
 # III. Training
 
-Training involves the identification of the sub-models of the processed *PKN* which better explains and fits the data by minimizing the mean squared deviation between model prediction and the actual measurements $$ \Theta_f $$. 
+Training involves the identification of the sub-models of the processed *PKN* which better explains and fits the data by minimizing the mean squared deviation between model prediction and the actual measurements. We also add a size penalty to the objective function as the sum of the number of inputs of each edge of the prior knowledge scaffold network, normalized by the total number of inputs across all edges.
+
+# IV. Report
+
+Networks inferred are written to a file and plotted, while information about the optimization during the training step are summarized in a central HTML report hyperlinked to the different plots.
+
+## Examples
