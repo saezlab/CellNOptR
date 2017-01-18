@@ -17,4 +17,4 @@ To prepare the prior knowledge network for training, we first apply two pre-proc
 
 # III. Training
 
-Training involves the identification of the sub-models of the processed *PKN* which better explains and fits the data by minimizing the mean squared deviation \Theta_f between model prediction and the actual measurements. 
+Training involves the identification of the sub-models of the processed *PKN* which better explains and fits the data by minimizing the mean squared deviation $\Theta_f$ between model prediction and the actual measurements. 
