@@ -21,9 +21,11 @@ Training involves the identification of the sub-models of the processed $PKN$ wh
 
 $$ \theta_f(P) = \frac{1}{n_{g}} \sum_{k=1}^{s} \sum_{l=1}^{m} \sum_{t=1}^{n} (B_{k,l,t}^{M}-B_{k,l,t}^{E})^{2} $$
 
-$ P $ on this case, represent the string of bits indicating wheather an edge of the compressed network is included in the model or not.
+$ P $ on this case, represent one of the solutions or the string of bits indicating whether an edge of the compressed network is included in the model or not.
 
-We also add a size penalty to the objective function as the sum of the number of inputs of each edge of the prior knowledge scaffold network, normalized by the total number of inputs across all edges. $ \theta $ Test test test $x$, $y_1$, $ \Theta $
+We also add a size penalty $ \theta_s $ to the objective function as the sum of the number of inputs $ \nu_{e} $ of each edge $ e $ in $ P $ normalized by the total number of inputs across all edges $ (\nu _{e}^{s} = \sum_{e=1}^{r}) $ where $ r $ represents the length of $ P $.
+
+$$ \theta_s(P) = \frac{1}{\nu _{e}^{s}} \sum_{e=1}^{r}\nu _{e}P_{e} $$
 
 ## IV. Report
 
