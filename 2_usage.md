@@ -23,7 +23,7 @@ $$ \theta_f(P) = \frac{1}{n_{g}} \sum_{k=1}^{s} \sum_{l=1}^{m} \sum_{t=1}^{n} (B
 
 $ P $ on this case, represent one of the solutions or the string of bits indicating whether an edge of the compressed network is included in the model or not.
 
-We also add a size penalty $ \theta_s $ to the objective function as the sum of the number of inputs $ \nu_{e} $ of each edge $ e $ in $ P $ normalized by the total number of inputs across all edges $ (\nu _{e}^{s} = \sum_{e=1}^{r}) $ where $ r $ represents the length of $ P $.
+We also add a size penalty $ \theta_s $ to the objective function as the sum of the number of inputs $ \nu_{e} $ of each edge $ e $ in $ P $ normalized by the total number of inputs across all edges ($ \nu _{e}^{s} = \sum_{e=1}^{r} $) where $ r $ represents the length of $ P $.
 
 $$ \theta_s(P) = \frac{1}{\nu _{e}^{s}} \sum_{e=1}^{r}\nu _{e}P_{e} $$
 
