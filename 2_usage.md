@@ -41,7 +41,6 @@ Initially we call our useful packages and then load the data and the prior knowl
 ```R
 library(CellNOptR)
 library(igraph)
-library(Matrix)
 
 data("ToyModel", package="CellNOptR")
 data("CNOlistToy", package="CellNOptR")
@@ -74,4 +73,4 @@ Plot of the results:
 Plot of the optimal model:
 <img src="/cellnopt/public/model.png" alt="Prior Knowledge Network">
 
-Other examples can be found on the documentation packages of [CellnoptR](https://bioconductor.org/packages/release/bioc/html/CellNOptR.html), [CNORdt](https://bioconductor.org/packages/release/bioc/vignettes/CNORdt/inst/doc/CNORdt-vignette.pdf), [CNORfeder](https://bioconductor.org/packages/release/bioc/vignettes/CNORfeeder/inst/doc/CNORfeeder-vignette.pdf), [CNORfuzzy](https://bioconductor.org/packages/release/bioc/vignettes/CNORfuzzy/inst/doc/CNORfuzzy-vignette.pdf), [CNORode](https://bioconductor.org/packages/release/bioc/vignettes/CNORode/inst/doc/CNORode-vignette.pdf) in bioconductor.
+Other examples can be found on the documentation packages of [CellnoptR](https://bioconductor.org/packages/release/bioc/vignettes/CellNOptR/inst/doc/CellNOptR-vignette.pdf), [CNORdt](https://bioconductor.org/packages/release/bioc/vignettes/CNORdt/inst/doc/CNORdt-vignette.pdf), [CNORfeder](https://bioconductor.org/packages/release/bioc/vignettes/CNORfeeder/inst/doc/CNORfeeder-vignette.pdf), [CNORfuzzy](https://bioconductor.org/packages/release/bioc/vignettes/CNORfuzzy/inst/doc/CNORfuzzy-vignette.pdf), [CNORode](https://bioconductor.org/packages/release/bioc/vignettes/CNORode/inst/doc/CNORode-vignette.pdf) in bioconductor.
