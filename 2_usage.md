@@ -60,7 +60,7 @@ model = preprocessing(cnolist, pknmodel)
 
 res = gaBinaryT1(cnolist, model, verbose=FALSE)
 ```
-Results and teh optimal sub-model then can then be plotted after calling the following functions:
+Results and the optimal sub-model then can then be plotted after calling the following functions:
 
 ```R
 cutAndPlot(cnolist, model, list(Res$bString))
