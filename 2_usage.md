@@ -33,9 +33,9 @@ Networks inferred are written to a file and plotted, while information about the
 
 # Examples
 
-*Example 1* and *Example 2* are both Toy Examples as described in the documentation report of the [CellNOptR](https://bioconductor.org/packages/release/bioc/vignettes/CellNOptR/inst/doc/CellNOptR-vignette.pdf) and [CNORode](https://www.bioconductor.org/packages/release/bioc/vignettes/CNORode/inst/doc/CNORode-vignette.pdf) packages.
+*Example 1* is a Toy model Example as described in the documentation report of the [CellNOptR](https://bioconductor.org/packages/release/bioc/vignettes/CellNOptR/inst/doc/CellNOptR-vignette.pdf) package.
 
-## Example 1
+## Example
 Initially we call our useful packages and then load the data and the prior knowledge.
 
 ```R
@@ -74,4 +74,4 @@ Plot of the results:
 Plot of the optimal model:
 <img src="/cellnopt/public/model.png" alt="Prior Knowledge Network">
 
-## Example 2
+Other examples can be found on the documentation packages of [CellnoptR](https://bioconductor.org/packages/release/bioc/html/CellNOptR.html), [CNORdt](https://bioconductor.org/packages/release/bioc/vignettes/CNORdt/inst/doc/CNORdt-vignette.pdf), [CNORfeder](https://bioconductor.org/packages/release/bioc/vignettes/CNORfeeder/inst/doc/CNORfeeder-vignette.pdf), [CNORfuzzy](https://bioconductor.org/packages/release/bioc/vignettes/CNORfuzzy/inst/doc/CNORfuzzy-vignette.pdf), [CNORode](https://bioconductor.org/packages/release/bioc/vignettes/CNORode/inst/doc/CNORode-vignette.pdf) in bioconductor.
