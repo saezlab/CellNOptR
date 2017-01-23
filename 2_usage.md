@@ -32,3 +32,46 @@ $$ \theta_s(P) = \frac{1}{\nu _{e}^{s}} \sum_{e=1}^{r}\nu _{e}P_{e} $$
 Networks inferred are written to a file and plotted, while information about the optimization during the training step are summarized in a central HTML report hyperlinked to the different plots.
 
 # Examples
+
+*Example 1* and *Example 2* are both Toy Examples as described in the documentation report of the [CellNOptR](https://bioconductor.org/packages/release/bioc/vignettes/CellNOptR/inst/doc/CellNOptR-vignette.pdf) and [CNORode](https://www.bioconductor.org/packages/release/bioc/vignettes/CNORode/inst/doc/CNORode-vignette.pdf) packages.
+
+## Example 1
+Initially we call our useful packages and then load the data and the prior knowledge.
+
+```R
+library(CellNOptR)
+library(igraph)
+library(Matrix)
+
+data("ToyModel", package="CellNOptR")
+data("CNOlistToy", package="CellNOptR")
+pknmodel = ToyModel
+cnolist = CNOlist(CNOlistToy)
+
+plotModel(model = pknmodel, CNOlist = cnolist)
+```
+The prior knowledge network will be plotted as follows:
+<img src="/cellnopt/public/pkn.png" alt="Prior Knowledge Network">
+
+As a second step, the model has to be pre-processed (commpressed and then expanded), before runnng the optimisation.
+
+```R
+model = preprocessing(cnolist, pknmodel)
+
+res = gaBinaryT1(cnolist, model, verbose=FALSE)
+```
+Results and teh optimal sub-model then can then be plotted after calling the following functions:
+
+```R
+cutAndPlot(cnolist, model, list(Res$bString))
+
+plotModel(model, cnolist, res$bString)
+```
+
+Plot of the results:
+<img src="/cellnopt/public/res.png" alt="Results">
+
+Plot of the optimal model:
+<img src="/cellnopt/public/model.png" alt="Prior Knowledge Network">
+
+## Example 2
