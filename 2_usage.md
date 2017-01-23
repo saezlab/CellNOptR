@@ -33,9 +33,8 @@ Networks inferred are written to a file and plotted, while information about the
 
 # Examples
 
-*Example 1* is a Toy model Example as described in the documentation report of the [CellNOptR](https://bioconductor.org/packages/release/bioc/vignettes/CellNOptR/inst/doc/CellNOptR-vignette.pdf) package.
+The following is a Toy model Example as described in the documentation report of the [CellNOptR](https://bioconductor.org/packages/release/bioc/vignettes/CellNOptR/inst/doc/CellNOptR-vignette.pdf) package.
 
-## Example
 Initially we call our useful packages and then load the data and the prior knowledge.
 
 ```R
