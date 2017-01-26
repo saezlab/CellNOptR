@@ -174,7 +174,149 @@ cnolist@signals[i][[1]][conditions2select,species2select]
 plot(cnolist)
 ```
 
+<img src="/cellnopt/public/new.png" alt="Data">
+
+Finally, let us save the new data set into a file:
+
+```R
+writeMIDAS(cnolist, "data.csv", overwrite=T)
+```
+
+After saving the data, let us first check that the model optimised against the data gives back the SBMLqual model.
+
+```R
+library(CNORdt)
+model = readSBMLQual("ModelV5.xml")
+cnolist = CNOlist("data.csv")
+
+# test that we can retrieve the exact data/model with itself
+upperB = 10
+lowerB= 0.8
+boolUpdates = 30
+bString=rep(1,30)
+
+# optimised with itself to check and get the best RMSE
+# Here we can set the maxtime to only 20 seconds
+opt1 = gaBinaryDT(CNOlist=cnolist, model=model,
+initBstring=rep(1,length(model$reacID)),
+    boolUpdates=boolUpdates,maxTime=20, lowerB=lowerB, upperB=upperB,
+    stallGenMax=20)
+```
+
+We can check that the best model is the model itself (all bits are on) and that the RMSE is small:
+
+```R
+> opt1$bString
+[1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+> opt1$bScore
+0.00142731
+```
+
+Finally, the following plot shows that errors across conditions and readouts are all small (white) by using this code:
+
+```R
+cutAndPlotResultsDT(CNOlist=cnolist, model=model, upperB=upperB,
+    lowerB=lowerB, bString=opt1$bString,    boolUpdates=boolUpdates)
+```
+
+<img src="/cellnopt/public/dt.png" alt="Time Point Data">
+
+We then use the original True model stored in the SBMLqual (image on top) but alter it in the following ways:
+
+*   We remove the 2 AND gates since we don’t know a priori the logical gates and add back the OR gates.
+*   We add the link tnfr–>pi3k
+*   We add the link pi3k–>rac–>map3k1
+*   We remove the link traf2->ask1->mkk7
+
+The PKN is in SIF format available here [2013/sbml/PKN_noask1.sif](http://www.cellnopt.org/doc/cnodocs/_downloads/PKN_noask1.sif)
+
+For the optimization, first we can check indeed that the True model can be used as a PKN to be optimised against the data generated. In theory, the final model should be identical to the True model.
+
+```R
+pknmodel2 = readSIF("PKN_noask1.sif")
+model = preprocessing(cnolist, pknmodel2, compression=F, expansion=T)
+plotModel(model, cnolist)
+
+# let us try this one where the additional links
+# TNFR->PI3K and PI3K-RAC-Mapk31 are off as well as the unneeded AND and OR
+gates.
+
+# If you run the optimisation long enough, you'll get the optimised model to
+# have the following bitstring:
+optbs = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,0,0,0,1,0,0,0,1,0)
+
+# It gives an RMSE = 0.031
+
+opt1 = gaBinaryDT(CNOlist=cnolist, model=model,
+    initBstring=optbs,boolUpdates=boolUpdates,maxTime=1000, lowerB=lowerB,
+    upperB=upperB, stallGenMax=200, elitism=2, popSize=100, sizeFac=1e-4)
+```
+
+Finally, the following plot shows that errors across conditions and readouts are all small (white) by using this code:
+
+```R
+cutAndPlotResultsDT(CNOlist=cnolist, model=model, upperB=upperB,
+    lowerB=lowerB, bString=optbs,    boolUpdates=boolUpdates)
+```
+
+The fit is not good for the AP1 species. It means that
+
+*   The additional links that were added have been correctly removed (e.g., tnfr->pi3k)
+*   The OR gates added have been removed while the correct required AND gates (only) were kept
+*   The missing link on ASK1 prevents the AP1 to be fitted correctly when TNFa is on.
+
+<img src="/cellnopt/public/stimRes.png" alt="Time Point Data">
+
+However, We can fix the issue of the missing link by using the CNORfeeder package to infer missing links based on the data solely.:
+
+```R
+#
+library(CNORfeeder)
+
+pknmodel = readSIF("PKN_noask1.sif")
+model = preprocessing(cnolist, pknmodel, compression=F, expansion=T)
+
+# find new links
+BTable = makeBTables(CNOlist=cnolist, k=2, measErr=c(0.1,0))
+modelIntegr = mapBTables2model(BTable=BTable, model=model, allInter=F, compressed=FALSE)
+modelIntegr$reacID[modelIntegr$indexIntegr]
+plotModel(model=modelIntegr, CNOlist=cnolist, indexIntegr=modelIntegr$indexIntegr)
+```
+
+You can see here below, in purple, the links that have been inferred.
+
+<img src="/cellnopt/public/inferred.png" alt="Inferred Network">
+
+There is a proposed link between TNFa and ap1. This is related to the missing link we are looking for.
+
+Does it improve the optimisation ?
+
+```R
+# We could run the optimisation, which takes a while. The following
+# bitstring is the optimal one
+optbs_feeder = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1)
+
+# we can check this hypothesis by using it as the initial guess:
+opt1 = gaBinaryDT(CNOlist=cnolist, model=modelIntegr, boolUpdates=boolUpdates,maxTime=1000, lowerB=lowerB, upperB=upperB,
+     stallGenMax=20, elitism=4, popSize=50, sizeFac=1e-4, initBstring=optbs_feeder)
+
+# and check the final model
+plotModel(modelIntegr, cnolist, bString=optbs_feeder)
+```
+
+<img src="/cellnopt/public/nett.png" alt="Inferred Network">
+
+One can check with the CNORdt optimisation that the new MSE is down to 0.00148 as compared to 0.031. The RMSE obtained is equivalent to the one obtained with hte True model (0.00142). The difference is due to the data being generated with a pure ODE formalism and the discrete time being used for the optimisation. We can check on the fitness plot that AP1 is now optimised properly:
+
+```R
+cutAndPlotResultsDT(CNOlist=cnolist, model=modelIntegr, upperB=upperB,
+    lowerB=lowerB, bString=optbs_feeder,    boolUpdates=boolUpdates)
+```
+
+<img src="/cellnopt/public/ress.png" alt="Results">
+
+So, the CNORfeeder analysis tells us that there is a missing link between TNFa stimulus and AP1 readouts. We know from the PKN that indeed there is a cross talk via ASK1 species. Without that knowledge, one can use different resources (e.g., intact) to figure out existing interactions between TNFa and ap1.
 
 
 
-Other examples can be found on the documentation packages of [CellnoptR](https://bioconductor.org/packages/release/bioc/vignettes/CellNOptR/inst/doc/CellNOptR-vignette.pdf), [CNORdt](https://bioconductor.org/packages/release/bioc/vignettes/CNORdt/inst/doc/CNORdt-vignette.pdf), [CNORfeder](https://bioconductor.org/packages/release/bioc/vignettes/CNORfeeder/inst/doc/CNORfeeder-vignette.pdf), [CNORfuzzy](https://bioconductor.org/packages/release/bioc/vignettes/CNORfuzzy/inst/doc/CNORfuzzy-vignette.pdf), [CNORode](https://bioconductor.org/packages/release/bioc/vignettes/CNORode/inst/doc/CNORode-vignette.pdf) in bioconductor.
+**Other examples can be found on the documentation packages of [CellnoptR](https://bioconductor.org/packages/release/bioc/vignettes/CellNOptR/inst/doc/CellNOptR-vignette.pdf), [CNORdt](https://bioconductor.org/packages/release/bioc/vignettes/CNORdt/inst/doc/CNORdt-vignette.pdf), [CNORfeder](https://bioconductor.org/packages/release/bioc/vignettes/CNORfeeder/inst/doc/CNORfeeder-vignette.pdf), [CNORfuzzy](https://bioconductor.org/packages/release/bioc/vignettes/CNORfuzzy/inst/doc/CNORfuzzy-vignette.pdf), [CNORode](https://bioconductor.org/packages/release/bioc/vignettes/CNORode/inst/doc/CNORode-vignette.pdf) in bioconductor.**
