@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Installation
+title: Models and Documentation
 ---
 
 Test Test
