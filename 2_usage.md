@@ -3,7 +3,7 @@ layout: page
 title: Usage
 ---
 
-Running PHONEMeS requires the *[igraph package](http://igraph.org/r/)* to be installed, while in addition for running the [CNORode package](https://bioconductor.org/packages/release/bioc/html/CNORode.html) the *[MEIGO optimization toolbox](https://www.bioconductor.org/packages/release/bioc/html/MEIGOR.html)* needs also to be installed first.
+Running CellNOpt requires the *[igraph package](http://igraph.org/r/)* to be installed, while in addition for running the [CNORode package](https://bioconductor.org/packages/release/bioc/html/CNORode.html) the *[MEIGO optimization toolbox](https://www.bioconductor.org/packages/release/bioc/html/MEIGOR.html)* needs also to be installed first.
 
 # CellNOpt workflow
 
