@@ -10,4 +10,4 @@ title: Models and Documentation
 
 ## II. Download data and Model
 * To download the share/data, click on the following link
-* To download the model, click on the following [link](<a href="/public/PKN-LiverMSB2009.sif.txt" download>Download PKN-Liver MSB2009 Model</a> –)
+* To download the model, click on the following [link](<a href="/public/PKN-LiverMSB2009.sif.txt">Download PKN-Liver MSB2009 Model</a> –)
