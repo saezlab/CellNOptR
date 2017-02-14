@@ -16,7 +16,7 @@
 
 
 # Remove the signals, sstimulis, inhibitors or cues in cnolist that are not found in model
-cutCNOlistALL <- function(cnolist, model=NULL, cutTimeIndices=list(), verbose=FALSE){
+cutCNOlist <- function(cnolist, model=NULL, cutTimeIndices=list(), verbose=FALSE){
   
   if (is.null(model)==TRUE && length(cutTimeIndices)==0){
     stop("Neither model nor time indices were provided. You must provide a 
