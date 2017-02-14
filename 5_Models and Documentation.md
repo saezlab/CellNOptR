@@ -35,5 +35,5 @@ Subset of the data used in the reference here below.
 **J. Saez-Rodriguez, L. G. Alexopoulos, J. Epperlein, R. Samaga, D. A. Lauffenburger, S. Klamt and P. K. Sorger.** *Discrete logic modeling as a means to link pr otein signaling networks with functional analysis of mammalian signal transduction* Molecular Systems Biology, 5:331, 2009
 
 ##  II. Download Data and Model
-* To download the NORMALISED share/data, click on the following [link](http://nbviewer.jupyter.org/github/github/saezlab/cellnopt/blob/gh-pages/public/MD-ExtLiverPCB1.csv)
+* To download the NORMALISED share/data, click on the following [link](http://nbviewer.jupyter.org/github/saezlab/cellnopt/blob/gh-pages/public/MD-ExtLiverPCB1.csv)
 * To download the model, click on the following [link](http://nbviewer.jupyter.org/github/saezlab/cellnopt/blob/gh-pages/public/PKN-ExtLiverPCB.sif.txt)
