@@ -45,7 +45,8 @@ SEXP simulatorT1 (
     int a=0, b=0, p=0;
     int curr_max = 0;
     int or_max = 0;
-    int selection[40];
+    int selectionSize = 256; //#Attila
+    int selection[selectionSize];
     int selCounter = 0;
     double *rans;
 
@@ -246,7 +247,7 @@ SEXP simulatorT1 (
     
     
     int temp_store[nCond * nReacs][nMaxInputs];
-
+	//printf("L249: start simulation loop\n");
     /* ============================================================================*/
 
     /* start simulation loop */
@@ -328,12 +329,15 @@ SEXP simulatorT1 (
                 /* find reactions with this species as output
                  add equivalent output_cube data to new_input*/
                 for(a = 0; a < nReacs; a++) {
-                    if(s == maxIx[a]) {selection[selCounter] = a; selCounter++;}
+                    if(s == maxIx[a]) {
+                    	//if(selCounter>=selectionSize) printf("violation L332\n");  // #Attila
+                    	selection[selCounter] = a; selCounter++;}
                 }
                 /* if the species is an output for a single reaction
                  it's a 1-1 mapping to new_input */
                 if(selCounter == 1) {
                     for(b = 0; b < nCond; b++) {
+                    	//if(selCounter>=selectionSize-1) printf("violation L339\n");  // #Attila
                         new_input[b][s] = output_cube[b][selection[selCounter-1]];
                     }
                     selCounter = 0;
@@ -344,6 +348,10 @@ SEXP simulatorT1 (
                         or_max = NA;
                         curr_max = 0;
                         for(p=0; p < selCounter; p++) {
+                        	/*if(p>selectionSize){  // #Attila
+                        		printf("L348: p: %d\n",p);
+                        		printf("L348: selection[p]: %d\n",selection[p]);
+                        	}*/
                             if(output_cube[i][selection[p]] >= curr_max && output_cube[i][selection[p]] < NA) {
                                 or_max = output_cube[i][selection[p]];
                                 curr_max = output_cube[i][selection[p]];
@@ -406,15 +414,22 @@ SEXP simulatorT1 (
 
 
         term_check_1 = 0;
+//        printf("Species: ");
+//        for(j = 0; j < nSpecies; j++) {
+//        	printf("  %d  ",j+1);
+//       }
         for(i = 0; i < nCond; i++) {
+//        	printf("\ncond: %d  ",i+1);
             for(j = 0; j < nSpecies; j++) {
                 diff = abs((new_input[i][j] - output_prev[i][j]));
+//				printf(" %d/%d ",new_input[i][j], output_prev[i][j]);
                 if (diff > test_val){
                     term_check_1 = 1;
                     break;  /*  no need to keep going checking other values if
                                 one is greater than test_val */
                 }
             }
+//            printf("\n");
         }
         if (count_na_1!=count_na_2){
             term_check_1 = 1;
