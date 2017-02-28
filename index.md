@@ -13,6 +13,10 @@ CellNOpt is freely available under GPL license in R and Matlab languages. It can
 
 <img src="/cellnopt/public/index1.png" alt="Example result">
 
+**CellNOpt** is described in details in the following paper (more literature related to CellNOpt is available in the Publications sections - below this page). Please use this reference to cite CellNOpt:
+|--------------------------------------------------------------------------------------------------------------------------------|
+**C Terfve, T Cokelaer, A MacNamara, D Henriques, E Goncalves, MK Morris, M van Iersel, DA Lauffenburger, J Saez-Rodriguez.** [CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms](http://www.biomedcentral.com/1752-0509/6/133/abstract). _BMC Systems Biology, 2012, 6:133_ [PDF](http://www.biomedcentral.com/content/pdf/1752-0509-6-133.pdf)
+
 
 ## CellNOpt Implementations
 
