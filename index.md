@@ -13,9 +13,9 @@ CellNOpt is freely available under GPL license in R and Matlab languages. It can
 
 <img src="/cellnopt/public/index1.png" alt="Example result">
 
-**CellNOpt** is described in details in the following paper (more literature related to CellNOpt is available in the Publications sections - below this page). Please use this reference to cite CellNOpt:
-|--------------------------------------------------------------------------------------------------------------------------------|
-**C Terfve, T Cokelaer, A MacNamara, D Henriques, E Goncalves, MK Morris, M van Iersel, DA Lauffenburger, J Saez-Rodriguez.** [CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms](http://www.biomedcentral.com/1752-0509/6/133/abstract). _BMC Systems Biology, 2012, 6:133_ [PDF](http://www.biomedcentral.com/content/pdf/1752-0509-6-133.pdf)
+**CellNOpt** is described in details in the following paper (more literature related to CellNOpt is available in the Publications sections - below this page). Please use this reference to cite CellNOpt: **C Terfve, T Cokelaer, A MacNamara, D Henriques, E Goncalves, MK Morris, M van Iersel, DA Lauffenburger, J Saez-Rodriguez.** [CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms](http://www.biomedcentral.com/1752-0509/6/133/abstract). _BMC Systems Biology, 2012, 6:133_ [PDF](http://www.biomedcentral.com/content/pdf/1752-0509-6-133.pdf)
+
+We have also developed PHONEMeS, a related tool to build logic models from discovery mass-spectrometry based Phosphoproteomic data. Please visit [PHONEMeS dedicated webpage](https://saezlab.github.io/PHONEMeS/). PHONEMeS is described in this paper: **CDA Terfve, E Wilkes, P Casado, P R Cutillas, J Saez-Rodriguez.** [Large-scale models of signal propagation in human cells derived from discovery phosphoproteomic data](http://www.nature.com/ncomms/2015/150910/ncomms9033/full/ncomms9033.html). Nature Communications, 2015, 6:8033 [PDF](http://www.nature.com/ncomms/2015/150910/ncomms9033/pdf/ncomms9033.pdf)
 
 
 ## CellNOpt Implementations
@@ -32,6 +32,9 @@ A series of packages are available in R. The core CellNOpt is available on BioCo
 [CNORode](http://www.bioconductor.org/packages/release/bioc/html/CNORode.html) is an ODE add-on to CellNOptR. It is based on the method of (Wittmann et al BMC Sys Bio 2009), also implemented in the tool Odefy (Krusiek et al BMC Bioinf 2010).
 
 [CNORfeeder](http://www.bioconductor.org/packages/release/bioc/html/CNORfeeder.html) is an add-on to CellNOptR that permits to extend a network derived from literature with links derived in a strictly data-driven way and supported by protein-protein interactions as described in (Eduati et al Bioinformatics 2012).
+
+<img src="/cellnopt/public/indexImpl.png" alt="Example Implementations">
+
 
 ### _MATLAB_
 Some features of CellNOpt are also available as a MATLAB toolbox, along with the toolbox Q2LM to analyze models, [here](http://www.ebi.ac.uk/saezrodriguez/cno/matlab)
@@ -56,6 +59,20 @@ The [ColoMoTo](http://www.colomoto.org/) consortium nvolves other groups develop
 
 ### _PHONEMeS_
 [PHONEMeS](http://saezlab.github.io/PHONEMeS/) Toolbox dedicated to mass spectrometry analysis.
+
+
+## Documentation
+
+### _Manual and Tutorial of the R packages_
+The R packages are self documented. Tutorials and manual are provided on the bioconductor site of each package. Here below are direct links to the Bioconductor vignettes:
+
+* [CellNOptR vignette](http://www.bioconductor.org/packages/release/bioc/vignettes/CellNOptR/inst/doc/CellNOptR-vignette.pdf)
+* [CNORdt vignette](http://www.bioconductor.org/packages/release/bioc/vignettes/CNORdt/inst/doc/CNORdt-vignette.pdf)
+* [CNORfuzzy vignette](http://www.bioconductor.org/packages/release/bioc/vignettes/CNORfuzzy/inst/doc/CNORfuzzy-vignette.pdf)
+* [CNORode vignette](http://www.bioconductor.org/packages/release/bioc/vignettes/CNORode/inst/doc/CNORode-vignette.pdf)
+* [CNORfeeder vignette](http://www.bioconductor.org/packages/release/bioc/vignettes/CNORfeeder/inst/doc/CNORfeeder-vignette.pdf)
+
+Some extra materials and courses about the formats used can be found in the [CNODocs](). Besides, the following link provides a tutorial given at [In Silico Systems Biology, 2013](http://nbviewer.jupyter.org/github/saezlab/cellnopt/blob/gh-pages/public/tutorial_wtac_2013.pdf). The following link provides also a [CytoCopteR tutorial](http://nbviewer.jupyter.org/github/saezlab/cellnopt/blob/gh-pages/public/CytocopterManual.pdf).
 
 
 ## References
