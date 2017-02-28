@@ -173,6 +173,35 @@ Note that in the paper cited here below (MacNamara), the data was generated usin
 * To download the model, click on the following [link]()
 * To download the **True model**, click on the following link **download model**.
 
+# ToyPCB
+
+##  I. Description
+
+This model is used in the references here below. The network was generated manually from the paper. The data was generated manually from the matlab data in the CNO matlab repository (Data/SampleData/ToyModelPCB). Experiments with stimuli set to zero (all NA) were removed.
+
+**Morris, Melody K and Saez-Rodriguez, Julio and Clarke, David C and Sorger, Peter K and Lauffenburger, Douglas a**, *Training signaling pathway maps to biochemical data with constrained fuzzy logic: quantitative analysis of liver cell responses to inflammatory stimuli.* PLoS computational biology, 7, 3, 2011 [Citation](http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=3048376)
+
+##  II. Download Data and Model
+* To download the data, click on the following [link]()
+* To download the model, click on the following [link]()
+
+# ToyPB_SBML
+
+##  I. Description
+
+The PKN network **PKN-ToyPB_SBML.sif** is made of the content of the SBMLqual Model.xml used in the reference below. This is almost the same model as *PKN-ToyPB_True.sif* except for an additional self-loop added on **ph** node.
+
+There is no data provided but one could use the data used in ToyPB that was generated from **ToyPB_True** model (same except for the self-loop).
+
+**Chaouiya et al.** *SBML qualitative models: a model representation format and infrastructure to foster interactions between qualitative modelling formalisms and tools.* BMC Systems Biology 2013, 7:135
+
+##  II. Download Data and Model
+* To download the data, click on the following [link]()
+* To download the model (SIF format), click on the following [link]()
+* To download the model (SABMLQual), click on the following [link]()
+
+
+
 
 
 
