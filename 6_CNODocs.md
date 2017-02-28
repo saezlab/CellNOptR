@@ -7,9 +7,9 @@ title: CNODocs
 
 *Section author: Thomas Cokelaer*
 
-# Tutorials
+# 1. Tutorials
 
-##  I. Manipulating MIDAS files
+##  1.1. Manipulating MIDAS files
 First, load the library:
 
 ```R
@@ -57,7 +57,7 @@ And access to one of the field (e.g. signals) by typing:
 ```
 
 
-##  II. Manipulating PKN (prior knowledge network)
+##  1.2. Manipulating PKN (prior knowledge network)
 Let us first load a model that should be in SIF format (3 columns CSV like):
 
 ```R
@@ -85,7 +85,7 @@ plotModel(pknmodel, cnolist)
 Red correspond to inhibitors, green to ligands and blue to measurements.
 
 
-##  III. Boolean logic (one steady state)
+##  1.3. Boolean logic (one steady state)
 Let us now optimise a MIDAS data set to a PKN network. First, let us load the data provided within CellNOpt:
 
 ```R
@@ -139,7 +139,7 @@ In the resulting figure we can see that the specy NFkB has a high mismatch, whic
 <img src="/cellnopt/public/Tutorials5.png" alt="Example Tutorials 5">
 
 
-##  IV. Boolean logic (two steady states)
+##  1.4. Boolean logic (two steady states)
 
 Finally, we can repeat the previous procedure by including an analysis on a second time point. This can be done with a new set of data that includes 2 time points.
 
@@ -174,9 +174,9 @@ cutAndPlot(cnolist, model, bStrings=list(optT1$bString, optT2$bString))
 <img src="/cellnopt/public/Tutorials7.png" alt="Example Tutorials 7">
 
 
-# Formats
+# 2. Formats
 
-##  I. SIF Format
+##  2.1. SIF Format
 *Section author: Thomas Cokelaer, 2013*
 
 The SIF format (simple interaction format) is a cytoscape compatible format, which is just a space separated value format. It is convenient for building a graph from a list of interactions. It also makes it easy to combine different interaction sets into a larger network, or add new interactions to an existing data set.
@@ -217,7 +217,7 @@ A 1 A
 In cytoscape, the relationship type can be any string. However, in CellNOptR we are limited to the values 1 and -1 that correspond to activation or inhibition.
 
 
-##  II. MIDAS Format
+##  2.2. MIDAS Format
 *Section author: Thomas Cokelaer, 2013*
 
 This document describes briefly the MIDAS (Minimum Information for Data Analysis in Systems Biology) format that is used in CellNOpt software.
@@ -320,3 +320,58 @@ MD-LiverDREAM.csv
 ```
 
 [DataRail](https://sites.google.com/site/saezrodriguez/software/datarail)
+
+
+# 3. Developers Guide
+
+## 3.1. R code conventions
+There are just a few conventions that should be taken into account when developping/changing CellNOptR and add-on package such as CNORfuzzy, CNORode...
+
+**Note:** Do not change the layout of a file except if you think it does not fulfill the following conventions.
+
+### 3.1.1 Function naming convention
+* Acronyms should be all in big caps (e.g, NONC, MIDAS, SIF, PDF, CNO).
+* Functions must start with small caps except if acronym.
+* If several words make up a function name, each word should start with a big Cap to ease the reading (e.g., compressModel, cutSimList)
+* A word following an acronym should start with big cap except for CNOlist that is used everywhere with small caps for “list”.
+* If a number splits 2 words (e.g. sif2graph) then no need for a big cap. The name is clear enough.
+
+Correct:
+
+```R
+prep4sim
+plotFit
+readMIDAS
+```
+
+Incorrect:
+
+```R
+prep4SIM
+PlotFit
+readMidas
+```
+
+### 3.1.2. Tabulations
+Some people uses tabs, some others spaces. We decide to use spaces instead of tabs (4 spaces for 1 tab). This is just an arbitrary convention to avoid mixing both without knowing. Easy to set up in any editor.
+
+Code should look like (not the spaces, the curly brackets:
+
+```R
+preprocessing <- function(Model){
+    m <- Model
+    for (r in 1:length(Model$reacID){
+        # do something
+    } # end of for loop
+} # end of main function
+```
+
+At least not something like:
+
+```R
+preprocessing <- function(Model){
+m <- Model
+for (r in 1:length(Model$reacID){
+# do something
+} # end of for loop
+```
