@@ -172,3 +172,151 @@ cutAndPlot(cnolist, model, bStrings=list(optT1$bString, optT2$bString))
 ```
 
 <img src="/cellnopt/public/Tutorials7.png" alt="Example Tutorials 7">
+
+
+# Formats
+
+##  I. SIF Format
+*Section author: Thomas Cokelaer, 2013*
+
+The SIF format (simple interaction format) is a cytoscape compatible format, which is just a space separated value format. It is convenient for building a graph from a list of interactions. It also makes it easy to combine different interaction sets into a larger network, or add new interactions to an existing data set.
+
+The advantage resides in its simplicity:
+
+```R
+specy1 1 specy2
+specy1 1 specy3
+```
+
+with the disadvantage that this format does not include any layout information. Each line in a SIF file represent an interaction between a source and one or more target nodes:
+
+```R
+nodeA relationship nodeB
+nodeC relationship nodeA
+nodeD relationship nodeE nodeF nodeB
+```
+
+The SIF format used in CellNOpt is actually a subset of the official SIF format:
+
+```R
+#. Generally there is only one target
+#. The relationship can be only the number 1 or -1 (for inhibitor)
+#. Duplicate entries are not ignored.
+```
+
+Delimiters can be spaces or tabs (mixed).
+
+Duplicated entries are ignored. Multiple edges between the same nodes must have different edge types.
+
+Self loops are also possible:
+
+```R
+A 1 A
+```
+
+In cytoscape, the relationship type can be any string. However, in CellNOptR we are limited to the values 1 and -1 that correspond to activation or inhibition.
+
+
+##  II. MIDAS Format
+*Section author: Thomas Cokelaer, 2013*
+
+This document describes briefly the MIDAS (Minimum Information for Data Analysis in Systems Biology) format that is used in CellNOpt software.
+
+### 2.2.1. Format
+MIDAS files are CSV files (comma separated). The content is defined in the first line of the file that constitutes the header (only 1 line). In the header, colums can take two forms:
+
+```R
+XX:Specy,
+XX:userword:Specy
+```
+
+where XX is a 2-letter word prefix that describes the column content (see table below for valid word) and Specy is the name of the column. The userword is optional (see later).
+
+MIDAS files include the concept of cues, signals, and responses (Gaudet et al., 2005):
+
+* cues are biological perturbations to a system (such as the addition of extracellular ligands)
+* signals represent the activities of proteins or other biomolecules involved in transducing biological information (activation of an intracellular kinase, for example),
+* responses also called readouts represent phenotypic changes such as proliferation, cell death or cytokine release.
+
+The column headers in a MIDAS files may contain a second (userword) level of identification (e.g. headers for columns describing various cytokine treatments might begin with “TR:Cytokine”). When present, these secondary identifiers allow Software (e.g., DataRail’s importer) to identify automatically the dimensions of a new compendium.
+
+| Code | Description | handled in CellNOptR |
+| ---- | ----------- | -------------------- |
+| ID | Identifiers |  |
+| TR | Treatment | yes |
+| DA | Data acquisition | yes |
+| DV | Data value | yes |
+
+Example:
+
+| TR:mock:CellLine | TR:EGF | TR:TNFa | TR:PI3Ki | DA:Akt | DA:Hsp27 | DV:Akt | DV:Hsp27 |
+| ---------------- | ------ | ------- | -------- | ------ | -------- | ------ | -------- |
+| 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 1 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| 1 | 1 | 0 | 0 | 10 | 10 | 1 | 0.2 |
+| 1 | 0 | 1 | 0 | 10 | 10 | 1 | 0.5 |
+
+Each value is separated by a comma and you could have space, tabs between commas. So, the final format could be as follows:
+
+```R
+TR:mock:CellLine, TR:EGF, TR:TNFa, TR:PI3Ki, DA:Akt, DA:Hsp27, DV:Akt, DV:Hsp27
+1,1,0,0, 0,0,   0,0
+1,0,1,0, 0,0,   0,0
+1,1,0,0, 10,10, 0.82,0.7
+1,0,1,0, 10,10, 0.91,0.7
+```
+
+Let us explain the header:
+* The first row is the header describing the content of each colum.
+* commas separate all fields.
+* Each fields must starts with one of the valid code followed by a column (e.g., TR: or DA:).
+* Subfields are possible: TR:whatever:EGF
+* Special fields such as CellLine, NOCYTO and NOINHIB are ignored.
+* The number of DA and DV must be equal except if you use the special name DA:ALL (see later).
+* Inhibitors are coded by adding the letter i after the name (e.g., TR:PI3Ki)
+**Warning:** do we have special cases of name ending with the letter i ?
+
+The data above is made of rows that length is as long as the header. Fields may be empty, which is not the case here. If so, software should replace the value by (e.g., NA in R language) and cope with it.
+
+Each row represents a given treatment at a given time. Time are coded with the DA code. Values are coded within the **DV** columns. Let us look at the 2 first rows. The time is 0. The next two other rows are coded for the time 10. The treatements (3 first colums) are found at the different time.
+
+In MIDAS file, data should be ordered by time although some software may deal with it.
+
+### 2.2.2. Filename issue
+From the *Reference* below:
+
+```R
+MIDAS file has a unique identifier (UID) composed of the following fields:
+(i) a two-letter data/file-type code (e.g., PDfor Primary Data, MD for
+multiplex data), (ii) a three-letter creator code (typically initials),
+(iii) an identification number of arbitrary length that is unique across
+the entire system, and (iv) a free-text suffix that serves as a mnemonic
+to improve human readability. For example, the primary data discussed in
+the text might be tagged MD-LGA-11111-CytoInh17phFI-BLK
+```
+
+In practice, only a few files are coded that way. One reason is that the UID tag is hardly used. Another inconsistency is that dashes are not used or replaced by ____. Besides, many files contain the word Data. Finally, the name tag (e.g. LGA above) is not good practice because public file should give the feeling they belong to everybody. However, one consistency is the extension being **.csv**.
+
+*Reference*: **J. Saez-Rodriguez, A. Goldsipe, J. Muhlich, L. Alexopoulos, B. Millard, D. A. Lauffenburger, P. K. Sorger**, *Flexible Informatics for Linking Experimental Data to Mathematical Models via DataRail.* Bioinformatics, 24:6, 840-847 (2008). [Citations](http://bioinformatics.oxfordjournals.org/cgi/content/abstract/btn018)
+
+### 2.2.3. Proposal for filename convention
+
+* Do not use the DATA/Data word. Instead start all files with MD- and use the extension .csv
+* Separate the names that describe your data with dashes.
+* Underscore could be use internally to refine a name
+* MD must be capitalised, other names can use any convention but we recomment polish convention (e.g., capitalize words)
+
+MD-Tag1-Tag2.csv
+
+MD indicates that this is a MIDAS file so no need to set Data in the filename anymore. Tag1 is a general description tag (containing _ possibly) and Tag2 is a variant of Tag1. For instance, Tag1 could be Toy and Tag2 a name to differentiate different Toy data sets.
+
+Correct:
+
+```R
+MD-Toy.csv
+MD-Toy-variant1.csv
+MD-LiverDream.csv
+MD-LiverDREAM.csv
+```
+
+[DataRail](https://sites.google.com/site/saezrodriguez/software/datarail)
