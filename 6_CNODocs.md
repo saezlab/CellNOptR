@@ -504,11 +504,11 @@ If the file is compiled correctly, you should see the PDF is your favorite PDF r
 ### 3.2.2. Some standard arguments
 Many arguments in CellNOptR and related packages appear often. For instance, CNOlist, Model and so on. Instead of rewriting again and again the text for these arguments, you can use the following convention:
 
-*   **CNOlist:** a CNOlist structure, as created by ```R \code{makeCNOlist}```
-*   **Model:** a model structure, as created by ```R \code{readSIF}```, normally pre-processed but that is not a requirement of this function
-*   **indexList:** a list of indexes of the species stimulated/inhibited/measured, as created by ```R \code{indexFinder}``` from a model.
+*   **CNOlist:** a CNOlist structure, as created by ```\code{makeCNOlist}```
+*   **Model:** a model structure, as created by ```\code{readSIF}```, normally pre-processed but that is not a requirement of this function
+*   **indexList:** a list of indexes of the species stimulated/inhibited/measured, as created by ```\code{indexFinder}``` from a model.
 *   **indices:** same as indexList
-*   **simList:** a SimList structure as created by ```R \code{prep4sim}```, that has also already been cut to contain only the reactions to be evaluated
+*   **simList:** a SimList structure as created by ```\code{prep4sim}```, that has also already been cut to contain only the reactions to be evaluated
 
 #  4. Installation FAQs
 If you use biocLite to install CellNOptR, R dependencies should be installed automatically. However, some libraries may need to be installed by you outside of R.
