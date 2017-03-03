@@ -427,7 +427,111 @@ You should try to stick to a maximum length of 80 characters per line. Two reaso
 *   *More than 80 characters per line systematically is probably because the code is not modular enough*
 *   *To compare 2 files, it is convenient to open 2 windows side by side hence the need for reasonable width.*
 
-##  3.2. 
+##  3.2. How to document functions
 
+### 3.2.1. Creating a manual file
+All R functions in the R packages must have a manual that is a file in the man/ directory. The file has the same name as the function that is being documented except for the extension that is *.Rd* instead of *.R*
 
+The structure should be as follows:
+```R
+\name{functionName}
+\alias{functionName}
+\alias{FUNCTIONNAME}
+\title{
+    A short description (one line)
+}
+\description{
+    A longer description
+}
+\usage{
+    functionName(arg1, arg2)
+}
+\arguments{
+    \item{arg1}{
+        Description of arg1
+    }
+    \item{arg2}{
+        Description of arg2
+    }
+}
+\details{
+    Some detailled description
+}
+\value{
+    description of what is returned.
+}
+\author{
+    Your name
+}
+\seealso{
+   \code{\link{anotherFunction}}
+    Pointers to related R objects, using \code{\link{...}} to refer to them (\code
+    is the correct markup for R object names, and \link produces hyperlinks in
+    output formats which support this.
+}
+\examples{
+    data(CNOlistToy,package="CellNOptR")
+    data(ToyModel,package="CellNOptR")
+    checkSignals(CNOlistToy,ToyModel)
+
+   \dontrun{Some computationally expensive code can be shown but not run.}
+   \dontshow{log(x)}    # Only run.
+}
+\keyword{file}
+\note{}
+```
+Some fields are optional (e.g., seealso, examples)
+
+The layout is not of importance but to ease the writing/reading of code for developers, please use this layout for the argument section:
+```R
+\arguments{
+    \item{MIDASfile}{
+        a CSV MIDAS file (see details)
+    }
+    \item{verbose}{
+        logical (default to TRUE).
+    }
+}
+```
+See the R [guidelines](http://developer.r-project.org/Rds.html)
+
+To test if the Rd file is correct, type this command:
+```R
+R CMD Rd2pdf --vanilla functionName.Rd
+```
+If the file is compiled correctly, you should see the PDF is your favorite PDF reader.
+
+### 3.2.2. Some standard arguments
+Many arguments in CellNOptR and related packages appear often. For instance, CNOlist, Model and so on. Instead of rewriting again and again the text for these arguments, you can use the following convention:
+
+*   **CNOlist:** a CNOlist structure, as created by ```R \code{makeCNOlist}```
+*   **Model:** a model structure, as created by ```R \code{readSIF}```, normally pre-processed but that is not a requirement of this function
+*   **indexList:** a list of indexes of the species stimulated/inhibited/measured, as created by ```R \code{indexFinder}``` from a model.
+*   **indices:** same as indexList
+*   **simList:** a SimList structure as created by ```R \code{prep4sim}```, that has also already been cut to contain only the reactions to be evaluated
+
+#  4. Installation FAQs
+If you use biocLite to install CellNOptR, R dependencies should be installed automatically. However, some libraries may need to be installed by you outside of R.
+
+## 4.1. RGraphviz installation under Linux
+For example, the Rgraphviz library relies on mesa library.
+
+Under Linux (ubuntu), you should install:
+```R
+libglu1-mesa-dev
+```
+For those insterested to play with the [cellnopt.wrapper](https://pypi.python.org/pypi/cellnopt.wrapper), which is a Python wrapper, you should install the following librairies:
+
+```R
+python-dev
+python-rpy2
+```
+
+##  4.2. RCurl cannot be installed with a curl-config error
+Under Ubuntu 12.04, during the installation of RCurl package (biocLite(RCurl), I got an error related to a missing rcurl-config.
+
+This can be solved by installing the relevant packages:
+```R
+sudo apt-get install curl libcurl4-openssl-dev
+```
 
