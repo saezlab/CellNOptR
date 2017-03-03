@@ -375,3 +375,59 @@ for (r in 1:length(Model$reacID){
 # do something
 } # end of for loop
 ```
+
+### 3.1.3. Function arguments convention
+Should follow the same rule as for the naming convention and be consistent over all functions and packages.
+
+Correct:
+```R
+CNOlist
+maxTime
+elitism
+simList
+model
+```
+
+Incorrect:
+```R
+CNOLIST
+MaxTime
+Elistism
+SimList
+Model
+```
+
+### 3.1.4. Variable name convention
+*   should be lower caps
+*   see function naming convention if acronym is present or variable name made of several words.
+
+Correct:
+```R
+maxTime, maxtime
+simList, simlist
+pMutation
+```
+
+Incorrect:
+```R
+MaxTime
+MAXTIME
+Pmutation
+```
+
+Ambiguous:
+```R
+initBstring since B is not a word but an abbreviation. It should be initBitString somehow but this is long. In such case, developer has to make a choice.
+```
+
+### 3.1.5. 80 characters length
+You should try to stick to a maximum length of 80 characters per line. Two reasons:
+
+*   *If you want to print the code, the layout is nicer*
+*   *More than 80 characters per line systematically is probably because the code is not modular enough*
+*   *To compare 2 files, it is convenient to open 2 windows side by side hence the need for reasonable width.*
+
+##  3.2. 
+
+
+
