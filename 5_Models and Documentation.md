@@ -48,11 +48,11 @@ Subset of the data used in the reference here below.
 **Terfve, C. and Cokelaer, T. and Henriques D. and MacNamara A. and Gonçalves E. and Morris K.M. and van Iersel M. and Lauffenburger A.D. and Saez-Rodriguez J.**, *CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms*, BMC Systems Biology 2012, 6:133, [Citation](http://www.biomedcentral.com/1752-0509/6/133/abstract)
 
 ##  II. Download Data and Model
-* [download model PKN-ExtLiverBMC2012.sif]() in the same format as [ExtLiverPCB]().
-* [download model PKN-ExtLiverMSBmodUP.sif](), which is the same as above but with uniprot IDs.
-* [download data MD-ExtLiverPCB.csv]() identical to the data in [ExtLiverPCB]() (NORMALISED !!).
-* [download data MCP_HepG2mod4.csv]() identical to the file above bu uniprot IDS and UNNORMALISED data.
-* [download data MCP_PriHumod5.csv]() identical to the file above bu uniprot IDS and UNNORMALISED data.
+* [download model PKN-ExtLiverBMC2012.sif](http://nbviewer.jupyter.org/github/saezlab/cellnopt/blob/gh-pages/public/PKN-ExtLiverBMC2012.sif.txt) in the same format as ExtLiverPCB.
+* [download model PKN-ExtLiverMSBmodUP.sif](http://nbviewer.jupyter.org/github/saezlab/cellnopt/blob/gh-pages/public/PKN-ExtLiverMSBmodUP.sif.txt), which is the same as above but with uniprot IDs.
+* [download data MD-ExtLiverPCB.csv](http://nbviewer.jupyter.org/github.com/saezlab/cellnopt/blob/gh-pages/public/MD-ExtLiverPCB.csv) identical to the data in ExtLiverPCB (NORMALISED !!).
+* [download data MCP_HepG2mod4.csv](http://nbviewer.jupyter.org/github.com/saezlab/cellnopt/blob/gh-pages/public/MCP_HepG2mod4.csv) identical to the file above bu uniprot IDS and UNNORMALISED data.
+* [download data MCP_PriHumod5.csv](http://nbviewer.jupyter.org/github.com/saezlab/cellnopt/blob/gh-pages/public/MCP_PriHumod5.csv) identical to the file above bu uniprot IDS and UNNORMALISED data.
 
 # LiverDREAM
 
