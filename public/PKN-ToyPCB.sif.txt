@@ -1,0 +1,17 @@
+TGFa    1    EGFR
+TNFa    1    TNFR
+TNFR    1    PI3K
+TNFR    1    TRAF2
+EGFR    1    Ras
+EGFR    1    PI3K
+TRAF2   1    p38
+TRAF2   1    Jnk
+Ras     1    Raf
+Raf     1    Mek
+Mek     1    Erk
+PI3K    1    Akt
+Akt    -1    PAK
+PAK     1    Mek
+PI3K    1    Rac
+Rac     1    Jnk
+Rac     1    PAK 
