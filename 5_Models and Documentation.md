@@ -63,8 +63,8 @@ This model is used in several articles and is used for many tests in CNO. It was
 **Discrete logic modelling as a means to link protein signalling networks with functional analysis of mammalian signal transduction.** *J. Saez-Rodriguez, L.G. Alexopoulos, J. Epperlein, R. Samaga, D.A. Lauffenburger, S. Klamt, P.K. Sorger.* Molecular systems Biology, 5, 331, (2009). [Citation](http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=2824489).
 
 ##  Download Data and Model
-* To download the data, click on the following [link]()
-* To download the model, click on the following [link]()
+* To download the data, click on the following [link](http://nbviewer.jupyter.org/github.com/saezlab/cellnopt/blob/gh-pages/public/MD-LiverDREAM.csv)
+* To download the model, click on the following [link](http://nbviewer.jupyter.org/github.com/saezlab/cellnopt/blob/gh-pages/public/PKN-LiverDREAM.sif.txt)
 
 # TCellPCB2007
 
@@ -75,8 +75,8 @@ This model comes from the reference here below. The SIF file was generated from 
 **Saez-Rodriguez, J., Simeoni, L., Lindquist, et al.** *A Logical Model Provides Insights into T Cell Receptor Signaling.* PLoS Computational Biology, 3(8), 11. Public Library of Science. [Citation](http://www.ncbi.nlm.nih.gov/pubmed/17722974).
 
 ##  II. Download Data and Model
-* To download the data, click on the following [link]()
-* To download the model, click on the following [link]()
+* To download the data, click on the following [link](http://nbviewer.jupyter.org/)
+* To download the model, click on the following [link](http://nbviewer.jupyter.org/)
 
 # ToyMSB2009
 
@@ -87,8 +87,8 @@ This model/data is the Toy Model published in the reference here below. Model an
 **J. Saez-Rodriguez, L. G. Alexopoulos, J. Epperlein, R. Samaga, D. A. Lauffenburger, S. Klamt and P. K. Sorger.** *Discrete logic modeling as a means to link pr otein signaling networks with functional analysis of mammalian signal transduction* Molecular Systems Biology, 5:331, 2009.
 
 ##  II. Download Data and Model
-* To download the data, click on the following [link]()
-* To download the model, click on the following [link]()
+* To download the data, click on the following [link](http://nbviewer.jupyter.org/)
+* To download the model, click on the following [link](http://nbviewer.jupyter.org/)
 
 #  ToyMMB
 
@@ -107,9 +107,9 @@ This directory contains the file PKN-ToyMMB.sif, a model used in several article
 This model is a variant of ToyMMB with a feedback loop.
 
 ##  II. Download Data and Model
-* To download the data, click on the following link [download data](). Note also you can get [download data variant 2]() and [download data variant 3]().
-* To download the model, click on the following [link](). There is also a data set to play with steady states(2 time):
-* To download the data, click on the following [link]().
+* To download the data, click on the following link [download data](http://nbviewer.jupyter.org/). Note also you can get [download data variant 2]() and [download data variant 3](http://nbviewer.jupyter.org/).
+* To download the model, click on the following [link](http://nbviewer.jupyter.org/). There is also a data set to play with steady states(2 time):
+* To download the data, click on the following [link](http://nbviewer.jupyter.org/).
 
 # ToyMMB_FeedbackAnd
 
@@ -118,8 +118,8 @@ This model is a variant of ToyMMB with a feedback loop.
 This model is a variant of ToyModelMMB with a feedback loop and AND gates.
 
 ## II. Download Data and Model
-* To download the data, click on the following [link]()
-* To download the model, click on the following [link]()
+* To download the data, click on the following [link](http://nbviewer.jupyter.org/)
+* To download the model, click on the following [link](http://nbviewer.jupyter.org/)
 
 # ToyMMB_bis
 
@@ -130,8 +130,8 @@ This model is the same as ToyMMB with an extra link from PI3K to NFkB.
 **M. K. Morris, I. Melas, J. Saez-Rodriguez.** *Construction of cell type-specific logic models of signaling networks using CellNetOptimizer.* to appear in Methods in Molecular Biology:Computational Toxicology, Ed. B. Reisfeld and A. Mayeno, Humana Press.
 
 ##  II. Download Data and Model
-* To download the data, click on the following [link]()
-* To download the model, click on the following [link]()
+* To download the data, click on the following [link](http://nbviewer.jupyter.org/)
+* To download the model, click on the following [link](http://nbviewer.jupyter.org/)
 
 # ToyMMB_T2
 
@@ -144,8 +144,8 @@ In addition to PKN-ToyMMB.sif, this model contains a inhibitor from cJun to Jnk.
 **C. Terfve.** *Training of boolean logic models of signalling networks using prior knowledge networks and perturbation data with CellNOptR.* [Bioconductor Link](http://www.bioconductor.org/packages/release/bioc/html/CellNOptR.html)
 
 ##  II. Download Data and Model
-* To download the data, click on the following [link]()
-* To download the model, click on the following [link]()
+* To download the data, click on the following [link](http://nbviewer.jupyter.org/)
+* To download the model, click on the following [link](http://nbviewer.jupyter.org/)
 
 # ToyPB
 
@@ -169,8 +169,8 @@ Note that in the paper cited here below (MacNamara), the data was generated usin
 **Note:** The directory contains a SIF file named ToyModelPB.sif but also a PKN-ToyPB_shuffled.sif that has exactly the same topology. However, this second file has a different arrangements of reactions. When compressed and expanded, the resulting models are different. This is a known bug and these 2 files can be used to debug that issue. The file MD-ToyPB_2timePoints.csv is a subset of ToyModelPB.csv that contains the time points 0, 10 and 30 seconds only.
 
 ##  II. Download Data and Model
-* To download the data, click on the following [link]()
-* To download the model, click on the following [link]()
+* To download the data, click on the following [link](http://nbviewer.jupyter.org/)
+* To download the model, click on the following [link](http://nbviewer.jupyter.org/)
 * To download the **True model**, click on the following link **download model**.
 
 # ToyPCB
@@ -182,8 +182,8 @@ This model is used in the references here below. The network was generated manua
 **Morris, Melody K and Saez-Rodriguez, Julio and Clarke, David C and Sorger, Peter K and Lauffenburger, Douglas a**, *Training signaling pathway maps to biochemical data with constrained fuzzy logic: quantitative analysis of liver cell responses to inflammatory stimuli.* PLoS computational biology, 7, 3, 2011 [Citation](http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=3048376)
 
 ##  II. Download Data and Model
-* To download the data, click on the following [link]()
-* To download the model, click on the following [link]()
+* To download the data, click on the following [link](http://nbviewer.jupyter.org/)
+* To download the model, click on the following [link](http://nbviewer.jupyter.org/)
 
 # ToyPB_SBML
 
@@ -196,9 +196,9 @@ There is no data provided but one could use the data used in ToyPB that was gene
 **Chaouiya et al.** *SBML qualitative models: a model representation format and infrastructure to foster interactions between qualitative modelling formalisms and tools.* BMC Systems Biology 2013, 7:135
 
 ##  II. Download Data and Model
-* To download the data, click on the following [link]()
-* To download the model (SIF format), click on the following [link]()
-* To download the model (SABMLQual), click on the following [link]()
+* To download the data, click on the following [link](http://nbviewer.jupyter.org/)
+* To download the model (SIF format), click on the following [link](http://nbviewer.jupyter.org/)
+* To download the model (SABMLQual), click on the following [link](http://nbviewer.jupyter.org/)
 
 
 
