@@ -13,9 +13,11 @@ CellNOpt is freely available under GPL license in R and Matlab languages. It can
 
 <img src="/cellnopt/public/index1.png" alt="Example result">
 
-**CellNOpt** is described in details in the following paper (more literature related to CellNOpt is available in the Publications sections - below this page). Please use this reference to cite CellNOpt: **C Terfve, T Cokelaer, A MacNamara, D Henriques, E Goncalves, MK Morris, M van Iersel, DA Lauffenburger, J Saez-Rodriguez.** [CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms](http://www.biomedcentral.com/1752-0509/6/133/abstract). _BMC Systems Biology, 2012, 6:133_ [PDF](http://www.biomedcentral.com/content/pdf/1752-0509-6-133.pdf)
+**CellNOpt** is described in details in the following paper (more literature related to CellNOpt is available in the Publications sections - below this page). Please use this reference to cite CellNOpt: 
+**C Terfve, T Cokelaer, A MacNamara, D Henriques, E Goncalves, MK Morris, M van Iersel, DA Lauffenburger, J Saez-Rodriguez.** [CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms](http://www.biomedcentral.com/1752-0509/6/133/abstract). _BMC Systems Biology, 2012, 6:133_ [PDF](http://www.biomedcentral.com/content/pdf/1752-0509-6-133.pdf)
 
-We have also developed PHONEMeS, a related tool to build logic models from discovery mass-spectrometry based Phosphoproteomic data. Please visit [PHONEMeS dedicated webpage](https://saezlab.github.io/PHONEMeS/). PHONEMeS is described in this paper: **CDA Terfve, E Wilkes, P Casado, P R Cutillas, J Saez-Rodriguez.** [Large-scale models of signal propagation in human cells derived from discovery phosphoproteomic data](http://www.nature.com/ncomms/2015/150910/ncomms9033/full/ncomms9033.html). Nature Communications, 2015, 6:8033 [PDF](http://www.nature.com/ncomms/2015/150910/ncomms9033/pdf/ncomms9033.pdf)
+We have also developed PHONEMeS, a related tool to build logic models from discovery mass-spectrometry based Phosphoproteomic data. Please visit [PHONEMeS dedicated webpage](https://saezlab.github.io/PHONEMeS/). PHONEMeS is described in this paper: 
+**CDA Terfve, E Wilkes, P Casado, P R Cutillas, J Saez-Rodriguez.** [Large-scale models of signal propagation in human cells derived from discovery phosphoproteomic data](http://www.nature.com/ncomms/2015/150910/ncomms9033/full/ncomms9033.html). Nature Communications, 2015, 6:8033 [PDF](http://www.nature.com/ncomms/2015/150910/ncomms9033/pdf/ncomms9033.pdf)
 
 
 ## CellNOpt Implementations
