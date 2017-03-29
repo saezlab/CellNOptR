@@ -19,7 +19,7 @@ CellNOpt is freely available under GPL license in R and Matlab languages. It can
 
 | We have also developed PHONEMeS, a related tool to build logic models from discovery mass-spectrometry based Phosphoproteomic data. PHONEMeS is described in this paper:  |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **CDA Terfve, E Wilkes, P Casado, P R Cutillas, J Saez-Rodriguez.** [Large-scale models of signal propagation in human cells derived from discovery phosphoproteomic data](http://www.nature.com/ncomms/2015/150910/ncomms9033/full/ncomms9033.html). Nature Communications, 2015, 6:8033 [PDF](http://www.nature.com/ncomms/2015/150910/ncomms9033/pdf/ncomms9033.pdf). You can also visit [PHONEMeS dedicated webpage](https://saezlab.github.io/PHONEMeS/) |
+| **CDA Terfve, E Wilkes, P Casado, P R Cutillas, J Saez-Rodriguez.** [Large-scale models of signal propagation in human cells derived from discovery phosphoproteomic data](http://www.nature.com/ncomms/2015/150910/ncomms9033/full/ncomms9033.html). _Nature Communications, 2015, 6:8033_ [PDF](http://www.nature.com/ncomms/2015/150910/ncomms9033/pdf/ncomms9033.pdf). You can also visit [PHONEMeS dedicated webpage](https://saezlab.github.io/PHONEMeS/) |
 
 
 ## CellNOpt Implementations
