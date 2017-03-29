@@ -103,4 +103,8 @@ Some extra materials and courses about the formats used can be found in the [CNO
 **For the CNORFeeder package:** 
 
 + F. Eduati, J. De Las Rivas, B. Di Camillo, G. Toffolo, J. Saez-Rodriguez. [Integrating literature-constrained and data-driven inference of signalling networks](http://bioinformatics.oxfordjournals.org/content/28/18/2311) _Bioinformatics, 2012 , 28 (18)_
-+ **For the MATLAB toolbox:** M. K. Morris, I. Melas, J. Saez-Rodriguez. [Construction of cell type-specific logic models of signaling networks using CellNetOptimizer](http://www.ebi.ac.uk/saezrodriguez/files/Morrisetal2011.pdf). _to appear in Methods in Molecular Biology:Computational Toxicology, Ed. B. Reisfeld and A. Mayeno, Humana Press._ [Preprint](http://www.ebi.ac.uk/saezrodriguez/files/Morrisetal2011.pdf)
+
+
+**For the MATLAB toolbox:** 
+
++ M. K. Morris, I. Melas, J. Saez-Rodriguez. [Construction of cell type-specific logic models of signaling networks using CellNetOptimizer](http://www.ebi.ac.uk/saezrodriguez/files/Morrisetal2011.pdf). _to appear in Methods in Molecular Biology:Computational Toxicology, Ed. B. Reisfeld and A. Mayeno, Humana Press._ [Preprint](http://www.ebi.ac.uk/saezrodriguez/files/Morrisetal2011.pdf)
