@@ -197,11 +197,8 @@ There is no data provided but one could use the data used in ToyPB that was gene
 
 ##  II. Download Data and Model
 * To download the data, click on the following [link](http://nbviewer.jupyter.org/github/saezlab/cellnopt/blob/gh-pages/public/MD-ToyPB1.csv)
-* To download the model (SIF format), click on the following [link](http://nbviewer.jupyter.org/github/saezlab/cellnopt/blob/gh-pages/public/ModelV5.xml)
-* To download the model (SABMLQual), click on the following [link](http://nbviewer.jupyter.org/github/saezlab/cellnopt/blob/gh-pages/public/PKN-ToyPB_SBML.sif.txt)
-
-
-
+* To download the model (SIF format), click on the following [link](http://nbviewer.jupyter.org/github/saezlab/cellnopt/blob/gh-pages/public/PKN-ToyPB_SBML.sif.txt)
+* To download the model (SABMLQual), click on the following [link](http://nbviewer.jupyter.org/github/saezlab/cellnopt/blob/gh-pages/public/ModelV5.xml)
 
 
 
