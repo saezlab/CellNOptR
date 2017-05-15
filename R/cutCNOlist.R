@@ -123,19 +123,23 @@ cutCNOlist <- function(cnolist, model=NULL, cutTimeIndices=list(), verbose=FALSE
   
   # now perform cut on stimuli
   if(length(indeces_stimuli)>0){
-    cutCNOlist@stimuli = as.matrix(cnolist@stimuli[, -indeces_stimuli])
+    #cutCNOlist@stimuli = as.matrix(cnolist@stimuli[, -indeces_stimuli])
+  	cutCNOlist@stimuli = cnolist@stimuli[, -indeces_stimuli,drop=FALSE]   # rewrote to keep the names of the matrixes
   }
   
   # now perform the cut on the cues
   if (length(indices_cues)>0){
-    cutCNOlist@cues = as.matrix(cnolist@cues[,-indices_cues])
+    #cutCNOlist@cues = as.matrix(cnolist@cues[,-indices_cues])
+  	cutCNOlist@cues = cnolist@cues[,-indices_cues,drop=FALSE]
   }
   
   # and the signal matrices
   if (length(indices_signals)>0){
     for (time in 1:length(cnolist@signals)){
-      cutCNOlist@signals[[time]] = as.matrix(cnolist@signals[[time]][,-indices_signals])
-      cutCNOlist@variances[[time]] = as.matrix(cnolist@variances[[time]][,-indices_signals])
+      #cutCNOlist@signals[[time]] = as.matrix(cnolist@signals[[time]][,-indices_signals])
+      #cutCNOlist@variances[[time]] = as.matrix(cnolist@variances[[time]][,-indices_signals])
+      cutCNOlist@signals[[time]] = cnolist@signals[[time]][,-indices_signals,drop=FALSE]
+      cutCNOlist@variances[[time]] = cnolist@variances[[time]][,-indices_signals,drop=FALSE]
     }
   }
   
@@ -144,7 +148,8 @@ cutCNOlist <- function(cnolist, model=NULL, cutTimeIndices=list(), verbose=FALSE
     #for (time in 1:length(cnolist@inhibitors)){
     #cutCNOlist@inhibitors[[time]] = as.matrix(cnolist@inhibitors[[time]][,-indices_inhibitors])
     #}
-    cutCNOlist@inhibitors = as.matrix(cnolist@inhibitors[,-indices_inhibitors])
+    #cutCNOlist@inhibitors = as.matrix(cnolist@inhibitors[,-indices_inhibitors])
+    cutCNOlist@inhibitors = cnolist@inhibitors[,-indices_inhibitors,drop=FALSE]
   }
   
   return(cutCNOlist)
