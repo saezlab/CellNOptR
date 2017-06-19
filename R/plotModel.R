@@ -597,7 +597,7 @@ compressed, graphvizParams){
     }
     # the and gate nodes
     for (s in vertices){
-        if (length(grep("and", s))>=1){
+        if (length(grep("^and", s))>=1){
             color[s] = "black"
             if (mode=="sbgn"){
                 fillcolor[s] = "white"
