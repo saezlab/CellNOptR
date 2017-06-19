@@ -98,9 +98,9 @@ readSIF<-function(sifFile){
 
 #1.detect them
     AndNodes<-grep(
-        pattern="([a,A][n,N][d,D]\\d+$)",namesSpecies,perl=TRUE,ignore.case=FALSE)
+        pattern="(^[a,A][n,N][d,D]\\d+$)",namesSpecies,perl=TRUE,ignore.case=FALSE)
     AndNodesV<-grep(
-        pattern="([a,A][n,N][d,D]\\d+$)",namesSpecies,perl=TRUE,ignore.case=FALSE,value=TRUE)
+        pattern="(^[a,A][n,N][d,D]\\d+$)",namesSpecies,perl=TRUE,ignore.case=FALSE,value=TRUE)
 
 
     if(length(AndNodes) != 0){
