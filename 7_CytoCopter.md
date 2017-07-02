@@ -60,13 +60,19 @@ This type of analysis is very helpful to identify possible missing links. For in
  
  * Right-click on the **tnfa** and then click *Add* and the *Edge*. Drag the edge and connect **tnfa** to **map3k1** node
  
+ <img src="/CellNOptR/public/cytocopter_6.png" alt="Optimisation">
+ 
  * After adding the edge, we need to define the type of interaction, i.e. if **tnfa** activates (1) **map3k1** or inhibits (-1) its activity. Click on the Edge Table panel in Cytoscape bottom panel then select the previously added edge.
  
  * Now double-click in the table cell with the value *"interaction"* text with 1
  
+ <img src="/CellNOptR/public/cytocopter_7.png" alt="Optimisation">
+ 
  * Now click the *Optimise* button to re-run exactly the previous optimisation with the exception of the extra edge that we just added.
  
  * After the optimisation, we can see that the **ap1** simulated values fit much better the existing data which can possibly indicate that the link that we added before is missing from the network taht we imported.
+ 
+ <img src="/CellNOptR/public/cytocopter_8.png" alt="Optimisation">
 
  
 
