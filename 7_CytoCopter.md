@@ -28,7 +28,7 @@ At this point we already have the network imported, now we can use our experimen
 
   * Select *CytoCopter* panel on the left side panel
   * On the network dropdown box, we have our imported network
-  * Click on the data text fiels and a window will pop-up to browse the previosly downloaded experimental (MIDAS file)
+  * Click on the data text fiels and a window will pop-up to browse the previosly downloaded experimental ([MIDAS file](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/ToyModelPB.csv))
   * After the data is selected, press the *Preprocess* button. **This procedure may take a few minutes; in particular if it is the first time all the necessary R packages will be installed**
   * The *Preprocess* function will annotate automatically the network: Green nodes are stimulated species; Red nodes are inhibited species; Blue nodes are measured species; Grey nodes with dashed borders can be removed to simplify the network; Blue nodes with red borders are measured and inhibited nodes; White nodes are not measured or perturbed that cannot be simplified.
   
