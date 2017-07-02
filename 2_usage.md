@@ -72,7 +72,7 @@ Plot of the results:
 <img src="/cellnopt/public/res.png" alt="Results">
 
 Plot of the optimal model:
-<img src="/cellnopt/public/model.png" alt="Prior Knowledge Network">
+<img src="/CellNOptR/public/model.png" alt="Prior Knowledge Network">
 
 ## Example combining SBMLqual, CNORdt, CNORode, CNORfeeder packages
 
