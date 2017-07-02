@@ -16,7 +16,7 @@ First, load the library:
 library(CellNOptR)
 ```
 
-First, let us get some data from ([cellnopt.data](http://saezlab.github.io/cellnopt/5_Models%20and%20Documentation/)), load it and convert it to a CNOlist data structure, which is the common data structure used in CellNOptR.:
+First, let us get some data from ([cellnopt.data](http://saezlab.github.io/CellNOptR/5_Models%20and%20Documentation/)), load it and convert it to a CNOlist data structure, which is the common data structure used in CellNOptR.:
 
 ```R
 cnolist = CNOlist(CNOdata("MD-ToyMMB.csv"))
@@ -102,7 +102,7 @@ You can visualize the Network (with data information) as follows:
 plotModel(pknmodel, cnolist)
 ```
 
-<img src="/cellnopt/public/Tutorials3.png" alt="Example Tutorials 3">
+<img src="/CellNOptR/public/Tutorials3.png" alt="Example Tutorials 3">
 
 Preprocess the data before the optimisation:
 
@@ -126,7 +126,7 @@ and look at the scores over time:
 plotFit(opt)
 ```
 
-<img src="/cellnopt/public/Tutorials4.png" alt="Example Tutorials 4">
+<img src="/CellNOptR/public/Tutorials4.png" alt="Example Tutorials 4">
 
 Since it has converged, we can now plot a figure that decomposes the fit of the best model against the data:
 
@@ -136,7 +136,7 @@ cutAndPlot(cnolist, model, bStrings=list(opt$bString))
 
 In the resulting figure we can see that the specy NFkB has a high mismatch, which is indicated by the colored boxes
 
-<img src="/cellnopt/public/Tutorials5.png" alt="Example Tutorials 5">
+<img src="/CellNOptR/public/Tutorials5.png" alt="Example Tutorials 5">
 
 
 ##  1.4. Boolean logic (two steady states)
@@ -162,7 +162,7 @@ As before, we can look at the first time points results using:
 # looking at the results
 cutAndPlot(cnolist, model, bStrings=list(optT1$bString))
 ```
-<img src="/cellnopt/public/Tutorials6.png" alt="Example Tutorials 6">
+<img src="/CellNOptR/public/Tutorials6.png" alt="Example Tutorials 6">
 
 The second optimisation results can be shown using the same function but providing the two optimisation bitstrings:
 
@@ -171,7 +171,7 @@ The second optimisation results can be shown using the same function but providi
 cutAndPlot(cnolist, model, bStrings=list(optT1$bString, optT2$bString))
 ```
 
-<img src="/cellnopt/public/Tutorials7.png" alt="Example Tutorials 7">
+<img src="/CellNOptR/public/Tutorials7.png" alt="Example Tutorials 7">
 
 
 # 2. Formats
