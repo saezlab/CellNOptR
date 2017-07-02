@@ -51,7 +51,7 @@ cnolist = CNOlist(CNOlistToy)
 plotModel(model = pknmodel, CNOlist = cnolist)
 ```
 The prior knowledge network will be plotted as follows:
-<img src="/cellnopt/public/pkn.png" alt="Prior Knowledge Network">
+<img src="/CellNOptR/public/pkn.png" alt="Prior Knowledge Network">
 
 As a second step, the model has to be pre-processed (commpressed and then expanded), before runnng the optimisation.
 
@@ -69,7 +69,7 @@ plotModel(model, cnolist, res$bString)
 ```
 
 Plot of the results:
-<img src="/cellnopt/public/res.png" alt="Results">
+<img src="/CellNOptR/public/res.png" alt="Results">
 
 Plot of the optimal model:
 <img src="/CellNOptR/public/model.png" alt="Prior Knowledge Network">
