@@ -7,16 +7,28 @@ CytoCopteR provides an intuitive and easy to learn graphical user interface (GUI
 
 This results in a point and click interface where users can run the same steps as they would using an R script without having to actually write any code. Given that this is a front-end to the [R](https://www.r-project.org/) algorithms, consistency is ensured between the results obtained through the GUI and those obtained through the corresponding scripts.
 
-# Download
+# Download & Installation
 
-CytoCopteR can be downloaded from the cytoscape App store ([Download link here](http://apps.cytoscape.org/apps/cytocopter)). It can also be directly installed from cytoscape  by following these simple steps:
+CytoCopteR can be downloaded from the cytoscape App store ([Download link here](http://apps.cytoscape.org/apps/cytocopter)) and then installed manually by copying the *jar* to CytoscapeConfiguration folder. This folder is usually kept in the user home folder. 
+
+Better yet, Cytoscape can also be directly installed from cytoscape  by following these simple steps:
 
 Go to **Apps** and then **App Manager...** and finally search for CytoCopteR in the search bar and press **Install**.
 
 <img src="/CellNOptR/public/cytocopter_1.png" alt="Installing Cytocopter">
 
 
-# Usage
+# CellNOptR Tutorial
+
+This tutorial assumes that Cytoscape as well as R is already installed. The necessary files for this tutorial is a [network sif file](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/ToyModelPB.sif) and the [corresponding experimental data](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/ToyModelPB.csv) in MIDAS format.
+
+## Study case
+
+To illustrate the use of Cytocopter, we will use a biologically plausible prior knowledge network (PKN). This network includes a subset of intracellular signalling networks known to be activated downstream of EGF and TNFa stimulation ([*MacNamara et al.*](http://iopscience.iop.org/article/10.1088/1478-3975/9/4/045003/meta;jsessionid=3DD3CFBA0FC0AB0592FF89E83FF1DF4F.c2.iopscience.cld.iop.org)).
+
+The accompanying *in silico* data (MIDAS file format) replicates biologically plausible behaviour that has been observed in such networks, such as transient behaviour of ERK activation and the oscillatory dynamics of NGkB translocation from the cytoplasm to the nucleus. 
+
+For more details about MIDAS format, please see [here](https://academic.oup.com/bioinformatics/article-lookup/doi/10.1093/bioinformatics/btn018)
 
 ## Load Model file
 
