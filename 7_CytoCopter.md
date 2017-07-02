@@ -26,11 +26,11 @@ After CytoCopteR is installed, we can now import the data files through the impo
 
 At this point we already have the network imported, now we can use our experimental data and see how it maps into the network. In other words visualise which nodes are measured, inhibited and stimulated. For more details, please consult [*Terfve et al.*](https://bmcsystbiol.biomedcentral.com/articles/10.1186/1752-0509-6-133).
 
-  * **1.** Select *CytoCopter* panel on the left side panel
-  * **2.** On the network dropdown box, we have our imported network
-  * **3.** Click on the data text fiels and a window will pop-up to browse the previosly downloaded experimental (MIDAS file)
-  * **4.** After the data is selected, press the *Preprocess* button. **This procedure may take a few minutes; in particular if it is the first time all the necessary R packages will be installed**
-  * **5.** The *Preprocess* function will annotate automatically the network: Green nodes are stimulated species; Red nodes are inhibited species; Blue nodes are measured species; Grey nodes with dashed borders can be removed to simplify the network; Blue nodes with red borders are measured and inhibited nodes; White nodes are not measured or perturbed that cannot be simplified.
+  * Select *CytoCopter* panel on the left side panel
+  * On the network dropdown box, we have our imported network
+  * Click on the data text fiels and a window will pop-up to browse the previosly downloaded experimental (MIDAS file)
+  * After the data is selected, press the *Preprocess* button. **This procedure may take a few minutes; in particular if it is the first time all the necessary R packages will be installed**
+  * The *Preprocess* function will annotate automatically the network: Green nodes are stimulated species; Red nodes are inhibited species; Blue nodes are measured species; Grey nodes with dashed borders can be removed to simplify the network; Blue nodes with red borders are measured and inhibited nodes; White nodes are not measured or perturbed that cannot be simplified.
   
 <img src="/CellNOptR/public/cytocopter_4.png" alt="Preprocessing">
 
