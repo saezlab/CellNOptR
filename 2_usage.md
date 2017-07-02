@@ -100,7 +100,7 @@ The SBMLqual file can be downloaded here: [2013/sbml/data/ModelV5.xml](http://ww
 
 Each combination of stimuli lead to a different dynamical states. There are 4 combinations and therefore 4 pictures are generated. Here is one of them for which TNFa and EGF are stimulated:
 
-<img src="/cellnopt/public/stim.png" alt="Stimulations">
+<img src="CellNOptR/blob/gh-pages/public/stim.png" alt="Stimulations">
 
 ### 2. Creating data from SBMLQual and optimising a PKN on the data set
 
