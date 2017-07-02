@@ -42,11 +42,11 @@ At this point we already have the network imported, now we can use our experimen
 
 In this step, we will use the optimise features of CellNOptR R package to optimise the topology of the network against previously loaded experimental data. For more details, please consult [*Terfve et al.*](https://bmcsystbiol.biomedcentral.com/articles/10.1186/1752-0509-6-133).
 
- * Select a formalism to model the network. Select the Boolean Formalism. Boolean formalism will consider that the states of each node will be either active or inactive. **Because the Boolean formalismrequires anly two time points and the given data-set has 16, the first time point is automatically set to 0 and the second one is selected by the user
+ * Select a formalism to model the network. Select the Boolean Formalism. Boolean formalism will consider that the states of each node will be either active or inactive. **Because the Boolean formalismrequires anly two time points and the given data-set has 16, the first time point is automatically set to 0 and the second one is selected by the user**
  
  * Select time point 10 from the *Time point* dropdown box
  
- * After selecting the time point, press the optimise button. **Note this will take several minutes. This optimisation is done using a specific genetic algorithm and its parameters can be configured in the Configuration panels, such as maxmum time allowed for the algorithm to run in the Max time parameter.
+ * After selecting the time point, press the optimise button. **Note this will take several minutes. This optimisation is done using a specific genetic algorithm and its parameters can be configured in the Configuration panels, such as maxmum time allowed for the algorithm to run in the Max time parameter**.
  
  * The optimisation procedure outputs an optimised network and a plot displaying how well the simlated models fit with the given experimental data. The colour gradient quantifies the error levels.
  
