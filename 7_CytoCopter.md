@@ -16,4 +16,4 @@ Go to **Apps** and then **App Manager...** and finally search for CytoCopteR in 
 <img src="/CellNOptR/public/cytocopter_1.png" alt="Installing Cytocopter">
 
 
-<img src="/CellNOptR/public/cytocopter_2.png" alt="Progress Install">
+
