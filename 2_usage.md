@@ -82,7 +82,7 @@ The first part reproduces one of figure shown in the paper. This figure was repr
 
 The second part is more about CellNOptR software itself: we deal with the creation of some data sets (with CNORode), optimisation (with CNORdt) and usage of CNORfeeder to find missing links.
 
-<img src="/cellnopt/public/warning1.png" alt="Warning Table">
+<img src="/CellNOptR/public/warning1.png" alt="Warning Table">
 
 ### 1. Reading a SBMLqual and simulate using CNORdt
 
@@ -100,7 +100,7 @@ The SBMLqual file can be downloaded here: [2013/sbml/data/ModelV5.xml](http://ww
 
 Each combination of stimuli lead to a different dynamical states. There are 4 combinations and therefore 4 pictures are generated. Here is one of them for which TNFa and EGF are stimulated:
 
-<img src="CellNOptR/blob/gh-pages/public/stim.png" alt="Stimulations">
+<img src="CellNOptR/public/stim.png" alt="Stimulations">
 
 ### 2. Creating data from SBMLQual and optimising a PKN on the data set
 
@@ -130,7 +130,7 @@ data(CNOlistPB, package="CNORdt")
 plotModel(model, CNOlistPB)
 ```
 
-<img src="/cellnopt/public/Modelv5.png" alt="Stimulations">
+<img src="/CellNOptR/public/Modelv5.png" alt="Stimulations">
 
 To create the data using an ODE formalism, you will need a set of parameters available in [2013/sbml/data/paramsODE.RData](http://www.cellnopt.org/doc/cnodocs/_downloads/paramsODE.RData).
 
@@ -174,7 +174,7 @@ cnolist@signals[i][[1]][conditions2select,species2select]
 plot(cnolist)
 ```
 
-<img src="/cellnopt/public/new.png" alt="Data">
+<img src="/CellNOptR/public/new.png" alt="Data">
 
 Finally, let us save the new data set into a file:
 
@@ -219,7 +219,7 @@ cutAndPlotResultsDT(CNOlist=cnolist, model=model, upperB=upperB,
     lowerB=lowerB, bString=opt1$bString,    boolUpdates=boolUpdates)
 ```
 
-<img src="/cellnopt/public/dt.png" alt="Time Point Data">
+<img src="/CellNOptR/public/dt.png" alt="Time Point Data">
 
 We then use the original True model stored in the SBMLqual (image on top) but alter it in the following ways:
 
@@ -265,7 +265,7 @@ The fit is not good for the AP1 species. It means that
 *   The OR gates added have been removed while the correct required AND gates (only) were kept
 *   The missing link on ASK1 prevents the AP1 to be fitted correctly when TNFa is on.
 
-<img src="/cellnopt/public/stimRes.png" alt="Time Point Data">
+<img src="/CellNOptR/public/stimRes.png" alt="Time Point Data">
 
 However, We can fix the issue of the missing link by using the CNORfeeder package to infer missing links based on the data solely.:
 
@@ -285,7 +285,7 @@ plotModel(model=modelIntegr, CNOlist=cnolist, indexIntegr=modelIntegr$indexInteg
 
 You can see here below, in purple, the links that have been inferred.
 
-<img src="/cellnopt/public/inferred.png" alt="Inferred Network">
+<img src="/CellNOptR/public/inferred.png" alt="Inferred Network">
 
 There is a proposed link between TNFa and ap1. This is related to the missing link we are looking for.
 
@@ -304,7 +304,7 @@ opt1 = gaBinaryDT(CNOlist=cnolist, model=modelIntegr, boolUpdates=boolUpdates,ma
 plotModel(modelIntegr, cnolist, bString=optbs_feeder)
 ```
 
-<img src="/cellnopt/public/nett.png" alt="Inferred Network">
+<img src="/CellNOptR/public/nett.png" alt="Inferred Network">
 
 One can check with the CNORdt optimisation that the new MSE is down to 0.00148 as compared to 0.031. The RMSE obtained is equivalent to the one obtained with hte True model (0.00142). The difference is due to the data being generated with a pure ODE formalism and the discrete time being used for the optimisation. We can check on the fitness plot that AP1 is now optimised properly:
 
@@ -313,7 +313,7 @@ cutAndPlotResultsDT(CNOlist=cnolist, model=modelIntegr, upperB=upperB,
     lowerB=lowerB, bString=optbs_feeder,    boolUpdates=boolUpdates)
 ```
 
-<img src="/cellnopt/public/ress.png" alt="Results">
+<img src="/CellNOptR/public/ress.png" alt="Results">
 
 So, the CNORfeeder analysis tells us that there is a missing link between TNFa stimulus and AP1 readouts. We know from the PKN that indeed there is a cross talk via ASK1 species. Without that knowledge, one can use different resources (e.g., intact) to figure out existing interactions between TNFa and ap1.
 
