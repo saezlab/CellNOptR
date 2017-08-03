@@ -260,10 +260,11 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
     #for(i in timesRows[1]:timesRows[whereTimes[1]]){
     for(i in timesRows[1:whereTimes[1]]){
         present<-zerosCond[which(cues[timesRows[i],zerosCond] > 0)]
-	
+        
         if(length(present) == 0){
             for(n in timesRows[(whereTimes[1]+1):(whereTimes[1]+whereTimes[2])]){
                     if(sum(cues[n,zerosCond]) == 0){
+
                         valueSignals[[1]][count,]<-as.numeric(dataset$dataMatrix[i,dataset$DVcol])
                         valueVariance[[1]][count,]<-as.numeric(variances[i,dataset$DVcol])
                         newcues[count,]<-cues[n,]
@@ -271,14 +272,14 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
                         }
                     }
         }else{
-    
+        	
             for(n in timesRows[(whereTimes[1]+1):(whereTimes[1]+whereTimes[2])]){
                 if(length(zerosCond[which(cues[n,zerosCond] > 0)]) == length(present)){
                     if(all(zerosCond[which(cues[n,zerosCond] > 0)] == present) &&   # same cues are there
                         length(which(cues[n,zerosCond] > 0)) != 0 &&  # there is at least one non-zero cue
-                       cues[timesRows[i],zerosCond][present] == cues[n,zerosCond][present] # cues have the same level
+                       all(cues[timesRows[i],zerosCond] == cues[n,zerosCond]) # cues have the same level
                        ){
-                        valueSignals[[1]][count,]<-as.numeric(dataset$dataMatrix[i,dataset$DVcol])
+                    	valueSignals[[1]][count,]<-as.numeric(dataset$dataMatrix[i,dataset$DVcol])
                         valueVariance[[1]][count,]<-as.numeric(variances[i,dataset$DVcol])
                         newcues[count,]<-cues[n,]
                         count=count+1
