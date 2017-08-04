@@ -3,9 +3,11 @@ layout: page
 title: CytoCopter
 ---
 
-CytoCopteR provides an intuitive and easy to learn graphical user interface (GUI) to [CellNOptR](https://saezlab.github.io/CellNOptR/7_CytoCopter/)
+CytoCopteR provides an intuitive and easy to learn graphical user interface (GUI) to [CellNOptR](https://saezlab.github.io/CellNOptR).
 
 This results in a point and click interface where users can run the same steps as they would using an R script without having to actually write any code. Consistency is ensured between the results obtained through the GUI and those obtained through the corresponding scripts.
+
+Cytocopter can be installed as a plug-in to *Cytoscape* - [**version 3.4.x needed**](http://chianti.ucsd.edu/cytoscape-3.4.0/)
 
 # Download & Installation
 
