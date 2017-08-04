@@ -18,7 +18,7 @@ Go to **Apps** and then **App Manager...** and finally search for CytoCopteR in 
 <img src="/CellNOptR/public/cytocopter_1.png" alt="Installing Cytocopter">
 
 
-# CellNOptR Tutorial
+# CytoCopteR Tutorial
 
 The necessary files for this tutorial is a [network sif file](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/ToyModelPB.sif) and the [corresponding experimental data](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/ToyModelPB.csv) in MIDAS format.
 
