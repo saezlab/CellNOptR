@@ -15,7 +15,7 @@
 ##############################################################################
 # $Id$
 readSIF<-function(sifFile){
-
+	
     # Read the sif file expected 3 columns all over the file
     status = tryCatch({
             sif<-read.table(sifFile)
@@ -145,7 +145,7 @@ readSIF<-function(sifFile){
                     if(length(output) == 1){
 
                         output<-sub(pattern=node,x=output,replacement="",ignore.case=FALSE)
-                        inputs<-grep(pattern=paste("^",node,"$",sep=""),perl=TRUE,
+                        inputs<-grep(pattern=paste(node,"$",sep=""),perl=TRUE,
                             reacID,ignore.case=FALSE,value=TRUE)
                         inputs<-sub(pattern=paste("=",node,"$",sep=""),x=inputs,
                             replacement="+",ignore.case=FALSE)
