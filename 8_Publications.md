@@ -5,7 +5,7 @@ title: Publications
 
 # CellNOpt Publications
 
-*Articles describing CellNOpt and list of publications where CellNOpt was used*
+*Articles describing CellNOpt and list of publications where CellNOpt was used*.
 
 Please contact us at 	[cellnopt-developers@googlegroups.com](	cellnopt-developers@googlegroups.com) if you have used CellNOpt in a paper. Thanks!
 
