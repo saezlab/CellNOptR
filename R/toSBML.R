@@ -1,9 +1,5 @@
 # Export a Boolean network <network> to an sbml-qual file <fileName>.
-# If <generateDNFs>, a new symbolic representation for the interactions
-# is generated on the basis of the truth tables (in disjunctive normal form).
-# Otherwise, the $expression elements of the interactions are parsed.
-# If <saveFixed> is true, constant transition functions are exported for fixed genes
-# instead of their true transition functions
+
 library("stringi")
 
 writeLogic <- function(gene, inputs, t_name, t_count, logic, f){
