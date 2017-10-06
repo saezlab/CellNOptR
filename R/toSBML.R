@@ -14,14 +14,14 @@ writeLogic <- function(gene, inputs, t_name, t_count, logic, f){
     cat(file=f, "\t\t\t\t\t\t\t<apply>\n")
     
     if (length(inputs)!=0){
-        
-        cat(file=f, "\t\t\t\t\t\t\t\t<",logic,"/>\n",sep = "")
+        if (length(inputs)>1)
+            cat(file=f, "\t\t\t\t\t\t\t\t<",logic,"/>\n",sep = "")
         for (i in inputs){
             full_name <- ""
             full_name <- paste0("theta_", t_name, "_", i ,sep='')
             cat(file=f, "\t\t\t\t\t\t\t\t<apply>\n")
             cat(file=f, "\t\t\t\t\t\t\t\t\t<geq/>\n")
-            cat(file=f, "\t\t\t\t\t\t\t\t\t<ci>" , gene , "</ci>\n")
+            cat(file=f, "\t\t\t\t\t\t\t\t\t<ci>" , i , "</ci>\n")
             cat(file=f, "\t\t\t\t\t\t\t\t\t<ci>" , full_name , "</ci>\n")
             cat(file=f, "\t\t\t\t\t\t\t\t</apply>\n")
         }
