@@ -17,7 +17,6 @@ writeLogic <- function(gene, inputs, t_name, t_count, logic, f){
         if (length(inputs)>1)
             cat(file=f, "\t\t\t\t\t\t\t\t<",logic,"/>\n",sep = "")
         for (i in inputs){
-            
             full_name <- ""
             full_name <- paste0("theta_", t_name, "_", i ,sep='')
             cat(file=f, "\t\t\t\t\t\t\t\t<apply>\n")
