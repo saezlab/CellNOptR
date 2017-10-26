@@ -198,3 +198,4 @@ readSBMLQual <- function(filename){
     }
     return(newmodel)
 }
+
