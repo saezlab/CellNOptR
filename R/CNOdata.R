@@ -45,7 +45,7 @@ CNOdata <- function(filename, verbose=FALSE, url=NULL){
         print(filename)
     }
     library(RCurl)
-    data = getURL(filename)
+    data = getURL(filename, FOLLOW=TRUE)
     fh = tempfile("cellnopt_", fileext=".dat")
     if (verbose==TRUE){
         print(paste("data downloaded and copied into ", fh, sep=" "))
