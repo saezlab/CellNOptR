@@ -1,7 +1,20 @@
-import("graph", "RBGL")
+import("graph", "RBGL", "ggplot2")
+import("XML", except="addNode") # conflict with graph::addNode; neither used
 
 useDynLib(CellNOptR)
 
+importFrom("grDevices", "dev.new", "dev.off", "heat.colors", "pdf",
+           "png", "rgb", "svg")
+importFrom("graphics", "arrows", "axis", "close.screen", "image",
+           "lines", "par", "plot.new", "points", "rect", "screen",
+           "segments", "split.screen", "text")
+importFrom("methods", "new")
+importFrom("stats", "rnorm", "runif", "var")
+importFrom("utils", "combn", "count.fields", "installed.packages",
+           "read.csv", "read.table", "tail", "write.table")
+importFrom("RCurl", "getURL")
+importFrom("hash", "hash", "has.key")
+importFrom("Rgraphviz", "layoutGraph", "renderGraph", "toDot")
 
 
 export(

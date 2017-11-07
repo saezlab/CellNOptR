@@ -21,8 +21,7 @@ model2igraph <-function(model){
     g = sif2graph(model2sif(model))
 
     # now we can get a igraph object
-    library(igraph)
-    g2 = igraph.from.graphNEL(g)
+    g2 = igraph::igraph.from.graphNEL(g)
 
     # so it can be saved in many different format.
     return(g2)
