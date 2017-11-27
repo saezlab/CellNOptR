@@ -137,7 +137,7 @@ toSBML <- function(network, file)
                 cat(file=f,"\t\t\t\t\t <qual:input  qual:id=\"", full_name , 
                     "\" qual:qualitativeSpecies=\"",input,"\" qual:transitionEffect=\"none\" qual:sign=\"", sign, "\" qual:thresholdLevel=\"1\"/>\n",sep = "")
             }
-            t_count = writeLogic(gene,or_interaction,t_name, t_count, "and",f)
+            t_count = writeLogic(gene,and_list,t_name, t_count, "and",f)
             
         }
     }
