@@ -303,7 +303,7 @@ cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
     	
     	
     	data = matrix(CNOlist@stimuli[c1,],nrow=1)
-    	if(r == dim(CNOlist@signals[[1]])[1]){
+    	if(c1 == dim(CNOlist@signals[[1]])[1]){
     		barplot(data,yaxt="n",ylim=c(0,1),names.arg = colnames(CNOlist@stimuli),las=2)
     		#axis(1)
     	}else{
@@ -324,7 +324,7 @@ cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
     	
     	if (length(CNOlist@inhibitors) != 0){
     		data = matrix(c(CNOlist@inhibitors[c1,]),nrow=1)
-    		if(r == dim(CNOlist@signals[[1]])[1]){
+    		if(c1 == dim(CNOlist@signals[[1]])[1]){
     			barplot(data,yaxt="n",ylim=c(0,1),names.arg = c(paste(colnames(CNOlist@inhibitors),"-i",sep="")),las=3 )
     			#axis(1)
     		}else{
