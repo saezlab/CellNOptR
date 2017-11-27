@@ -297,89 +297,49 @@ cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
     sStim = countRow+1
 
     for(c1 in 1:dim(CNOlist@signals[[1]])[1]) {
-        screen(sStim)
-        #par(mar=c(0.5,0.5,0.5,0.5))
-        par(mar=c(margin, margin,0,0))
-
-        # f no stimuli, we still keep the column but put notinh in it
-        if (length(CNOlist@stimuli) == 0){
-            image(
-                t(matrix(0,nrow=1)),
-                col=c("grey"),xaxt="n",yaxt="n"
-            )
-            if(c1 == dim(CNOlist@signals[[1]])[1]) {
-                axis(
-                    side=1,
-                    at=seq(from=0, to=1,length.out=1),
-                    labels=c("NONE"),las=3,cex.axis=1.2
-                )
-            }
-        }
-
-        else {
-            if(all(CNOlist@stimuli[c1,]==0)) {
-                image(
-                    t(matrix(1-CNOlist@stimuli[c1,],nrow=1)),
-                    col=c("white"),xaxt="n",yaxt="n"
-                )
-            } else {
-                image(
-                    t(matrix(1-CNOlist@stimuli[c1,],nrow=1)),
-                    col=c("black","white"),xaxt="n",yaxt="n"
-                )
-            }
-            if(c1 == dim(CNOlist@signals[[1]])[1]) {
-                axis(
-                    side=1,
-                    at=seq(from=0, to=1,length.out=length(colnames(CNOlist@stimuli))),
-                    labels=colnames(CNOlist@stimuli),las=3,cex.axis=1.2
-                )
-            }
-        }
-        sStim = sStim+1
+    	screen(sStim)
+    	#par(mar=c(0.5,0.5,0.5,0.5))
+    	par(mar=c(margin, margin,0,0))
+    	
+    	
+    	data = matrix(CNOlist@stimuli[c1,],nrow=1)
+    	if(r == dim(CNOlist@signals[[1]])[1]){
+    		barplot(data,yaxt="n",ylim=c(0,1),names.arg = colnames(CNOlist@stimuli),las=2)
+    		#axis(1)
+    	}else{
+    		barplot(t(data),xaxt="n",yaxt="n",ylim=c(0,1))
+    		#axis(1)
+    	}
+    	
+    	
+    	sStim = sStim+1
     }
 
     sInhib = sStim+1
     for(c1 in 1:dim(CNOlist@signals[[1]])[1]) {
         screen(sInhib)
-        #par(mar=c(0.5,0.5,0.5,0.5))
-        par(mar=c(margin, margin,0,0))
-
-        # if no inhibitors, we still keep the column but put notinh in it
-        if (length(CNOlist@inhibitors) == 0){
-            image(
-                t(matrix(0,nrow=1)),
-                col=c("grey"),xaxt="n",yaxt="n"
-            )
-            if(c1 == dim(CNOlist@signals[[1]])[1]) {
-                axis(
-                    side=1,
-                    at=seq(from=0, to=1,length.out=1),
-                    labels=c("NONE"),las=3,cex.axis=1.2
-                )
-            }
-        }
-
-        else {
-            if(all(CNOlist@inhibitors[c1,]==0)) {
-                image(
-                    t(matrix(1-CNOlist@inhibitors[c1,],nrow=1)),
-                    col=c("white"),xaxt="n",yaxt="n"
-                )
-            } else {
-                image(
-                    t(matrix(1-CNOlist@inhibitors[c1,],nrow=1)),
-                    col=c("black","white"),xaxt="n",yaxt="n"
-                )
-            }
-            if(c1 == dim(CNOlist@signals[[1]])[1]) {
-                axis(
-                    side=1,
-                    at=seq(from=0, to=1,length.out=length(colnames(CNOlist@inhibitors))),
-                    labels=colnames(CNOlist@inhibitors),las=3,cex.axis=1.2
-                )
-            }
-        }
+    	
+    	#par(mar=c(0.5,0.5,0.5,0.5))
+    	par(mar=c(margin, margin,0,0))
+    	
+    	if (length(CNOlist@inhibitors) != 0){
+    		data = matrix(c(CNOlist@inhibitors[c1,]),nrow=1)
+    		if(r == dim(CNOlist@signals[[1]])[1]){
+    			barplot(data,yaxt="n",ylim=c(0,1),names.arg = c(paste(colnames(CNOlist@inhibitors),"-i",sep="")),las=3 )
+    			#axis(1)
+    		}else{
+    			barplot(t(data),xaxt="n",yaxt="n",ylim=c(0,1))
+    			#axis(1)
+    		}
+    	}
+    	else{ # special case of no inhibitors
+    		image(
+    			t(matrix(0,nrow=1)),
+    			col=c("grey"),xaxt="n",yaxt="n"
+    		)
+    	}
+    	
+    	
         sInhib = sInhib+1
     }
 
