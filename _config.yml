@@ -18,7 +18,7 @@ description:      "Identification of signaling models based on perturbation data
 #url:              http://www.saezlab.github.io
 url:              
 #baseurl:          /CellNOptR/
-baseurl:           http://www.saezlab.github.io/CellNOptR/
+baseurl:           https://www.saezlab.github.io/CellNOptR/
 toollogo:         /CellNOptR/tool_logo.png
 
 author:
