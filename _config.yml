@@ -16,9 +16,9 @@ title:            CellNOpt
 tagline:          CellNOpt Documentation
 description:      "Identification of signaling models based on perturbation data and prior knowledge"
 #url:              http://www.saezlab.github.io
-url:              http://www.saezlab.github.io
-baseurl:          /CellNOptR/
-#baseurl:          "" 
+url:              
+#baseurl:          /CellNOptR/
+baseurl:          "" 
 toollogo:         /CellNOptR/tool_logo.png
 
 author:
