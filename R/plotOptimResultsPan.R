@@ -307,7 +307,7 @@ cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
     		barplot(data,yaxt="n",ylim=c(0,1),names.arg = colnames(CNOlist@stimuli),las=2)
     		#axis(1)
     	}else{
-    		barplot(t(data),xaxt="n",yaxt="n",ylim=c(0,1))
+    		barplot(data,xaxt="n",yaxt="n",ylim=c(0,1))
     		#axis(1)
     	}
     	
@@ -328,7 +328,7 @@ cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
     			barplot(data,yaxt="n",ylim=c(0,1),names.arg = c(paste(colnames(CNOlist@inhibitors),"-i",sep="")),las=3 )
     			#axis(1)
     		}else{
-    			barplot(t(data),xaxt="n",yaxt="n",ylim=c(0,1))
+    			barplot(data,xaxt="n",yaxt="n",ylim=c(0,1))
     			#axis(1)
     		}
     	}

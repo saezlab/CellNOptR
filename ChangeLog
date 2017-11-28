@@ -1,5 +1,12 @@
 .. keep this layout because it is used in CNODocs
 
+* 1.11.7
+
+	* plotOptimResultsPan handles intermediate cue values (0,1)
+	* new toSBML() function writes the model to SBMLqual format
+	* makeCNOlist() can import MIDAS with multiple, continuous Cue levels
+	* BUG fixed: node name containing the word "AND" will not result in an AND-node anymore
+
 * 1.11.6
 
 	* add new function called crossInhibitedData
