@@ -242,7 +242,7 @@ cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
             yValS <- simResults[r,c,]
             if(!is.na(allDiff[r,c])) {
                 #diff = (1 - (allDiff[r,c] / diffMax)) * 1000
-                diff = (1 - (allDiff[r,c] /plotParams$F)**plotParams$cmap_scale) * Ncolors
+                diff = (1 - (allDiff[r,c] /plotParams$F)**plotParams$cmap_scale) * (Ncolors-1)+1
             } else {
                 diff = -1
             }
