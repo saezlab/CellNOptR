@@ -246,7 +246,7 @@ cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
             } else {
                 diff = -1
             }
-            if (diff <1){diff=1}
+            if (diff <1 & diff!=-1){diff=1}
 
             if(diff>Ncolors) {
                 diff=Ncolors
