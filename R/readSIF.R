@@ -191,8 +191,8 @@ readSIF<-function(sifFile){
 #6. remove the old reactions and replace them by the new ones
             namesSpecies<-namesSpecies[-which(namesSpecies == AndNodesV[i])]
             reacID<-reacID[-AndsReacs]
-            interMat<-interMat[,-AndsReacs]
-            notMat<-notMat[,-AndsReacs]
+            interMat<-interMat[,-AndsReacs,drop=FALSE]
+            notMat<-notMat[,-AndsReacs,drop=FALSE]
             interMat<-cbind(interMat,newReac)
             notMat<-cbind(notMat,newReacNot)
 
