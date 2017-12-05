@@ -49,7 +49,7 @@ readSIF<-function(sifFile){
         sif = matrix(sif, ncol=3, byrow=TRUE)
     }
 	
-	#sif <- unique(sif)
+	#sif <- unique(sif)   # let's add here a comment
 
     #Create the vector of names of species
     namesSpecies<-unique(c(as.character(sif[,1]), as.character(sif[,3])))
