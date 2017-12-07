@@ -49,7 +49,7 @@ readSIF<-function(sifFile){
         sif = matrix(sif, ncol=3, byrow=TRUE)
     }
 	
-	#sif <- unique(sif)   # let's add here a comment
+	sif <- unique(sif)   # we only select the unique interactions
 
     #Create the vector of names of species
     namesSpecies<-unique(c(as.character(sif[,1]), as.character(sif[,3])))
