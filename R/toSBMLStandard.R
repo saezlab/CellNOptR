@@ -1,7 +1,7 @@
 # Export a Boolean network <network> to an sbml-qual file <fileName>.
 # This file can then be read in using other software that supports SBMLqual standards.
 # The function also takes a bit string as input. 
-#It cuts the model according to the values in bitstrings and wirte the new model object to SBMLqual.
+#It cuts the model according to the values in bitstrings and write the new model object to SBMLqual.
 
 library("stringi")
 library("stringr")
