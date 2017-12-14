@@ -1,7 +1,6 @@
 # Plugins
 gems:             ['jekyll-paginate', 'jekyll-gist', 'jekyll-github-metadata']
-plugins:
-  - jekyll-redirect-from
+
   
 # Dependencies
 # highlighter:      rouge
