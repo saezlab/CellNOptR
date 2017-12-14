@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Home
+redirect_from: "www.cellnopt.org"
 ---
 
 
