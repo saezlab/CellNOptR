@@ -256,11 +256,15 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
     count=1
     newcues<-matrix(data=0,nrow=whereTimes[2],ncol=dim(cues)[2])
 
+    browser()
     #fix bug report 38 to be able to have mixed times in a MIDAS file
     #for(i in timesRows[1]:timesRows[whereTimes[1]]){
     for(i in timesRows[1:whereTimes[1]]){
-        present<-zerosCond[which(cues[timesRows[i],zerosCond] > 0)]
-        
+        # 15.12.2017: is this a bug? "i" is already going through some element of timesRow variable. 
+    	# is this "timesRows[i]" make sense?! or we can just use i instead
+    	#present<-zerosCond[which(cues[timesRows[i],zerosCond] > 0)]
+    	present<-zerosCond[which(cues[i ,zerosCond] > 0)]
+    	 
         if(length(present) == 0){
             for(n in timesRows[(whereTimes[1]+1):(whereTimes[1]+whereTimes[2])]){
                     if(sum(cues[n,zerosCond]) == 0){
@@ -277,7 +281,9 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
                 if(length(zerosCond[which(cues[n,zerosCond] > 0)]) == length(present)){
                     if(all(zerosCond[which(cues[n,zerosCond] > 0)] == present) &&   # same cues are there
                         length(which(cues[n,zerosCond] > 0)) != 0 &&  # there is at least one non-zero cue
-                       all(cues[timesRows[i],zerosCond] == cues[n,zerosCond]) # cues have the same level
+                       # same principle as above: use i instead of timesRows[i]
+                       #all(cues[timesRows[i],zerosCond] == cues[n,zerosCond]) # cues have the same level
+                       all(cues[i,zerosCond] == cues[n,zerosCond]) # cues have the same level
                        ){
                     	valueSignals[[1]][count,]<-as.numeric(dataset$dataMatrix[i,dataset$DVcol])
                         valueVariance[[1]][count,]<-as.numeric(variances[i,dataset$DVcol])
