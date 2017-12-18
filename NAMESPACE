@@ -21,7 +21,7 @@ export(
     "buildBitString",
     "checkSignals",
     "exhaustive",
-    "CNOdata", 
+    "CNOdata",
     "CNORwrap",
     "CNORbool",
     "CNOlist",
@@ -35,7 +35,7 @@ export(
     "cutCNOlist",
     "cutNONC",
     "cutSimList",
-    "cutModel", 
+    "cutModel",
     "defaultParameters",
     "expandGates",
     "findNONC",
@@ -45,7 +45,7 @@ export(
     "graph2sif",
     "getFit",
     "indexFinder",
-    "mapBack", 
+    "mapBack",
     "makeCNOlist",
     "model2sif",
     "model2igraph",
@@ -79,7 +79,7 @@ export(
     "writeSIF",
     "writeNetwork",
     "writeReport",
-    "writeScaffold", 
+    "writeScaffold",
     "plotModel")
 
 # CNOlist class
