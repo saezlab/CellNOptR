@@ -16,7 +16,6 @@ importFrom("RCurl", "getURL")
 importFrom("hash", "hash", "has.key")
 importFrom("Rgraphviz", "layoutGraph", "renderGraph", "toDot")
 
-
 export(
     "buildBitString",
     "checkSignals",
