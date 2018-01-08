@@ -17,7 +17,7 @@ Better yet, Cytoscape can also be directly installed from cytoscape  by followin
 
 Go to **Apps** and then **App Manager...** and finally search for CytoCopteR in the search bar and press **Install**.
 
-<img src="/CellNOptR/public/cytocopter_1.png" alt="Installing Cytocopter">
+<img src="{{site.url}}{{site.baseurl}}public/cytocopter_1.png" alt="Installing Cytocopter">
 
 
 # CytoCopteR Tutorial
@@ -50,7 +50,7 @@ At this point we already have the network imported, now we can use our experimen
   
   * The *Preprocess* function will annotate automatically the network: Green nodes are stimulated species; Red nodes are inhibited species; Blue nodes are measured species; Grey nodes with dashed borders can be removed to simplify the network; Blue nodes with red borders are measured and inhibited nodes; White nodes are not measured or perturbed that cannot be simplified.
   
-<img src="/CellNOptR/public/cytocopter_4.png" alt="Preprocessing">
+<img src="{{site.url}}{{site.baseurl}}public/cytocopter_4.png" alt="Preprocessing">
 
 ## Optimising network with experimental data
 
@@ -64,7 +64,7 @@ In this step, we will use the optimise features of CellNOptR R package to optimi
  
  * The optimisation procedure outputs an optimised network and a plot displaying how well the simlated models fit with the given experimental data. The colour gradient quantifies the error levels.
  
-<img src="/CellNOptR/public/cytocopter_5.png" alt="Optimisation">
+<img src="{{site.url}}{{site.baseurl}}public/cytocopter_5.png" alt="Optimisation">
 
 ## Adding the missing link
 
@@ -74,19 +74,19 @@ This type of analysis is very helpful to identify possible missing links. For in
  
  * Right-click on the **tnfa** and then click *Add* and the *Edge*. Drag the edge and connect **tnfa** to **map3k1** node
  
- <img src="/CellNOptR/public/cytocopter_6.png" alt="Optimisation">
+ <img src="{{site.url}}{{site.baseurl}}public/cytocopter_6.png" alt="Optimisation">
  
  * After adding the edge, we need to define the type of interaction, i.e. if **tnfa** activates (1) **map3k1** or inhibits (-1) its activity. Click on the Edge Table panel in Cytoscape bottom panel then select the previously added edge.
  
  * Now double-click in the table cell with the value *"interaction"* text with 1
  
- <img src="/CellNOptR/public/cytocopter_7.png" alt="Optimisation">
+ <img src="{{site.url}}{{site.baseurl}}public/cytocopter_7.png" alt="Optimisation">
  
  * Now click the *Optimise* button to re-run exactly the previous optimisation with the exception of the extra edge that we just added.
  
  * After the optimisation, we can see that the **ap1** simulated values fit much better the existing data which can possibly indicate that the link that we added before is missing from the network taht we imported.
  
- <img src="/CellNOptR/public/cytocopter_8.png" alt="Optimisation">
+ <img src="{{site.url}}{{site.baseurl}}public/cytocopter_8.png" alt="Optimisation">
 
  
 
