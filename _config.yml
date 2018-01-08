@@ -16,16 +16,12 @@ permalink:        pretty
 title:            CellNOpt
 tagline:          CellNOpt Documentation
 description:      "Identification of signaling models based on perturbation data and prior knowledge"
-#url:              http://saezlab.github.io
-url:               
-#site.url:          http://saezlab.github.io
+url:              https://saezlab.github.io
 baseurl:          /CellNOptR/
-#baseurl:           /CellNOptR
-#site.baseurl:           /CellNOptR
-toollogo:         /CellNOptR/tool_logo.png
+toollogo:         https://saezlab.github.io/CellNOptR/tool_logo.png
 
 author:
-  name:           'Enio Gjerga'
+  name:           'Enio Gjerga and Attila Gabor'
 
 paginate:         5
 
