@@ -12,7 +12,7 @@ title: Home
 
 CellNOpt is freely available under GPL license in R and Matlab languages. It can be also accessed through a python wrapper, and a Cytoscape plugin called [CytoCopter](http://www.cellnopt.org/cytocopter/index.html) provides a graphical user interface.
 
-<img src="<< site.url >><< site.baseurl >>public/index1.png" alt="Example result">
+<img src="{{ site.url }}{{ site.baseurl }}public/index1.png" alt="Example result">
 
 
 
@@ -54,7 +54,7 @@ A series of packages are available in R. The core CellNOpt is available on BioCo
 
 [CNORfeeder](http://www.bioconductor.org/packages/release/bioc/html/CNORfeeder.html) is an add-on to CellNOptR that permits to extend a network derived from literature with links derived in a strictly data-driven way and supported by protein-protein interactions as described in (Eduati et al Bioinformatics 2012).
 
-<img src="/cellnopt/public/indexImpl.png" alt="Example Implementations">
+<img src="{{ site.url }}{{ site.baseurl }}public/indexImpl.png" alt="Example Implementations">
 
 
 ### _MATLAB_
