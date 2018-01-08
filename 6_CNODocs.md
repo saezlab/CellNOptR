@@ -30,7 +30,7 @@ Then, we can look at the content of the cnolist variable using the plotting func
 plot(cnolist)
 ```
 
-<img src="/cellnopt/public/Tutorials1.png" alt="Example Tutorials 1">
+<img src="{{site.url}}{{site.baseurl}}public/Tutorials1.png" alt="Example Tutorials 1">
 
 The columns contains each species that has been measured. Each row correspond to different conditions summarized in the last column (cues).
 
@@ -71,7 +71,7 @@ and plot it:
 plotModel(pknmodel, output="PNG")
 ```
 
-<img src="/cellnopt/public/Tutorials2.png" alt="Example Tutorials 2">
+<img src="{{site.url}}{{site.baseurl}}public/Tutorials2.png" alt="Example Tutorials 2">
 
 The red edges indicates an inhibitor whereas other black edges are normal links. As we will see in the next section, you can add a cnolist as an argument to colorize this plot.
 
