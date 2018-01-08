@@ -12,9 +12,9 @@ title: Home
 
 CellNOpt is freely available under GPL license in R and Matlab languages. It can be also accessed through a python wrapper, and a Cytoscape plugin called [CytoCopter](http://www.cellnopt.org/cytocopter/index.html) provides a graphical user interface.
 
-img src="/CellNOptR/public/index1.png" alt="Example result"
+<img src="/CellNOptR/public/index1.png" alt="Example result">
 
-<img src="https://saezlab.github.io/CellNOptR/public/index1.png" alt="Example result">
+
 
 
 ## References
