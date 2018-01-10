@@ -15,7 +15,7 @@
 # $Id: readMIDAS.R 4105 2013-11-06 15:49:33Z cokelaer $
 readMIDAS<-function(MIDASfile, verbose=TRUE){
 
-    # Read the data. 
+    # Read the data.
     # First, let us store the length of each row by counting the column
     ncols = count.fields(MIDASfile, sep = ",")
 
@@ -32,13 +32,13 @@ readMIDAS<-function(MIDASfile, verbose=TRUE){
     # Second, let us check the consistency between row and header lengths
     maxncol <- max(ncols)
     ncol_header = ncols[1]
-    if (ncol_header == maxncol){ #everything seems right, let us use read.csv 
+    if (ncol_header == maxncol){ #everything seems right, let us use read.csv
         data<-read.csv(file=MIDASfile,header=TRUE,sep=',',fill=TRUE,as.is=TRUE,check.names=FALSE)
     }
     else{
         # too much columns but we can still proceed. This is useful when extra empty
         # commas are used. We cannot use read.csv that expect length of each row
-        # to correspond to the length of the header.  
+        # to correspond to the length of the header.
         if (ncol_header < maxncol){
             warning("Some rows have more columns than the header. Extra columns will be removed. Check and fix your MIDAS file.")
 
@@ -51,7 +51,7 @@ readMIDAS<-function(MIDASfile, verbose=TRUE){
             # use read.csv setting nrow=0 . it reads all the data (not optimal)
             # but do not care about discrepancy between columns length.
             # Note also that the check.names is required to keep track of the special keyword :
-            # (otherwise replaced by a dot .) 
+            # (otherwise replaced by a dot .)
             header_column_names = read.csv(MIDASfile,sep=",", nrow=0, check.names=FALSE)
 
             colnames(data) <- colnames(header_column_names)
@@ -71,17 +71,17 @@ readMIDAS<-function(MIDASfile, verbose=TRUE){
     DVcol<-grep(pattern="DV:",x=colnames(data),ignore.case=FALSE)
     #data<-data[,c(TRcol,DAcol,DVcol)]
 
-    # Print information about the data set 
+    # Print information about the data set
     if (verbose){
         print(paste(
             "Your data set comprises ", nrow(data),
             "conditions (i.e. combinations of time point and treatment)"))
     }
 
-    # Check that the right number of columns are present            
+    # Check that the right number of columns are present
 
 
-    # The MIDAS may contain the DA:ALL special time 
+    # The MIDAS may contain the DA:ALL special time
     if(length(grep("DA:ALL",colnames(data))) != 0 && length(DAcol) == 1){
         if (verbose){
             print("Your data comprises only a DA:ALL column;  all readouts are assumed to have been acquired at the same time.")
@@ -129,7 +129,7 @@ readMIDAS<-function(MIDASfile, verbose=TRUE){
         data<-data[,-grep(pattern="(TR:\\w*:CellLine)",x=colnames(data),ignore.case=TRUE,perl=TRUE,value=FALSE)]
     }
     else{
-        
+
         stop("There is no cell line information. You must provide one. Please indicate it in your file by naming them 'TR:name:CellLine' (you may use TR:name:CellType' as well.")
     }
 
@@ -183,4 +183,3 @@ readMIDAS<-function(MIDASfile, verbose=TRUE){
         DVcol=grep(pattern="DV:",x=colnames(data),ignore.case=FALSE)))
 
     }
-

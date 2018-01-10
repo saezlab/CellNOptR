@@ -12,7 +12,7 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: normaliseCNOlist.R 3676 2013-06-05 12:27:59Z cokelaer $
+# $Id$
 normaliseCNOlist <- function(
     CNOlist,
     EC50Data=0.5,
@@ -49,7 +49,7 @@ normaliseCNOlist <- function(
         stop("The parameter 'Saturation' should be a single numeric value")
     if(mode %in% c("time","ctrl", "raw") == FALSE)
         stop("The parameter 'mode' should be either 'time' or 'ctrl' or 'raw'")
-    
+
 
     if (verbose==TRUE){
         cat("Normalisation mode is: ", mode, "\n", sep="")
@@ -91,7 +91,7 @@ normaliseCNOlist <- function(
     negList <- CNOlist@signals
     negList <- lapply(negList,
                     function(x) x <- matrix(data=FALSE,
-                    nrow=dim(x)[1],ncol=dim(x)[2]) 
+                    nrow=dim(x)[1],ncol=dim(x)[2])
                 )
 
     # the following list will contain true for the fold changes that are positive
@@ -99,7 +99,7 @@ normaliseCNOlist <- function(
     posList <- CNOlist@signals
     posList <- lapply(posList,
                     function(x) x <- matrix(data=FALSE,
-                    nrow=dim(x)[1],ncol=dim(x)[2]) 
+                    nrow=dim(x)[1],ncol=dim(x)[2])
                 )
 
     # the following matrix will contain the actual fold change values
@@ -290,7 +290,7 @@ normaliseCNOlist <- function(
             }
 
         }
-    } 
+    }
 
 
     CNOlist@signals <- NormData
@@ -302,4 +302,3 @@ normaliseCNOlist <- function(
 
     return(CNOlist)
 }
-

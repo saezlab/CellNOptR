@@ -65,6 +65,7 @@ gaBinaryT2 <-function(
     PopTolScores<-NA
 
 
+    library(hash)
     scores2Hash = hash()
 
     getObj<-function(x){
@@ -73,8 +74,8 @@ gaBinaryT2 <-function(
         if (has.key(key, scores2Hash)==TRUE){
             return(scores2Hash[[key]])
         } else {
-            Score = computeScoreTN(CNOlist, model, simList, indexList, 
-                simResT1, bStringT1, x, timeIndex=timeIndex, 
+            Score = computeScoreTN(CNOlist, model, simList, indexList,
+                simResT1, bStringT1, x, timeIndex=timeIndex,
                 sizeFac=sizeFac, NAFac=NAFac)
             if (length(scores2Hash)<1000){
                 scores2Hash[[key]] =  Score

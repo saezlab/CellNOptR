@@ -12,7 +12,6 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: expandGates.R 3859 2013-07-30 13:28:40Z cokelaer $
 expandGates<-function(model, ignoreList=NA,maxInputsPerGate=2){
 
     Model = model
@@ -320,9 +319,9 @@ expandGates<-function(model, ignoreList=NA,maxInputsPerGate=2){
 
  if (maxInputsPerGate >= 5) {
         for (mip in 5:maxInputsPerGate) {
-          if (length(inSpecies) >= mip & maxInputsPerGate >= 
+          if (length(inSpecies) >= mip & maxInputsPerGate >=
               mip) {
-            combinations = combn(seq(1, length(inSpecies)), 
+            combinations = combn(seq(1, length(inSpecies)),
               mip)
             indices = seq(1, dim(combinations)[2])
           }
@@ -334,14 +333,14 @@ expandGates<-function(model, ignoreList=NA,maxInputsPerGate=2){
             realnames <- c()
             for (i in 1:mip) {
               combs[i] = combinations[i, this]
-              realnames[i] = ifelse(substr(inSpecies[combs[i]], 1, 1) == 
+              realnames[i] = ifelse(substr(inSpecies[combs[i]], 1, 1) ==
                          "!", substr(inSpecies[i], 2, 10000), inSpecies[combs[i]])
             }
-            if (any(combn(realnames, 2)[1, ] == combn(realnames, 
+            if (any(combn(realnames, 2)[1, ] == combn(realnames,
                                          2)[2, ])) {
               (next)()
             }
-            newcolname <- paste(paste(inSpecies[combs], collapse = "+"), outname, 
+            newcolname <- paste(paste(inSpecies[combs], collapse = "+"), outname,
                                 sep = "=")
             if (newcolname %in% colnames(Model$interMat)) {
               (next)()
@@ -350,7 +349,7 @@ expandGates<-function(model, ignoreList=NA,maxInputsPerGate=2){
             values = as.matrix(rep(0, length(Model$namesSpecies)))
             colnames(values) <- newcolname
             for (name in inSpecies) {
-              realname = ifelse(substr(name, 1, 1) == "!", 
+              realname = ifelse(substr(name, 1, 1) == "!",
                 substr(name, 2, 10000), name)
               values[which(myrownames == realname)] <- -1
             }
@@ -360,7 +359,7 @@ expandGates<-function(model, ignoreList=NA,maxInputsPerGate=2){
             colnames(values) <- newcolname
             for (name in inSpecies) {
               if (substr(name, 1, 1) == "!") {
-                realname = ifelse(substr(name, 1, 1) == "!", 
+                realname = ifelse(substr(name, 1, 1) == "!",
                   substr(name, 2, 10000), name)
                 values[which(myrownames == realname)] <- 1
               }
@@ -399,4 +398,3 @@ expandGates<-function(model, ignoreList=NA,maxInputsPerGate=2){
     modelExp$newANDs <- newANDs
     return(modelExp)
 }
-

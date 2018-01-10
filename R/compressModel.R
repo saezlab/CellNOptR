@@ -12,7 +12,7 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: compressModel.R 3155 2013-01-09 15:24:58Z cokelaer $
+
 compressModel<-function(model, indexes){
 
     Model = model
@@ -234,4 +234,3 @@ compressModel<-function(model, indexes){
     return(ModelCompressed)
 
 }
-

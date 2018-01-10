@@ -16,7 +16,7 @@
 
 simulatorT1 <- function(CNOlist,model,simList,indexList, mode=1) {
 
-    
+
 	#simRes = rSimulatorT1(CNOlist, model, simList, indexList)
 	simRes = cSimulator(CNOlist, model, simList, indexList, mode=mode)
 	return(simRes)

@@ -12,7 +12,6 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: findNONC.R 3155 2013-01-09 15:24:58Z cokelaer $
 findNONC<-function(model,indexes,verbose=FALSE){
 
     #use the floyd warshall algorithm implemented in the package RBGL
@@ -102,4 +101,3 @@ findNONC<-function(model,indexes,verbose=FALSE){
         }
     return(ncno)
 }
-

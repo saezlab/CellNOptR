@@ -17,7 +17,7 @@
 plotOptimResultsPan <- function(simResults, yInterpol=NULL, xCoords=NULL,
 CNOlist=CNOlist, formalism=c("ss1","ss2","ssN","dt","ode"), pdf=FALSE,
 pdfFileName="", tPt=NULL, plotParams=list(margin=0.1, width=15, height=12,
-cmap_scale=1, cex=1.6, ymin=NULL)) {
+cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
 
 
     if ((class(CNOlist)=="CNOlist")==FALSE){
@@ -52,7 +52,13 @@ cmap_scale=1, cex=1.6, ymin=NULL)) {
     if ("ymin" %in% names(plotParams) == FALSE){
         plotParams$ymin = NULL
     }
-    
+    if ("F" %in% names(plotParams) == FALSE){
+        plotParams$F = 1
+    }
+    if ("rotation" %in% names(plotParams) == FALSE){
+        plotParams$rotation = 0
+    }
+
 # aliases
     margin = plotParams$margin
     cex = plotParams$cex
@@ -86,6 +92,8 @@ cmap_scale=1, cex=1.6, ymin=NULL)) {
     # TODO - do i need all these with split.screen?
     par(
         pch=2,
+        # margin bottom of pcolor mesh: oma(X,Y,W,Z) where X is distance bottom
+        # to the colormesh
         oma=c(3,2,2,2),
         mgp=c(3,0.9,0),
         family="Times"
@@ -149,14 +157,20 @@ cmap_scale=1, cex=1.6, ymin=NULL)) {
         # ss1, ss2, ssN
         for(a in 1:dim(simResults)[1]) {
             for(b in 1:dim(simResults)[2]) {
-                allDiff[a,b] = sum((simResults[a,b,]-valueSignalsArr[a,b,valueSignalsI])^2)/norm
+                c1 = simResults[a,b,]
+                c2 = valueSignalsArr[a,b,valueSignalsI]
+                NAcount = max(sum(is.na(c1)), sum(is.na(c2)))
+                allDiff[a,b] = sum((c1 - c2)^2, na.rm=T)/(norm - NAcount)
             }
         }
     } else {
-        # dt and ode
+        # dt
         for(a in 1:dim(simResults)[1]) {
             for(b in 1:dim(simResults)[2]) {
-                allDiff[a,b] = sum((simResults[a,b,]-yInterpol[a,b,])^2) / norm
+                c1 =  simResults[a,b,]
+                c2 = yInterpol[a,b,]
+                NAcount = max(sum(is.na(c1)), sum(is.na(c2)))
+                allDiff[a,b] = sum((c1 - c2)^2, na.rm=T)/(norm - NAcount)
             }
         }
     }
@@ -172,9 +186,9 @@ cmap_scale=1, cex=1.6, ymin=NULL)) {
         par(fg="blue",mar=c(margin, margin, margin, 0))
         plot(x=xVal, y=rep(-5,length(xVal)), ylim=c(yMin, yMax),
         xlab=NA,ylab=NA,xaxt="n",yaxt="n")
-
+		labels=colnames(CNOlist@signals[[1]])[c]
         text(
-            labels=colnames(CNOlist@signals[[1]])[c],
+            labels=labels,
             x=((xVal[length(xVal)]-xVal[1])/2),
             y=(yMin+((yMax-yMin)/2)),
             cex=cex
@@ -227,15 +241,16 @@ cmap_scale=1, cex=1.6, ymin=NULL)) {
             yValS <- simResults[r,c,]
             if(!is.na(allDiff[r,c])) {
                 #diff = (1 - (allDiff[r,c] / diffMax)) * 1000
-                diff = (1 - (allDiff[r,c] / 1.)**plotParams$cmap_scale) * Ncolors
+                diff = (1 - (allDiff[r,c] /plotParams$F)**plotParams$cmap_scale) * (Ncolors-1)+1
             } else {
                 diff = -1
             }
+            if (diff <1 & diff!=-1){diff=1}
 
             if(diff>Ncolors) {
                 diff=Ncolors
             }
-            # this is a NA or NaN so what color ? 
+            # this is a NA or NaN so what color ?
             if(diff==-1) {
                 bgcolor = "gray"
             } else{
@@ -244,7 +259,7 @@ cmap_scale=1, cex=1.6, ymin=NULL)) {
             plot(x=xVal,y=yVal,ylim=c(yMin,yMax),xlab=NA,ylab=NA,xaxt="n",yaxt="n",)
             rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col=bgcolor)
 
-            
+
             tryCatch(
                 {ystd = unlist(lapply(CNOlist@variances[valueSignalsI],function(x) {x[r,c]}))
                 .error.bar(unlist(xVal), unlist(yVal), ystd)
@@ -281,89 +296,49 @@ cmap_scale=1, cex=1.6, ymin=NULL)) {
     sStim = countRow+1
 
     for(c1 in 1:dim(CNOlist@signals[[1]])[1]) {
-        screen(sStim)
-        #par(mar=c(0.5,0.5,0.5,0.5))
-        par(mar=c(margin, margin,0,0))
+    	screen(sStim)
+    	#par(mar=c(0.5,0.5,0.5,0.5))
+    	par(mar=c(margin, margin,0,0))
 
-        # f no stimuli, we still keep the column but put notinh in it
-        if (length(CNOlist@stimuli) == 0){
-            image(
-                t(matrix(0,nrow=1)),
-                col=c("grey"),xaxt="n",yaxt="n"
-            )
-            if(c1 == dim(CNOlist@signals[[1]])[1]) {
-                axis(
-                    side=1,
-                    at=seq(from=0, to=1,length.out=1),
-                    labels=c("NONE"),las=3,cex.axis=1.2
-                )
-            }
-        }
 
-        else {
-            if(all(CNOlist@stimuli[c1,]==0)) {
-                image(
-                    t(matrix(1-CNOlist@stimuli[c1,],nrow=1)),
-                    col=c("white"),xaxt="n",yaxt="n"
-                )
-            } else {
-                image(
-                    t(matrix(1-CNOlist@stimuli[c1,],nrow=1)),
-                    col=c("black","white"),xaxt="n",yaxt="n"
-                )
-            }
-            if(c1 == dim(CNOlist@signals[[1]])[1]) {
-                axis(
-                    side=1,
-                    at=seq(from=0, to=1,length.out=length(colnames(CNOlist@stimuli))),
-                    labels=colnames(CNOlist@stimuli),las=3,cex.axis=1.2
-                )
-            }
-        }
-        sStim = sStim+1
+    	data = matrix(CNOlist@stimuli[c1,],nrow=1)
+    	if(c1 == dim(CNOlist@signals[[1]])[1]){
+    		barplot(data,yaxt="n",ylim=c(0,1),names.arg = colnames(CNOlist@stimuli),las=2)
+    		#axis(1)
+    	}else{
+    		barplot(data,xaxt="n",yaxt="n",ylim=c(0,1))
+    		#axis(1)
+    	}
+
+
+    	sStim = sStim+1
     }
 
     sInhib = sStim+1
     for(c1 in 1:dim(CNOlist@signals[[1]])[1]) {
         screen(sInhib)
-        #par(mar=c(0.5,0.5,0.5,0.5))
-        par(mar=c(margin, margin,0,0))
 
-        # if no inhibitors, we still keep the column but put notinh in it
-        if (length(CNOlist@inhibitors) == 0){
-            image(
-                t(matrix(0,nrow=1)),
-                col=c("grey"),xaxt="n",yaxt="n"
-            )
-            if(c1 == dim(CNOlist@signals[[1]])[1]) {
-                axis(
-                    side=1,
-                    at=seq(from=0, to=1,length.out=1),
-                    labels=c("NONE"),las=3,cex.axis=1.2
-                )
-            }
-        }
+    	#par(mar=c(0.5,0.5,0.5,0.5))
+    	par(mar=c(margin, margin,0,0))
 
-        else {
-            if(all(CNOlist@inhibitors[c1,]==0)) {
-                image(
-                    t(matrix(1-CNOlist@inhibitors[c1,],nrow=1)),
-                    col=c("white"),xaxt="n",yaxt="n"
-                )
-            } else {
-                image(
-                    t(matrix(1-CNOlist@inhibitors[c1,],nrow=1)),
-                    col=c("black","white"),xaxt="n",yaxt="n"
-                )
-            }
-            if(c1 == dim(CNOlist@signals[[1]])[1]) {
-                axis(
-                    side=1,
-                    at=seq(from=0, to=1,length.out=length(colnames(CNOlist@inhibitors))),
-                    labels=colnames(CNOlist@inhibitors),las=3,cex.axis=1.2
-                )
-            }
-        }
+    	if (length(CNOlist@inhibitors) != 0){
+    		data = matrix(c(CNOlist@inhibitors[c1,]),nrow=1)
+    		if(c1 == dim(CNOlist@signals[[1]])[1]){
+    			barplot(data,yaxt="n",ylim=c(0,1),names.arg = c(paste(colnames(CNOlist@inhibitors),"-i",sep="")),las=3 )
+    			#axis(1)
+    		}else{
+    			barplot(data,xaxt="n",yaxt="n",ylim=c(0,1))
+    			#axis(1)
+    		}
+    	}
+    	else{ # special case of no inhibitors
+    		image(
+    			t(matrix(0,nrow=1)),
+    			col=c("grey"),xaxt="n",yaxt="n"
+    		)
+    	}
+
+
         sInhib = sInhib+1
     }
 
@@ -432,11 +407,10 @@ cmap_scale=1, cex=1.6, ymin=NULL)) {
 length(upper))
          stop("vectors must be same length")
 
-     positives = upper > 0 
+     positives = upper > 0
      x = x[positives]
      y = y[positives]
      upper = upper[positives]
      lower = lower[positives]
      arrows(x,y+upper, x, y-lower, angle=90, code=3, length=length, ...)
-     }   
-
+     }

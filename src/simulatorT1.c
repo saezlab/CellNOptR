@@ -45,10 +45,13 @@ SEXP simulatorT1 (
     int a=0, b=0, p=0;
     int curr_max = 0;
     int or_max = 0;
-    int selection[40];
+    int selectionSize = 256; //#Gabora increased selection Size (june 2017)
+    int selection[selectionSize];
     int selCounter = 0;
     double *rans;
 
+    int count_na_1 = 0;
+    int count_na_2 = 0;
 
     /* variables */
     int nStimuli = INTEGER(nStimuli_in)[0];
@@ -60,7 +63,7 @@ SEXP simulatorT1 (
     int nMaxInputs = INTEGER(nMaxInputs_in)[0];
     int mode = INTEGER(mode_in)[0];
 
-    int count_species=0;    
+    int count_species=0;
 
     /* see stop conditions */
     float test_val = 1e-3;
@@ -102,7 +105,7 @@ SEXP simulatorT1 (
     int *indexSignals;
     indexSignals = (int*) malloc(nSignals * sizeof(int));
     for (i = 0; i < nSignals; i++) {
-        indexSignals[i] = INTEGER(indexSignals_in)[counter++] ; 
+        indexSignals[i] = INTEGER(indexSignals_in)[counter++] ;
     }
 
     counter=0;
@@ -194,7 +197,7 @@ SEXP simulatorT1 (
     /* see stop conditions */
     test_val = 1e-3;
 
-    /* create an initial values matrix*/    
+    /* create an initial values matrix*/
     int init_values[nCond][nSpecies];
     for(i = 0; i < nCond; i++) {
         for(j = 0; j < nSpecies; j++) {
@@ -241,8 +244,8 @@ SEXP simulatorT1 (
     term_check_1 = 1;
     term_check_2 = 1;
     count = 1;
-    
-    
+
+
     int temp_store[nCond * nReacs][nMaxInputs];
 
     /* ============================================================================*/
@@ -260,7 +263,7 @@ SEXP simulatorT1 (
 
 
         /* fill temp store
-         this is different to R version, through a single loop 
+         this is different to R version, through a single loop
          with conditions */
         track_cond = 0; /* track condition */
         track_reac = 0; /* track reaction */
@@ -367,17 +370,37 @@ SEXP simulatorT1 (
         /* reset the inhibitors */
         for(i = 0; i < nCond; i++) {
             for(j = 0; j < nInhibitors; j++) {
-                if(valueInhibitors[i][j] == 0) {
-                    new_input[i][indexInhibitors[j]] = 0;
+                if (mode == 1){
+                    if(valueInhibitors[i][j] == 0) {
+                        new_input[i][indexInhibitors[j]] = 0;
+                    }
+                }
+                else{
+
+                    /* BUG FIX Sept 2014, TC*/
+                    /* at time0, inhibitors are all off by default. So, we do
+                     * not want to reset their content at each tick. There is
+                     * not need for the code above. This is especially important
+                     * if a node if both inhibted and a readout and/or there
+                     * are input links that are inhibitors*/
                 }
             }
         }
 
+
+        count_na_1 = 0;
+        count_na_2 = 0;
         /* set 'NAs' (2s) to 0 */
         for(i = 0; i < nCond; i++) {
             for(j = 0; j < nSpecies; j++) {
-                if(new_input[i][j] == NA) {new_input[i][j] = 0;}
-                if(output_prev[i][j] == NA) {output_prev[i][j] = 0;}
+                if(new_input[i][j] == NA) {
+                    count_na_1++ ;
+                    new_input[i][j] = 0;
+                }
+                if(output_prev[i][j] == NA) {
+                    count_na_2++ ;
+                    output_prev[i][j] = 0;
+                }
             }
         }
 
@@ -392,6 +415,10 @@ SEXP simulatorT1 (
                                 one is greater than test_val */
                 }
             }
+//            printf("\n");
+        }
+        if (count_na_1!=count_na_2){
+            term_check_1 = 1;
         }
         /*term_check_1 = !(abs(diff) < test_val);*/
         term_check_2 = (count < (nSpecies * 1.2));

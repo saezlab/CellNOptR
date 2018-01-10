@@ -76,6 +76,8 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
 
     # Some required library to build the graph and plot the results using
     # graphviz.
+    library(Rgraphviz)
+    library(RBGL)
 
     # Set the output filename
     if (is.null(filename)){
@@ -105,16 +107,16 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
     # If the cnolist is a NULL, nothing to do
     if (is.null(CNOlist)==TRUE){
         cnolist = NULL
-    } else { # if not a CNOlist, try to convert it 
+    } else { # if not a CNOlist, try to convert it
         if ((class(CNOlist)=="CNOlist")==FALSE){
             cnolist = CellNOptR::CNOlist(CNOlist)
         } else{
             cnolist = CNOlist
         }
     }
-   
+
     # TODO: The following piece of code should be made modular
- 
+
 
     # Input data. If the model is a character, we guess that the user provided
     # the MODEL filename (sif format) that we can read directly.
@@ -315,7 +317,7 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
     }
 
     # Set the node Rendering in Rgraphviz
-    nodeRenderAttrs  <- setNodeRenderInfo(nodeAttrs, list(lwd=2, lty=nodelty, 
+    nodeRenderAttrs  <- setNodeRenderInfo(nodeAttrs, list(lwd=2, lty=nodelty,
        cex=0.4, fontsize=fontsize, fixedsize=FALSE))
     nodeRenderInfo(g) <- nodeRenderAttrs
 
@@ -329,7 +331,7 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
     graphRenderInfo(g) <-  list(recipEdges=recipEdges)
 
     edgeRenderAttrs  <- setEdgeRenderInfo(edgeAttrs,
-        list(arrowhead=arrowhead2, head=v2, tail=v1, 
+        list(arrowhead=arrowhead2, head=v2, tail=v1,
         lwd=3, lty="solid"))
     edgeRenderInfo(g) <- edgeRenderAttrs
 
@@ -380,7 +382,7 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
             # note that rendering is now made on x variable (not g)
             nodeRenderInfo(x) <- nodeRenderAttrs
             edgeRenderInfo(x) <- edgeRenderAttrs
-    
+
             renderGraph(x)
         }
         # and save into dot file.
@@ -595,7 +597,7 @@ compressed, graphvizParams){
     }
     # the and gate nodes
     for (s in vertices){
-        if (length(grep("and", s))>=1){
+        if (length(grep("^and", s))>=1){
             color[s] = "black"
             if (mode=="sbgn"){
                 fillcolor[s] = "white"
@@ -753,7 +755,7 @@ setNodeRenderInfo <- function(nodeAttrs, extraAttrs)
         col=nodeAttrs$color,
         style=nodeAttrs$style,
         lty=extraAttrs$lty,
-        lwd=extraAttrs$lwd,   
+        lwd=extraAttrs$lwd,
         label=nodeAttrs$label,
         shape=nodeAttrs$shape,
         cex=extraAttrs$cex,

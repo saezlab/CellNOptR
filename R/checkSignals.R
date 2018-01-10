@@ -12,7 +12,6 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: checkSignals.R 4106 2013-11-06 15:53:49Z cokelaer $
 checkSignals<-function(CNOlist, model ){
 
     if ((class(CNOlist)=="CNOlist")==FALSE){
@@ -36,7 +35,7 @@ checkSignals<-function(CNOlist, model ){
             ))
     }
 
-    # same for stimuli 
+    # same for stimuli
     signalsMatch<-match(colnames(CNOlist@stimuli),model$namesSpecies,nomatch=0)
     if(any(signalsMatch == 0)){
         stop(paste(
@@ -55,4 +54,3 @@ checkSignals<-function(CNOlist, model ){
     }
 
 }
-

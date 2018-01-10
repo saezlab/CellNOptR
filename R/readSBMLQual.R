@@ -14,7 +14,7 @@
 ##############################################################################
 # $Id$
 
-# This function reads a SBMLQual written for storing SIF file. 
+# This function reads a SBMLQual written for storing SIF file.
 # The listOfQualitativeSpecies should contain the species
 # From the listOfTransitions, the edgse can be extracted
 # TODO: what if there is no transittion for a given specy. Is it possible ? If
@@ -22,6 +22,7 @@
 
 readSBMLQual <- function(filename){
     warning("experimental SBML reader. use with care July 2013.")
+    library(XML)
     doc = xmlTreeParse(filename)
     r = xmlRoot(doc)
 
@@ -59,7 +60,7 @@ readSBMLQual <- function(filename){
                     stop("signs must be negative or positive")
                 }
             }
-        } 
+        }
 
         # the AND case only
         if ("and" %in% logics){
@@ -103,7 +104,7 @@ readSBMLQual <- function(filename){
 # Does handle simple direct self loops e.g. A->A but not A-|A
 .add_dummies <- function(model){
 
-    # identify self-loops 
+    # identify self-loops
     indices = c()
     for (ireac in seq_along(model$reacID)){
         reac = model$reacID[ireac]

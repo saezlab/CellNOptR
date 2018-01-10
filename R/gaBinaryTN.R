@@ -40,7 +40,7 @@ gaBinaryTN <-function(
 
     bits2optimise<-which(bStringPrev == 0)
     bLength<-length(bits2optimise)
- 
+
     checkSignals(CNOlist, model)
 
 
@@ -73,6 +73,7 @@ gaBinaryTN <-function(
     PopTol<-rep(NA,bLength)
     PopTolScores<-NA
 
+    library(hash)
     scores2Hash = hash()
 
     #Function that produces the score for a specific bitstring
@@ -104,7 +105,7 @@ gaBinaryTN <-function(
     if (bLength==1){
         # build a population made of 2 vectors: c(0) and c(1)
         Pop = matrix(c(0,1), nrow=2)
-        scores<-apply(Pop,1,getObj, scoresHash=NULL)  
+        scores<-apply(Pop,1,getObj, scoresHash=NULL)
         rankP<-order(scores,decreasing=TRUE)
         # extract the best solution.
         iBest = rankP[2]

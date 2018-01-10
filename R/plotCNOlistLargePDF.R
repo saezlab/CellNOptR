@@ -19,4 +19,3 @@ function(CNOlist,filename,nsplit, width=14, height=7){
     plotCNOlistLarge(CNOlist,nsplit=nsplit,newDevice=FALSE)
     dev.off()
     }
-

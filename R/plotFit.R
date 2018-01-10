@@ -44,5 +44,4 @@ plotFit<-function(optRes, filename=NULL){
 
    # par(oldPar)
 
-} 
-
+}

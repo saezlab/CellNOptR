@@ -9,9 +9,9 @@ This function plots the data and simulated values according to each experiment i
 \usage{
 plotOptimResultsPan(simResults, yInterpol=NULL, xCoords=NULL,
 CNOlist=CNOlist, formalism=c("ss1","ss2","ssN","dt","ode"), pdf=FALSE,
-pdfFileName="", tPt=NULL, 
+pdfFileName="", tPt=NULL,
 plotParams = list(margin = 0.1, width=15, height=12, cmap_scale=1, cex=1.6,
-ymin=NULL))
+ymin=NULL, F=1, rotation=0))
 
 }
 \arguments{
@@ -25,7 +25,7 @@ If using CNORdt, these are the interpolated experimental results from getFitTime
 These are the x-coordinates obtained from the optimized scaling factor in CNORdt that allow for comparison between time course experimental data and a Boolean model.
 }
 \item{CNOlist}{
-A CNOlist. 
+A CNOlist.
 }
 \item{formalism}{
 An abbreviation of the CellNOptR formalism being used.

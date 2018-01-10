@@ -12,7 +12,6 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: gaBinaryT1.R 4106 2013-11-06 15:53:49Z cokelaer $
 gaBinaryT1<-function(
     CNOlist,
     model,
@@ -44,7 +43,7 @@ gaBinaryT1<-function(
 
     # should be after CNOlist conversion
     if (timeIndex<2){ stop("timeIndex must be >=2")}
-    if (timeIndex>length(CNOlist@timepoints)){ 
+    if (timeIndex>length(CNOlist@timepoints)){
         stop(paste("timeIndex must be <= ", length(CNOlist@timepoints), sep=" "))
     }
 
@@ -56,7 +55,7 @@ gaBinaryT1<-function(
 
     Pop<-rbind(
         initBstring,
-        round(matrix(runif(bLength*(popSize-1)), 
+        round(matrix(runif(bLength*(popSize-1)),
         nrow=(popSize-1),ncol=bLength))
 	)
     # ---- section related to T1  end ----
@@ -76,6 +75,7 @@ gaBinaryT1<-function(
     PopTol<-rep(NA,bLength)
     PopTolScores<-NA
 
+    library(hash)
     scores2Hash = hash()
 
     #Function that produces the score for a specific bitstring
@@ -105,7 +105,7 @@ gaBinaryT1<-function(
         print("Given your input parameter, an exhaustive search will be faster...")
         # better to perform an exhaustive search
         stop = TRUE # stop criteria of the GA that need not to be run
-        res = exhaustive(CNOlist, model, relTol=relTol, 
+        res = exhaustive(CNOlist, model, relTol=relTol,
                    sizeFac=sizeFac, NAFac=NAFac, verbose=verbose)
 
         return(res)
@@ -117,7 +117,7 @@ gaBinaryT1<-function(
     if (bLength==1){
         # build a population made of 2 vectors: c(0) and c(1)
         Pop = matrix(c(0,1), nrow=2)
-        scores<-apply(Pop,1,getObj, scoresHash=NULL)  
+        scores<-apply(Pop,1,getObj, scoresHash=NULL)
         rankP<-order(scores,decreasing=TRUE)
         # extract the best solution.
         iBest = rankP[2]
@@ -251,10 +251,11 @@ gaBinaryT1<-function(
     }
     #end of the while loop
 
-    PopTol<-as.matrix(PopTol[-1,])
+
+    PopTol<- as.matrix(PopTol)[-1,]
     PopTolScores<-PopTolScores[-1]
     TolBs<-which(PopTolScores < scores[length(scores)]+tolScore)
-    PopTol<-as.matrix(PopTol[TolBs,])
+    PopTol<-as.matrix(PopTol)[TolBs,]
     PopTolScores<-PopTolScores[TolBs]
     PopTolT<-cbind(PopTol,PopTolScores)
     PopTolT<-unique(PopTolT,MARGIN=1)

@@ -39,7 +39,7 @@ readSIF<-function(sifFile){
             items = unlist(strsplit(line, " "))
             LHS = items[1]
             edge = items[2]
-            RHSs = items[-c(1,2)] # let us look at the RHS elements 
+            RHSs = items[-c(1,2)] # let us look at the RHS elements
             for (RHS in RHSs){
                 sif = c(sif, LHS)
                 sif = c(sif, edge)
@@ -48,6 +48,8 @@ readSIF<-function(sifFile){
         }
         sif = matrix(sif, ncol=3, byrow=TRUE)
     }
+
+	sif <- unique(sif)   # we only select the unique interactions
 
     #Create the vector of names of species
     namesSpecies<-unique(c(as.character(sif[,1]), as.character(sif[,3])))
@@ -95,12 +97,12 @@ readSIF<-function(sifFile){
         }
 
 #Take care of the "and" nodes
-
+#browser()
 #1.detect them
     AndNodes<-grep(
-        pattern="([a,A][n,N][d,D]\\d+$)",namesSpecies,perl=TRUE,ignore.case=FALSE)
+        pattern="(^[a,A][n,N][d,D]\\d+$)",namesSpecies,perl=TRUE,ignore.case=FALSE)
     AndNodesV<-grep(
-        pattern="([a,A][n,N][d,D]\\d+$)",namesSpecies,perl=TRUE,ignore.case=FALSE,value=TRUE)
+        pattern="(^[a,A][n,N][d,D]\\d+$)",namesSpecies,perl=TRUE,ignore.case=FALSE,value=TRUE)
 
 
     if(length(AndNodes) != 0){
@@ -111,7 +113,7 @@ readSIF<-function(sifFile){
 #3.store the name of the node, and find the associated reactions
             node<-AndNodesV[i]
             AndsReacs<-c(
-                grep(pattern=paste(node,"=",sep=""),reacID,ignore.case=FALSE),
+                grep(pattern=paste("^",node,"=",sep=""),reacID,ignore.case=FALSE),
                 grep(pattern=paste(node,"$",sep=""),perl=TRUE,reacID,ignore.case=FALSE))
 
 #4.create the new column of interMat and notMat
@@ -124,12 +126,12 @@ readSIF<-function(sifFile){
 
             if(length(AndsReacs) == 3){
 
-                output<-grep(pattern=paste(node,"=",sep=""),reacID,
+                output<-grep(pattern=paste("^",node,"=",sep=""),reacID,
                     ignore.case=FALSE,value=TRUE)
                 inputs<-grep(pattern=paste(node,"$",sep=""),perl=TRUE,
                     reacID,ignore.case=FALSE,value=TRUE)
                 output<-sub(pattern=node,x=output,replacement="",ignore.case=FALSE)
-                inputs<-sub(pattern=paste("=",node,sep=""),x=inputs,
+                inputs<-sub(pattern=paste("=",node,"$",sep=""),x=inputs,
                     replacement="+",ignore.case=FALSE)
                 inputs<-paste(inputs,collapse='')
                 newReacID<-paste(inputs,output,sep="")
@@ -139,7 +141,7 @@ readSIF<-function(sifFile){
                 }else{
 
             #Second case: I have an 'and' with more than 2 inputs
-                    output<-grep(pattern=paste(node,"=",sep=""),reacID,
+                    output<-grep(pattern=paste("^",node,"=",sep=""),reacID,
                         ignore.case=FALSE,value=TRUE)
 
                     if(length(output) == 1){
@@ -147,7 +149,7 @@ readSIF<-function(sifFile){
                         output<-sub(pattern=node,x=output,replacement="",ignore.case=FALSE)
                         inputs<-grep(pattern=paste(node,"$",sep=""),perl=TRUE,
                             reacID,ignore.case=FALSE,value=TRUE)
-                        inputs<-sub(pattern=paste("=",node,sep=""),x=inputs,
+                        inputs<-sub(pattern=paste("=",node,"$",sep=""),x=inputs,
                             replacement="+",ignore.case=FALSE)
                         inputs<-paste(inputs,collapse='')
                         newReacID<-paste(inputs,output,sep="")
@@ -156,11 +158,11 @@ readSIF<-function(sifFile){
 
                         }else{
 
-                            output<-sub(pattern=paste(node,"=",sep=""),x=output,
+                            output<-sub(pattern=paste("^",node,"=",sep=""),x=output,
                                 replacement="",ignore.case=FALSE)
                             inputs<-grep(pattern=paste(node,"$",sep=""),perl=TRUE,
                                 reacID,ignore.case=FALSE,value=TRUE)
-                            inputs<-sub(pattern=paste("=",node,sep=""),x=inputs,
+                            inputs<-sub(pattern=paste("=",node,"$",sep=""),x=inputs,
                                 replacement="+",ignore.case=FALSE)
                             inputs<-paste(inputs,collapse='')
                             inputs<-sub(pattern="\\W{1}$",x=inputs,replacement="",
@@ -171,7 +173,7 @@ readSIF<-function(sifFile){
                     }
 
 #5b.if there are more than one outputs, then the interMat and notMat created above are not correct
-            output<-grep(pattern=paste(node,"=",sep=""),reacID,
+            output<-grep(pattern=paste("^",node,"=",sep=""),reacID,
                 ignore.case=FALSE,value=FALSE)
             inputs<-grep(pattern=paste(node,"$",sep=""),perl=TRUE,
                 reacID,ignore.case=FALSE,value=FALSE)
@@ -191,8 +193,8 @@ readSIF<-function(sifFile){
 #6. remove the old reactions and replace them by the new ones
             namesSpecies<-namesSpecies[-which(namesSpecies == AndNodesV[i])]
             reacID<-reacID[-AndsReacs]
-            interMat<-interMat[,-AndsReacs]
-            notMat<-notMat[,-AndsReacs]
+            interMat<-interMat[,-AndsReacs,drop=FALSE]
+            notMat<-notMat[,-AndsReacs,drop=FALSE]
             interMat<-cbind(interMat,newReac)
             notMat<-cbind(notMat,newReacNot)
 
@@ -200,7 +202,7 @@ readSIF<-function(sifFile){
             interMat<- as.matrix(interMat[-which(rownames(interMat) == AndNodesV[i]),], drop=F)
             notMat <- as.matrix(notMat[-which(rownames(notMat) == AndNodesV[i]),], drop=F)
 
-            
+
             if(length(output) == 1){
 
                 colnames(interMat)[dim(interMat)[2]]<-newReacID
@@ -222,4 +224,3 @@ readSIF<-function(sifFile){
         notMat=notMat)
     return(model)
     }
-

@@ -12,7 +12,6 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: cutNONC.R 4441 2014-03-10 15:01:28Z aidanmac $
 
 cutNONC <- function(model, NONCindexes) {
 
@@ -79,7 +78,7 @@ cutNONC <- function(model, NONCindexes) {
 
             LHS = paste(andInput,collapse="+", sep="")
             colnames(newInterMat)[a] = paste(LHS, "=", rownames(newInterMat)[which(newInterMat[,a] == 1)], sep="")
-	    
+
             colnames(newNotMat)[a] = colnames(newInterMat)[a]
         }
 
@@ -90,7 +89,7 @@ cutNONC <- function(model, NONCindexes) {
         potentialLoops = paste(matchIn,"=",matchIn,sep="")
         # check for + or - loops
         reac2remove[which(paste("!",potentialLoops,sep="")==names(reac2remove) | potentialLoops==names(reac2remove))] = FALSE
-        
+
         if(any(reac2remove)) {
 
             reac2remove <- which(reac2remove)
@@ -116,4 +115,3 @@ cutNONC <- function(model, NONCindexes) {
     return(newModel)
 
 }
-

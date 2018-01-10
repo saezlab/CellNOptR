@@ -52,14 +52,14 @@ CNOlist <-function(data, verbose=FALSE){
 
     res = NULL
     # input can a filename or the old (still used) CNOlist returned by
-    # makeCNOlist function. 
+    # makeCNOlist function.
     if (is.character(data)== TRUE){
         res = internal_CNOlist_from_file(data, verbose)
     }
 
     if (is.list(data)==TRUE){
         if ("namesCues" %in% names(data) == TRUE){
-            res = internal_CNOlist_from_makeCNOlist(data) 
+            res = internal_CNOlist_from_makeCNOlist(data)
         }else{
             stop("Not a valid list. Does not seem to be returned by CellNOptR::makeCNOlist")
         }
@@ -75,7 +75,7 @@ CNOlist <-function(data, verbose=FALSE){
                 variances=data@variances,
                 timepoints=data@timepoints)
     }
- 
+
     if (is.null(res)==TRUE){
         stop("Input data must be a filename or the output of CellNOptR::makeCNOlist function")
     }
@@ -110,7 +110,7 @@ setMethod("getTimepoints", "CNOlist", function(object){
 
 
 setGeneric("setSignals<-",function(object,value){standardGeneric("setSignals<-")})
-setReplaceMethod("setSignals","CNOlist", 
+setReplaceMethod("setSignals","CNOlist",
     function(object,value){
         object@signals<-value
         return(object)
@@ -159,7 +159,7 @@ if (isGeneric("randomize")==FALSE){
 #lockBinding("randomize", .GlobalEnv)
 
 
-setMethod("randomize", "CNOlist", 
+setMethod("randomize", "CNOlist",
     definition=function(object, sd=0.1, minValue=0, maxValue=1,mode="uniform"){
         res = randomizeCNOlist(object, sd=sd, mode=mode)
         return(res)
@@ -177,8 +177,6 @@ setMethod("compatCNOlist", "CNOlist",
 
 
 internal_compatCNOlist<-function(cnolist){
-
-
     if (class(cnolist)=="CNOlist"){
 
         # conversion
@@ -212,17 +210,17 @@ internal_CNOlist_from_file <- function(MIDASfile, verbose=FALSE)
     # in the old makeCNOlist, there is a need for subfield. In cnolist, we
     # automatically figure it out here below:
     names = colnames(x$dataMatrix[x$TRcol])
-    
+
     # Are all TR coded using subfield ?
     all_subfield_s = sapply(names, function(x){x = grepl(":Stimuli", x)})
     all_subfield_i = sapply(names, function(x){x = grepl(":Inhibitors", x)})
     all_subfield = all(all_subfield_s | all_subfield_i)
 
-    # any subfield used ? 
+    # any subfield used ?
     any_subfield_s = any(sapply(names, function(x){x = grepl(":Stimuli", x)}))
     any_subfield_i = any(sapply(names, function(x){x = grepl(":Inhibitors", x)}))
 
-    
+
 
     any_subfield = any_subfield_s | any_subfield_i
 
@@ -277,5 +275,3 @@ internal_CNOlist_from_makeCNOlist <- function(cnolist)
     return( list(cues=myCues, inhibitors=myInhibitors, stimuli=myStimuli,
         signals=mySignals, variances=myVars, timepoints=myTimePoints))
 }
-
-

@@ -39,7 +39,7 @@ writeReport<-function(
 
  if ((class(CNOlist)=="CNOlist")==FALSE){
         CNOlist = CellNOptR::CNOlist(CNOlist)
-    } 
+    }
 
 
 
@@ -49,146 +49,146 @@ writeReport<-function(
         resE<-residualError(CNOlist)
     }
 
-	
+
 #Create a report directory and copy css and logos in there
-	dir.create(directory)	
+	dir.create(directory)
 	cpfile<-dir(system.file("templates",package="CellNOptR"),full.names=TRUE)
 	resultsdir<-file.path(getwd(),directory)
 	file.copy(from=cpfile,to=resultsdir,overwrite=TRUE)
-	
+
 #copy all the graphs into the directory
 
 	for(i in 1:length(namesFiles)){
-	
+
 		if(!is.na(namesFiles[[i]])){
 			cpfile<-file.path(getwd(),namesFiles[[i]])
 			file.copy(from=cpfile,to=resultsdir,overwrite=TRUE)
 			unlink(cpfile)
 			}
-			
+
 		}
-		
+
 #Produce the html page
 	htmlfile=paste(resultsdir,'/CellNOptReport.html',sep="")
 	cat(
-		'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"http://www.w3.org/TR/html4/loose.dtd"> \n <html> ', 
+		'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"http://www.w3.org/TR/html4/loose.dtd"> \n <html> ',
 		file = htmlfile, append=TRUE)
 	cat(
-		'\n <link rel="stylesheet" type="text/css" href="CNOR.css" /> \n ', 
+		'\n <link rel="stylesheet" type="text/css" href="CNOR.css" /> \n ',
 		file = htmlfile, append=TRUE)
 	cat(
-		'<head> <title> CellNOptR Analysis Report </title> </head> \n ', 
+		'<head> <title> CellNOptR Analysis Report </title> </head> \n ',
 		file = htmlfile, append=TRUE)
 	cat(
-		'<body> \n <table class="border"> \n <tr class="border top"> \n ', 
+		'<body> \n <table class="border"> \n <tr class="border top"> \n ',
 		file = htmlfile, append=TRUE)
 	cat(
-		'<td class="border corner"> &nbsp&nbsp&nbsp&nbsp </td>\n <td class="border top"> ', 
+		'<td class="border corner"> &nbsp&nbsp&nbsp&nbsp </td>\n <td class="border top"> ',
 		file = htmlfile, append=TRUE)
 	cat(
-		'<h1>Report from CellNOptR &nbsp &nbsp </h1> </td> \n ', 
+		'<h1>Report from CellNOptR &nbsp &nbsp </h1> </td> \n ',
 		file = htmlfile, append=TRUE)
 	cat(
-		'<td class="border corner2"> &nbsp&nbsp&nbsp&nbsp </td>\n </tr>\n <tr class="border"> \n <td class="border"></td>\n ', 
+		'<td class="border corner2"> &nbsp&nbsp&nbsp&nbsp </td>\n </tr>\n <tr class="border"> \n <td class="border"></td>\n ',
 		file = htmlfile, append=TRUE)
 	cat(
-		'<td class="main">\n <table>\n <tr>\n ', 
+		'<td class="main">\n <table>\n <tr>\n ',
 		file = htmlfile, append=TRUE)
 	cat(
-		'<img src="Rlogo.png" width="70" height="70" ALIGN=RIGHT>&nbsp ', 
+		'<img src="Rlogo.png" width="70" height="70" ALIGN=RIGHT>&nbsp ',
 		file = htmlfile, append=TRUE)
 	cat(
-		'<img src= "phinou.jpeg" width="110" height="110" ALIGN=RIGHT>&nbsp ', 
+		'<img src= "phinou.jpeg" width="110" height="110" ALIGN=RIGHT>&nbsp ',
 		file = htmlfile, append=TRUE)
 	cat(
-		'<img src="logo_saezrodriguez_mid.gif" width="110" height="80" ALIGN=RIGHT>\n </tr>\n <tr>', 
+		'<img src="logo_saezrodriguez_mid.gif" width="110" height="80" ALIGN=RIGHT>\n </tr>\n <tr>',
 		file = htmlfile, append=TRUE)
 	cat(
 		paste(
 			'\n  <td class="tabs"> <h3><a href="',
 			namesFiles$dataPlot,
 			'" title="data" target=blank >Data plot</a></h3> </td> ',
-			sep=""), 
+			sep=""),
 		append = TRUE, file = htmlfile)
 	cat(
 		paste(
 			'\n  <td class="tabs"> <h3><a href="',
 			namesFiles$simResultsT1,
 			'" title="Simulation results t1" target=blank >Simulation Results t1</a></h3> </td> ',
-			sep=""), 
+			sep=""),
 		append = TRUE, file = htmlfile)
 	cat(
 		paste(
 			'\n  <td class="tabs"> <h3><a href="',
 			namesFiles$evolFitT1,
 			'" title="Evolution of fit t1" target=blank >Evolution of fit t1</a></h3> </td> ',
-			sep=""), 
+			sep=""),
 		append = TRUE, file = htmlfile)
-		
+
 	if(!is.na(namesFiles$evolFitT2)){
 		cat(
 			paste(
 				'\n  <td class="tabs"> <h3><a href="',
 				namesFiles$simResultsT2,
 				'" title="Simulation results t2" target=blank >Simulation Results t2</a></h3> </td> ',
-				sep=""), 
+				sep=""),
 			append = TRUE, file = htmlfile)
 		cat(
 			paste(
 				'\n  <td class="tabs"> <h3><a href="',
 				namesFiles$evolFitT2,
 				'" title="Evolution of fit t2" target=blank >Evolution of fit t2</a></h3> </td> ',
-				sep=""), 
+				sep=""),
 			append = TRUE, file = htmlfile)
 		}
-		
-	cat('\n </tr> ', append = TRUE, file = htmlfile)	
+
+	cat('\n </tr> ', append = TRUE, file = htmlfile)
 	cat(
-		paste('<tr> \n <br> General information: \n <UL> \n <LI>data: ',namesData$CNOlist,sep=""), 
+		paste('<tr> \n <br> General information: \n <UL> \n <LI>data: ',namesData$CNOlist,sep=""),
 		append = TRUE, file = htmlfile)
 	cat(
-		paste('\n <LI>time point(s): ',ifelse(is.na(namesFiles$evolFitT2),1,2),sep=""), 
+		paste('\n <LI>time point(s): ',ifelse(is.na(namesFiles$evolFitT2),1,2),sep=""),
 		append = TRUE, file = htmlfile)
 	cat(
-		paste('\n <LI>Residual error: t1: ',resE["t1"],sep=""), 
+		paste('\n <LI>Residual error: t1: ',resE["t1"],sep=""),
 		append = TRUE, file = htmlfile)
 	nDataP<-sum(!is.na(CNOlist@signals[[2]]))
 	scaledResE<-resE["t1"]/nDataP
 	cat(
-		paste(' (scaled: ',round(scaledResE,digits=4),' )',sep=""), 
+		paste(' (scaled: ',round(scaledResE,digits=4),' )',sep=""),
 		append = TRUE, file = htmlfile)
-		
+
 	if(!is.na(resE["t2"])) {
 		cat(paste('; t2: ',resE["t2"],sep=""), append = TRUE, file = htmlfile)
 		nDataP<-sum(!is.na(CNOlist@signals[[3]]))
 		scaledResE<-resE["t2"]/nDataP
 		cat(
-			paste(' (scaled: ',round(scaledResE,digits=4),' )',sep=""), 
+			paste(' (scaled: ',round(scaledResE,digits=4),' )',sep=""),
 			append = TRUE, file = htmlfile)
 		cat(
-			paste('; t1andt2: ',resE["t1andt2"],sep=""), 
+			paste('; t1andt2: ',resE["t1andt2"],sep=""),
 			append = TRUE, file = htmlfile)
 		nDataP<-sum(!is.na(CNOlist@signals[[3]]))+sum(!is.na(CNOlist@signals[[2]]))
 		scaledResE<-resE["t1andt2"]/nDataP
 		cat(
-			paste(' (scaled: ',round(scaledResE,digits=4),' )',sep=""), 
+			paste(' (scaled: ',round(scaledResE,digits=4),' )',sep=""),
 			append = TRUE, file = htmlfile)
 		}
-		
+
 	cat(
-		paste('\n <LI>previous knowledge network: ',namesData$model,sep=""), 
+		paste('\n <LI>previous knowledge network: ',namesData$model,sep=""),
 		append = TRUE, file = htmlfile)
 	cat(
 		paste(
 			'\n <LI>PKN: ',
 			dim(modelOriginal$interMat)[1],' species and ',
-			dim(modelOriginal$interMat)[2],' interactions',sep=""), 
+			dim(modelOriginal$interMat)[2],' interactions',sep=""),
 		append = TRUE, file = htmlfile)
 	cat(
 		paste(
 			'\n <LI>Scaffold (compressed and expanded): ',
 			dim(modelOpt$interMat)[1],' species and ',
-			dim(modelOpt$interMat)[2],' interactions', '\n </UL>\n'), 
+			dim(modelOpt$interMat)[2],' interactions', '\n </UL>\n'),
 		append = TRUE, file = htmlfile)
 	cat(
 		paste(
@@ -208,7 +208,7 @@ writeReport<-function(
  			'<LI>number of strings within the tolerance limits: ',
  			dim(optimResT1$stringsTol)[1],' \n</UL>\n', sep=""),
  		append = TRUE, file = htmlfile)
- 		
+
 	if(!is.na(namesFiles$evolFitT2)){
 		cat(paste(
 			'<br> Optimisation t2: \n<UL> \n <LI>generations: ',
@@ -225,7 +225,7 @@ writeReport<-function(
  			dim(optimResT2$stringsTol)[1],'\n</UL>\n', sep="")
  			,append = TRUE, file = htmlfile)
 		}
-		
+
  	cat(paste(
  		'<br> Scaffold network:\n <UL>\n <LI>cytoscape sif format: ',
  		namesFiles$scaffold,'\n',sep=""),append = TRUE, file = htmlfile)
@@ -261,6 +261,5 @@ writeReport<-function(
  		append = TRUE, file = htmlfile)
  	cat(
  		'<hr/> \n </tr> \n </table> \n </td> \n <td class="border right"> </td> \n </tr> \n </table> \n </body> \n </html>',
- 		append = TRUE, file = htmlfile)	 				
+ 		append = TRUE, file = htmlfile)
 	}
-

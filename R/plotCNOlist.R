@@ -11,6 +11,9 @@
 #
 #  CNO website: http://www.cellnopt.org
 #
+# Modifications:
+#   - the Cue values are displayed by bars in the range [0,1] (31.03.2016 AG)
+#
 ##############################################################################
 # $Id: plotCNOlist.R 3635 2013-05-28 09:21:46Z cokelaer $
 plotCNOlist<-function(CNOlist){
@@ -37,8 +40,14 @@ plotCNOlist<-function(CNOlist){
     yMin<-min(unlist(lapply(CNOlist@signals,function(x) min(x, na.rm=TRUE))))
     xVal<-CNOlist@timepoints
 
+    # set margin sizes
+    marginSize = c(0.5,0.5,0.5,0)
+    if (dim(CNOlist@signals[[1]])[2]>10) marginSize[[2]] = 0.1
+    if (dim(CNOlist@signals[[1]])[1]>20) marginSize[c(1,3)] = c(.1,.1)
+    if (dim(CNOlist@signals[[1]])[1]>40) marginSize[c(1,3)] = c(.0,.0)
+
     for(c in 1:dim(CNOlist@signals[[1]])[2]){
-        par(fg="blue",mar=c(0.5,0.5,0.7,0))
+    par(fg="blue",mar=marginSize)
         plot(
             x=xVal,
             y=rep(-5,length(xVal)),
@@ -58,7 +67,7 @@ plotCNOlist<-function(CNOlist){
         x=((xVal[length(xVal)]-xVal[1])/2),
         y=(yMin+((yMax-yMin)/2)),cex=2)
 
-    par(fg="black",mar=c(0.5,0.5,0,0))
+    par(fg="black",mar=marginSize)
 
     for(r in 1:dim(CNOlist@signals[[1]])[1]){
 
@@ -87,48 +96,26 @@ plotCNOlist<-function(CNOlist){
             # The image (cues) last columns
             if (length(CNOlist@inhibitors) != 0){
                 data = t(matrix(c(CNOlist@stimuli[r,],CNOlist@inhibitors[r,]),nrow=1))
-                # create the color vector
-                if (all(data==1)==TRUE){
-                    col=c("black")
+                # the axis last column
+                if(r == dim(CNOlist@signals[[1]])[1]){
+                    barplot(t(data),yaxt="n",ylim=c(0,1),names.arg = c(colnames(CNOlist@stimuli),paste(colnames(CNOlist@inhibitors),"-i",sep="")),las=3 )
+                    axis(4)
+                }else{
+                    barplot(t(data),xaxt="n",yaxt="n",ylim=c(0,1))
+                    axis(4)
                 }
-                else if (all(data==0)==TRUE){
-                    col=c("white")
-                }
-                else{
-                    col=c("white", "black")
-                }
-                image(data,col=col,xaxt="n",yaxt="n")
             }
             else{ # special case of no inhibitors
                 data = t(matrix(CNOlist@stimuli[r,],nrow=1))
-                # create the color vector
-                if (all(data==1)==TRUE){
-                    col=c("black")
+                # the axis last column
+                if(r == dim(CNOlist@signals[[1]])[1]){
+                    barplot(t(data),yaxt="n",ylim=c(0,1),names.arg = colnames(CNOlist@stimuli),las=3)
+                    axis(4)
+                }else{
+                    barplot(t(data),xaxt="n",yaxt="n",ylim=c(0,1))
+                    axis(4)
                 }
-                else if (all(data==0)==TRUE){
-                    col=c("white")
-                }
-                else{
-                    col=c("white", "black")
-                }
-                image(data, col=col,xaxt="n",yaxt="n")
             }
-
-        # the axis last column
-        if(r == dim(CNOlist@signals[[1]])[1]){
-            # special case of no inhibitors
-            if (length(colnames(CNOlist@inhibitors)) == 0){
-                labels = colnames(CNOlist@stimuli)
-            }
-            else{
-                labels=c(colnames(CNOlist@stimuli),paste(colnames(CNOlist@inhibitors),"-i",sep=""))
-            }
-
-            axis(
-                side=1,
-                at=seq(from=0, to=1,length.out=length(colnames(CNOlist@cues))),
-                labels=labels, las=3,cex.axis=1)
-        }
     }
     par(oldPar)
 
@@ -144,6 +131,5 @@ plotCNOlist<-function(CNOlist){
      y = y[positives]
      upper = upper[positives]
      lower = lower[positives]
-     arrows(x,y+upper, x, y-lower, angle=90, code=3, length=length, ...)
+     arrows(x,y+upper, x, y-lower, angle=90, code=3, length=length, col=rgb(0, 0, 0, 0.1),...)
      }
-

@@ -38,9 +38,8 @@ plotOptimResultsPDF<-function(
         times=times,
         namesCues=namesCues,
         namesSignals=namesSignals,
-        valueCues=valueCues, 
+        valueCues=valueCues,
         formalism=formalism)
 
     dev.off()
     }
-

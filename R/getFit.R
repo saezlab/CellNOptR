@@ -12,7 +12,6 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: getFit.R 3355 2013-03-04 17:19:06Z cokelaer $
 getFit<-function(
     simResults,
     CNOlist,
@@ -82,4 +81,3 @@ getFit<-function(
     return(score)
 
     }
-

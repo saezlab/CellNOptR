@@ -30,7 +30,7 @@ exhaustive<-function(
 
     # should be after CNOlist conversion
     if (timeIndex<2){ stop("timeIndex must be >=2")}
-    if (timeIndex>length(CNOlist@timepoints)){ 
+    if (timeIndex>length(CNOlist@timepoints)){
         stop(paste("timeIndex must be <= ", length(CNOlist@timepoints), sep=" "))
     }
 
@@ -44,7 +44,7 @@ exhaustive<-function(
     }
     # boolean case but could be extended easily to fuzzy by changing
     # rep(list(0,1)) to rep(list(0, nTF))
-    bitstrings = expand.grid(rep(list(0:1), bLength)) 
+    bitstrings = expand.grid(rep(list(0:1), bLength))
 
     # do we want to shuffle the order ?
     if (shuffle==TRUE){
@@ -69,7 +69,7 @@ exhaustive<-function(
 
     # NA are removed later on
     PopTol<-rep(NA,bLength)
-    PopTolScores<-NA 
+    PopTolScores<-NA
 
     all_scores = c()
     t1 = Sys.time()
@@ -89,7 +89,7 @@ exhaustive<-function(
             bestScore = score
             bestbit = bitstring
             changed = TRUE
-        } 
+        }
 
         if (verbose == TRUE){
             if ((x%%1000)==0){
@@ -115,11 +115,11 @@ exhaustive<-function(
     }
     t2 = Sys.time()
     if (verbose==TRUE){
-        print(t2-t1)    
+        print(t2-t1)
     }
 
     # remove names of the matrix row and column
-    PopTol = matrix(PopTol, ncol=bLength, 
+    PopTol = matrix(PopTol, ncol=bLength,
         dimnames=list(rep("", dim(PopTol)[1]),rep("",bLength)))
 
     # remove first NA element. The NA element has the good property that if
@@ -130,8 +130,15 @@ exhaustive<-function(
     PopTol = matrix(PopTol[-1,], ncol=bLength)
     PopTolScores = matrix(PopTolScores[-1])
 
-    # todo
-    res = NULL
+    # a dummy matrix
+    res<-c(1, bestScore, toString(bestbit), 1, bestScore, 1, toString(bestbit),
+            as.numeric(1, units="secs"))
+
+    names(res)<-c("Generation","Best_score","Best_bitString","Stall_Generation",
+        "Avg_Score_Gen","Best_score_Gen","Best_bit_Gen","Iter_time")
+    res<-rbind(res,res)
+
+
 
     return(list(
         bString=bestbit,
@@ -141,5 +148,3 @@ exhaustive<-function(
         stringsTolScores=PopTolScores,
         scores=all_scores))
     }
-
-

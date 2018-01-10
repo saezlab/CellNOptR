@@ -12,7 +12,6 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: cutAndPlotResultsT1.R 4181 2013-11-28 11:04:35Z cokelaer $
 
 cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList=NULL,
  plotPDF=FALSE, tag=NULL, tPt=CNOlist@timepoints[2], plotParams=list(maxrow=10))
@@ -20,7 +19,7 @@ cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList
 
     if ((class(CNOlist)=="CNOlist")==FALSE){
         CNOlist = CellNOptR::CNOlist(CNOlist)
-    } 
+    }
     if (is.null(simList)==TRUE){
         simList = prep4sim(model)
     }
@@ -69,14 +68,14 @@ cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList
             simDiv = simResults
             finalN = div1 * a
             if(finalN > dim1) {finalN = dim1}
-            CNOdiv@cues = CNOdiv@cues[count1:finalN,]
-            CNOdiv@stimuli = CNOdiv@stimuli[count1:finalN,]
-            CNOdiv@inhibitors = CNOdiv@inhibitors[count1:finalN,]
+            CNOdiv@cues = CNOdiv@cues[count1:finalN,,drop=F]
+            CNOdiv@stimuli = CNOdiv@stimuli[count1:finalN,,drop=F]
+            CNOdiv@inhibitors = CNOdiv@inhibitors[count1:finalN,,drop=F]
             for(b in 1:length(CNOdiv@signals)) {
-                CNOdiv@signals[[b]] = CNOdiv@signals[[b]][count1:finalN,]
+                CNOdiv@signals[[b]] = CNOdiv@signals[[b]][count1:finalN,,drop=F]
             }
             for(d in 1:length(simDiv)) {
-                simDiv[[d]] = simDiv[[d]][count1:finalN,]
+                simDiv[[d]] = simDiv[[d]][count1:finalN,,drop=F]
             }
             count1 = count1 + div1
             CNOlistSet = c(CNOlistSet, list(CNOdiv))
@@ -119,4 +118,3 @@ cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList
     }
     return(list(filenames=outputFilenames, mse=mse, simResults=simResultsSet))
 }
-

@@ -35,7 +35,7 @@ residualError<-function(CNOlist){
     namesresErr = cbind(namesresErr, "total")
     names(resErr) <- namesresErr
 
-    # compute errors at each time 
+    # compute errors at each time
     for (i in 1:nTimes){
         # we skip time 0. t1 starts at index 2 hence the i+1
         Diff <- round(CNOlist@signals[[i+1]])-CNOlist@signals[[i+1]]
@@ -48,6 +48,5 @@ residualError<-function(CNOlist){
         resErr[nTimes+1]<-resErr["t1"]+resErr["t2"]
     }
 
-	return(resErr)	
+	return(resErr)
 	}
-

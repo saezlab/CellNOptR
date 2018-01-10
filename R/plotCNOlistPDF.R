@@ -19,4 +19,3 @@ function(CNOlist,filename){
 	plotCNOlist(CNOlist)
 	dev.off()
 	}
-

@@ -12,12 +12,11 @@
 #  CNO website: http://www.cellnopt.org
 #
 ##############################################################################
-# $Id: indexFinder.R 3370 2013-03-12 14:34:26Z cokelaer $
 indexFinder<-function(CNOlist, model, verbose=FALSE){
 
     if ((class(CNOlist)=="CNOlist")==FALSE){
         CNOlist = CellNOptR::CNOlist(CNOlist)
-    } 
+    }
 
 
     #check that Model is a model list
@@ -28,7 +27,7 @@ indexFinder<-function(CNOlist, model, verbose=FALSE){
         stop("This function expects as input a model as output by readSIF")
     }
 
-        
+
 
 
     #Find the indexes of the signals
@@ -57,4 +56,3 @@ indexFinder<-function(CNOlist, model, verbose=FALSE){
     return(list(signals=signals,stimulated=stimulated,inhibited=inhibited))
 
 }
-

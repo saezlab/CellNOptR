@@ -105,7 +105,7 @@ plotOptimResults<-function(
             }
             else{
                 diff<-mean(abs(unlist(yVal4Diff)[2:length(yVal4Diff)]-unlist(yValS4Diff)[2:length(yValS4Diff)]),na.rm=TRUE)
-           } 
+           }
 
 #Set the bg colour based on the above
             if(is.na(diff)){
@@ -197,4 +197,3 @@ plotOptimResults<-function(
             }
         }
 }
-
