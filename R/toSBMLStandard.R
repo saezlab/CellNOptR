@@ -3,12 +3,18 @@
 # The function also takes a bit string as input. 
 #It cuts the model according to the values in bitstrings and write the new model object to SBMLqual.
 
-library("stringi")
-library("stringr")
+
 
 toSBMLStandard <- function(network, file, bitString = c(rep(1,length(network$reacID))))
 {
-    
+    if (!requireNamespace("stringi", quietly = TRUE)) {
+    stop("stringi needed for this function to work. Please install it.",
+      call. = FALSE)
+  }
+  if (!requireNamespace("stringr", quietly = TRUE)) {
+    stop("stringr needed for this function to work. Please install it.",
+      call. = FALSE)
+  }
     network = cutModel(network, bitString)
     
     
@@ -73,7 +79,7 @@ toSBMLStandard <- function(network, file, bitString = c(rep(1,length(network$rea
                 for (input in LHS){
                     sign <- "positive"
                     if(substr(input,1,1) == "!"){
-                        input = stri_sub(input,2)
+                        input = stringi::stri_sub(input,2)
                         sign <- "negative"
                         
                     }
@@ -84,7 +90,7 @@ toSBMLStandard <- function(network, file, bitString = c(rep(1,length(network$rea
                         "\" qual:qualitativeSpecies=\"",input,"\" qual:transitionEffect=\"none\" qual:sign=\"", sign, "\" qual:thresholdLevel=\"1\"/>\n",sep = "")
                 }
                 andGate = paste(unlist(LHS), collapse='&')
-                andGate = str_replace_all(andGate,'!','')
+                andGate = stringr::str_replace_all(andGate,'!','')
                 if (length(inputs)!=0)
                     andGate = paste0('|', andGate)
                 inputs = c(inputs, andGate)
@@ -96,7 +102,7 @@ toSBMLStandard <- function(network, file, bitString = c(rep(1,length(network$rea
                 LHS <- unlist(strsplit(intName,split = "="))[1] #single OR input
                 if (substr(LHS,1,1) == "!"){
                     sign <- "negative"
-                    LHS <- stri_sub(LHS,2)
+                    LHS <- stringi::stri_sub(LHS,2)
                 }
                 
                 full_name <- ""

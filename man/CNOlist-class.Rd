@@ -18,7 +18,8 @@
 \alias{length,CNOlist-method}
 \alias{randomize,CNOlist-method}
 \alias{setSignals<-,CNOlist-method}
-
+\alias{readErrors,CNOlist-method}
+\alias{writeErrors,CNOlist-method}
 
 %\alias{plot,CNOlist-method}
 %\alias{plot,CNOlist,ANY,CNOlist-method}

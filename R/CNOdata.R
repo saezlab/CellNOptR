@@ -44,7 +44,7 @@ CNOdata <- function(filename, verbose=FALSE, url=NULL){
     if (verbose==TRUE){
         print(filename)
     }
-    library(RCurl)
+    #library(RCurl) -already loaded by Depends fiels of Description
     # data = getURL(filename, FOLLOW=TRUE) updated?
     data = getURL(filename)
     fh = tempfile("cellnopt_", fileext=".dat")

@@ -73,7 +73,7 @@ gaBinaryTN <-function(
     PopTol<-rep(NA,bLength)
     PopTolScores<-NA
 
-    library(hash)
+    # library(hash) -already loaded by Depends fiels of Description
     scores2Hash = hash()
 
     #Function that produces the score for a specific bitstring

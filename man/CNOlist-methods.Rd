@@ -47,6 +47,13 @@
 %\alias{plot,CNOlist,CNOlist,CNOlist-methods}
 %\alias{plot,CNOlist,missing,CNOlist-method}
 
+\alias{readErrors}
+\alias{readErrors,CNOlist}
+%\alias{readErrors,CNOlist,CNOlist-method}
+
+\alias{writeErrors}
+\alias{writeErrors,CNOlist}
+%\alias{writeErrors,CNOlist,CNOlist-method}
 
 
 \title{List of \link{CNOlist-class} methods}
@@ -92,6 +99,10 @@
 
       \item{plot}{\code{signature(x="CNOlist", y="CNOlist")}: Please see the
           page of \code{\link{plotCNOlist2}} for more details.}
+    
+      \item{readErrors}{\code{signature(object="CNOlist", filename="MIDAS-file")}: reads measurement error corresponding to the data from the MIDAS file and updates the CNOlist object}
+      
+      \item{writeErrors}{\code{signature(object="CNOlist", filename="string",overwrite=F)}: writes measurement error corresponding to the data from the CNOlist to a MIDAS file}
       }
 }
 

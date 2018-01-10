@@ -29,6 +29,7 @@ and above)}}
 \author{Camille Terfve, Thomas Cokelaer, Aidan MacNamara, Julio Saez-Rodriguez}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \maketitle
 
 

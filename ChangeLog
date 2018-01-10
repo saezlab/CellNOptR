@@ -11,6 +11,7 @@
     * plotModel: 
     * plotOptimResultsPan: in the computation of root-mean-square error(for coloring the background), the NA data is not counted in the number of data points. 
     * readSIF reads only the unique interactions/lines
+    * many R CMD check warnings were fixed to be compatible with Bioconductor's standard
 
 * 1.11.6
 

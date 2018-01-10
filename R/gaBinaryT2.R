@@ -65,7 +65,7 @@ gaBinaryT2 <-function(
     PopTolScores<-NA
 
 
-    library(hash)
+    #library(hash) -already loaded by Depends fiels of Description
     scores2Hash = hash()
 
     getObj<-function(x){

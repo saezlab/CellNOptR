@@ -7,11 +7,11 @@ If an inhibitor is also a measured species, replace the data with NA (when inhib
 If an inhibitor is also a measured species, replace the data with NA (when inhibited)
 }
 \usage{
-crossInhibitedData(cnolist)
+crossInhibitedData(object)
 }
 
 \arguments{
-  \item{data}{
+  \item{object}{
 the CNOlist that contains the data
 }
 }
@@ -27,11 +27,9 @@ the CNOlist that contains the data
 }
 
 
-\seealso{
 
-}
 \examples{
 data(ToyModel,package="CellNOptR")
 data(CNOlistToy,package="CellNOptR")
-cnolist = crossInhibitedData(CNOlistToy)
+cnolist = crossInhibitedData(CNOlist(CNOlistToy))
 }

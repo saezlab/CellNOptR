@@ -7,7 +7,7 @@ importFrom("grDevices", "dev.new", "dev.off", "heat.colors", "pdf",
            "png", "rgb", "svg")
 importFrom("graphics", "arrows", "axis", "close.screen", "image",
            "lines", "par", "plot.new", "points", "rect", "screen",
-           "segments", "split.screen", "text")
+           "segments", "split.screen", "text","barplot")
 importFrom("methods", "new")
 importFrom("stats", "rnorm", "runif", "var")
 importFrom("utils", "combn", "count.fields", "installed.packages",
@@ -75,6 +75,7 @@ export(
     "simulatorT0",
     "simulatorT1",
     "simulatorTN",
+    "toSBML",
     "writeDot",
     "writeMIDAS",
     "writeSIF",

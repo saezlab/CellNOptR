@@ -1,2 +1,8 @@
 inst/doc/Sweave.sty
+inst/doc/*.log
+inst/doc/*.aux
+inst/doc/*.bbl
+inst/doc/*.tex
+inst/doc/*.toc
+
 

@@ -75,9 +75,9 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
   }
 
     # Some required library to build the graph and plot the results using
-    # graphviz.
-    library(Rgraphviz)
-    library(RBGL)
+    # graphviz.  -already loaded by Depends fiels of Description
+   # library(Rgraphviz)
+   # library(RBGL)
 
     # Set the output filename
     if (is.null(filename)){

@@ -14,7 +14,10 @@
 ##############################################################################
 # $Id$
 plotCNOlist2<-function(cnolist, simulated_cnolist=NULL, ymin=0, ymax=1){
-
+    if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("ggplot2 needed for this function to work. Please install it: install.packages('ggplot2')",
+      call. = FALSE)
+  }
     #check that CNOlist is a CNOlist
 
 

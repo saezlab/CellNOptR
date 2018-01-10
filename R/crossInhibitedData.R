@@ -18,12 +18,12 @@ crossInhibitedData <- function(object){
           times = object@timepoints 
 
           # identify names found in inhibitors and signals list
-          inhibitors = colnames(cnolist@inhibitors)[colnames(cnolist@inhibitors) %in% colnames(cnolist@signals[[1]])]
+          inhibitors = colnames(object@inhibitors)[colnames(object@inhibitors) %in% colnames(object@signals[[1]])]
 
           # only those ones must be crossed
           for (inhibitor in inhibitors){
               for (time in seq_along(times)){
-                  mask = cnolist@inhibitors[,inhibitor] == 1
+                  mask = object@inhibitors[,inhibitor] == 1
                   object@signals[[time]][mask, inhibitor] = NA
               }
           }

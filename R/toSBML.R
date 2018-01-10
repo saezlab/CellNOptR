@@ -1,7 +1,7 @@
 # Export a Boolean network <network> to an sbml-qual file <fileName>.
 # This file can then be read in again using CellNoptR
 
-library("stringi")
+
 
 writeLogic <- function(gene, inputs, t_name, t_count, logic, f, signs){
     cat(file=f,"\t\t\t\t </qual:listOfInputs>\n")
@@ -43,8 +43,21 @@ writeLogic <- function(gene, inputs, t_name, t_count, logic, f, signs){
     
 }
 
-toSBML <- function(network, file, bitString = c(rep(1,length(network$reacID))))
+toSBML <- function(network, file, bitString = c(rep(1,length(network$reacID))),version=c("standard","cellnopt"))
 {
+
+	version = match.arg(version)
+    if(version=="standard"){
+    	toSBMLStandard(network=network, file=file, bitString = bitString)
+    	return()
+    } 
+
+
+    if (!requireNamespace("stringi", quietly = TRUE)) {
+    stop("stringi needed for this function to work. Please install it.",
+      call. = FALSE)
+  }
+  
 
     network = cutModel(network, bitString)
    
@@ -112,7 +125,7 @@ toSBML <- function(network, file, bitString = c(rep(1,length(network$reacID))))
                 LHS <- unlist(strsplit(int_name,split = "="))[1] #input
                 if (substr(LHS,1,1) == "!"){
                     sign <- "negative"
-                    LHS <- stri_sub(LHS,2)
+                    LHS <- stringi::stri_sub(LHS,2)
                 }
                 or_interaction = c(or_interaction, LHS)
                 orSigns <- c(orSigns, sign)
@@ -143,7 +156,7 @@ toSBML <- function(network, file, bitString = c(rep(1,length(network$reacID))))
             for (input in LHS){
                 sign <- "positive"
                 if(substr(input,1,1) == "!"){
-                    input = stri_sub(input,2)
+                    input = stringi::stri_sub(input,2)
                     sign <- "negative"
                 }
                 and_list = c(and_list,input)

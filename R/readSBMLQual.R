@@ -22,7 +22,7 @@
 
 readSBMLQual <- function(filename){
     warning("experimental SBML reader. use with care July 2013.")
-    library(XML)
+    # library(XML) - already loaded because of package Depends field
     doc = xmlTreeParse(filename)
     r = xmlRoot(doc)
 

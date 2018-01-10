@@ -29,7 +29,7 @@ where data has been copied.}
 T. Cokelaer
 }
 \examples{
-readSIF(CNOdata("PKN-ToyMMB.sif"))
+\dontrun{readSIF(CNOdata("PKN-ToyMMB.sif"))}
 
 }
 
