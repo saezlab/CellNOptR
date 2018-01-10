@@ -2,10 +2,15 @@
 
 * 1.11.7
 
-	* plotOptimResultsPan handles intermediate cue values (0,1)
+	* plotOptimResultsPan and plotCNOlist handles intermediate cue values (0,1) for CNORode add-on
 	* new toSBML() function writes the model to SBMLqual format
 	* makeCNOlist() can import MIDAS with multiple, continuous Cue levels
-	* BUG fixed: node name containing the word "AND" will not result in an AND-node anymore
+	* BUG fixed: 
+    * node name in the sif file containing the word "AND" (e.g. ligand) will not result in an AND-node anymore
+    * when subsetting a matrix resulted in a vector (default R behaviour), then this might caused error later when the variable was assumed to be a matrix. Therefore drop=FALSE was included in the matrix subsetting.  
+    * plotModel: 
+    * plotOptimResultsPan: in the computation of root-mean-square error(for coloring the background), the NA data is not counted in the number of data points. 
+    * readSIF reads only the unique interactions/lines
 
 * 1.11.6
 
