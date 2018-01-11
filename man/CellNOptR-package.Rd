@@ -12,8 +12,8 @@ This package does optimisation of boolean logic networks of signalling pathways 
 \tabular{ll}{
 Package: \tab CellNOptR\cr
 Type: \tab Package\cr
-Version: \tab 1.10.0\cr
-Date: \tab 2014-03-13\cr
+Version: \tab 1.25.1\cr
+Date: \tab 2018-01-10\cr
 License: \tab GPLv3\cr
 LazyLoad: \tab yes\cr
 }
@@ -21,7 +21,7 @@ LazyLoad: \tab yes\cr
 \author{
 T. Cokelaer, A. MacNamara, F. Eduati, S. Schrier, C. Terfve
 
-Maintainer: T. Cokelaer <cokelaer@ebi.ac.uk>
+Maintainer: A. Gabor<gabor.attila87@gmail.com>, until 2018-01-18: T. Cokelaer <cokelaer@ebi.ac.uk>
 }
 \references{
 J. Saez-Rodriguez, L. G. Alexopoulos, J. Epperlein, R. Samaga, D. A. Lauffenburger, S. Klamt and P. K. Sorger. Discrete logic modeling as a means to link protein signaling networks with functional analysis of
