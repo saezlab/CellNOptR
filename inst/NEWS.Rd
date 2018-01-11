@@ -1,6 +1,46 @@
 \title{NEWS}
 \name{CellNOptR NEWS}
 
+\section{CHANGES IN VERSION 1.25.0: (2018-01-10)}{
+Changes since 1.10.0
+
+First release after Bioconductor changed from SVN to Github.
+\itemize{
+    \item{BUG FIX}
+        \itemize{
+            \item{fix gray boxes in plotOptimResultsPan}
+            \item{in plotOptimResultsPan when errors were greater than 99.9\% color were white (instead of red)}
+            \item{c simulator bug fix: at time 0, node that are inhibited and measured were
+      reset to 0 but inhibitors are off. Fix is simple: do not reset inhibitors
+      where time is zero}
+            \item{Fixing issue with time 0 not being simulated properly (see
+      https://github.com/cellnopt/CellNOptR/issues/6)
+      This fixes regression bug following fix made in release 1.11.3}
+            \item{node name in the sif file containing the word AND (e.g. ligand) will not result in an AND-node anymore}
+            \item{Fixing issues with matrix subsetting, when the subsetting converts the matrix to a vector}
+            \item{plotOptimResultsPan: in the computation of root-mean-square error(for coloring the background), the NA data is not counted in the number of data points}
+
+        }
+    \item{CHANGES}
+        \itemize{
+            \item{Bioconductor's version of the package got merged with the Github's version leading to minor changes}
+            \item{readSIF reads only the unique interactions/lines from the SIF file}
+            \item{plotOptimResultsPan and plotCNOlist plots intermediate cue values (0,1) for CNORode add-on}
+        }
+    \item{NEW FEATURES}
+        \itemize{
+            \item{add readErrors and writeErrors functions in CNOlist: read/write measurement error/variance from/to MIDAS files}
+            \item{toSBML() function writes the model to SBMLqual format}
+            \item{makeCNOlist() can import MIDAS with multiple, continuous cue levels}
+            \item{add new function called crossInhibitedData}
+        }
+}
+}
+
+
+
+
+
 
 \section{CHANGES IN VERSION 1.10.0: (2014-03-13)}{
 Changes since 1.8.0
