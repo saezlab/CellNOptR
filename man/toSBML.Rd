@@ -27,7 +27,7 @@ toSBML(network, file, bitString = c(rep(1,length(network$reacID))),version=c("st
 }
 
 \author{
-Francesco Cecca
+Francesco Ceccarelli
 }
 
 
