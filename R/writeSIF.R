@@ -26,7 +26,7 @@ writeSIF <- function(model, filename, overwrite=FALSE){
             row.names=FALSE,col.names=FALSE,quote=FALSE,sep="\t")
     }
     else{
-       if (overwrite==FALSE){
+       if (overwrite==TRUE){
             write.table(sif[,1:3],file=filename,
                 row.names=FALSE,col.names=FALSE,quote=FALSE,sep="\t")
         }
