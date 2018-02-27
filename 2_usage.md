@@ -88,7 +88,7 @@ The second part is more about CellNOptR software itself: we deal with the creati
 
 In CellNOptR, it is possible to load a SBMLqual file since version 1.7.8. Given the model, one can then decide to use different formalisms to simulate the dynamical states.
 
-In this section, we provide a script called [2013/sbml/simulate.R](http://www.cellnopt.org/doc/cnodocs/_downloads/simulate.R) that loads a SBMLqual and performs a simulation using another package called [CNORdt](http://www.bioconductor.org/packages/release/bioc/html/CNORdt.html). This package provide a discrete time formalism to simulate the dynamical states.
+In this section, we provide a script called [2013/sbml/simulate.R](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/simulate.R.txt) that loads a SBMLqual and performs a simulation using another package called [CNORdt](http://www.bioconductor.org/packages/release/bioc/html/CNORdt.html). This package provide a discrete time formalism to simulate the dynamical states.
 
 You can download the script from the link above and execute it as follows:
 
@@ -96,7 +96,7 @@ You can download the script from the link above and execute it as follows:
 R script --no-save --no-restore < simulate.R
 ```
 
-The SBMLqual file can be downloaded here: [2013/sbml/data/ModelV5.xml](http://www.cellnopt.org/doc/cnodocs/_downloads/ModelV5.xml). The file is expected to be found in the directory: **./data**. Otherwise you can change the script.
+The SBMLqual file can be downloaded here: [2013/sbml/data/ModelV5.xml](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/ModelV5.xml). The file is expected to be found in the directory: **./data**. Otherwise you can change the script.
 
 Each combination of stimuli lead to a different dynamical states. There are 4 combinations and therefore 4 pictures are generated. Here is one of them for which TNFa and EGF are stimulated:
 
@@ -106,7 +106,7 @@ Each combination of stimuli lead to a different dynamical states. There are 4 co
 
 In this section, we will do the following:
 
-* Using the same [SBMLQual model](http://www.cellnopt.org/doc/cnodocs/_downloads/ModelV5.xml) as above, which we will call True model, we first generate the dynamical states using the ODE formalism ([CNORode](https://www.bioconductor.org/packages/release/bioc/html/CNORode.html)). The states are saved in MIDAS format.
+* Using the same [SBMLQual model](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/ModelV5.xml) as above, which we will call True model, we first generate the dynamical states using the ODE formalism ([CNORode](https://www.bioconductor.org/packages/release/bioc/html/CNORode.html)). The states are saved in MIDAS format.
 
 * Perform an optimisation (using CNORdt formalism) of the True model against the data for sanity check (the optimised model should be identical to the True model !!) and they fit almost perfect.
 
