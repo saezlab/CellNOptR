@@ -58,7 +58,7 @@ Subset of the data used in the reference here below.
 
 ##  I.  Description
 
-This model is used in several articles and is used for many tests in CNO. It was part of the DREAM4 challenge. It is also a subset of a larger model, Liver data used in reference [1]() here below. Also used in [2]().
+This model is used in several articles and is used for many tests in CNO. It was part of the DREAM4 challenge. It is also a subset of a larger model, Liver data used in the reference here below.
 
 **Discrete logic modelling as a means to link protein signalling networks with functional analysis of mammalian signal transduction.** *J. Saez-Rodriguez, L.G. Alexopoulos, J. Epperlein, R. Samaga, D.A. Lauffenburger, S. Klamt, P.K. Sorger.* Molecular systems Biology, 5, 331, (2009). [Citation](http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=2824489).
 
@@ -107,9 +107,8 @@ This directory contains the file PKN-ToyMMB.sif, a model used in several article
 This model is a variant of ToyMMB with a feedback loop.
 
 ##  II. Download Data and Model
-* To download the data, click on the following link [download data](http://nbviewer.jupyter.org/). Note also you can get [download data variant 2]() and [download data variant 3](http://nbviewer.jupyter.org/).
-* To download the model, click on the following [link](http://nbviewer.jupyter.org/). There is also a data set to play with steady states(2 time):
-* To download the data, click on the following [link](http://nbviewer.jupyter.org/).
+* To download the data, click on the following link [download data](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/MD-ToyMMB_Feedback.csv). Note also you can get [download data variant 2](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/MD-ToyMMB_Feedback2.csv) and [download data variant 3](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/MD-ToyMMB_Feedback3.csv).
+* To download the model, click on the following [link](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/PKN-ToyMMB_Feedback.sif.txt).
 
 # ToyMMB_FeedbackAnd
 
