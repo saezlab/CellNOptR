@@ -1,0 +1,127 @@
+#
+#  Copyright (c) 2011-2013 - EMBL-EBI
+#
+#  File author(s): Thomas Cokelaer cokelaer@ebi.ac.uk
+#
+#  Distributed under the GPLv3 License.
+#  See accompanying file LICENSE.txt or copy at
+#      http://www.gnu.org/licenses/gpl-3.0.html
+#
+##############################################################################
+# This script is used to simulate data using discrete time formalism from
+# CellNOptR given a SBMLqual data set provided with the paper.
+# The data used (CNOlistPB) is required only to provide the ligand names.
+
+# This script creates the 4 figures as shown in the paper.
+library(CellNOptR)
+library(CNORdt)
+
+# a function to plot time course like in the paper for all species not only the
+# measured one from the cnolist, which does not use the data here below but only
+# the cues.
+plotDT <- function(CNOlistPB, modelPB, conditions, boolUpdates=30, species=1){
+
+    # First, we need to create the data structure that will hold the initial
+    # conditions
+    indexOrig <- indexFinder(CNOlistPB, modelPB, verbose=TRUE)
+    fields4Sim <- prep4sim(modelPB)
+
+    # the simulation called only to create the initial data structure 
+    simResults <- simulatorDT(CNOlist=CNOlistPB, model=modelPB, simList=fields4Sim,
+        indices=indexOrig, boolUpdates=boolUpdates)
+
+    simResults = convert2array(simResults, dim(CNOlistPB$valueSignals[[1]])[1],
+      length(modelPB$namesSpecies), boolUpdates)
+    colnames(simResults) = modelPB$namesSpecies
+
+    # set initial conditions. We can get the first matrix (t=0) only 
+    initial = simResults[,,1]
+
+    # tnfa=egf=0
+    initial[1,"nfkb"] = 1
+    initial[1,"ikb"] = 1
+    initial[1,"gsk3"] = 1
+    initial[1,"sos"] = 0
+
+    # tnfa=0; egf=1
+    initial[2,"egf"] = 1
+    initial[2,"nfkb"] = 1
+    initial[2,"ikb"] = 1
+    initial[2,"gsk3"] = 1
+    initial[2,"sos"] = 0
+
+    # tnfa=1; egf=0
+    initial[3,"tnfa"] = 1
+    initial[3,"nfkb"] = 1
+    initial[3,"ikb"] = 1
+    initial[3,"gsk3"] = 1
+    initial[3,"sos"] = 0
+
+    # tnfa=egf=1
+    initial[4,"tnfa"] = 1
+    initial[4,"egf"] = 1
+    initial[4,"nfkb"] = 1
+    initial[4,"ikb"] = 1
+    initial[4,"gsk3"] = 1
+    initial[4,"sos"] = 0
+
+
+    # The actual simulation is here given the initial conditions.
+    simResults <- simulatorDT(CNOlist=CNOlistPB, model=modelPB,
+        simList=fields4Sim, indices=indexOrig, boolUpdates=boolUpdates, prevSim=initial)
+
+    # convert the simulated results into an array for plotting
+    simResults = convert2array(simResults, dim(CNOlistPB$valueSignals[[1]])[1],
+      length(modelPB$namesSpecies), boolUpdates)
+     colnames(simResults) = modelPB$namesSpecies
+
+    # We want to plot the species in a specific order that is alphabetical order
+    # except for the ligans that appear first (egf and tnfa)
+    ordered_species = c("egf", "tnfa", "akt", "ap1", "ask1", "cjun", "egfr", "erk",
+      "ex","gsk3", "ikb", "ikk", "jnk", "map3k1", "map3k7", "mek", "mkk4", "mkk7", "nfkb",
+      "nik", "p38", "ph", "pi3k", "raf1", "ras", "sos", "tnfr",
+      "traf2")
+    sorted_data = simResults[conditions,ordered_species,]
+
+    # Finally, plot the results like in the paper.
+    image(sorted_data[,seq(boolUpdates,1,-1)], col=c("white", "grey"), axes=F)
+    axis(3, at=seq(from=0,to=1, by=1/(length(ordered_species)-1)), labels=ordered_species,  las=2)
+    axis(2, at=seq(from=1,to=0, by=-1/(boolUpdates-1)), labels=seq(1,boolUpdates,1),  las=2)
+
+}
+
+
+# Get some data. This is required only to provide a data structure that contains
+# information about the Ligands. This is required by CellNOpt functions. The
+# data contained in it is not used.
+data(CNOlistPB, package="CNORdt")
+
+# Get the SBML model
+modelPB = readSBMLQual("data/ModelV5.xml")
+
+# plot the first figure
+plotDT(CNOlistPB, modelPB, 1, 30)
+
+
+# Save the 4 figures
+svg("simulation_egf0_tnfa0.svg")
+plotDT(CNOlistPB, modelPB, 1, 30)
+dev.off()
+
+svg("simulation_egf1_tnfa0.svg")
+plotDT(CNOlistPB, modelPB, 2, 30)
+dev.off()
+
+
+svg("simulation_egf0_tnfa1.svg")
+plotDT(CNOlistPB, modelPB, 3, 30)
+dev.off()
+
+svg("simulation_egf1_tnfa1.svg")
+plotDT(CNOlistPB, modelPB, 4, 30)
+dev.off()
+
+
+
+
+
