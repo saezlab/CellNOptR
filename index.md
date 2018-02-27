@@ -61,7 +61,7 @@ A series of packages are available in R. The core CellNOpt is available on BioCo
 Some features of CellNOpt are also available as a MATLAB toolbox, along with the toolbox Q2LM to analyze models, [here](http://www.ebi.ac.uk/saezrodriguez/cno/matlab)
 
 ### _Python_
-A Python package called cellnopt.wrapper provides a python interace to the R packages (CellNOptR, CNORode and CNORfuzzy). It uses rpy2 and is available on [Pypi](http://pypi.python.org/pypi/cellnopt.wrapper/). For more details see its [cellnopt.wrapper](http://www.ebi.ac.uk/~cokelaer/cellnopt/wrapper) page. In addition a pure Python version is developed on [github](http://github.com/cellnopt/cellnopt).
+A Python package called cellnopt.wrapper provides a python interace to the R packages (CellNOptR, CNORode and CNORfuzzy). It uses rpy2 and is available on [Pypi](http://pypi.python.org/pypi/cellnopt.wrapper/). For more details see the sphinx documentation in the ./doc directory after [downloading](http://www.ebi.ac.uk/~cokelaer/cellnopt/wrapper) the wrapper. In addition a pure Python version is developed on [github](http://github.com/cellnopt/cellnopt).
 
 ### _Cytoscape Plugin (CytoCopter)_
 CytoCopteR is a Graphical User Interface designed as a Cytoscape plugin. It provides an interface to CellNOptR using Rserve. More information is available on [CytoCopter](http://www.cellnopt.org/cytocopter/index.html) page.
