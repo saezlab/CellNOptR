@@ -132,7 +132,7 @@ plotModel(model, CNOlistPB)
 
 <img src="{{ site.url }}{{ site.baseurl }}public/Modelv5.png" alt="Stimulations">
 
-To create the data using an ODE formalism, you will need a set of parameters available in [2013/sbml/data/paramsODE.RData](http://www.cellnopt.org/doc/cnodocs/_downloads/paramsODE.RData).
+To create the data using an ODE formalism, you will need a set of parameters available in [2013/sbml/data/paramsODE.RData](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/paramsODE.RData).
 
 ```R
 library(CNORode) # for the simulation
@@ -228,7 +228,7 @@ We then use the original True model stored in the SBMLqual (image on top) but al
 *   We add the link pi3k–>rac–>map3k1
 *   We remove the link traf2->ask1->mkk7
 
-The PKN is in SIF format available here [2013/sbml/PKN_noask1.sif](http://www.cellnopt.org/doc/cnodocs/_downloads/PKN_noask1.sif)
+The PKN is in SIF format available here [2013/sbml/PKN_noask1.sif](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/PKN_noask1.sif.txt)
 
 For the optimization, first we can check indeed that the True model can be used as a PKN to be optimised against the data generated. In theory, the final model should be identical to the True model.
 
