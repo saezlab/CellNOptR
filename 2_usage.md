@@ -116,7 +116,7 @@ In this section, we will do the following:
 
 * Finally, we will use CNORfeeder to infer the missing link based on the data. An optimisation will show that the CNORfeeder found the missing link.
 
-This example is based on the PKN and True model available in http://iopscience.iop.org/1478-3975/9/4/045003
+This example is based on the PKN and True model available [here] (http://iopscience.iop.org/1478-3975/9/4/045003)
 
 Here is the code to generate the image corresponding to the True model:
 
