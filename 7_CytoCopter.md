@@ -17,7 +17,7 @@ Better yet, Cytoscape can also be directly installed from cytoscape  by followin
 
 Go to **Apps** and then **App Manager...** and finally search for CytoCopteR in the search bar and press **Install**.
 
-<img src="{{site.url}}{{site.baseurl}}public/cytocopter_1.png" alt="Installing Cytocopter">
+<img src="{{site.url}}{{site.baseurl}}public/CytoCopterInstallation.png" alt="Installing Cytocopter">
 
 
 # CytoCopteR Tutorial
