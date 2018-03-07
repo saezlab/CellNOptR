@@ -7,7 +7,7 @@ CytoCopteR is a full Java implementation which provides an intuitive and easy to
 
 This results in a point and click interface where users can run the same steps as they would using an R script without having to actually write any code. Consistency is ensured between the results obtained through the GUI and those obtained through the corresponding scripts.
 
-Cytocopter can be installed as a plug-in to *Cytoscape* - [**version 3.5. needed**](http://chianti.ucsd.edu/cytoscape-3.4.0/)
+Cytocopter can be installed as a plug-in to *Cytoscape* - [**version 3.5. needed**](http://apps.cytoscape.org/apps/cytocopter)
 
 # Download & Installation
 
@@ -34,7 +34,7 @@ For more details about MIDAS format, please see [here](https://academic.oup.com/
 
 ## Load Model file
 
-After CytoCopteR is installed, we can now import the data files through the import function in Cytoscape. We first import the network [ToyModelPB.sif](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/ToyModelPB.sif) through the import function in Cytoscape. If the network is stored in a SBMLqual file, the user can simply press the “Import from SBML” to choose the path to the appropriate *xml* file from the import.
+After CytoCopteR is installed, we can now import the data files through the import function in Cytoscape. We first import the network [ToyModelPB.sif](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/ToyModelPB.sif) through the import function in Cytoscape. If the network is stored in a SBMLqual file, the user can simply press the “Import from SBML” to choose the path to the appropriate [*xml*](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/ToyModelSBML-R.xml) file from the import.
 
 ## Preprocess experimental data and network
 
@@ -62,7 +62,7 @@ In this step, we will use the optimise features of CellNOptR R package to optimi
  
  * After selecting the time point, press the optimise button. **Note this will take several minutes. This optimisation is done using a specific genetic algorithm and its parameters can be configured in the Configuration panels, such as maxmum time allowed for the algorithm to run in the Max time parameter**.
  
- * The optimisation procedure outputs an optimised network and a plot displaying how well the simlated models fit with the given experimental data. The colour gradient quantifies the error levels.
+ * The optimisation procedure outputs an optimised network and a plot displaying how well the simlated models fit with the given experimental data. The colour gradient quantifies the error levels. Additionally, the user can import the optimised network to SBMLqual file using the *Export to SBML* button. 
  
 <img src="{{site.url}}{{site.baseurl}}public/cytocopter_5.png" alt="Optimisation">
 
