@@ -42,7 +42,7 @@ At this point we already have the network imported, now we can use our experimen
 
   * Select *CytoCopter* panel on the left side panel
   
-  * On the network dropdown box, we have our imported network
+  * On the network dropdown box, we have our imported network. We can as well load a model in an SBML format by cliccking on *Impost from SBML* interface and selexting the *.xml.* file.
   
   * Click on the data text fiels and a window will pop-up to browse the previosly downloaded experimental ([MIDAS file](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/ToyModelPB.csv))
   
@@ -50,7 +50,7 @@ At this point we already have the network imported, now we can use our experimen
   
   * The *Preprocess* function will annotate automatically the network: Green nodes are stimulated species; Red nodes are inhibited species; Blue nodes are measured species; Grey nodes with dashed borders can be removed to simplify the network; Blue nodes with red borders are measured and inhibited nodes; White nodes are not measured or perturbed that cannot be simplified.
   
-<img src="{{site.url}}{{site.baseurl}}public/cytocopter_4.png" alt="Preprocessing">
+<img src="{{site.url}}{{site.baseurl}}public/CytoCopterPreprocessing.png" alt="Preprocessing">
 
 ## Optimising network with experimental data
 
@@ -64,7 +64,7 @@ In this step, we will use the optimise features of CellNOptR R package to optimi
  
  * The optimisation procedure outputs an optimised network and a plot displaying how well the simlated models fit with the given experimental data. The colour gradient quantifies the error levels. Additionally, the user can import the optimised network to SBMLqual file using the *Export to SBML* button. 
  
-<img src="{{site.url}}{{site.baseurl}}public/cytocopter_5.png" alt="Optimisation">
+<img src="{{site.url}}{{site.baseurl}}public/CytoCopterOptimised.png" alt="Optimisation">
 
 ## Adding the missing link
 
