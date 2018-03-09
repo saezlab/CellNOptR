@@ -27,7 +27,10 @@ getFit<-function(
     if ((class(CNOlist)=="CNOlist")==FALSE){
          CNOlist = CellNOptR::CNOlist(CNOlist)
      }
-
+	
+	
+	allStatesSimResults = simResults
+	
     if (is.null(indexList)==FALSE){
         simResults<-simResults[,indexList$signals]
         if (is.null(simResultsT0)==FALSE){
@@ -68,8 +71,8 @@ getFit<-function(
     }
 
 
-    NAPen<-NAFac*length(which(is.na(simResults)))
-
+    NAPen<-NAFac*length(which(is.na(allStatesSimResults)))
+    
     nDataPts<-dim(CNOlist@signals[[tPt]])[1]*dim(CNOlist@signals[[tPt]])[2]
 
     nInputs<-length(which(model$interMat == -1))
