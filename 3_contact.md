@@ -3,4 +3,7 @@ layout: page
 title: Contact
 ---
 
-Questions and recommendations can be directed at [cellnopt-developers@googlegroups.com](cellnopt-developers@googlegroups.com)
+In case you would have questions or recommendations, please submit them through Github's Issue page:  
+https://github.com/saezlab/CellNOptR/issues
+
+
