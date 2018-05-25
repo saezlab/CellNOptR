@@ -112,4 +112,77 @@ namesFilesToy<-list( dataPlot="ToyModelGraphT2.pdf", evolFitT1="evolFitToy2T1.pd
 
 writeReport(modelOriginal=ToyModel2,    modelOpt=ToyNCNOcutCompExp2,optimResT1=ToyT1opt2,    optimResT2=ToyT1opt2T2,    CNOlist=CNOlistToy2,directory="testToy2",    namesFiles=namesFilesToy,namesData=list(CNOlist="ToyModified4T2",model="ToyModified4T2"))
 
+# ============================================ #
 
+# --- Bootstrapping ---
+# Main idea: Apply random sampling and replacement on experimental data (CNOlist) and re-optimise multiple times
+# Issue: Resampling would work best if data contain variation measure (e.g. SD) -> use permutation of the order of data instead if no variation data exist
+
+BSmethod <- 1 # 1 = permutation/shuffling; 2 = Resampling from distribution
+NrBootstrapping <- 10
+
+BSdataAll <- list()
+for (counter in 1:length(CNOlistToy$valueSignals)) {
+  BSdataAll[[counter]] <- array(NA,dim = c(dim(CNOlistToy$valueSignals[[1]]),NrBootstrapping))
+}
+BSres <- list()
+
+rnorm2 <- function(n,mean,sd) { mean+sd*scale(rnorm(n)) }
+
+# Toy model
+dataToy<-readMIDAS("ToyDataMMB.csv")
+CNOlistToy<-makeCNOlist(dataToy,subfield=FALSE)
+# First introduce artificial variation of 0.1 to the dataset
+CNOlistToy$valueVariances[[2]] <- matrix(0.1,nrow(CNOlistToy$valueVariances[[2]]),ncol(CNOlistToy$valueVariances[[2]]))
+
+CNOlistToyOrig <- CNOlistToy
+
+if (BSmethod == 1) { # Variant 1 - permutation/shuffling with/without replacement
+  for (counter_BS in 1:NrBootstrapping) {
+    for (counter in 1:length(CNOlistToy$valueSignals)) {
+      for (counter2 in 1:ncol(CNOlistToy$valueSignals[[counter]])) {
+        # Here shuffle the order of the measurement
+        BSdataAll[[counter]][,,counter_BS][,counter2] <- CNOlistToy$valueSignals[[counter]][,counter2][sample(1:length(CNOlistToy$valueSignals[[counter]][,counter2]),size=length(CNOlistToy$valueSignals[[counter]][,counter2]),replace=FALSE)]      
+      }
+    }
+  }
+} else if (BSmethod == 2) { # Variant 2 - sample from normal distribution
+  # Assign function to perform sampling
+  for (counter in 1:length(CNOlistToy$valueSignals)) {
+    for (counter2 in 1:ncol(CNOlistToy$valueSignals[[counter]])) {
+      for (counter3 in 1:nrow(CNOlistToy$valueSignals[[counter]])) {
+        # Here re-sample from the normal distribution of mean and SD
+        SampledData <- rnorm2(NrBootstrapping,CNOlistToy$valueSignals[[counter]][counter3,counter2],CNOlistToy$valueVariances[[counter]][counter3,counter2])
+        for (counter4 in 1:length(SampledData)) {
+          BSdataAll[[counter]][,,counter4][counter3,counter2] <- SampledData[counter4]
+        }
+      }
+    }
+  }
+}
+
+
+for (counter_BS in 1:NrBootstrapping) {
+  
+  print(paste0("Bootstrapping Round: ",counter_BS,"/",NrBootstrapping))
+  
+  CNOlistToy <- CNOlistToyOrig
+  
+  for (counter in 1:length(CNOlistToy$valueSignals)) {
+    CNOlistToy$valueSignals[[counter]] <- BSdataAll[[counter]][,,counter_BS]
+  }
+  
+  ToyT1opt<-gaBinaryT1(CNOlist=CNOlistToy, model=ToyNCNOcutCompExp,initBstring=initBstring, verbose=FALSE)
+  BSres[[counter_BS]] <- list("FitCost"=ToyT1opt$bScore,"FitParam"=ToyT1opt$bString)
+  
+}
+
+
+cutAndPlot(model=ToyNCNOcutCompExp, bStrings=list(ToyT1opt$bString),CNOlist=CNOlistToy, plotPDF=TRUE)
+
+plotFit(optRes=ToyT1opt)
+pdf("evolFitToyT1.pdf")
+plotFit(optRes=ToyT1opt)
+dev.off()
+
+# --- End of the script --- #
