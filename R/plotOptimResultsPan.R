@@ -111,7 +111,8 @@ cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
     if (is.null(plotParams$ymin)==FALSE){
         yMin = plotParams$ymin
     } else {
-        yMin <- min(unlist(lapply(CNOlist@signals, function(x) min(x,na.rm=TRUE))))
+        #yMin <- min(unlist(lapply(CNOlist@signals, function(x) min(x,na.rm=TRUE))))
+    	yMin <- 0
     }
 
 

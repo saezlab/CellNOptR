@@ -15,7 +15,7 @@
 # $Id$
 plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
     signals=NULL, stimuli=NULL, inhibitors=NULL, NCNO=NULL, compressed=NULL,
-    output="STDOUT", filename=NULL,graphvizParams=list(), show=TRUE, remove_dot=TRUE){
+    output="STDOUT", filename=NULL,graphvizParams=list(), show=TRUE, remove_dot=TRUE,removeEmptyAnds=T){
 # Quick example:
 # ---------------
 #   filename = "ToyPKNMMB.sif"
@@ -117,7 +117,7 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
 
     # TODO: The following piece of code should be made modular
 
-
+	
     # Input data. If the model is a character, we guess that the user provided
     # the MODEL filename (sif format) that we can read directly.
     if (typeof(model) == "character"){
@@ -255,7 +255,7 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
 
     res = createEdgeAttrs(v1, v2, edges, BStimes, Integr,
         user_edgecolor=graphvizParams$edgecolor,
-        view_empty_edge=graphvizParams$viewEmptyEdges)
+        view_empty_edge=graphvizParams$viewEmptyEdges,removeEmptyAnds=removeEmptyAnds)
     # an alias
     edgeAttrs = res$edgeAttrs
 
@@ -639,7 +639,7 @@ compressed, graphvizParams){
 # Create the node attributes and save in a list to be used either by the
 # plot function of the edgeRenderInfo function.
 createEdgeAttrs <- function(v1, v2, edges, BStimes ,Integr, user_edgecolor,
-    view_empty_edge=TRUE){
+    view_empty_edge=TRUE,removeEmptyAnds=T){
 
     edgewidth_c = 3 # default edge width
 
@@ -707,9 +707,10 @@ createEdgeAttrs <- function(v1, v2, edges, BStimes ,Integr, user_edgecolor,
             if (v == 0){
                 edgewidth[edgename]  = edgewidth_c*(10./100)
                 edgecolor[edgename] = color
-                # and gates that have no link are removed.
-                if (length(grep("and", edgename))>=1){
-                    toremove <- append(toremove, edgename)
+                if(removeEmptyAnds){# and gates that have no link are removed.
+                	if (length(grep("and", edgename))>=1){
+                		toremove <- append(toremove, edgename)
+                	}
                 }
             }
             else{
