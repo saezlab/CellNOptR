@@ -126,7 +126,7 @@ library(reshape2)
 source("CNObootstrap.R")
 
 dir.create("CNOR_analysis")
-setwd("CNOR_analysis")
+# setwd("CNOR_analysis")
 
 # Toy model
 cpfile<-dir(system.file("ToyModel",package="CellNOptR"),full=TRUE)
@@ -136,6 +136,61 @@ dataToy<-readMIDAS("ToyDataMMB.csv")
 CNOlistToy<-makeCNOlist(dataToy,subfield=FALSE)
 
 ToyNCNOcutCompExp <- preprocessing(CNOlistToy, ToyModel, expansion=TRUE, compression=TRUE, cutNONC=TRUE, verbose=FALSE)
+
+# New implementation following Fede's pipeline
+N_bs <- 100 # Number of strapping
+# BSmat <- array(data = NA,dim = c(dim(CNOlistToy$valueSignals[[1]])[1],dim(CNOlistToy$valueSignals[[1]])[2],N_bs))
+ReorderedBS <- NULL
+# ReorderedBS <- array(data = NA,dim = c(dim(CNOlistToy$valueSignals[[1]])[1],dim(CNOlistToy$valueSignals[[1]])[2],N_bs))
+source("gaBinaryT1_BS.R")
+source("computeScoreT1_BS.R")
+source("getFit_BS.R")
+
+for (counter in 1:N_bs) {
+  # set.seed(counter) # Optional
+  ReorderedBS <- rbind(ReorderedBS, sample(x = 1:length(CNOlistToy$valueSignals[[1]]),size = length(CNOlistToy$valueSignals[[1]]), replace = T))
+}
+
+BSres <- list()
+
+for (counter_BS in 1:N_bs) {
+  
+  print(paste0("Bootstrapping Round: ",counter_BS,"/",N_bs))
+  
+  # CNOlistBS <- CNOlistBSOrig
+  # 
+  # for (counter in 1:length(CNOlistBS$valueSignals)) {
+  #   CNOlistBS$valueSignals[[counter]] <- BSdataAll[[counter]][,,counter_BS]
+  # }
+  initBstring<-rep(1,length(ToyModel$reacID))
+  ToyT1opt<-gaBinaryT1_BS(CNOlist=CNOlistToy, model=ToyModel,initBstring=initBstring, verbose=FALSE,ReorderedBS=ReorderedBS,counter_BS=counter_BS)
+  BSres[[counter_BS]] <- list("FitCost"=ToyT1opt$bScore,"FitParam"=ToyT1opt$bString)
+  
+}
+
+# Process all fitting costs and fitted parameters
+AllFitCost <- NULL; AllFitParam <- NULL
+for (counter in 1:length(BSres)) {
+  AllFitCost <- c(AllFitCost,BSres[[counter]]$FitCost)
+  AllFitParam <- rbind(AllFitParam,BSres[[counter]]$FitParam)
+}
+
+pdf("FitCost_Bootstrapping.pdf")
+boxplot(x = AllFitCost, outpch = NA,main="Fitting Cost Bootstrapping") 
+stripchart(x = AllFitCost, 
+           vertical = TRUE, method = "jitter", 
+           pch = 21, col = "maroon", bg = "bisque", 
+           add = TRUE) 
+dev.off()
+
+
+pdf("FitParam_Bootstrapping.pdf")
+plotModel(model=ToyModel,CNOlist = CNOlistToy,bString = colMeans(AllFitParam))
+dev.off()
+
+# =================================== #
+
+
 
 # Bootstrapping wrapper (for Boolean version)
 # res_BS <- CNObootstrap(model = ToyNCNOcutCompExp,CNOlistBS = CNOlistToy,BSmethod = 1,N_bs = 10,AddSD = NULL)

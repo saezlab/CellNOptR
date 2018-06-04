@@ -90,10 +90,19 @@ CNObootstrap <- function(model,CNOlistBS,BSmethod=1,N_bs=100,AddSD=0.05){
              add = TRUE) 
   dev.off()
   
+  # Show figure on Knitr
+  boxplot(x = AllFitCost, outpch = NA,main="Fitting Cost Bootstrapping") 
+  stripchart(x = AllFitCost, 
+             vertical = TRUE, method = "jitter", 
+             pch = 21, col = "maroon", bg = "bisque", 
+             add = TRUE) 
   
   pdf("FitParam_Bootstrapping.pdf")
   plotModel(model=model,CNOlist = CNOlistBSOrig,bString = colMeans(AllFitParam))
   dev.off()
+  
+  # Show figure on Knitr
+  plotModel(model=model,CNOlist = CNOlistBSOrig,bString = colMeans(AllFitParam))
   
   return (list(AllFitCost=AllFitCost,AllFitParam=AllFitParam))
   

@@ -1,0 +1,211 @@
+---
+title: "Bootstrapping pipeline for CellNOptR"
+author: "Panuwat Trairatphisan"
+date: "6/4/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#### Key ideas
+
+##### Fede's approach
+* Bootstrap at residual level
+* Position of paired simulated/measurement are randomised
+* Also works when no information on variance is available
+
+##### Resampling data
+* Bootstrap at original data level (in CNOlist)
+* New sets of data are de novo sampled from the assumed normal distribution around mean value and variance 
+* Only works when information on variance (on CNOlist$valueVariances) is available
+
+#### Load library and script
+
+```{r, message=FALSE, warning=FALSE}
+rm(list=ls());cat("\014");if(length(dev.list())>0){dev.off()}
+library(CellNOptR)
+library(ggplot2)
+library(reshape2)
+source("CNObootstrap.R")
+source("gaBinaryT1_BS.R")
+source("computeScoreT1_BS.R")
+source("getFit_BS.R")
+```
+
+#### Load models and datasets 
+
+```{r, message=FALSE, warning=FALSE}
+
+# Toy model
+cpfile<-dir(system.file("ToyModel",package="CellNOptR"),full=TRUE)
+file.copy(from=cpfile,to=getwd(),overwrite=TRUE)
+ToyModel<-readSIF("ToyPKNMMB.sif")
+dataToy<-readMIDAS("ToyDataMMB.csv")
+CNOlistToy<-makeCNOlist(dataToy,subfield=FALSE)
+ToyNCNOcutCompExp <- preprocessing(CNOlistToy, ToyModel, expansion=TRUE, compression=TRUE, cutNONC=TRUE, verbose=FALSE)
+
+# LiverDREAM model
+cpfile<-dir(system.file("ToyModel",package="CellNOptR"),full=TRUE)
+cpfile<-dir(system.file("DREAMModel",package="CellNOptR"),full=TRUE)
+file.copy(from=cpfile,to=getwd(),overwrite=TRUE)
+data(CNOlistDREAM,package="CellNOptR")
+data(DreamModel,package="CellNOptR")
+DreamModel = preprocessing(CNOlistDREAM, DreamModel, verbose=FALSE)
+
+```
+
+## Pipeline 1: Fede's approach
+
+### Example 1: Toy model
+
+#### Bootstrapping (BS) setting and randomised BS order
+
+```{r, message=FALSE, warning=FALSE}
+N_bs <- 10 # Number of strapping
+ReorderedBS <- NULL
+for (counter in 1:N_bs) {
+  # set.seed(counter) # Optional
+  ReorderedBS <- rbind(ReorderedBS, sample(x = 1:length(CNOlistToy$valueSignals[[1]]),size = length(CNOlistToy$valueSignals[[1]]), replace = T))
+}
+```
+
+#### Optimisation & Summarise results
+
+```{r, message=TRUE, warning=FALSE}
+BSres <- list()
+for (counter_BS in 1:N_bs) {
+  print(paste0("Bootstrapping Round: ",counter_BS,"/",N_bs))
+  initBstring<-rep(1,length(ToyModel$reacID))
+  ToyT1opt<-gaBinaryT1_BS(CNOlist=CNOlistToy, model=ToyModel,initBstring=initBstring, verbose=FALSE,ReorderedBS=ReorderedBS,counter_BS=counter_BS)
+  BSres[[counter_BS]] <- list("FitCost"=ToyT1opt$bScore,"FitParam"=ToyT1opt$bString)
+}
+
+# Process all fitting costs and fitted parameters
+AllFitCost <- NULL; AllFitParam <- NULL
+for (counter in 1:length(BSres)) {
+  AllFitCost <- c(AllFitCost,BSres[[counter]]$FitCost)
+  AllFitParam <- rbind(AllFitParam,BSres[[counter]]$FitParam)
+}
+```
+
+#### Plotting (and save) results
+
+##### Fitting cost distribution
+
+```{r, message=FALSE, warning=FALSE}
+pdf("FitCost_Bootstrapping_Toy.pdf")
+boxplot(x = AllFitCost, outpch = NA,main="Fitting Cost Bootstrapping") 
+stripchart(x = AllFitCost, 
+           vertical = TRUE, method = "jitter", 
+           pch = 21, col = "maroon", bg = "bisque", 
+           add = TRUE) 
+dev.off()
+```
+
+```{r, message=FALSE, warning=FALSE}
+boxplot(x = AllFitCost, outpch = NA,main="Fitting Cost Bootstrapping") 
+stripchart(x = AllFitCost, 
+           vertical = TRUE, method = "jitter", 
+           pch = 21, col = "maroon", bg = "bisque", 
+           add = TRUE) 
+```
+
+##### Summarised parameters' robustness
+
+```{r, message=FALSE, warning=FALSE}
+pdf("FitParam_Bootstrapping_Toy.pdf")
+plotModel(model=ToyModel,CNOlist = CNOlistToy,bString = colMeans(AllFitParam))
+dev.off()
+```
+
+```{r, message=FALSE, warning=FALSE}
+plotModel(model=ToyModel,CNOlist = CNOlistToy,bString = colMeans(AllFitParam))
+```
+
+### Example 2: LiverDREAM model
+
+#### Bootstrapping (BS) setting and randomised BS order
+
+```{r, message=FALSE, warning=FALSE}
+N_bs <- 10 # Number of strapping
+ReorderedBS <- NULL
+for (counter in 1:N_bs) {
+  # set.seed(counter) # Optional
+  ReorderedBS <- rbind(ReorderedBS, sample(x = 1:length(CNOlistDREAM$valueSignals[[1]]),size = length(CNOlistDREAM$valueSignals[[1]]), replace = T))
+}
+```
+
+#### Optimisation & Summarise results
+
+```{r, message=TRUE, warning=FALSE}
+BSres <- list()
+
+for (counter_BS in 1:N_bs) {
+  print(paste0("Bootstrapping Round: ",counter_BS,"/",N_bs))
+  initBstring<-rep(1,length(DreamModel$reacID))
+  ToyT1opt<-gaBinaryT1_BS(CNOlist=CNOlistDREAM, model=DreamModel,initBstring=initBstring, verbose=FALSE,ReorderedBS=ReorderedBS,counter_BS=counter_BS)
+  BSres[[counter_BS]] <- list("FitCost"=ToyT1opt$bScore,"FitParam"=ToyT1opt$bString)
+}
+
+# Process all fitting costs and fitted parameters
+AllFitCost <- NULL; AllFitParam <- NULL
+for (counter in 1:length(BSres)) {
+  AllFitCost <- c(AllFitCost,BSres[[counter]]$FitCost)
+  AllFitParam <- rbind(AllFitParam,BSres[[counter]]$FitParam)
+}
+```
+#### Plotting (and save) results
+
+##### Fitting cost distribution
+
+```{r, message=FALSE, warning=FALSE}
+pdf("FitCost_Bootstrapping_LiverDREAM.pdf")
+boxplot(x = AllFitCost, outpch = NA,main="Fitting Cost Bootstrapping") 
+stripchart(x = AllFitCost, 
+           vertical = TRUE, method = "jitter", 
+           pch = 21, col = "maroon", bg = "bisque", 
+           add = TRUE) 
+dev.off()
+```
+
+```{r, message=FALSE, warning=FALSE}
+boxplot(x = AllFitCost, outpch = NA,main="Fitting Cost Bootstrapping") 
+stripchart(x = AllFitCost, 
+           vertical = TRUE, method = "jitter", 
+           pch = 21, col = "maroon", bg = "bisque", 
+           add = TRUE) 
+```
+
+##### Summarised parameters' robustness
+
+```{r, message=FALSE, warning=FALSE}
+pdf("FitParam_Bootstrapping_LiverDREAM.pdf")
+plotModel(model=DreamModel,CNOlist = CNOlistDREAM,bString = colMeans(AllFitParam))
+dev.off()
+```
+
+```{r, message=FALSE, warning=FALSE}
+plotModel(model=DreamModel,CNOlist = CNOlistDREAM,bString = colMeans(AllFitParam))
+```
+
+## Pipeline 2: Resample data from mean and variance (CNOlist)
+
+### Example 1: Toy model
+
+```{r, message=FALSE, warning=FALSE}
+res_BS <- CNObootstrap(model = ToyNCNOcutCompExp,CNOlistBS = CNOlistToy,BSmethod = 2,N_bs = 10,AddSD = 0.05)
+```
+
+### Example 2: LiverDREAM model
+
+```{r, message=FALSE, warning=FALSE}
+res_BS <- CNObootstrap(model = DreamModel,CNOlistBS = CNOlistDREAM,BSmethod = 2,N_bs = 10,AddSD = 0.05)
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+print("--- End of the script ---")
+```
+
