@@ -88,6 +88,8 @@ SEXP simulatorT1 (
     int count = 1;
     int diff;
 
+    //Rprintf("CellNOpt simulator T1\n");
+    
     counter = 0;
     int *maxIx;
     maxIx = (int*) malloc(nReacs * sizeof(int));
@@ -251,7 +253,8 @@ SEXP simulatorT1 (
             MA[i][j] = 0.5;
         }
     }
-
+    //Rprintf("l256\n");
+    //RprintMA(&MA[0][0], nCond, nSpecies);
 
     /*memcpy(new_input, init_values, sizeof(new_input));*/
     term_check_1 = 1;
@@ -434,7 +437,7 @@ SEXP simulatorT1 (
         if (count_na_1 != count_na_2) {
             term_check_1 = 1;
         }
-        if (count == nSpecies+1) {
+        if (count == nSpecies) {
             /* initialise moving average for each state.
 
             By interation nSpecies +1 all states are updated at least once, and steady states are achieved. 
@@ -444,16 +447,18 @@ SEXP simulatorT1 (
                     MA[i][j] = (double)new_input[i][j];
                 }
             }
+            //Rprintf("l 450\n");
             //RprintMA(&MA[0][0], nCond, nSpecies);
         }
-        if (count > nSpecies+1) {
+        if (count > nSpecies) {
             // compute moving average for each state in each condition
             for (i = 0; i < nCond; i++) {
                 for (j = 0; j < nSpecies; j++) {
                     MA[i][j] = MA[i][j] * (N_MA - 1) / N_MA + ((double)new_input[i][j]) / N_MA;
                 }
             }
-           // RprintMA(&MA[0][0], nCond, nSpecies);
+            //Rprintf("l 460\n");
+            //RprintMA(&MA[0][0], nCond, nSpecies);
         }
         /*term_check_1 = !(abs(diff) < test_val);*/
         term_check_2 = (count < (nSpecies * 1.2));
@@ -475,12 +480,16 @@ SEXP simulatorT1 (
     //RprintStatus(&new_input[0][0], nCond, nSpecies);
     
     /* set oscillating bits to 2 (NA)*/
-    for (i = 0; i < nCond; i++) {
-        for (j = 0; j < nSpecies; j++) {
-            if (MA[i][j]<0.95 & MA[i][j]>0.05)  // actually we could check if they are exatly 0 or 1
-                new_input[i][j] = NA;
-        }
+    if(count > nSpecies+1){
+    	for (i = 0; i < nCond; i++) {
+    		for (j = 0; j < nSpecies; j++) {
+    			if (MA[i][j]<0.95 & MA[i][j]>0.05)  // actually we could check if they are exatly 0 or 1
+    				new_input[i][j] = NA;
+    		}
+    	}
     }
+    //Rprintf("l 489\n");
+    //RprintMA(&MA[0][0], nCond, nSpecies);
     //Rprintf("set oscillating bits to 2 (NA):\n");
     //RprintStatus(&new_input[0][0], nCond, nSpecies);
 

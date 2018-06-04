@@ -117,7 +117,7 @@ SEXP simulatorTN (
     float term_check_2 = 1;
     int count = 1;
     int diff;
-
+    
     counter = 0;
     times = (int*) malloc(nTimes * sizeof(int));
     for (i = 0; i < nTimes; i++) {
