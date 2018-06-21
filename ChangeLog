@@ -1,4 +1,8 @@
 .. keep this layout because it is used in CNODocs
+* 1.26.0 
+
+	* adding permanent Cues to CNOlist object: using the new fields permanentStimuli and permanentInhibitors one can define these effects for time 0 condition. 
+
 
 Release 1.25.0
 =================
