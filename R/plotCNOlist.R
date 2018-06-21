@@ -92,27 +92,31 @@ plotCNOlist<-function(CNOlist){
                 }
 
             }
-
+			
             # The image (cues) last columns
             if (length(CNOlist@inhibitors) != 0){
                 data = t(matrix(c(CNOlist@stimuli[r,],CNOlist@inhibitors[r,]),nrow=1))
+                # plot traditional perturbation in gray, permanent perturbation in blue
+                barcols = c('grey','blue')[c(CNOlist@permanentStimuli[r,], CNOlist@permanentInhibitors[r,]) +1 ]
                 # the axis last column
                 if(r == dim(CNOlist@signals[[1]])[1]){
-                    barplot(t(data),yaxt="n",ylim=c(0,1),names.arg = c(colnames(CNOlist@stimuli),paste(colnames(CNOlist@inhibitors),"-i",sep="")),las=3 )
+                    barplot(as.numeric(t(data)),yaxt="n",ylim=c(0,1),names.arg = c(colnames(CNOlist@stimuli),paste(colnames(CNOlist@inhibitors),"-i",sep="")),las=3, col=barcols )
                     axis(4)
                 }else{
-                    barplot(t(data),xaxt="n",yaxt="n",ylim=c(0,1))
+                    barplot(as.numeric(t(data)),xaxt="n",yaxt="n",ylim=c(0,1),col=barcols)
                     axis(4)
                 }
             }
             else{ # special case of no inhibitors
                 data = t(matrix(CNOlist@stimuli[r,],nrow=1))
+                # plot traditional perturbation in gray, permanent perturbation in blue
+                barcols = c('grey','blue')[CNOlist@permanentStimuli[r,] +1 ]
                 # the axis last column
                 if(r == dim(CNOlist@signals[[1]])[1]){
-                    barplot(t(data),yaxt="n",ylim=c(0,1),names.arg = colnames(CNOlist@stimuli),las=3)
+                    barplot(as.numeric(t(data)),yaxt="n",ylim=c(0,1),names.arg = colnames(CNOlist@stimuli),las=3, col=barcols)
                     axis(4)
                 }else{
-                    barplot(t(data),xaxt="n",yaxt="n",ylim=c(0,1))
+                    barplot(as.numeric(t(data)),xaxt="n",yaxt="n",ylim=c(0,1), col=barcols)
                     axis(4)
                 }
             }

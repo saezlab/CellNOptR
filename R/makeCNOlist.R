@@ -292,7 +292,8 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
             }
         }
     }
-
+    
+    
     #Now build the matrices for the other time points
     for(i in 2:length(timeSignals)){
         valuesTi<-matrix(data=0,nrow=whereTimes[2],ncol=length(dataset$DVcol))
@@ -331,6 +332,9 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
         valueStimuli<-matrix(valueStimuli,nrow=dim(newcues)[1])
         }
 
+    #define permanent Inhibitors and Stimuli: currently all cues are applied at T0+eps
+    permanentStimuli <- matrix(0,nrow=nrow(valueStimuli),ncol = ncol(valueStimuli))
+    permanentInhibitors <- matrix(0,nrow=nrow(valueInhibitors),ncol = ncol(valueInhibitors))
 
     return(list(
         namesCues=namesCues,
@@ -339,6 +343,8 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
         namesSignals=namesSignals,
         timeSignals=timeSignals,
         valueCues=newcues,
+        valuePermanentStimuli=permanentStimuli,
+        valuePermanentInhibitors=permanentInhibitors,
         valueInhibitors=valueInhibitors,
         valueStimuli=valueStimuli,
         valueSignals=valueSignals,

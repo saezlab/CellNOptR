@@ -11,6 +11,9 @@
 #
 #  CNO website: http://www.cellnopt.org
 #
+# Modifications:
+#   - the Cue values are displayed by bars in the range [0,1] (31.03.2016 AG)
+#   - outline permanent cues (20.06.2018)
 ##############################################################################
 # $Id$
 
@@ -303,11 +306,13 @@ cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
 
 
     	data = matrix(CNOlist@stimuli[c1,],nrow=1)
+    	# plot traditional perturbation in gray, permanent perturbation in blue
+    	barcols = c('grey','blue')[CNOlist@permanentStimuli[c1,] +1 ]
     	if(c1 == dim(CNOlist@signals[[1]])[1]){
-    		barplot(data,yaxt="n",ylim=c(0,1),names.arg = colnames(CNOlist@stimuli),las=2)
+    		barplot(as.numeric(data),yaxt="n",ylim=c(0,1),names.arg = colnames(CNOlist@stimuli),las=2,col=barcols)
     		#axis(1)
     	}else{
-    		barplot(data,xaxt="n",yaxt="n",ylim=c(0,1))
+    		barplot(as.numeric(data),xaxt="n",yaxt="n",ylim=c(0,1),col=barcols)
     		#axis(1)
     	}
 
@@ -324,11 +329,13 @@ cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
 
     	if (length(CNOlist@inhibitors) != 0){
     		data = matrix(c(CNOlist@inhibitors[c1,]),nrow=1)
+    		# plot traditional perturbation in gray, permanent perturbation in blue
+    		barcols = c('grey','blue')[CNOlist@permanentInhibitors[c1,] +1 ]
     		if(c1 == dim(CNOlist@signals[[1]])[1]){
-    			barplot(data,yaxt="n",ylim=c(0,1),names.arg = c(paste(colnames(CNOlist@inhibitors),"-i",sep="")),las=3 )
+    			barplot(as.numeric(data),yaxt="n",ylim=c(0,1),names.arg = c(paste(colnames(CNOlist@inhibitors),"-i",sep="")),las=3 ,col=barcols)
     			#axis(1)
     		}else{
-    			barplot(data,xaxt="n",yaxt="n",ylim=c(0,1))
+    			barplot(as.numeric(data),xaxt="n",yaxt="n",ylim=c(0,1),col=barcols)
     			#axis(1)
     		}
     	}

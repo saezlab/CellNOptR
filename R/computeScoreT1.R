@@ -83,11 +83,22 @@ computeScoreT1<-function(CNOlist, model, bString, simList=NULL, indexList=NULL,
         indexSignals, indexStimuli, indexInhibitors, valueInhibitors,
         valueStimuli, as.integer(1))
 
-    simResultsT0 = .Call("simulatorT1", nStimuli, nInhibitors,
-        nCond, nReacs, nSpecies, nSignals, nMaxInputs,
-        finalCube, ixNeg, ignoreCube, maxIx,
-        indexSignals, indexStimuli, indexInhibitors, 
-        valueInhibitors, valueStimuli, as.integer(0))
+	# turn of inhibition and stimuli for simulating T0 condition. Keep values for 
+	# permanent cues. 
+	valueInhibitorsT0 <- CNOlist@inhibitors
+	valueInhibitorsT0[CNOlist@permanentInhibitors==0] = 0
+	valueInhibitorsT0 <- as.integer(valueInhibitorsT0)
+	
+	valueStimuliT0 <-  CNOlist@stimuli
+	valueStimuliT0[CNOlist@permanentStimuli==0] = 0
+	valueStimuliT0 <- as.integer(valueStimuliT0)
+	
+	simResultsT0 = .Call("simulatorT1", nStimuli, nInhibitors,
+						  nCond, nReacs, nSpecies, nSignals, nMaxInputs,
+						  finalCube, ixNeg, ignoreCube, maxIx,
+						  indexSignals, indexStimuli, indexInhibitors, 
+						  valueInhibitorsT0, valueStimuliT0, as.integer(1))
+	
  
     # Unlike in computeScoreTN, the C code does not cut the simResults so you need to do it
     # since it is done in getFit, no need to do it. 

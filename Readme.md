@@ -1,6 +1,13 @@
 CellNOptR
 =========
 
+
+WARNING: this version is in developement. 
+
+We try to implement a new feature: a permaCues matrix, which can selectively turn on 
+some Cue values for the basal condition.
+
+
 Training of boolean logic models of signalling networks using prior knowledge networks and perturbation data.
 
 - Please visit [CellNOptR](https://saezlab.github.io/CellNOptR/) for details about the project (references, news, ...)

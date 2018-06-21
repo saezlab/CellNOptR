@@ -28,6 +28,8 @@ setClass("CNOlist",
         cues="matrix",
         inhibitors="matrix",
         stimuli="matrix",
+        permanentStimuli = "matrix",
+        permanentInhibitors = "matrix",
         signals="list",
         variances="list",
         timepoints="vector"),
@@ -71,6 +73,8 @@ CNOlist <-function(data, verbose=FALSE){
                 cues=data@cues,
                 inhibitors=data@inhibitors,
                 stimuli=data@stimuli,
+                permanentStimuli=data@permanentStimuli,
+                permanentInhibitors=data@permanentInhibitors,
                 signals=data@signals,
                 variances=data@variances,
                 timepoints=data@timepoints)
@@ -79,9 +83,16 @@ CNOlist <-function(data, verbose=FALSE){
     if (is.null(res)==TRUE){
         stop("Input data must be a filename or the output of CellNOptR::makeCNOlist function")
     }
-
+    permanentStimuli = matrix(0,nrow = nrow(res$stimuli),ncol = ncol(res$stimuli))
+    colnames(permanentStimuli) = colnames(res$stimuli)
+    permanentInhibitors = matrix(0,nrow=nrow(res$permanentInhibitors), 
+    							 ncol=ncol(res$permanentInhibitors))
+    colnames(permanentInhibitors) = colnames(res$inhibitors)
+    
     new("CNOlist", cues=res$cues, inhibitors=res$inhibitors,
-        stimuli=res$stimuli, signals=res$signals, variances=res$variances, timepoints=res$timepoints)
+        stimuli=res$stimuli, permanentStimuli=permanentStimuli,
+    	permanentInhibitors=permanentInhibitors, signals=res$signals,
+    	variances=res$variances, timepoints=res$timepoints)
 }
 
 setGeneric("getCues", function(object){standardGeneric("getCues")})
@@ -221,6 +232,8 @@ internal_compatCNOlist<-function(cnolist){
              valueCues=cnolist@cues,
              valueInhibitors=cnolist@inhibitors,
              valueStimuli=cnolist@stimuli,
+             valuePermanentStimuli=cnolist@permanentStimuli,
+             valuePermanentInhibitors=cnolist@permanentInhibitors,
              valueVariances=cnolist@variances,
              valueSignals=cnolist@signals)
 
@@ -280,13 +293,21 @@ internal_CNOlist_from_makeCNOlist <- function(cnolist)
 
     myCues <- cnolist$valueCues
     colnames(myCues) <- cnolist$namesCues
-
+    
     myInhibitors <- cnolist$valueInhibitors
     colnames(myInhibitors) <- cnolist$namesInhibitors
 
     myStimuli <- cnolist$valueStimuli
     colnames(myStimuli) <- cnolist$namesStimuli
 
+    myPermanentStimuli <- cnolist$valuePermanentStimuli
+    colnames(myPermanentStimuli) <- cnolist$namesStimuli
+    
+    myPermanentInhibitors <- cnolist$valuePermanentInhibitors
+    colnames(myPermanentInhibitors) <- cnolist$namesInhibitors
+    
+    
+    
     mySignals <- cnolist$valueSignals
     names(mySignals) <- cnolist$timeSignals
     mySignals <- lapply(mySignals, "colnames<-", cnolist$namesSignals)
@@ -305,7 +326,8 @@ internal_CNOlist_from_makeCNOlist <- function(cnolist)
 
     #CNOlist(myCues, myInhibitors, myStimuli, mySignals)
     return( list(cues=myCues, inhibitors=myInhibitors, stimuli=myStimuli,
-        signals=mySignals, variances=myVars, timepoints=myTimePoints))
+    			 permanentInhibitors=myPermanentInhibitors, permanentStimuli=myPermanentStimuli,
+    			 signals=mySignals, variances=myVars, timepoints=myTimePoints))
 }
 
 
