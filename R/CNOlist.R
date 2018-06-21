@@ -300,12 +300,21 @@ internal_CNOlist_from_makeCNOlist <- function(cnolist)
     myStimuli <- cnolist$valueStimuli
     colnames(myStimuli) <- cnolist$namesStimuli
 
-    myPermanentStimuli <- cnolist$valuePermanentStimuli
-    colnames(myPermanentStimuli) <- cnolist$namesStimuli
+    if(is.null(cnolist$valuePermanentStimuli)){
+    	myPermanentStimuli <- matrix(0, nrow=nrow(cnolist$valueStimuli), ncol=ncol(cnolist$valueStimuli))
+    	colnames(myPermanentStimuli) <- cnolist$namesStimuli
+    }else{
+    	myPermanentStimuli <- cnolist$valuePermanentStimuli
+    	colnames(myPermanentStimuli) <- cnolist$namesStimuli
+    }
     
-    myPermanentInhibitors <- cnolist$valuePermanentInhibitors
-    colnames(myPermanentInhibitors) <- cnolist$namesInhibitors
-    
+    if(is.null(cnolist$valuePermanentInhibitors)){
+    	myPermanentInhibitors <- matrix(0, nrow=nrow(cnolist$valueInhibitors), ncol=ncol(cnolist$valueInhibitors))
+    	colnames(myPermanentInhibitors) <- cnolist$namesInhibitors
+    }else{
+    	myPermanentInhibitors <- cnolist$valuePermanentInhibitors
+    	colnames(myPermanentInhibitors) <- cnolist$namesInhibitors
+    }
     
     
     mySignals <- cnolist$valueSignals
