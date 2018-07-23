@@ -5,7 +5,6 @@ Training of boolean logic models of signalling networks using prior knowledge ne
 
 - Please visit [CellNOptR](https://saezlab.github.io/CellNOptR/) for details about the project (references, news, ...)
 
-added
 
 ## Installation:
 
