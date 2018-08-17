@@ -207,6 +207,6 @@ A detailed description of the prior knowledge network and the dataset can be fou
 
 **P. Traynard, L. Tobalina, F. Eduati, L. Calzone, J. Saez-Rodriguez.** *Logic Modeling in Quantitative Systems Pharmacology.* CPTPharmacometrics Syst. Pharmacol. (2017) 00, 00; doi:10.1002/psp4.12225
 
-The model and the data are published and they are publically available in their dedicated [GitHub](https://github.com/saezlab/CPT_QSPtutorial) repositiory.
+Supplementary materials can be found on [GitHub](https://github.com/saezlab/CPT_QSPtutorial). Supplementary files include: model files, codes for *CellNOptR* and for *pypath*, results of analysis (logic-based ode parameters, *MaBoSS* simulations and genetic interactions), and a description of a step-by-step extension using *pypath*.
 
 
