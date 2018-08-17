@@ -199,5 +199,14 @@ There is no data provided but one could use the data used in ToyPB that was gene
 * To download the model (SIF format), click on the following [link](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/PKN-ToyPB_SBML.sif.txt)
 * To download the model (SABMLQual), click on the following [link](http://nbviewer.jupyter.org/github/saezlab/CellNOptR/blob/gh-pages/public/ModelV5.xml)
 
+# CPT_QST
+
+##  I. Description
+
+A detailed description of the prior knowledge network and the dataset can be found on the reference below:
+
+**P. Traynard, L. Tobalina, F. Eduati, L. Calzone, J. Saez-Rodriguez.** *Logic Modeling in Quantitative Systems Pharmacology.* CPTPharmacometrics Syst. Pharmacol. (2017) 00, 00; doi:10.1002/psp4.12225
+
+The model and the data are published and they are publically available in their dedicated [GitHub](https://github.com/saezlab/CPT_QSPtutorial) repositiory.
 
 
