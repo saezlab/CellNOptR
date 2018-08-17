@@ -53,7 +53,7 @@ SEXP simulatorT1 (
     int a = 0, b = 0, p = 0;
     int curr_max = 0;
     int or_max = 0;
-    int selectionSize = 256; //#Gabora increased selection Size (june 2017)
+    int selectionSize = 1024; //#Gabora increased selection Size (aug 2018), causing seg.fault. 
     int selection[selectionSize];
     int selCounter = 0;
     double *rans;
@@ -345,7 +345,21 @@ SEXP simulatorT1 (
                 /* find reactions with this species as output
                  add equivalent output_cube data to new_input*/
                 for (a = 0; a < nReacs; a++) {
-                    if (s == maxIx[a]) {selection[selCounter] = a; selCounter++;}
+                    if (s == maxIx[a]) {
+                    	// Added checking: previously the line below this if block
+                    	// caused segmentation fault for models with many connections.
+                    	// Maybe somebody can fix it properly. 
+                    	if(selCounter >= selectionSize) {
+                    		Rprintf(" simulation failed, too many inputs for nodes...\n");
+                    		
+                    		PROTECT(simResults = allocMatrix(REALSXP, 1, 1));
+                    		rans = REAL(simResults);
+                    		rans[0] = NA_REAL;
+                    		UNPROTECT(1);
+                    		return(simResults);
+                    	}
+                    	
+                    	selection[selCounter] = a; selCounter++;}
                 }
                 /* if the species is an output for a single reaction
                  it's a 1-1 mapping to new_input */

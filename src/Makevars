@@ -1,2 +1,3 @@
 PKG_CFLAGS = -I./include 
 
+# -g -O0   # add this to get debug symbols
