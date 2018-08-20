@@ -43,6 +43,8 @@ Please contact us at 	[cellnopt-developers@googlegroups.com](	cellnopt-developer
 
 ## Publications where CellNOpt was used
 
++ F. Eduati, V. Doldan-Martelli, B. Klinger, T. Cokelaer, A. Sieber, F. Kogera, M. Dorel, M. J. Garnett, N. Bluthgen, J. Saez-Rodriguez. [Drug Resistance Mechanisms in Colorectal Cancer Dissected with Cell Type–Specific Dynamic Logic Models](http://cancerres.aacrjournals.org/content/77/12/3364) _DOI: 10.1158/0008-5472.CAN-17-0078 Published June 2017_
+
 + P. Traynard, L. Tobalina, F. Eduati, L. Calzone, J. Saez-Rodriguez. [Logic Modeling in Quantitative Systems Pharmacology
 ](http://onlinelibrary.wiley.com/doi/10.1002/psp4.12225/abstract). _CPTPharmacometrics Syst. Pharmacol. (2017) 00, 00; doi:10.1002/psp4.12225_
 
