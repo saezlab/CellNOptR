@@ -2,7 +2,10 @@
  *  Name        : simulatorT1.c
  *  Author      : Aidan MacNamara
  *  Version     : 0.2
- *  revision    : 08.03.2018 Attila Gabor: improved detection of state oscillations by moving average
+ *  revision    :	- 08.03.2018 A.Gabor: improved detection of state
+ *  					 oscillations by moving average
+ *  				- 20.08.2018 A.Gabor: static selection array converted to
+ *  					 dynamic memory allocation (size not known apriory)
  *  Copyright
  * =========================================================================== */
 #include <R.h>
@@ -53,8 +56,7 @@ SEXP simulatorT1 (
     int a = 0, b = 0, p = 0;
     int curr_max = 0;
     int or_max = 0;
-    int selectionSize = 1024; //#Gabora increased selection Size (aug 2018), causing seg.fault. 
-    int selection[selectionSize];
+ 
     int selCounter = 0;
     double *rans;
 
@@ -73,6 +75,8 @@ SEXP simulatorT1 (
 
     int count_species = 0;
 
+    
+    
     /* see stop conditions */
     float test_val = 1e-3;
 
@@ -89,6 +93,9 @@ SEXP simulatorT1 (
     int diff;
 
     //Rprintf("CellNOpt simulator T1\n");
+    
+    int *selection;
+    selection = (int*) malloc(nReacs * sizeof(int));
     
     counter = 0;
     int *maxIx;
@@ -302,7 +309,7 @@ SEXP simulatorT1 (
             }
 
             track_cond++;
-            if ((track_cond == nCond)) {
+            if (track_cond == nCond) {
                 track_cond = 0;
                 track_reac++;
             }
@@ -346,19 +353,6 @@ SEXP simulatorT1 (
                  add equivalent output_cube data to new_input*/
                 for (a = 0; a < nReacs; a++) {
                     if (s == maxIx[a]) {
-                    	// Added checking: previously the line below this if block
-                    	// caused segmentation fault for models with many connections.
-                    	// Maybe somebody can fix it properly. 
-                    	if(selCounter >= selectionSize) {
-                    		Rprintf(" simulation failed, too many inputs for nodes...\n");
-                    		
-                    		PROTECT(simResults = allocMatrix(REALSXP, 1, 1));
-                    		rans = REAL(simResults);
-                    		rans[0] = NA_REAL;
-                    		UNPROTECT(1);
-                    		return(simResults);
-                    	}
-                    	
                     	selection[selCounter] = a; selCounter++;}
                 }
                 /* if the species is an output for a single reaction
@@ -529,6 +523,7 @@ SEXP simulatorT1 (
 
 
     free(maxIx);
+    free(selection);
     free(indexStimuli);
     free(indexInhibitors);
     free(indexSignals);
