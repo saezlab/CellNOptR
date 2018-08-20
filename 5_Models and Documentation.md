@@ -209,4 +209,14 @@ A detailed description of the prior knowledge network and the dataset can be fou
 
 Supplementary materials can be found on [GitHub](https://github.com/saezlab/CPT_QSPtutorial). Supplementary files include: model files, codes for *CellNOptR* and for *pypath*, results of analysis (logic-based ode parameters, *MaBoSS* simulations and genetic interactions), and a description of a step-by-step extension using *pypath*.
 
+# CRC-pathway-biomarkers
 
+##  I. Description
+
+Cell-type specific parameters of signalling pathway models as biomarkers for drug sensitivity.
+
+A detailed description of the prior knowledge network and the dataset can be found on the reference below:
+
+**F. Eduati, V. Doldan-Martelli, B. Klinger, T. Cokelaer, A. Sieber, F. Kogera, M. Dorel, M. J. Garnett, N. Bluthgen, J. Saez-Rodriguez.** * Drug Resistance Mechanisms in Colorectal Cancer Dissected with Cell Type–Specific Dynamic Logic Models.* Cancer Research DOI: 10.1158/0008-5472.CAN-17-0078 Published June 2017.
+
+Supplementary materials can be found on [GitHub link](https://github.com/saezlab/CRC-pathway-biomarkers)
