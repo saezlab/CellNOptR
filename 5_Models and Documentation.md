@@ -217,6 +217,6 @@ Cell-type specific parameters of signalling pathway models as biomarkers for dru
 
 A detailed description of the prior knowledge network and the dataset can be found on the reference below:
 
-**F. Eduati, V. Doldan-Martelli, B. Klinger, T. Cokelaer, A. Sieber, F. Kogera, M. Dorel, M. J. Garnett, N. Bluthgen, J. Saez-Rodriguez.** * Drug Resistance Mechanisms in Colorectal Cancer Dissected with Cell Type–Specific Dynamic Logic Models.* Cancer Research DOI: 10.1158/0008-5472.CAN-17-0078 Published June 2017.
+**F. Eduati, V. Doldan-Martelli, B. Klinger, T. Cokelaer, A. Sieber, F. Kogera, M. Dorel, M. J. Garnett, N. Bluthgen, J. Saez-Rodriguez.** *Drug Resistance Mechanisms in Colorectal Cancer Dissected with Cell Type–Specific Dynamic Logic Models.* Cancer Research DOI: 10.1158/0008-5472.CAN-17-0078 Published June 2017.
 
 Supplementary materials can be found on [GitHub link](https://github.com/saezlab/CRC-pathway-biomarkers)
