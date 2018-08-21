@@ -20,7 +20,8 @@ preprocessing<-function(data=NULL, model, cutNONC=TRUE, compression=TRUE,
     if (is.null(data)!=TRUE){
         checkSignals(CNOlist=data,model=model)
     }
-
+	
+	
     # a copy of the model
     cutModel <- model
 

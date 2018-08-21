@@ -22,6 +22,7 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
 #   g = plotModel(model, cnolist=cnolist)
 #   # g$graph contains the model transformed into a graph object
 
+
   # user parameters to refine the layout, color, ...
   if (is.null(graphvizParams$arrowsize)==TRUE) {
     graphvizParams$arrowsize=2
@@ -231,6 +232,11 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
         print("Those signals were not found in the vertices: ")
         print(msg)
     }
+	
+	# check if the stimuli nodes have no incoming edge
+	if(any(model$interMat[stimuli,] == 1)){
+		warning("ERROR: stimuli nodes must not have incoming edge.")
+	}
 
     # build the edges. IGraph does not use names for the vertices but ids
     # that starts at zero. Let us build a data.frame to store the correspondence
