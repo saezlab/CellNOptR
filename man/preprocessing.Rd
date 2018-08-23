@@ -33,7 +33,7 @@ Compress the model using \link{compressModel} (Default is TRUE).
 Add and gates using \link{expandGates} (Default is TRUE).
 }
   \item{ignoreList}{
-list of reactions indices to ignore in the expansion step.
+   an index vector of states to ignore incoming edges in \link{expandGates}.
 }
   \item{maxInputsPerGate}{
 used by the \link{expandGates} function to set maximum inputs per and gates.

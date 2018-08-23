@@ -4,8 +4,8 @@
 Expand the gates of a model
 }
 \description{
-This function takes in a model and splits all AND gates into ORs.  In addition,
-wherever there are more than one, it creates all possible ANDs combinations of
+This function takes in a model and (1) splits all AND gates into ORs.  In addition,
+(2) wherever there are more than one, it creates all possible ANDs combinations of
 them, but considering only ANDs with 2, 3 or 4 inputs according to the user
 argument (default is 2)
 }
@@ -14,7 +14,7 @@ expandGates(model, ignoreList=NA, maxInputsPerGate=2)
 }
 \arguments{
   \item{model}{a model structure}
-  \item{ignoreList}{a list of reactions indices to ignore}
+  \item{ignoreList}{an index vector of states to ignore incoming edges during step (1), i.e. at the time of splitting up AND gates}
   \item{maxInputsPerGate}{maximum number of input per gates (Default is 2; up
 to 4)}
 }
