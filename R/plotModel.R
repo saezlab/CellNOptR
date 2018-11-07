@@ -385,6 +385,7 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
 
             renderGraph(x)
         }
+    
         # and save into dot file.
         toDot(copyg, output_dot, nodeAttrs=nodeAttrs, subGList=clusters,
              attrs=attrs, recipEdges=recipEdges, edgeAttrs=edgeAttrs)
@@ -392,6 +393,9 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
         # and border.color that are not understood by dot. Best solution is to
         # change Rgraphviz but large latency so we can change the written files
         # afterwards to change the dot file itself
+        #
+        # dot files can be read in Cytoscape but subgraphs produce an error. 
+        # MAke sure to remove them before visualisation. 
         clean_dot(output_dot)
 
 
