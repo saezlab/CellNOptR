@@ -21,7 +21,11 @@ Suggests:
     BiocGenerics,
     igraph,
     stringi,
-    stringr
+    stringr,
+    data.table,
+    dplyr,
+    tidyr,
+    readr
 biocViews: CellBasedAssays, CellBiology, Proteomics, Bioinformatics, TimeCourse
 Description: This package does optimisation of boolean logic networks of
     signalling pathways based on a previous knowledge network and a set of data upon
