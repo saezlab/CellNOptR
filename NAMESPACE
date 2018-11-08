@@ -68,6 +68,8 @@ export(
     "readMIDAS",
     "readSIF",
     "readSif",
+    "readBND",
+    "readBNET",
     "residualError",
     "sif2graph",
     "simulateT1",
