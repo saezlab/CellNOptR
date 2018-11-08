@@ -10,6 +10,8 @@ library(readr)
 #' activated by the logic rule.
 #'
 #' @return CellNOpt network
+#'
+#' @author Luis Tobalina
 readBNET <- function(filename){
   warning("experimental BNET reader. Use with care (February 2018).")
   
@@ -45,6 +47,8 @@ readBNET <- function(filename){
 #' @param filename BND file. 
 #'
 #' @return CellNOpt network
+#' 
+#' @author Luis Tobalina
 readBND <- function(filename){
   warning("experimental BND reader. Use with care (July 2018).")
   
