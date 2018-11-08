@@ -33,4 +33,4 @@ Description: This package does optimisation of boolean logic networks of
 License: GPL-3
 LazyLoad: yes
 SystemRequirements: Graphviz version >= 2.2
-RoxygenNote: 5.0.1
+RoxygenNote: 6.1.0
