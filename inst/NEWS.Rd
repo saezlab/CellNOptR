@@ -1,6 +1,28 @@
 \title{NEWS}
 \name{CellNOptR NEWS}
 
+
+
+\section{CHANGES IN VERSION 1.26.0: (2018-11-08)}{
+Changes since 1.25.0
+
+\itemize{
+    \item{BUG FIX}
+        \itemize{
+            \item{ TO BE ADDED}
+        }
+    \item{CHANGES}
+        \itemize{
+            \item{TO BE ADDED}
+        }
+    \item{NEW FEATURES}
+        \itemize{
+            \item{readBND and readBNET reads MaBoSS style boolean network definition files and converts them to CellNOpt network models - credits for Luis Tobalina}
+        }
+}
+}
+
+
 \section{CHANGES IN VERSION 1.25.0: (2018-01-10)}{
 Changes since 1.10.0
 
