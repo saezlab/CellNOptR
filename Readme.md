@@ -14,8 +14,9 @@ install R packages, please refer to [Installing packages](http://cran.r-project.
 These packages rely on several Bioconductor package (e.g., RBGL, graph, methods, etc.). As an example, you can
 install RGBL package by typing:
 ```
-source("http://bioconductor.org/biocLite.R")
-biocLite("RBGL")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("RBGL")
 ```
 
 ### Installation from GitHub
@@ -28,15 +29,16 @@ devtools::install_github('saezlab/CellNOptR’)
 ### Standard installation from Bioconductor
 To install CellNOptR, type:
 ```
-source("http://bioconductor.org/biocLite.R")
-biocLite("CellNOptR")
+f (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("CellNOptR", version = "3.8")
 ```
 Then, you can also install other CellNOptR related packages::
 ```
-biocLite("CNORdt")
-biocLite("CNORfeeder")
-biocLite("CNORfuzzy")
-biocLite("CNORode")
+BiocManager::install("CNORdt")
+BiocManager::install("CNORfeeder")
+BiocManager::install("CNORfuzzy")
+BiocManager::install("CNORode")
 ```
 
 ### Install from a local copy of the package:
