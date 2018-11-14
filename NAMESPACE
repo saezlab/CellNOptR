@@ -1,5 +1,10 @@
 import("graph", "RBGL", "ggplot2")
 import("XML", except="addNode") # conflict with graph::addNode; neither used
+#import("data.table")
+#import("plyr")
+#import("dplyr")
+#import("tidyr")
+#import("readr")
 
 useDynLib(CellNOptR)
 
@@ -15,6 +20,7 @@ importFrom("utils", "combn", "count.fields", "installed.packages",
 importFrom("RCurl", "getURL")
 importFrom("hash", "hash", "has.key")
 importFrom("Rgraphviz", "layoutGraph", "renderGraph", "toDot")
+
 
 
 export(

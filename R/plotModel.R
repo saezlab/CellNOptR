@@ -15,7 +15,7 @@
 # $Id$
 plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
     signals=NULL, stimuli=NULL, inhibitors=NULL, NCNO=NULL, compressed=NULL,
-    output="STDOUT", filename=NULL,graphvizParams=list(), show=TRUE, remove_dot=TRUE,removeEmptyAnds=T){
+    output="STDOUT", filename=NULL,graphvizParams=list(), show=TRUE, remove_dot=TRUE,removeEmptyAnds=TRUE){
 # Quick example:
 # ---------------
 #   filename = "ToyPKNMMB.sif"

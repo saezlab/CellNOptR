@@ -22,7 +22,7 @@ and then read with `readSIF()` in order to load a CellNOpt compatible network.
 Build a SIF table from a logic rule written in a string
 }
 \examples{
-build_sif_table_from_rule("B & (C | D)", "A", last_and_num=2)
+CellNOptR:::build_sif_table_from_rule("B & (C | D)", "A", last_and_num=2)
 
 test_rule <- list()
 test_rule[[1]] <- "AMP_ATP | (ATM & ATR) | HIF1 | !(EGFR | FGFR3)"
@@ -35,7 +35,7 @@ test_rule[[7]] <- "!(C & D) | (E & F)"
 test_rule[[8]] <- "(A | B) & (C | !D) & (E | F)"
 parsed_rule <- list()
 for (i in c(1:length(test_rule))){
-  parsed_rule[[i]] <- build_sif_table_from_rule(test_rule[[i]], "T")
+  parsed_rule[[i]] <- CellNOptR:::build_sif_table_from_rule(test_rule[[i]], "T")
 }
 
 }

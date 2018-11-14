@@ -16,16 +16,18 @@ Depends:
     Rgraphviz,
     XML,
     ggplot2
-Suggests:
-    RUnit,
-    BiocGenerics,
-    igraph,
+Imports:
+	igraph,
     stringi,
     stringr,
-    data.table,
+Suggests:
+	data.table,
+    plyr,
     dplyr,
     tidyr,
-    readr
+    readr,
+    RUnit,
+    BiocGenerics,
 biocViews: CellBasedAssays, CellBiology, Proteomics, Bioinformatics, TimeCourse
 Description: This package does optimisation of boolean logic networks of
     signalling pathways based on a previous knowledge network and a set of data upon
