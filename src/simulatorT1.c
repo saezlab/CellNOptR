@@ -94,8 +94,14 @@ SEXP simulatorT1 (
 
     //Rprintf("CellNOpt simulator T1\n");
     
+    counter = 0;
     int *selection;
-    selection = (int*) malloc(nReacs * sizeof(int));
+    selection = (int*)malloc(nReacs * sizeof(int));
+    for (i = 0; i < nReacs; i++) {
+    	selection[i] = 0;
+    }
+    
+    // Rprintf("checkpoint 2\n");
     
     counter = 0;
     int *maxIx;
@@ -351,10 +357,12 @@ SEXP simulatorT1 (
 
                 /* find reactions with this species as output
                  add equivalent output_cube data to new_input*/
+                // Rprintf("checkpoint 3\n");
                 for (a = 0; a < nReacs; a++) {
                     if (s == maxIx[a]) {
                     	selection[selCounter] = a; selCounter++;}
                 }
+                // Rprintf("checkpoint 4\n");
                 /* if the species is an output for a single reaction
                  it's a 1-1 mapping to new_input */
                 if (selCounter == 1) {
@@ -380,7 +388,7 @@ SEXP simulatorT1 (
                 }
             }
         }
-
+        // Rprintf("checkpoint 5\n");
         /* reset the stimuli */
         for (i = 0; i < nCond; i++) {
             for (j = 0; j < nStimuli; j++) {
@@ -523,7 +531,9 @@ SEXP simulatorT1 (
 
 
     free(maxIx);
+    // Rprintf("checkpoint 6\n");
     free(selection);
+    // Rprintf("checkpoint 7\n");
     free(indexStimuli);
     free(indexInhibitors);
     free(indexSignals);
