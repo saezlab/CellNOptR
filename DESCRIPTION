@@ -28,7 +28,7 @@ Suggests:
     readr,
     RUnit,
     BiocGenerics,
-biocViews: CellBasedAssays, CellBiology, Proteomics, Bioinformatics, TimeCourse
+biocViews: CellBasedAssays, CellBiology, Proteomics, Bioinformatics, TimeCourse, ImmunoOncology
 Description: This package does optimisation of boolean logic networks of
     signalling pathways based on a previous knowledge network and a set of data upon
     perturbation of the nodes in the network.
