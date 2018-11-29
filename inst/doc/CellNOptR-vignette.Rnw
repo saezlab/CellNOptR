@@ -45,15 +45,17 @@ For more information about how to install R packages, please refer to
 This package relies on several Bioconductor package (RBGL, graph, methods,
 etc.). As an example, you can install RGBL package by typing:
 <<installRBGL, eval=FALSE>>=
-source("http://bioconductor.org/biocLite.R")
-biocLite("RBGL")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("RBGL")
 @
 
 Before starting this tutorial you also need to install the package
 \emph{CellNOptR}. You can either install \emph{CellNOptR} from Bioconductor by typing:
 <<installPackage, eval=FALSE>>=
-source("http://bioconductor.org/biocLite.R")
-biocLite("CellNOptR")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("CellNOptR")
 @
 
 or from a tar ball as follows:
