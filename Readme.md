@@ -1,5 +1,6 @@
 CellNOptR
 =========
+[![Build Status](https://travis-ci.org/saezlab/CellNOptR.svg?branch=master)](https://travis-ci.org/saezlab/CellNOptR)
 
 Training of boolean logic models of signalling networks using prior knowledge networks and perturbation data.
 
