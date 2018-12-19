@@ -52,8 +52,6 @@ C. Terfve
 plotOptimResults, cutAndPlotResultsT1
 }
 \examples{
-tmpdir<-tempdir()
-setwd(tmpdir)
 
 #We will plot the fit of the full initial model compared to the data, without any optimisation
 #This is normally not done on a stand alone basis, but if you have a model and would like to visualise 

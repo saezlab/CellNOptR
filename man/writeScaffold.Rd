@@ -48,8 +48,7 @@ C.Terfve
 writeNetwork, writeDot
 }
 \examples{
-tmpdir<-tempdir()
-setwd(tmpdir)
+
 
 #load the data
 

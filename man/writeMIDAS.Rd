@@ -33,8 +33,7 @@ T. Cokelaer
 \link{makeCNOlist}, \link{readMIDAS}, \link{CNOlist-class}
 }
 \examples{
-   tmpdir<-tempdir()
-   setwd(tmpdir)
+   
    data(CNOlistToy)
    writeMIDAS(CNOlistToy, 'test.csv')
    readMIDAS('test.csv')

@@ -39,8 +39,6 @@ C. Terfve
 \link{writeNetwork}, \link{writeScaffold}
 }
 \examples{
-tmpdir<-tempdir()
-setwd(tmpdir)
 
 #load data
 

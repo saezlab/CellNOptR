@@ -97,9 +97,6 @@ C. Terfve
 \examples{
 #version with paramslist
 
-tmpdir<-tempdir()
-setwd(tmpdir)
-
 data(CNOlistToy,package="CellNOptR")
 data(ToyModel,package="CellNOptR")
 

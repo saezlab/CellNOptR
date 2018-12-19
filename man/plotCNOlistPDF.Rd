@@ -27,8 +27,6 @@ C. Terfve
 \link{plotCNOlist}, \link{plotCNOlistLarge}, \link{plotCNOlistLargePDF}
 }
 \examples{
-tmpdir<-tempdir()
-setwd(tmpdir)
 data(CNOlistToy,package="CellNOptR")
 plotCNOlistPDF(CNOlist=CNOlistToy,filename="ToyModelGraph.pdf")
 }

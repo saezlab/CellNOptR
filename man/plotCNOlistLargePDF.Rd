@@ -41,8 +41,6 @@ C. Terfve
 \link{plotCNOlistLarge}, \link{plotCNOlist}, \link{plotCNOlistPDF}
 }
 \examples{
-tmpdir<-tempdir()
-setwd(tmpdir)
 data(CNOlistDREAM,package="CellNOptR")
 plotCNOlistLargePDF(CNOlistDREAM, filename="dreamData.pdf",nsplit=2)
 }

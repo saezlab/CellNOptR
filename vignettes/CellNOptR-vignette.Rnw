@@ -118,7 +118,6 @@ library(CellNOptR)
 
 <<newDir, eval=FALSE>>=
 dir.create("CNOR_analysis")
-setwd("CNOR_analysis")
 @
 
 \section{Quick Start}

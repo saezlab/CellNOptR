@@ -27,8 +27,6 @@ writeSIF(model, filename,  overwrite = FALSE)
 T Cokelaer
 }
 \examples{
-tmpdir<-tempdir()
-setwd(tmpdir)
 cpfile<-dir(system.file("ToyModel",package="CellNOptR"),full=TRUE)
 file.copy(from=cpfile,to=getwd(),overwrite=TRUE)
 ToyModel<-readSIF(sifFile="ToyPKNMMB.sif")

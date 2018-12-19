@@ -48,8 +48,7 @@ C.Terfve
 \link{makeCNOlist}
 }
 \examples{
-   tmpdir<-tempdir()
-   setwd(tmpdir)
+   
    cpfile<-dir(system.file("ToyModel",package="CellNOptR"),full=TRUE)
    file.copy(from=cpfile,to=getwd(),overwrite=TRUE)
    dataToy<-readMIDAS(MIDASfile='ToyDataMMB.csv')

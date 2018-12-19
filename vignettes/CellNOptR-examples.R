@@ -3,8 +3,8 @@
 # ----------------------------------------------------
 #  
 library(CellNOptR)
-dir.create("CNOR_analysis")
-setwd("CNOR_analysis")
+#dir.create("CNOR_analysis")
+#setwd("CNOR_analysis")
 cpfile<-dir(system.file("ToyModel",package="CellNOptR"),full=TRUE)
 file.copy(from=cpfile,to=getwd(),overwrite=TRUE)
 dataToy<-readMIDAS("ToyDataMMB.csv")
@@ -20,7 +20,7 @@ ToyNCNOcutCompExp <- preprocessing(CNOlistToy, ToyModel, expansion=TRUE, compres
 resECNOlistToy<-residualError(CNOlistToy)
 initBstring<-rep(1,length(ToyNCNOcutCompExp$reacID))
 
-ToyT1opt<-gaBinaryT1(CNOlist=CNOlistToy, model=ToyNCNOcutCompExp,initBstring=initBstring, verbose=FALSE)
+ToyT1opt<-gaBinaryT1(CNOlist=CNOlistToy, model=ToyNCNOcutCompExp,initBstring=initBstring, verbose=TRUE)
 
 cutAndPlot(model=ToyNCNOcutCompExp, bStrings=list(ToyT1opt$bString),CNOlist=CNOlistToy, plotPDF=TRUE)
 

@@ -56,8 +56,6 @@ The mapback of this function is still an open question, even in the Matlab versi
 writeScaffold, writeDot
 }
 \examples{
-tmpdir<-tempdir()
-setwd(tmpdir)
 
 #load data
 
