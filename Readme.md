@@ -51,3 +51,8 @@ or, using the R GUI by clicking on "Packages & Data" then "Package installer", t
 from the dropdown menu, clicking "install", choosing CellNOptR.1.0.0.tar.gz
 and finally clicking "open".
 
+
+## Feedbacks, bug reports, features
+Feedbacks and bugreports are always very welcomed!  
+Please use the Github issue page to report bugs or for questions: https://github.com/saezlab/CellNOptR/issues.
+Many thanks!
