@@ -21,7 +21,7 @@ writeObjectiveFunction <- function(model,
                                    meansOfMeasurements_at_t0, 
                                    method = "quadratic" ){ # function returns 2 values in a list: 1.) part of the objetive that only consists of absolute values, 2.) constant offset.
   
-  #
+  # creating auxilliary objects
   reducedMidas = midasExperimentPart
   whichObjective = method
   objective1 = c()
@@ -45,6 +45,7 @@ writeObjectiveFunction <- function(model,
     
   }
   
+  # writing the objective function
   linker_vector = link_midas_colnames_to_namesSpecies(model, reducedMidas)
   weight_of_unstimulated_experiments = if(!is.null(dim(reducedMidas)[1])){dim(reducedMidas)[1]+1}else{1} # this is N+1 / if clause added 13.02.18 
   constant = 0
