@@ -23,8 +23,8 @@ BiocManager::install("RBGL")
 ### Installation from GitHub
 using the `devtools` package you can install the latest version from the GitHub repository:
 ```
-if(!require("devtools")) install.packages('devtools’)   # installs devtools package if not already installed
-devtools::install_github('saezlab/CellNOptR’)
+if(!require("devtools")) install.packages("devtools")   # installs devtools package if not already installed
+devtools::install_github("saezlab/CellNOptR", ref="ilp")
 ```
 
 ### Standard installation from Bioconductor
