@@ -1,7 +1,7 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2019 - SaezLab - Heidelberg Universit
+#  Copyright (c) 2019 - SaezLab - Heidelberg University
 #
 #  File author(s): CNO developers
 #
@@ -29,12 +29,12 @@ createAndRunILP <- function(model = model,
                             poolIntensity = poolIntensity, 
                             poolReplace = poolReplace){
   
-  #
+  # Creating auxilliary variables
   time_start_writing = Sys.time()
   md <- midas
   TimeOfEvaluation = max(md$dataMatrix[,md$DAcol[1]])
   
-  #
+  # Creating the vector of edge identifiers
   create_y_vector_from_preprocessed_model <- function(model){
     
     y_vector <- model$reacID
@@ -42,7 +42,7 @@ createAndRunILP <- function(model = model,
     
   }
   
-  #
+  # Creating set of variables to inhibitory effects of each interactions
   create_inhibitor_set_for_y_i <- function(model, y_i){
     
     inhibitor_set = c()
@@ -51,7 +51,7 @@ createAndRunILP <- function(model = model,
     
   }
   
-  #
+  # Creating set of variables to the reactants of each interactions
   create_reactant_set_for_y_i <- function (model, y_i, inhibitor_set){
     
     reactant_set = c()
@@ -62,7 +62,7 @@ createAndRunILP <- function(model = model,
     
   }
   
-  #
+  # Creating set of variables to products of each interactions
   create_product_set_for_y_i <- function(model, y_i){
     
     product_set = c()
@@ -71,7 +71,7 @@ createAndRunILP <- function(model = model,
     
   }
   
-  #
+  # Combining all interaction set of variables
   create_reaction_for_y_i <- function(model, y_i){
     
     inhibitor_set = create_inhibitor_set_for_y_i(model, y_i) 
@@ -82,7 +82,7 @@ createAndRunILP <- function(model = model,
     
   }
   
-  #
+  # Creating all the sets
   create_all_sets <- function(model){ # sets: [[1]]: reactant set; [[2]]: inhibitor set; [[3]]: product set
     
     y_vector = create_y_vector_from_preprocessed_model(model)
@@ -98,7 +98,7 @@ createAndRunILP <- function(model = model,
     
   }
   
-  #
+  # Extracting only the measurements from the MIDAS file
   extractMeasurementPartFromMidas <- function(midas, TimeOfEvaluation){
     
     md = midas$dataMatrix
@@ -114,7 +114,7 @@ createAndRunILP <- function(model = model,
     
   }
   
-  #
+  # Extracting only the treatment part from the MIDAS file
   extractTreatmentPartFromMidas <- function(midas, TimeOfEvaluation){
     
     md = midas$dataMatrix
@@ -123,7 +123,7 @@ createAndRunILP <- function(model = model,
     
   }
   
-  #
+  # Means of measurements
   meansOfMeasurements <- function(midasExperimentPart_at_t0, midasExperimentPart, midasTreatmentPart){
     
     ValueMatrix = midasExperimentPart_at_t0
@@ -139,7 +139,7 @@ createAndRunILP <- function(model = model,
     
   }
   
-  
+  # Creating and running the ILP problem
   reaction_sets = create_all_sets(model)
   midasExperimentPart = extractMeasurementPartFromMidas(md, TimeOfEvaluation)
   midasExperimentPart_at_t0 = extractMeasurementPartFromMidas(md,0)
