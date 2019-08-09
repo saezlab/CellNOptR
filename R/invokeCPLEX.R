@@ -1,7 +1,7 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2019 - SaezLab - Heidelberg Universit
+#  Copyright (c) 2019 - SaezLab - Heidelberg University
 #
 #  File author(s): CNO developers
 #
@@ -53,6 +53,7 @@ invokeCPLEX <- function(inputFileName,
     
   }
   
+  # Writing and executing the cplex commands
   setwd(gsub(pattern = "cplex", replacement = "", x = cplexPath))
   writeCplexCommandFile(commandFileName = "cplexCommand.txt", inputFileName, outputFileName, mipGap=mipGap, relGap = relGap, timelimit=timelimit, cplexPath = cplexPath, numSolutions = numSolutions, limitPop = limitPop, poolIntensity = poolIntensity, poolReplace = poolReplace)
   if(file.exists(outputFileName)){
