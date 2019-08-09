@@ -18,7 +18,12 @@ create_binaries <- function(model,
                             numberOfExperiments, 
                             y_vector){
   
-  #
+  # creating auxilliary variables
+  numbers = c()
+  variables = c()
+  identifiers = c()
+  
+  # function for creating binary variables for the edges
   create_binary_variables_for_y_vector <- function(y_vector){
     
     variables = c()
@@ -30,7 +35,7 @@ create_binaries <- function(model,
     
   }
   
-  #
+  # function for creating binary variables for the species at each experimental condition separately
   create_binary_variables_for_all_species_in_experiment_k_i <- function(model, 
                                                                         numberOfExperiment){ # k means experiment index
     
@@ -46,7 +51,7 @@ create_binaries <- function(model,
     
   }
   
-  #
+  # function for creating binary variables for the interaction state at each experimental condition separately
   create_binary_variables_for_all_reactions_z_i_in_experiment_k_i <- function(model, 
                                                                               numberOfExperiment){ # k means experiment index
     number_of_reactions = length(model$reacID)
@@ -60,18 +65,13 @@ create_binaries <- function(model,
     return(binary_variables_list)
   }
   
-  #
-  numbers = c()
-  variables = c()
-  identifiers = c()
-  
-  #
+  # Creating binary variables for the edges
   y_binaries = create_binary_variables_for_y_vector(y_vector)
   numbers = y_binaries[[1]]
   variables = y_binaries[[2]]
   identifiers = y_binaries[[3]]
   
-  #
+  # creating binary variables for the species
   for(i in 1:numberOfExperiments){
     binList = create_binary_variables_for_all_species_in_experiment_k_i(model, i)
     numbers= append(numbers, binList[[1]])
@@ -85,7 +85,7 @@ create_binaries <- function(model,
     identifiers = append(identifiers, binList[[3]])
   }
   
-  #
+  # combining and returning all the binary variables
   binaries = list(c(paste0("xb",1:length(variables))), variables, identifiers)
   return(binaries)
   
