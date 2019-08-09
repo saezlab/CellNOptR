@@ -1,7 +1,7 @@
 #
 #  This file is part of the CNO software
 #
-#  Copyright (c) 2019 - SaezLab - Heidelberg Universit
+#  Copyright (c) 2019 - SaezLab - Heidelberg University
 #
 #  File author(s): CNO developers
 #
