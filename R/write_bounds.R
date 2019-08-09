@@ -18,12 +18,12 @@ write_bounds <- function(model,
                          y_vector,
                          binary_variables){
                              
-  #package stringr is needed in order to run this function. otherwise problems in the str_sub() command
+  # package stringr is needed in order to run this function. otherwise problems in the str_sub() command
   # this function returns the bounds vector which contains the boundaries for each binary varible.
   # procedure: create a vector that has the default binary bounds 0 <= xb_i <= 1
   # then, overwrite the elements of the vector that are fixed to a number (e.g. Treatment 1/0 or inhibitor 1) with the respective value.
   
-  #
+  # writing the bounds for the edge variables (0 or 1)
   writeBoundsForEdges_y_i<- function(y_vector){
     y_bound_vector = c()
     for(i in 1:length(y_vector)){
@@ -32,7 +32,7 @@ write_bounds <- function(model,
     return(y_bound_vector)
   }
   
-  #
+  # linking species names in the midas with the ones in the model
   link_midas_colnames_to_namesSpecies <- function(model, reducedMidas){
     
     linker = c()
@@ -51,6 +51,7 @@ write_bounds <- function(model,
     
   }
   
+  # writing of the boundaries
   y_bounds_vector = writeBoundsForEdges_y_i(y_vector)
   linkerVector = link_midas_colnames_to_namesSpecies(model, midasTreatmentPart)
   bounds = c(paste0("0<= xb",1:(length(binary_variables[[1]])), " <= 1"))#, "   ", binary_variables[[2]][1:length(binary_variables[[3]])]))
