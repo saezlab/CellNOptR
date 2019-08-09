@@ -90,7 +90,18 @@ export(
     "writeNetwork",
     "writeReport",
     "writeScaffold",
-    "plotModel")
+    "plotModel",
+    "writeFile",
+    "writeObjectiveFunction",
+    "write_bounds",
+    "write_constraints",
+    "createILPBitstringAll",
+    "invokeCPLEX",
+    "ilpBinaryTN",
+    "ilpBinaryT2",
+    "ilpBinaryT1",
+    "createAndRunILP",
+    "create_binaries")
 
 # CNOlist class
 exportClasses(CNOlist)
