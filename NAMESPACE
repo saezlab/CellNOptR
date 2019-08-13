@@ -5,6 +5,7 @@ import("XML", except="addNode") # conflict with graph::addNode; neither used
 #import("dplyr")
 #import("tidyr")
 #import("readr")
+#import("stringr")
 
 useDynLib(CellNOptR)
 
@@ -91,17 +92,9 @@ export(
     "writeReport",
     "writeScaffold",
     "plotModel",
-    "writeFile",
-    "writeObjectiveFunction",
-    "write_bounds",
-    "write_constraints",
-    "createILPBitstringAll",
-    "invokeCPLEX",
     "ilpBinaryTN",
     "ilpBinaryT2",
-    "ilpBinaryT1",
-    "createAndRunILP",
-    "create_binaries")
+    "ilpBinaryT1")
 
 # CNOlist class
 exportClasses(CNOlist)
