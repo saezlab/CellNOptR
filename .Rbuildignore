@@ -1,0 +1,6 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^developement/
+^figure/
+^bugReports/
+^caseStudies/
