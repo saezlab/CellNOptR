@@ -40,14 +40,14 @@ plotModel(model = model,CNOlist = cnodata_prep,bString = opt$bString)
 #' 
 #' @param CNOlist Cnolist which contains all the experiments  
 #' @param model a model prepared for the training  
-#' @param nfold number of folds - default is 10. Although nfolds can be as large as the sample size (leave-one-out CV),
+#' @param nfolds number of folds - default is 10. Although nfolds can be as large as the sample size (leave-one-out CV),
 #'  it is not recommended for large datasets.  
 #' @param foldid an optional vector of values between `1` and `nfold` identifying what fold each observation is in. If supplied, `nfold` can be missing.  
 #' @param type define the way to do the crossvalidation. The default is 
 #' `type="datapoint"`, which assigns the data randomly into folds. 
 #' The option `type="experiment"` uses whole experiments for crossvalidation 
 #' (all data corresponding to a cue combination). The `type=observable` uses the
-#' subset of nodes across all experiments for crossvalidation. 
+#' subset of nodes across all experiments for crossvalidation.  
 #' @param ... further arguments are passed to gaBinaryT1  
 #' @seealso \link{\code{gaBinaryT1}}  
 
