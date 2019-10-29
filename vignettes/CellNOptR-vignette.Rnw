@@ -712,6 +712,37 @@ cutAndPlot(
 
 \clearpage
 
+\section{A toy example with the ILP implementation}
+
+In this section we will demonstrate the use of CellNOptR with the ILP implementation (see \cite{mitsos_2009}) with the example provided in the CellNOptR package.
+
+<<quickstart, eval=FALSE>>=
+# ---------------------- load the library and get a SIF and MIDAS file
+library(CellNOptR)
+library(stringr)
+#
+# ---------------------- examples are provided in CellNOptR
+data("ToyModel", package="CellNOptR")
+data("CNOlistToy", package="CellNOptR")
+pknmodel = ToyModel
+cnolist = CNOlist(CNOlistToy)
+#
+# ---------------------- alternatively you can read your own files:
+# pknmodel = readSIF("ToyModel.sif")
+# cnolist = CNOlist("ToyDataMMB.csv")
+#
+# ---------------------- preprocess the network
+model = preprocessing(cnolist, pknmodel)
+#
+# ---------------------- perform the analysis
+resILP = ilpBinaryT1(cnolist = cnolist, model = model, numSolutions = 3) # asking to retrieve 3 equivalent solutions
+#
+# ---------------------- plot the results
+cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[1]]))
+cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[2]]))
+cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[3]]))
+@
+
 \section{What else}
 More tutorials can be found in www.cellnopt.org and \url{http://www.cellnopt.org/}
 in particulat on \url{http://www.cellnopt.org/doc/cnodocs/}.
@@ -745,6 +776,12 @@ J.~Saez-Rodriguez, L.~Alexopoulos, J.~Epperlein, R.~Samaga, D.~Lauffenburger, S.
 P.~Shannon, A.~Markiel, O.~Ozier, N.S..~Baliga, J.T.~Wang, D.~Ramage,  N.~Amin, B.~Schiwkowski and T.~Ideker.
 \newblock Cytoscape: a software for integrated models of biomolecular interaction networks.
 \newblock {\em Genome Research}, 13(11):2498-504, 2003.
+
+\bibitem{mitsos_2009}
+Mitsos, A., Melas, I.N., Siminelakis, P., Chairakaki, A.D.,
+  Saez-Rodriguez, J.: Identifying Drug Effects via Pathway Alterations using an Integer Linear Programming Optimization Formulation on Phosphoproteomic Data.
+\newblock PLOS \& Computational Biology \textbf{5}(12): e1000591
+  (2010).
 
 
 \end{thebibliography}
