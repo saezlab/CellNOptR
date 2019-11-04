@@ -94,7 +94,8 @@ export(
     "plotModel",
     "ilpBinaryTN",
     "ilpBinaryT2",
-    "ilpBinaryT1")
+    "ilpBinaryT1",
+    "crossvalidateBoolean")
 
 # CNOlist class
 exportClasses(CNOlist)
