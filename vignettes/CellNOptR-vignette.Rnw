@@ -747,7 +747,7 @@ cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP
 
 \clearpage
 
-\section{A crossvalidation example with a toy model}
++\section{A crossvalidation example with a toy model}
 
 In order to assess the predictive performance of our models and inspect how well our models can predict 
 data outside of it’s training set we have implemented cross-validation as another feature within the 
