@@ -736,7 +736,8 @@ model = preprocessing(cnolist, pknmodel)
 #
 # ---------------------- perform the analysis
 resILP = ilpBinaryT1(cnolist = cnolist, model = model, numSolutions = 3, 
-                    mipGap = 0.05, relGap = 0.05) # asking to retrieve 3 equivalent solutions with tolerance gaps mipGap and relGap 0.05
+                    mipGap = 0.05, relGap = 0.05) # asking to retrieve 3 equivalent solutions with 
+                                                  # tolerance gaps mipGap and relGap 0.05
 #
 # ---------------------- plot the results
 cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[1]]))
