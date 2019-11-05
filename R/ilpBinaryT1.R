@@ -148,18 +148,6 @@ ilpBinaryT1 <- function(cnolist = cnolist,
           
         }
         
-        if(accountForModelSize){
-          for(m in 1:length(y_vector)){
-            factors = paste0(factors, " + ", sizeFac, " xb", m )
-          }
-        }
-        
-      }
-      # here, the model size is accounted for:
-      for(m in 1:length(y_vector)){
-        factors = paste0(factors, " + ", sizeFac, " xb", m )
-      }
-        
         
         out = list(constant, factors) #see comment in the functon definition above
       }
