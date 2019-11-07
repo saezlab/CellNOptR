@@ -738,7 +738,8 @@ model = preprocessing(cnolist, pknmodel)
 #
 # ---------------------- perform the analysis
 resILP = ilpBinaryT1(cnolist = cnolist, model = model, numSolutions = 3, 
-                    mipGap = 0.05, relGap = 0.05) # asking to retrieve 3 equivalent solutions with 
+                    mipGap = 0.05, relGap = 0.05) # asking to retrieve 3 
+                                                  # equivalent solutions with 
                                                   # tolerance gaps mipGap and relGap 0.05
 #
 # ---------------------- plot the results
@@ -773,12 +774,18 @@ opt = gaBinaryT1(CNOlist = cnodata_prep,model = model)
 # ---------------------- 10-fold cross-validation procedure using T1 data
 library(doParallel)
 registerDoParallel(cores=3)
-system.time({R1=crossvalidateBoolean(CNOlist = cnodata_prep, model = model, type="datapoint", nfolds=10, parallel = TRUE)})
-system.time({R2=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, type="experiment", nfolds=10, parallel = TRUE)})
-system.time({R3=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, type="observable", nfolds=10, parallel = TRUE)})
-system.time({R4=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, type="datapoint", nfolds=10, parallel = FALSE)})
-system.time({R5=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, type="experiment", nfolds=10, parallel = FALSE)})
-system.time({R6=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, type="observable", nfolds=10, parallel = FALSE)})
+system.time({R1=crossvalidateBoolean(CNOlist = cnodata_prep, model = model, 
+                                     type="datapoint", nfolds=10, parallel = TRUE)})
+system.time({R2=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, 
+                                     type="experiment", nfolds=10, parallel = TRUE)})
+system.time({R3=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, 
+                                     type="observable", nfolds=10, parallel = TRUE)})
+system.time({R4=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, 
+                                     type="datapoint", nfolds=10, parallel = FALSE)})
+system.time({R5=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, 
+                                     type="experiment", nfolds=10, parallel = FALSE)})
+system.time({R6=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, 
+                                     type="observable", nfolds=10, parallel = FALSE)})
 @
 
 \section{What else}
