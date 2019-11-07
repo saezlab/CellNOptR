@@ -753,7 +753,7 @@ Through the gap parameters (relGap and mipGap) users can control the quality of 
 
 \section{k-fold Crossvalidation for CellNOptR Boolean models}
 
-Cross-validation has been implemented in order to assess the predictive performance of our models and inspect how well these models can predict data outside of it’s training set. Three re-sampling strategies have been implemented: resampling of 1)data-ponts, 2)experimental conditions and 3)observable nodes. Because of the multiple and possibly extensive analysis, the cross-validation functionality allow for a parallelization of the procedure.
+Cross-validation has been implemented in order to assess the predictive performance of our models and inspect how well these models can predict data outside of its training set. Three re-sampling strategies have been implemented: resampling of 1)data-ponts, 2)experimental conditions and 3)observable nodes. Because of the multiple and possibly extensive analysis, the cross-validation functionality allow for a parallelization of the procedure.
 
 Below we show an example about how we can use the cross-validation functionality by applying different re-sampling strategies in a parallel and serial computing environments.
 
