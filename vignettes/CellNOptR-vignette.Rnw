@@ -714,7 +714,9 @@ cutAndPlot(
 
 \section{A toy example with the ILP implementation}
 
-In this section we will demonstrate the use of CellNOptR with the ILP implementation (see \cite{mitsos_2009}) with the example provided in the CellNOptR package.
+Besides Genetic Algorithm, another approach for training the PKN to data is by using an Integer Linear Programming (ILP) optimization technique. This optimization problem has been implemented based on the formulation from \cite{mitsos_2009}. 
+
+In this section we will demonstrate the use of CellNOptR with the ILP implementation with the example provided in the CellNOptR package.
 
 <<quickstart, eval=FALSE>>=
 # ---------------------- load the library and get a SIF and MIDAS file
@@ -743,6 +745,40 @@ resILP = ilpBinaryT1(cnolist = cnolist, model = model, numSolutions = 3,
 cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[1]]))
 cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[2]]))
 cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[3]]))
+@
+
+\clearpage
+
+\section{k-fold Crossvalidation for CellNOptR Boolean models}
+
+Cross-validation has been implemented in order to assess the predictive performance of our models and inspect how well these models can predict data outside of it’s training set. Three re-sampling strategies have been implemented: resampling of 1)data-ponts, 2)experimental conditions and 3)observable nodes. Because of the multiple and possibly extensive analysis, the cross-validation functionality allow for a parallelization of the procedure.
+
+Below we show an example about how we can use the cross-validation functionality by applying different re-sampling strategies in a parallel and serial computing environments.
+
+<<quickstart, eval=FALSE>>=
+# ---------------------- load the library and get a SIF and MIDAS file
+library(CellNOptR)
+#
+# ---------------------- examples are provided in CellNOptR
+pknmodel = readSIF("PKN-ToyPB.sif.txt")
+cnodata = CNOlist("MD-ToyPB.csv")
+#
+# ---------------------- preprocess the network
+model = preprocessing(data = cnodata,model = pknmodel,compression = T,expansion = T)
+plotModel(model,cnodata)
+#
+# ---------------------- perform the analysis
+opt = gaBinaryT1(CNOlist = cnodata_prep,model = model)
+#
+# ---------------------- 10-fold cross-validation procedure using T1 data
+library(doParallel)
+registerDoParallel(cores=3)
+system.time({R1=crossvalidateBoolean(CNOlist = cnodata_prep, model = model, type="datapoint", nfolds=10, parallel = TRUE)})
+system.time({R2=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, type="experiment", nfolds=10, parallel = TRUE)})
+system.time({R3=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, type="observable", nfolds=10, parallel = TRUE)})
+system.time({R4=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, type="datapoint", nfolds=10, parallel = FALSE)})
+system.time({R5=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, type="experiment", nfolds=10, parallel = FALSE)})
+system.time({R6=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, type="observable", nfolds=10, parallel = FALSE)})
 @
 
 \section{What else}
