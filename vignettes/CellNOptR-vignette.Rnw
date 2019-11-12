@@ -756,19 +756,19 @@ plotModel(model, cnolist, bString=resILP$bitstringILP[[3]])
 Figures \ref{fig:model1}, \ref{fig:model2}, \ref{fig:model3} show the 3 optimal solutions retrieved by the ILP analysis.
 
 \begin{figure*}
-\centerline{\includegraphics[width=7cm, height=9cm]{model_1.pdf}}
+\centerline{\includegraphics[width=8cm, height=9cm]{model_1.pdf}}
 \caption{Results of the \emph{ilpBinaryT1} function on the Toy Model example - solution 1}
 \label{fig:model1}
 \end{figure*}
 
 \begin{figure*}
-\centerline{\includegraphics[width=7cm, height=9cm]{model_2.pdf}}
+\centerline{\includegraphics[width=7cm, height=8cm]{model_2.pdf}}
 \caption{Results of the \emph{ilpBinaryT1} function on the Toy Model example - solution 2}
 \label{fig:model2}
 \end{figure*}
 
 \begin{figure*}
-\centerline{\includegraphics[width=7cm, height=9cm]{model_3.pdf}}
+\centerline{\includegraphics[width=8cm, height=9cm]{model_3.pdf}}
 \caption{Results of the \emph{ilpBinaryT1} function on the Toy Model example - solution 3}
 \label{fig:model3}
 \end{figure*}
@@ -776,7 +776,7 @@ Figures \ref{fig:model1}, \ref{fig:model2}, \ref{fig:model3} show the 3 optimal 
 As indicated in Figure \ref{fig:ilpfit}, the three solutions fit the data with the same quality and the main difference is in the size of network solutions. This example shows how ILP can be used to retrieve alternative sparser solutions which have the same quality of fit and to indicate the most robust interactions or the ones which are consistently present across the solutions.
 
 \begin{figure*}
-\centerline{\includegraphics[width=11cm, height=7cm]{model_3.pdf}}
+\centerline{\includegraphics[width=11cm, height=7cm]{ilp_fit.pdf}}
 \caption{Alternative solutions have the same fit to data. Plots obtained throught the \emph{cutAndPlot} function}
 \label{fig:ilpfit}
 \end{figure*}
