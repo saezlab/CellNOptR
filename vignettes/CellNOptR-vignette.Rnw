@@ -737,19 +737,19 @@ cnolist = CNOlist(CNOlistToy)
 model = preprocessing(cnolist, pknmodel)
 #
 # ---------------------- perform the analysis
-resILP = ilpBinaryT1(cnolist = cnolist, model = model, numSolutions = 3, 
-                    mipGap = 0.05, relGap = 0.05) # asking to retrieve 3 
+resILP = ilpBinaryT1(cnolist = cnolist, model = model, 
+                     numSolutions = 3, relGap = 0.05) # asking to retrieve 3 
                                                   # equivalent solutions with 
-                                                  # tolerance gaps mipGap and relGap 0.05
+                                                  # tolerance gap relGap=0.05
 #
 # ---------------------- plot the results (optimized models + fits)
-cutAndPlot(CNOlist = cnolist, model = model, bStrings = resILP$bitstringILP[[1]])
+cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[1]]))
 plotModel(model, cnolist, bString=resILP$bitstringILP[[1]])
 
-cutAndPlot(CNOlist = cnolist, model = model, bStrings = resILP$bitstringILP[[2]])
+cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[2]]))
 plotModel(model, cnolist, bString=resILP$bitstringILP[[2]])
 
-cutAndPlot(CNOlist = cnolist, model = model, bStrings = resILP$bitstringILP[[3]])
+cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[3]]))
 plotModel(model, cnolist, bString=resILP$bitstringILP[[3]])
 @
 
