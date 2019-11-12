@@ -802,22 +802,22 @@ model = preprocessing(data = cnodata,model = pknmodel,compression = T,expansion 
 plotModel(model,cnodata)
 #
 # ---------------------- perform the analysis
-opt = gaBinaryT1(CNOlist = cnodata_prep,model = model)
+opt = gaBinaryT1(CNOlist = cnodata,model = model)
 #
 # ---------------------- 10-fold cross-validation procedure using T1 data
 library(doParallel)
 registerDoParallel(cores=3)
-system.time({R1=crossvalidateBoolean(CNOlist = cnodata_prep, model = model, 
+system.time({R1=crossvalidateBoolean(CNOlist = cnodata, model = model, 
                                      type="datapoint", nfolds=10, parallel = TRUE)})
-system.time({R2=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, 
+system.time({R2=crossvalidateBoolean(CNOlist = cnodata, model=model, 
                                      type="experiment", nfolds=10, parallel = TRUE)})
-system.time({R3=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, 
+system.time({R3=crossvalidateBoolean(CNOlist = cnodata, model=model, 
                                      type="observable", nfolds=10, parallel = TRUE)})
-system.time({R4=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, 
+system.time({R4=crossvalidateBoolean(CNOlist = cnodata, model=model, 
                                      type="datapoint", nfolds=10, parallel = FALSE)})
-system.time({R5=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, 
+system.time({R5=crossvalidateBoolean(CNOlist = cnodata, model=model, 
                                      type="experiment", nfolds=10, parallel = FALSE)})
-system.time({R6=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, 
+system.time({R6=crossvalidateBoolean(CNOlist = cnodata, model=model, 
                                      type="observable", nfolds=10, parallel = FALSE)})
 @
 
