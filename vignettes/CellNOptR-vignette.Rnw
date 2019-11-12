@@ -762,18 +762,21 @@ Below we show the three alternative solutions retrieved by the ILP analysis  \re
 \caption{Results of the \emph{ilpBinaryT1.R} function on the Toy Model example - solution 1.}
 \label{fig:model1}
 \end{figure*}
+\begin{center}
 
 \begin{figure*}
 \centerline{\includegraphics[width=0.8\textwidth]{model_2.pdf}}
 \caption{Results of the \emph{ilpBinaryT1.R} function on the Toy Model example - solution 1.}
 \label{fig:model2}
 \end{figure*}
+\begin{center}
 
 \begin{figure*}
 \centerline{\includegraphics[width=0.8\textwidth]{model_3.pdf}}
 \caption{Results of the \emph{ilpBinaryT1.R} function on the Toy Model example - solution 1.}
 \label{fig:model3}
 \end{figure*}
+\begin{center}
 
 For both of the above models, the fit is the same and as shown in the figure below \ref{fig:ilpfit}:
 
