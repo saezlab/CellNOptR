@@ -742,13 +742,46 @@ resILP = ilpBinaryT1(cnolist = cnolist, model = model, numSolutions = 3,
                                                   # equivalent solutions with 
                                                   # tolerance gaps mipGap and relGap 0.05
 #
-# ---------------------- plot the results
-cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[1]]))
-cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[2]]))
-cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[3]]))
+# ---------------------- plot the results (optimized models + fits)
+cutAndPlot(CNOlist = cnolist, model = model, bStrings = resILP$bitstringILP[[1]])
+plotModel(model, cnolist, bString=resILP$bitstringILP[[1]])
+
+cutAndPlot(CNOlist = cnolist, model = model, bStrings = resILP$bitstringILP[[2]])
+plotModel(model, cnolist, bString=resILP$bitstringILP[[2]])
+
+cutAndPlot(CNOlist = cnolist, model = model, bStrings = resILP$bitstringILP[[3]])
+plotModel(model, cnolist, bString=resILP$bitstringILP[[3]])
 @
 
-Through the gap parameters (relGap and mipGap) users can control the quality of solutions to retrieve compared to the optimal ones. As a rule of thumb the looser the gap parameters the higher the number of solutions which can be retrieved.
+Figures \ref{fig:model1}, \ref{fig:model2} & \ref{fig:model3} show the 3 optimal solutions retrieved by the ILP analysis.
+
+\begin{figure*}
+\centerline{\includegraphics[width=7cm, height=9cm]{model_1.pdf}}
+\caption{Results of the \emph{ilpBinaryT1} function on the Toy Model example - solution 1}
+\label{fig:model1}
+\end{figure*}
+
+\begin{figure*}
+\centerline{\includegraphics[width=7cm, height=9cm]{model_2.pdf}}
+\caption{Results of the \emph{ilpBinaryT1} function on the Toy Model example - solution 2}
+\label{fig:model2}
+\end{figure*}
+
+\begin{figure*}
+\centerline{\includegraphics[width=7cm, height=9cm]{model_3.pdf}}
+\caption{Results of the \emph{ilpBinaryT1} function on the Toy Model example - solution 3}
+\label{fig:model3}
+\end{figure*}
+
+As indicated in Figure \ref{fig:ilpfit}, the three solutions fit the data with the same quality and the main difference is in the size of network solutions. This example shows how ILP can be used to retrieve alternative sparser solutions which have the same quality of fit and to indicate the most robust interactions or the ones which are consistently present across the solutions.
+
+\begin{figure*}
+\centerline{\includegraphics[width=11cm, height=7cm]{model_3.pdf}}
+\caption{Alternative solutions have the same fit to data. Plots obtained throught the \emph{cutAndPlot} function}
+\label{fig:ilpfit}
+\end{figure*}
+
+Through the gap parameters (relGap) users can control the quality of solutions to retrieve compared to the optimal ones. As a rule of thumb the looser the gap parameters the higher the number of solutions which can be retrieved.
 
 \section{k-fold Crossvalidation}
 
