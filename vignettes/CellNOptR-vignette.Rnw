@@ -753,7 +753,7 @@ cutAndPlot(CNOlist = cnolist, model = model, bStrings = resILP$bitstringILP[[3]]
 plotModel(model, cnolist, bString=resILP$bitstringILP[[3]])
 @
 
-Figures \ref{fig:model1}, \ref{fig:model2} & \ref{fig:model3} show the 3 optimal solutions retrieved by the ILP analysis.
+Figures \ref{fig:model1}, \ref{fig:model2}, \ref{fig:model3} show the 3 optimal solutions retrieved by the ILP analysis.
 
 \begin{figure*}
 \centerline{\includegraphics[width=7cm, height=9cm]{model_1.pdf}}
