@@ -737,18 +737,55 @@ cnolist = CNOlist(CNOlistToy)
 model = preprocessing(cnolist, pknmodel)
 #
 # ---------------------- perform the analysis
-resILP = ilpBinaryT1(cnolist = cnolist, model = model, numSolutions = 3, 
-                    mipGap = 0.05, relGap = 0.05) # asking to retrieve 3 
-                                                  # equivalent solutions with 
-                                                  # tolerance gaps mipGap and relGap 0.05
+resILP = ilpBinaryT1(cnolist = cnolist, model = model, 
+                     numSolutions = 3, relGap = 0.05) # asking to retrieve 3 
+                                                      # equivalent solutions with 
+                                                      # tolerance gap relGap=0.05
 #
-# ---------------------- plot the results
+# ---------------------- plot the results and the optimized models
 cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[1]]))
+plotModel(model = model, CNOlist = cnolist, bString = resILP$bitstringILP[[1]])
+
 cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[2]]))
+plotModel(model = model, CNOlist = cnolist, bString = resILP$bitstringILP[[2]])
+
 cutAndPlot(CNOlist = cnolist, model = model, bStrings = list(resILP$bitstringILP[[3]]))
+plotModel(model = model, CNOlist = cnolist, bString = resILP$bitstringILP[[3]])
 @
 
-Through the gap parameters (relGap and mipGap) users can control the quality of solutions to retrieve compared to the optimal ones. As a rule of thumb the looser the gap parameters the higher the number of solutions which can be retrieved.
+Through the gap parameters (relGap) users can control the quality of solutions to retrieve compared to the optimal ones. As a rule of thumb the looser the gap parameters the higher the number of solutions which can be retrieved.
+
+Below we show the three alternative solutions retrieved by the ILP analysis  \ref{fig:model1},  \ref{fig:model2},  \ref{fig:model3}:
+
+\begin{figure*}
+\centerline{\includegraphics[width=0.8\textwidth]{model_1.pdf}}
+\caption{Results of the \emph{ilpBinaryT1.R} function on the Toy Model example - solution 1.}
+\label{fig:model1}
+\end{figure*}
+\begin{center}
+
+\begin{figure*}
+\centerline{\includegraphics[width=0.8\textwidth]{model_2.pdf}}
+\caption{Results of the \emph{ilpBinaryT1.R} function on the Toy Model example - solution 1.}
+\label{fig:model2}
+\end{figure*}
+\begin{center}
+
+\begin{figure*}
+\centerline{\includegraphics[width=0.8\textwidth]{model_3.pdf}}
+\caption{Results of the \emph{ilpBinaryT1.R} function on the Toy Model example - solution 1.}
+\label{fig:model3}
+\end{figure*}
+\begin{center}
+
+For both of the above models, the fit is the same and as shown in the figure below \ref{fig:ilpfit}:
+
+\begin{figure*}
+\centerline{\includegraphics[width=0.8\textwidth]{model_3.pdf}}
+\caption{Plot from the \emph{cutAndPlot} function on the Toy Model example (same for all the three shown solutions).}
+\label{fig:ilpfit}
+\end{figure*}
+\begin{center}
 
 \section{k-fold Crossvalidation}
 
