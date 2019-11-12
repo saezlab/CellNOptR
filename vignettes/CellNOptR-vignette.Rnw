@@ -794,8 +794,8 @@ Below we show an example about how we can use the cross-validation functionality
 library(CellNOptR)
 #
 # ---------------------- examples are provided in CellNOptR
-pknmodel = readSIF("PKN-ToyPB.sif.txt")
-cnodata = CNOlist("MD-ToyPB.csv")
+data(PKN_ToyPB, package="CellNOptR")
+data(CNOlist_ToyPB, package="CellNOptR")
 #
 # ---------------------- preprocess the network
 model = preprocessing(data = cnodata,model = pknmodel,compression = T,expansion = T)
