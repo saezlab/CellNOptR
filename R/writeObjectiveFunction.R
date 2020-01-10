@@ -16,7 +16,7 @@
 writeObjectiveFunction <- function(model, 
                                    midasExperimentPart, 
                                    y_vector=y_vector,
-                                   accountForModelSize = TRUE, 
+                                   accountForModelSize=TRUE, 
                                    sizeFac = 0.000001, 
                                    meansOfMeasurements_at_t0, 
                                    method = "quadratic" ){
