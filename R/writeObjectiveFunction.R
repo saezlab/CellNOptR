@@ -17,9 +17,9 @@ writeObjectiveFunction <- function(model,
                                    midasExperimentPart, 
                                    y_vector=y_vector,
                                    accountForModelSize <- TRUE, 
-                                   sizeFac <- .000001, 
+                                   sizeFac = 0.000001, 
                                    meansOfMeasurements_at_t0, 
-                                   method <- "quadratic" ){
+                                   method = "quadratic" ){
   
   # creating auxilliary objects
   reducedMidas <- midasExperimentPart
