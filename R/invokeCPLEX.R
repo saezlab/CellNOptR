@@ -40,8 +40,7 @@ invokeCPLEX <- function(inputFileName,
     file.remove("cplex.exe")
     Elapsed_2 <- proc.time() - ptm
   } else {
-    system(paste0(solverPath, " -f cplexCommand_", 
-                  condition,"_",repIndex,".txt"))
+    system(paste0(solverPath, " -f cplexCommand.txt"))
     Elapsed_2 <- proc.time() - ptm
   }
   
