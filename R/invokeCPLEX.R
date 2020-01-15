@@ -21,8 +21,8 @@ invokeCPLEX <- function(inputFileName,
                         poolIntensity = poolIntensity, 
                         poolReplace = poolReplace){
   
-  # Writing and executing the cplex commands
-  setwd(gsub(pattern = "cplex", replacement = "", x = cplexPath))
+  ## Writing and executing the cplex commands
+  ## setwd(gsub(pattern = "cplex", replacement = "", x = cplexPath))
   writeCplexCommandFile(commandFileName = "cplexCommand.txt", inputFileName, 
                         outputFileName, mipGap=mipGap, relGap = relGap, 
                         timelimit=timelimit, cplexPath = cplexPath, 
@@ -38,10 +38,8 @@ invokeCPLEX <- function(inputFileName,
     file.copy(from = cplexPath,to = getwd())
     system(paste0("cplex.exe -f cplexCommand.txt"))
     file.remove("cplex.exe")
-    Elapsed_2 <- proc.time() - ptm
   } else {
     system(paste0(cplexPath, " -f cplexCommand.txt"))
-    Elapsed_2 <- proc.time() - ptm
   }
   
 }
