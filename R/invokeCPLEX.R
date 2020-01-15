@@ -35,12 +35,12 @@ invokeCPLEX <- function(inputFileName,
   # system(paste0(cplexPath, " -f cplexCommand.txt"))
   
   if (Sys.info()[1]=="Windows") {
-    file.copy(from = solverPath,to = getwd())
+    file.copy(from = cplexPath,to = getwd())
     system(paste0("cplex.exe -f cplexCommand.txt"))
     file.remove("cplex.exe")
     Elapsed_2 <- proc.time() - ptm
   } else {
-    system(paste0(solverPath, " -f cplexCommand.txt"))
+    system(paste0(cplexPath, " -f cplexCommand.txt"))
     Elapsed_2 <- proc.time() - ptm
   }
   

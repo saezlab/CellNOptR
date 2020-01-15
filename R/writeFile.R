@@ -13,8 +13,7 @@
 writeFile <- function(objectiveFunction,
                       constraints,
                       bounds,
-                      binaries,
-                      cplexPath){
+                      binaries){
   
   data = "testFile.lp"
   write("enter Problem", data)

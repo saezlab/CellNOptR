@@ -161,8 +161,7 @@ createAndRunILP <- function(model = model,
                                   midasTreatmentPart, reaction_sets, 
                                   y_vector, md)
   bounds <- write_bounds(model, midasTreatmentPart,y_vector, binary_variables)
-  writeFile(objectiveFunction, constraints, bounds, binary_variables, 
-            cplexPath = cplexPath)
+  writeFile(objectiveFunction, constraints, bounds, binary_variables)
   time_cplex_start <- Sys.time()
   invokeCPLEX(inputFileName = "testFile.lp", 
               outputFileName = "cplexSolution.txt", mipGap=mipGap, 
