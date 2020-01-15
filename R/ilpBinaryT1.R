@@ -64,6 +64,8 @@ ilpBinaryT1 <- function(cnolist = cnolist,
                            poolReplace = poolReplace)
   endILP <- Sys.time()
   
+  cleanupILP()
+  
   return(resILP)
   
 }
