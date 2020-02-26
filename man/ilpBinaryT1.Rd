@@ -42,7 +42,7 @@ the relative tolerance on the objective value for the solutions in the solution 
 the maximum optimisation time in seconds, default set to 3600
 }
   \item{cplexPath}{
-the path where the cplex solver is stored. Default set to "~/Documents/cplex"
+the path where the cplex solver is stored (mandatory).
 }
   \item{method}{
 the method of writing the objective function (quadratic/linear). Default set to "quadratic"
