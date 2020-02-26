@@ -26,8 +26,7 @@ and above)}}
 
 
 
-\author{Camille Terfve, Thomas Cokelaer, Aidan MacNamara, Enio Gjerga, 
-Attila Gabor, Panuwat Trairatphisan, Julio Saez-Rodriguez}
+\author{Camille Terfve, Thomas Cokelaer, Aidan MacNamara, Enio Gjerga, Attila Gabor, Panuwat Trairatphisan, Julio Saez-Rodriguez}
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
