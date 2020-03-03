@@ -88,8 +88,8 @@ library(doParallel)
 registerDoParallel(cores=3)
 R=crossvalidateBoolean(CNOlist = cnodata_prep,
 						model = model,
-						type="datapoint",
-						nfolds=10,
+						type = "datapoint",
+						nfolds = 10,
 						parallel = TRUE)
 
 }

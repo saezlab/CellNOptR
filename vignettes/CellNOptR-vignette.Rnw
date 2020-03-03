@@ -815,7 +815,7 @@ opt = gaBinaryT1(CNOlist = cnodata_prep,model = model)
 #
 # ---------------------- 10-fold cross-validation procedure using T1 data
 library(doParallel)
-registerDoParallel(cores=3)
+doParallel::registerDoParallel(cores=3)
 system.time({R1=crossvalidateBoolean(CNOlist = cnodata_prep, model = model, 
                                      type="datapoint", nfolds=10, parallel = TRUE)})
 system.time({R2=crossvalidateBoolean(CNOlist = cnodata_prep, model=model, 
