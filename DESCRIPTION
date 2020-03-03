@@ -15,7 +15,11 @@ Depends:
     RCurl,
     Rgraphviz,
     XML,
-    ggplot2
+    ggplot2,
+    grDevices,
+    graphics,
+    stats,
+    utils
 Imports:
 	igraph,
     stringi,
