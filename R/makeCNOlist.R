@@ -51,7 +51,7 @@ makeCNOlist<-function(dataset,subfield, verbose=TRUE){
         #compute the new row as the average across duplicate rows
         newRow<-colMeans(dupMatrix, na.rm=TRUE)
         # variance for these rows
-        newVariance = apply(dupMatrix, MARGIN=2, FUN=var, na.rm=T)
+        newVariance = apply(dupMatrix, MARGIN=2, FUN=var, na.rm=TRUE)
 
         #replace the first duplicated row by the summarised one
         dataset$dataMatrix[dupIndex[1],]<-newRow

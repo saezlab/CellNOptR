@@ -7,13 +7,13 @@ ILP method used to optimise a model
 This function is the ilp method to be used to optimise a model by fitting to data containing one time point.
 }
 \usage{
-ilpBinaryT1 <- function(cnolist = cnolist, 
-                        model = model, 
+ilpBinaryT1 <- function(cnolist, 
+                        model, 
                         sizeFac = 0.0001, 
                         mipGap = 0, 
                         relGap = 0, 
                         timelimit = 3600, 
-                        cplexPath = "~/Documents/cplex", 
+                        cplexPath, 
                         method = "quadratic",
                         numSolutions = 100, 
                         limitPop = 500, 
@@ -74,11 +74,6 @@ E Gjerga, H Koch
 Alexander Mitsos, Ioannis N. Melas, Paraskeuas Siminelakis, Aikaterini D. Chairakaki, Julio Saez-Rodriguez, and Leonidas G. Alexopoulos. Identifying Drug Effects via Pathway Alterations using an Integer Linear Programming Optimization Formulation on Phosphoproteomic Data. PLoS Comput Biol. 2009 Dec; 5(12): e1000591.
 }
 \examples{
-# Loading the libraries
-library(CellNOptR)
-library(igraph)
-library(readr)
-library(stringr)
 
 # Toy Exampple
 data("ToyModel", package="CellNOptR")
@@ -89,6 +84,7 @@ model = preprocessing(data = cnolist, model = pknmodel, compression = TRUE, expa
 plotModel(model = model, CNOlist = cnolist)
 
 # Training to data - ILP
+\dontrun{
 resILP = ilpBinaryT1(cnolist = cnolist, model = model)
-
+}
 }

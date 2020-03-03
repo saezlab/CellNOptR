@@ -72,10 +72,10 @@ toSBMLStandard <- function(network, file, bitString = c(rep(1,length(network$rea
         {
             
             intName <- colnames(network$interMat)[i]
-            if (grepl("+", intName,fixed = T) == TRUE) 
+            if (grepl("+", intName,fixed = TRUE) == TRUE) 
             {
                 tmp = unlist(strsplit(intName,split = "="))[1] #take the inputs on the left hand side, removing the output gene
-                LHS = unlist(strsplit(tmp,split = "+",fixed = T)) #list of inputs
+                LHS = unlist(strsplit(tmp,split = "+",fixed = TRUE)) #list of inputs
                 for (input in LHS){
                     sign <- "positive"
                     if(substr(input,1,1) == "!"){
@@ -131,7 +131,7 @@ toSBMLStandard <- function(network, file, bitString = c(rep(1,length(network$rea
         transition = paste(unlist(inputs), collapse='')
        
         #only OR transitions
-        if (grepl("&", transition,fixed = T) == FALSE && transition!='')
+        if (grepl("&", transition,fixed = TRUE) == FALSE && transition!='')
         {
             transition = unlist(strsplit(transition,split = '|', fixed = TRUE))
             if (length(transition) > 1)
@@ -151,7 +151,7 @@ toSBMLStandard <- function(network, file, bitString = c(rep(1,length(network$rea
                 
         }
         #only AND transitions
-        else if (grepl("&", transition,fixed = T) == TRUE && transition!='' && grepl("|", transition,fixed = T) == FALSE){
+        else if (grepl("&", transition,fixed = TRUE) == TRUE && transition!='' && grepl("|", transition,fixed = TRUE) == FALSE){
             transition = unlist(strsplit(transition,split = '&', fixed = TRUE))
             cat(file=f, "\t\t\t\t\t\t\t\t<", 'and', "/>\n",sep = "")
             for (i in 1:length(transition)){
@@ -178,7 +178,7 @@ toSBMLStandard <- function(network, file, bitString = c(rep(1,length(network$rea
             cat(file=f, "\t\t\t\t\t\t\t\t<", 'or', "/>\n",sep = "")
             for (i in 1:length(transition)){
                 cat(file=f, "\t\t\t\t\t\t\t\t<apply>\n")
-                if (grepl("&", transition[i], fixed = T) == TRUE){
+                if (grepl("&", transition[i], fixed = TRUE) == TRUE){
                     cat(file=f, "\t\t\t\t\t\t\t\t<", 'and', "/>\n",sep = "")
                     andTransition = unlist(strsplit(transition[i],split = '&', fixed = TRUE))
                     for (k in andTransition){

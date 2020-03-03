@@ -160,7 +160,7 @@ cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
                 c1 = simResults[a,b,]
                 c2 = valueSignalsArr[a,b,valueSignalsI]
                 NAcount = max(sum(is.na(c1)), sum(is.na(c2)))
-                allDiff[a,b] = sum((c1 - c2)^2, na.rm=T)/(norm - NAcount)
+                allDiff[a,b] = sum((c1 - c2)^2, na.rm=TRUE)/(norm - NAcount)
             }
         }
     } else {
@@ -170,7 +170,7 @@ cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
                 c1 =  simResults[a,b,]
                 c2 = yInterpol[a,b,]
                 NAcount = max(sum(is.na(c1)), sum(is.na(c2)))
-                allDiff[a,b] = sum((c1 - c2)^2, na.rm=T)/(norm - NAcount)
+                allDiff[a,b] = sum((c1 - c2)^2, na.rm=TRUE)/(norm - NAcount)
             }
         }
     }
@@ -344,7 +344,7 @@ cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
 
     screen(dim(CNOlist@signals[[1]])[2]+3)
     splitProp = 1/(dim(CNOlist@signals[[1]])[1]+1)
-    sSplit = matrix(c(0,1,(1-splitProp),1,0,1,0,(1-splitProp)),ncol=4, byrow=T)
+    sSplit = matrix(c(0,1,(1-splitProp),1,0,1,0,(1-splitProp)),ncol=4, byrow=TRUE)
     split.screen(sSplit)
     screen(sInhib)
 #       par(fg="blue",mar=c(0.5,0.5,0.7,0))

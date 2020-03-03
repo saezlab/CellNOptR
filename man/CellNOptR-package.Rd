@@ -30,7 +30,6 @@ mammalian signal transduction, Molecular Systems Biology, 5:331, 2009.
 
 \keyword{ package }
 \examples{
-library(CellNOptR)
 
 # quick 1 time point optimisation of a Prior Knowledge Network to MIDAS data. 
 data(CNOlistToy,package="CellNOptR")

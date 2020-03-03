@@ -37,11 +37,11 @@ cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList
     simListCut <- cutSimList(simList, bString)
     # t0
     Sim0 <- simulatorT0(CNOlist=CNOlist, model=modelCut, simList=simListCut, indexList=indexList)
-    simRes0 <- as.matrix(Sim0[,indexList$signals,drop=F])
+    simRes0 <- as.matrix(Sim0[,indexList$signals,drop=FALSE])
     #simRes0 = Sim0
     # t1
     Sim <- simulatorT1(CNOlist=CNOlist, model=modelCut, simList=simListCut, indexList=indexList)
-    simRes <- as.matrix(Sim[,indexList$signals,drop=F])
+    simRes <- as.matrix(Sim[,indexList$signals,drop=FALSE])
     #simRes = Sim
 
     simResults <- list(t0=simRes0, t1=simRes)
@@ -68,14 +68,14 @@ cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList
             simDiv = simResults
             finalN = div1 * a
             if(finalN > dim1) {finalN = dim1}
-            CNOdiv@cues = CNOdiv@cues[count1:finalN,,drop=F]
-            CNOdiv@stimuli = CNOdiv@stimuli[count1:finalN,,drop=F]
-            CNOdiv@inhibitors = CNOdiv@inhibitors[count1:finalN,,drop=F]
+            CNOdiv@cues = CNOdiv@cues[count1:finalN,,drop=FALSE]
+            CNOdiv@stimuli = CNOdiv@stimuli[count1:finalN,,drop=FALSE]
+            CNOdiv@inhibitors = CNOdiv@inhibitors[count1:finalN,,drop=FALSE]
             for(b in 1:length(CNOdiv@signals)) {
-                CNOdiv@signals[[b]] = CNOdiv@signals[[b]][count1:finalN,,drop=F]
+                CNOdiv@signals[[b]] = CNOdiv@signals[[b]][count1:finalN,,drop=FALSE]
             }
             for(d in 1:length(simDiv)) {
-                simDiv[[d]] = simDiv[[d]][count1:finalN,,drop=F]
+                simDiv[[d]] = simDiv[[d]][count1:finalN,,drop=FALSE]
             }
             count1 = count1 + div1
             CNOlistSet = c(CNOlistSet, list(CNOdiv))

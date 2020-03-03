@@ -66,8 +66,12 @@ crossvalidateBoolean <- function(CNOlist,model,nfolds=10,foldid=NULL,
   outlist = as.list(seq(nfolds))
   
   if (parallel) {
-    require(doParallel)
-    outlist = foreach(i = seq(nfolds), .packages = c("CellNOptR")) %dopar% 
+  	if (!requireNamespace("doParallel", quietly = TRUE)) {
+  		stop("Package \"doParallel\" needed for this function to work. Please install it.",
+  			 call. = FALSE)
+  	}
+  	
+    outlist = foreach::foreach(i = seq(nfolds), .packages = c("CellNOptR")) %dopar%
     {
       whichI = foldid == i
       CNOlist.sub = CNOlist
@@ -85,7 +89,7 @@ crossvalidateBoolean <- function(CNOlist,model,nfolds=10,foldid=NULL,
       
       outlist = list()
       outlist$fit = gaBinaryT1(CNOlist = CNOlist.sub, 
-                               model=model, timeIndex = timeIndex, verbose = F)
+                               model=model, timeIndex = timeIndex, verbose = FALSE)
       
       outlist$cvScore = computeScoreT1(CNOlist = CNOlist.cv,model = model,
                                        bString = outlist$fit$bString,
@@ -115,7 +119,7 @@ crossvalidateBoolean <- function(CNOlist,model,nfolds=10,foldid=NULL,
       outlist[[i]] = list()
       outlist[[i]]$fit = gaBinaryT1(CNOlist = CNOlist.sub, 
                                     model=model, timeIndex = timeIndex, 
-                                    verbose = F, ...)
+                                    verbose = FALSE, ...)
       
       outlist[[i]]$cvScore = computeScoreT1(CNOlist = CNOlist.cv,model = model,
                                             bString = outlist[[i]]$fit$bString,

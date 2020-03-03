@@ -14,18 +14,28 @@
 #'
 #' @author Luis Tobalina
 readBNET <- function(filename){
-	required_pcks = list("plyr","dplyr","tidyr","readr")
 	
-	if(!all(unlist(lapply(required_pcks,function(str) {require(str,character.only = TRUE)})))){
-		print("the following packages need to be installed to use readBNET:")	
-		print(unlist(required_pcks))
-		print("Please, install the packages manually for this feature.")
-		return(-1)
+	if (!requireNamespace("plyr", quietly = TRUE)) {
+		stop("Package \"plyr\" needed for this function to work. Please install it.",
+			 call. = FALSE)
 	}
-			   
+
+	if (!requireNamespace("dplyr", quietly = TRUE)) {
+		stop("Package \"dplyr\" needed for this function to work. Please install it.",
+			 call. = FALSE)
+	}
+	if (!requireNamespace("tidyr", quietly = TRUE)) {
+		stop("Package \"tidyr\" needed for this function to work. Please install it.",
+			 call. = FALSE)
+	}
+	if (!requireNamespace("readr", quietly = TRUE)) {
+		stop("Package \"readr\" needed for this function to work. Please install it.",
+			 call. = FALSE)
+	}
+		
 	warning("experimental BNET reader. Use with care (February 2018).")
 	
-	bnet <- data.table::fread(filename, header=T)
+	bnet <- data.table::fread(filename, header=TRUE)
 	
 	# count number of `and` gates in each logic rule
 	bnet <- bnet %>% rowwise() %>% 
@@ -135,7 +145,7 @@ build_sif_table_from_rule <- function(rule_str, target, last_and_num=0) {
 	# remove all whitespaces
 	rule_str <-  gsub(" ", "", rule_str)
 	# split rule in its different atomic components
-	tokens <- strsplit(rule_str, "(?=[\\|\\&\\(\\)!])", perl=T)[[1]]
+	tokens <- strsplit(rule_str, "(?=[\\|\\&\\(\\)!])", perl=TRUE)[[1]]
 	# the next set of variables will be used and/or modified by the inner functions
 	current_token_pos <- 0
 	symbol <- ""
@@ -274,7 +284,7 @@ build_sif_table_from_rule <- function(rule_str, target, last_and_num=0) {
 	# several simplifications until a SIF format friendly version is reached (i.e. no concatenated `and` nodes and
 	# no `or` nodes).
 	interpret_sif_list <- function(sif_list){
-		tree_df <- data.frame(matrix(unlist(sif_list), nrow=length(sif_list), byrow=T))
+		tree_df <- data.frame(matrix(unlist(sif_list), nrow=length(sif_list), byrow=TRUE))
 		colnames(tree_df) <- c("left_part", "right_part", "root")
 		
 		sif_df <- tree_df[,c("left_part", "root")]

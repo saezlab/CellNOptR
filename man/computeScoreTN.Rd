@@ -18,8 +18,6 @@ computeScoreTN(CNOlist, model, simList=NULL, indexList=NULL, simResPrev=NULL,
 }
 
 
-
-
 \arguments{
     \item{CNOlist}{
         a CNOlist structure, as created by \code{makeCNOlist}.

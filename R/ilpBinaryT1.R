@@ -13,9 +13,9 @@
 #
 ##############################################################################
 
-ilpBinaryT1 <- function(cnolist = cnolist, 
-                        model = model,
-                        cplexPath = cplexPath,
+ilpBinaryT1 <- function(cnolist, 
+                        model,
+                        cplexPath,
                         sizeFac = 0.0001, 
                         mipGap = 0, 
                         relGap = 0, 

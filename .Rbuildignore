@@ -4,3 +4,10 @@
 ^figure/
 ^bugReports/
 ^caseStudies/
+^CNOR_analysis/*
+^Toy/*
+^ToyParams/*
+^.Rhistory
+^.travis.yml
+^.git/
+^Readme.md

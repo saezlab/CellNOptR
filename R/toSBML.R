@@ -115,7 +115,7 @@ toSBML <- function(network, file, bitString = c(rep(1,length(network$reacID))),v
         
         for (i in all_interactions){
             int_name <- colnames(network$interMat)[i]
-            if (grepl("+", int_name,fixed = T) == TRUE) {
+            if (grepl("+", int_name,fixed = TRUE) == TRUE) {
                 and_interaction = c(and_interaction,int_name)
                 next
             }
@@ -152,7 +152,7 @@ toSBML <- function(network, file, bitString = c(rep(1,length(network$reacID))),v
             cat(file=f, "\t\t\t<qual:transition qual:id=\"", t_name ,  "\">\n",sep = "")
             cat(file=f,"\t\t\t\t <qual:listOfInputs> \n")
             tmp = unlist(strsplit(i,split = "="))[1] #input
-            LHS = unlist(strsplit(tmp,split = "+",fixed = T))
+            LHS = unlist(strsplit(tmp,split = "+",fixed = TRUE))
             for (input in LHS){
                 sign <- "positive"
                 if(substr(input,1,1) == "!"){

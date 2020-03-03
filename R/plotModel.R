@@ -656,7 +656,7 @@ createNodeAttrs <- function(g, vertices, stimuli, signals, inhibitors, NCNO,
 # Create the node attributes and save in a list to be used either by the
 # plot function of the edgeRenderInfo function.
 createEdgeAttrs <- function(v1, v2, edges, BStimes ,Integr, user_edgecolor,
-							view_empty_edge=TRUE,removeEmptyAnds=T){
+							view_empty_edge=TRUE,removeEmptyAnds=TRUE){
 	
 	edgewidth_c = 3 # default edge width
 	

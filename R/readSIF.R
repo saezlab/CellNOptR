@@ -199,8 +199,8 @@ readSIF<-function(sifFile){
             notMat<-cbind(notMat,newReacNot)
 
             reacID<-c(reacID,newReacID)
-            interMat<- as.matrix(interMat[-which(rownames(interMat) == AndNodesV[i]),], drop=F)
-            notMat <- as.matrix(notMat[-which(rownames(notMat) == AndNodesV[i]),], drop=F)
+            interMat<- as.matrix(interMat[-which(rownames(interMat) == AndNodesV[i]),], drop=FALSE)
+            notMat <- as.matrix(notMat[-which(rownames(notMat) == AndNodesV[i]),], drop=FALSE)
 
 
             if(length(output) == 1){

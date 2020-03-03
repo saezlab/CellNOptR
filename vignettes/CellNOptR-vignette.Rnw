@@ -737,6 +737,7 @@ cnolist = CNOlist(CNOlistToy)
 model = preprocessing(cnolist, pknmodel)
 #
 # ---------------------- perform the analysis
+cplexPath = "path/to/cplex"
 resILP = ilpBinaryT1(cnolist = cnolist, model = model, 
                      numSolutions = 3, relGap = 0.05,
                      cplexPath = cplexPath) # asking to retrieve 3 

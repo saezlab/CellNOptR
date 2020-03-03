@@ -48,35 +48,51 @@ This function returns a list with elements:
 }
 
 \author{
-A. Gabor E. Gjerga
+A. Gabor, E. Gjerga
 }
 \examples{
-library(CellNOptR)
 
-pknmodel = readSIF("PKN-ToyPB.sif.txt")
-cnodata = CNOlist("MD-ToyPB.csv")
+
+data("ToyModel", package="CellNOptR")
+data("CNOlistToy", package="CellNOptR")
+pknmodel = ToyModel
+cnodata = CNOlist(CNOlistToy)
 
 # original and preprocessed network 
 plotModel(pknmodel,cnodata)
-model = preprocessing(data = cnodata,model = pknmodel,compression = T,expansion = T)
+model = preprocessing(data = cnodata,
+					model = pknmodel,
+					compression = TRUE,
+					expansion = TRUE)
 plotModel(model,cnodata)
 
 # original CNOlist contains many timepoints, we use only a subset
 plot(cnodata)
 selectedTime = c(0,10)
-cnodata_prep = cutCNOlist(cnodata,model = model,cutTimeIndices = which(!cnodata@timepoints %in% selectedTime))
+cnodata_prep = cutCNOlist(cnodata,
+                          model = model,
+                          cutTimeIndices = which(!cnodata@timepoints \%in\% selectedTime))
+
 plot(cnodata_prep)
 
 # optimise and show results
-opt = gaBinaryT1(CNOlist = cnodata_prep,model = model,verbose = F)
+opt = gaBinaryT1(CNOlist = cnodata_prep,model = model,verbose = FALSE)
 
 # 10-fold crossvalidation using T1 data
 # We use only T1 data for crossvalidation, because data in the T0 matrix is not independent.
 # All rows of data in T0 describes the basal condition.
 
-#' Crossvalidation produce some text in the command window:  
-
+# Crossvalidation produce some text in the command window:  
+\dontrun{
 library(doParallel)
 registerDoParallel(cores=3)
-R=crossvalidateBoolean(CNOlist = cnodata_prep, model = model, type="datapoint", nfolds=10, parallel = TRUE)
+R=crossvalidateBoolean(CNOlist = cnodata_prep,
+						model = model,
+						type="datapoint",
+						nfolds=10,
+						parallel = TRUE)
+
+}
+
+
 }

@@ -175,9 +175,9 @@ setMethod("readErrors", "CNOlist",
 })
 
 setGeneric(name="writeErrors",
-           def=function(object,filename, overwrite=F){standardGeneric("writeErrors")})
+           def=function(object,filename, overwrite=FALSE){standardGeneric("writeErrors")})
 setMethod("writeErrors", "CNOlist", 
-          definition=function(object, filename,overwrite=F){
+          definition=function(object, filename,overwrite=FALSE){
           # let us make a copy
           # TODO check compatibility cnolist object and errors
           # copy variance from object Errors from a file and save into the cnolist@variance field
@@ -256,14 +256,14 @@ internal_CNOlist_from_file <- function(MIDASfile, verbose=FALSE)
 
     any_subfield = any_subfield_s | any_subfield_i
 
-    if (all_subfield == F && any_subfield == T){
+    if (all_subfield == FALSE && any_subfield == TRUE){
         stop("If you use subfield in the MIDAS header, they should be used for all treatments adding :Stimuli or :Inhibitors after the species name (e.g., TR:<specy name>:Stimuli)")
     }
 
-    if (all_subfield == F){
-        subfield = F
+    if (all_subfield == FALSE){
+        subfield = FALSE
     } else{
-        subfield = T
+        subfield = TRUE
     }
     cnolist <- makeCNOlist(x, subfield=subfield, verbose=verbose)
 

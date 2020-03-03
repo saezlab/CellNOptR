@@ -22,7 +22,7 @@ importFrom("RCurl", "getURL")
 importFrom("hash", "hash", "has.key")
 importFrom("Rgraphviz", "layoutGraph", "renderGraph", "toDot")
 
-
+importFrom("stringr","str_sub","%>%")
 
 export(
     "buildBitString",

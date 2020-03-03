@@ -13,13 +13,13 @@
 #
 ##############################################################################
 
-ilpBinaryT2 <- function(cnolist = cnolist,
-                        model = model, 
+ilpBinaryT2 <- function(cnolist,
+                        model, 
                         sizeFac = 0.0001, 
                         mipGap = 0, 
                         relGap = 0, 
                         timelimit = 3600, 
-                        cplexPath = "~/Documents/cplex", 
+                        cplexPath, 
                         method = "quadratic",
                         numSolutions = 100, 
                         limitPop = 500, 
@@ -31,6 +31,10 @@ ilpBinaryT2 <- function(cnolist = cnolist,
   exclusionList <- NULL
   cnolistReal <- cnolist
   tmpPath <- getwd()
+  
+  if(!file.exists(cplexPath)){
+  	stop("User should provide a valid CPLEX path for using this function.")
+  }
   
   ## Checking cnolist class
   if ((class(cnolist)=="CNOlist")==TRUE){

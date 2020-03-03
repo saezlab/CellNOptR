@@ -43,7 +43,7 @@ residualError<-function(CNOlist){
     }
 
     # compute the total and t1andt2 columns
-    resErr["total"]<-sum(resErr, na.rm=T) # should be before t1ant2 being filled
+    resErr["total"]<-sum(resErr, na.rm=TRUE) # should be before t1ant2 being filled
 	if(length(CNOlist@signals) >= 3){
         resErr[nTimes+1]<-resErr["t1"]+resErr["t2"]
     }

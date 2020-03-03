@@ -22,7 +22,7 @@ normaliseCNOlist <- function(
     saturation=Inf,
     changeTh=0,
     norm2TorCtrl=NULL,
-    mode="time", options=list(rescale_negative=T),
+    mode="time", options=list(rescale_negative=TRUE),
     verbose=FALSE){
 
 
@@ -246,11 +246,11 @@ normaliseCNOlist <- function(
     }
 
     # rescale the columns that have negative values. T0 is untouched.
-    if (options$rescale_negative == T && 1==0){ # this loop does not work. added 1==0 temporary so that we do not enter in the loop
+    if (options$rescale_negative == TRUE && 1==0){ # this loop does not work. added 1==0 temporary so that we do not enter in the loop
         for (x in colnames(NormData[[1]])){
             for (i in 2:length(NormData)){ #there is always a Time 0 so were are guarantee to have at least 2 time points
-                m = min(NormData[[i]][,x], na.rm=T)
-                M = max(NormData[[i]][,x], na.rm=T)
+                m = min(NormData[[i]][,x], na.rm=TRUE)
+                M = max(NormData[[i]][,x], na.rm=TRUE)
                 if (m<0 && m!=M ){
                     NormData[[i]][,x] = (NormData[[i]][,x]-m)/ (M-m)
                 }
@@ -262,7 +262,7 @@ normaliseCNOlist <- function(
     # !!! each experiment/specy is treated separately.
     # 0,-0.5,-1 will be rescaled in 1,0.5,0
     # !!! 0,-0.01,0.5 is also rescaled because there is 1 negative value
-    if (options$rescale_negative == T){
+    if (options$rescale_negative == TRUE){
         # prepare a more convenient data set to manipulate
 
         # rescale each column independently
@@ -273,8 +273,8 @@ normaliseCNOlist <- function(
                 c = rbind(c, NormData[[i]][,x])
             }
             # get the min and max over time (apply) for each experiment
-            min_vector = apply(c, 2, min, na.rm=T)
-            max_vector = apply(c, 2, max, na.rm=T)
+            min_vector = apply(c, 2, min, na.rm=TRUE)
+            max_vector = apply(c, 2, max, na.rm=TRUE)
 
             # rescale negative values if needed for each experiment
             for (i in seq_along(min_vector)){
