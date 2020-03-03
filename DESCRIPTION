@@ -7,7 +7,7 @@ Date: 2018-11-08
 Author: T.Cokelaer, F.Eduati, A.MacNamara, S.Schrier, C.Terfve, E.Gjerga, A.Gabor
 Maintainer: A.Gabor <attila.gabor@uni-heidelberg.de>
 Depends:
-    R (>= 3.6.0),
+    R (>= 3.5.0),
     RBGL,
     graph,
     methods,
