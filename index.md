@@ -20,7 +20,9 @@ CellNOpt is freely available under GPL license in R and Matlab languages. It can
 ## References
 Please use this reference to cite CellNOpt:
 
-> C Terfve, T Cokelaer, A MacNamara, D Henriques, E Goncalves, MK Morris, M van Iersel, DA Lauffenburger, J Saez-Rodriguez. [CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms](http://www.biomedcentral.com/1752-0509/6/133/abstract). _BMC Systems Biology_, 2012, **6**:133 [PDF](http://www.biomedcentral.com/content/pdf/1752-0509-6-133.pdf) 
+> C Terfve, T Cokelaer, A MacNamara, D Henriques, E Goncalves, MK Morris, M van Iersel, DA Lauffenburger, J Saez-Rodriguez. [CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms](http://www.biomedcentral.com/1752-0509/6/133/abstract). _BMC Systems Biology_, 2012, **6**:133 [PDF](http://www.biomedcentral.com/content/pdf/1752-0509-6-133.pdf)
+
+> E Gjerga, P Trairatphisan, A Gabor, H Koch, C Chevalier, F Ceccarelli, A Dugourd, A Mitsos, J Saez-Rodriguez, [Converting networks to predictive logic models from perturbation signalling data with CellNOpt](https://www.biorxiv.org/content/10.1101/2020.03.04.976852v1). _bioRxiv_, 2020.03.04.976852; doi: https://doi.org/10.1101/2020.03.04.976852 [PDF](https://www.biorxiv.org/content/10.1101/2020.03.04.976852v1.full.pdf)
 
 ```
 @article{terfve2012cellnoptr,
@@ -42,7 +44,7 @@ We have also developed PHONEMeS, a related tool to build logic models from disco
 ## CellNOpt Implementations
 
 ### _CellNOptR (R packages)_
-A series of packages are available in R. The core CellNOpt is available on BioConductor web site: CellNOptR, revision 1.4.0. Newest and oldest version are also available in our [Downloads](http://www.ebi.ac.uk/saezrodriguez/cno/downloads.html) page.
+A series of packages are available in R. The core CellNOpt is available on BioConductor web site: CellNOptR, revision 1.4.0. The most recent updates from [_Gjerga, Trairatphisan, Gabor et al. 2020_](https://www.biorxiv.org/content/10.1101/2020.03.04.976852v1) are available [here](https://github.com/saezlab/cellnopt).
 
 [CellNOptR](http://www.bioconductor.org/packages/release/bioc/html/CellNOptR.html) contains the core functions as well as the boolean and steady states version. It implements the workflow described in Saez-Rodriguez et al Mol Sys Bio 2009, with extended capabilities for multiple time points.
 
@@ -50,9 +52,15 @@ A series of packages are available in R. The core CellNOpt is available on BioCo
 
 [CNORfuzzy](http://www.bioconductor.org/packages/release/bioc/html/CNORfuzzy.html) is an extension to CellNOptR that allows to handle continous values, using constrained fuzzy logic, as described in Morris et al Plos Comp Bio 2011.
 
+[CNORprob](https://github.com/saezlab/CNORprob) is a probabilistic logic variant of CellNOpt which allows for quantitative optimisation of logical network for (quasi-)steady-state data as described in Gjerga, Trairatphisan, Gabor et al 2020.
+
 [CNORode](http://www.bioconductor.org/packages/release/bioc/html/CNORode.html) is an ODE add-on to CellNOptR. It is based on the method of (Wittmann et al BMC Sys Bio 2009), also implemented in the tool Odefy (Krusiek et al BMC Bioinf 2010).
 
-[CNORfeeder](http://www.bioconductor.org/packages/release/bioc/html/CNORfeeder.html) is an add-on to CellNOptR that permits to extend a network derived from literature with links derived in a strictly data-driven way and supported by protein-protein interactions as described in (Eduati et al Bioinformatics 2012).
+[CNORfeeder](http://www.bioconductor.org/packages/release/bioc/html/CNORfeeder.html) is an add-on to CellNOptR that permits to extend a network derived from literature with links derived in a strictly data-driven way and supported by protein-protein interactions as described in (Eduati et al Bioinformatics 2012). The most recent version of CNORfeeder, which can also be applied to timecourse data with a logic ordinary differential equations (ODE) formalism can be found [here](https://github.com/saezlab/CellNOpt-Feeder) (Gjerga, Trairatphisan, Gabor et al 2020).
+
+[CellNOptR-MaBoSS](https://github.com/saezlab/CellNOptR-MaBoSS) is a method for training boolean logic models of signalling networks using prior knowledge networks and perturbation data with a stochastic simulator (Gjerga, Trairatphisan, Gabor et al 2020).
+
+[ShinyCNOR](https://saezlab.shinyapps.io/shinycnor/) allows using CellNOptR in an interactive way without coding (Gjerga, Trairatphisan, Gabor et al 2020).
 
 <img src="{{ site.url }}{{ site.baseurl }}public/indexImpl.png" alt="Example Implementations">
 
@@ -100,3 +108,5 @@ Some extra materials and courses about the formats used can be found in the [CNO
 **Main reference describing CellNOpt, which can be used to cite it:** 
 
 + C Terfve, T Cokelaer, A MacNamara, D Henriques, E Goncalves, MK Morris, M van Iersel, DA Lauffenburger, J Saez-Rodriguez. [CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms](http://www.biomedcentral.com/1752-0509/6/133/abstract). _BMC Systems Biology, 2012, 6:133_ [PDF](http://www.biomedcentral.com/content/pdf/1752-0509-6-133.pdf)
+
++ E Gjerga, P Trairatphisan, A Gabor, H Koch, C Chevalier, F Ceccarelli, A Dugourd, A Mitsos, J Saez-Rodriguez, [Converting networks to predictive logic models from perturbation signalling data with CellNOpt](https://www.biorxiv.org/content/10.1101/2020.03.04.976852v1). _bioRxiv_, 2020.03.04.976852; doi: https://doi.org/10.1101/2020.03.04.976852 [PDF](https://www.biorxiv.org/content/10.1101/2020.03.04.976852v1.full.pdf)
