@@ -64,6 +64,10 @@ A series of packages are available in R. The core CellNOpt is available on BioCo
 
 <img src="{{ site.url }}{{ site.baseurl }}public/indexImpl.png" alt="Example Implementations">
 
+Additional features to the CellNOpt modelling family have been introduced: **CellNOpt-ILP**, **CellNOpt-MaBoSS**, **CNORprob**, **Dynamic-Feeder**, **Post-hoc analysis** and the **Shiny application** (see figure below). These new features have been described in detail in the _[Gjerga, Trairatphisan, Gabor et al.]((https://www.biorxiv.org/content/10.1101/2020.03.04.976852v1))_ study.
+
+<img src="{{ site.url }}{{ site.baseurl }}public/CNOv2.jpeg" alt="New features of CellNOpt">
+
 
 ### _MATLAB_
 Some features of CellNOpt are also available as a MATLAB toolbox, along with the toolbox Q2LM to analyze models, [here](https://github.com/saezlab/MATLAB-CellNOpt)
