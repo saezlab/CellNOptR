@@ -1,7 +1,6 @@
 \name{createAndRunILP}
 \alias{createAndRunILP}
 \alias{createAndRunILP}
-
 \title{
 Creating and running the ILP problem.
 }
@@ -10,20 +9,13 @@ This function takes as an input the cno inputs (model + data) together with CPLE
 and then solves the ILP problem. 
 }
 \usage{
-createAndRunILP <- function(model = model, 
-                            midas = midas, 
-                            cnolist = cnolist, 
+createAndRunILP <- function(model = model, midas = midas, cnolist = cnolist, 
                             accountForModelSize = accountForModelSize, 
-                            sizeFac = sizeFac, 
-                            source_path = source_path, 
-                            mipGap = mipGap, 
-                            relGap = relGap, 
-                            timelimit = timelimit,
-                            cplexPath = cplexPath, 
-                            method = method, 
-                            numSolutions = numSolutions, 
-                            limitPop = limitPop, 
-                            poolIntensity = poolIntensity, 
+                            sizeFac = sizeFac, source_path = source_path, 
+                            mipGap = mipGap, relGap = relGap, 
+                            timelimit = timelimit, cplexPath = cplexPath, 
+                            method = method, numSolutions = numSolutions, 
+                            limitPop = limitPop, poolIntensity = poolIntensity, 
                             poolReplace = poolReplace)
 }
 \arguments{
@@ -60,7 +52,9 @@ createAndRunILP <- function(model = model,
 
 
 }
-
+\value{
+Creating and running the ILP problem for CellNOpt.
+}
 \author{
 E Gjerga, H Koch
 }

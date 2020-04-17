@@ -10,10 +10,7 @@ This function takes as input the integer variables assigned to each of the eleme
 in order to produce the set boundaries for each integer variable. 
 }
 \usage{
-write_bounds <- function(model,
-                         midasTreatmentPart,
-                         y_vector,
-                         binary_variables)
+write_bounds <- function(model, midasTreatmentPart, y_vector, binary_variables)
 }
 \arguments{
   \item{model}{the model
@@ -26,6 +23,9 @@ write_bounds <- function(model,
   }
 
 
+}
+\value{
+Writing variable bounds for the ILP problem of CellNOpt.
 }
 
 \author{

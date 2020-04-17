@@ -46,6 +46,9 @@ This function returns a list with elements:
 \item{crossvalidate.call}{echo of the function which was called}
 \item{foldid}{the fold id's}
 }
+\value{
+Crossvalidation analysis for CellNOptR
+}
 
 \author{
 A. Gabor, E. Gjerga

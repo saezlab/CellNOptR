@@ -10,10 +10,7 @@ This function takes as input the model and data in a CNOlist object
 in order to define the set of binary variablese. 
 }
 \usage{
-create_binaries <- function(model, 
-                            midas, 
-                            numberOfExperiments, 
-                            y_vector)
+create_binaries <- function(model, midas, numberOfExperiments, y_vector)
 }
 \arguments{
   \item{model}{the model
@@ -27,7 +24,9 @@ create_binaries <- function(model,
 
 
 }
-
+\value{
+Creating the binary variables for the ILP problem of CellNOpt
+}
 \author{
 E Gjerga, H Koch
 }

@@ -7,18 +7,10 @@ ILP method used to optimise a model
 This function is the ilp method to be used to optimise a model by fitting to data for time point 2, that should follow optimisation based on time point 1.
 }
 \usage{
-ilpBinaryT2 <- function(cnolist, 
-                        model, 
-                        sizeFac = 0.0001, 
-                        mipGap = 0, 
-                        relGap = 0, 
-                        timelimit = 3600, 
-                        cplexPath, 
-                        method = "quadratic",
-                        numSolutions = 100, 
-                        limitPop = 500, 
-                        poolIntensity = 4, 
-                        poolReplace = 2)
+ilpBinaryT2 <- function(cnolist, model, sizeFac = 0.0001, mipGap = 0, 
+                        relGap = 0, timelimit = 3600, cplexPath, 
+                        method = "quadratic", numSolutions = 100, 
+                        limitPop = 500, poolIntensity = 0, poolReplace = 2)
 }
 \arguments{
   \item{CNOlist}{

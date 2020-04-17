@@ -7,17 +7,9 @@ ILP method used to optimise a model
 This function is the ilp method to be used to optimise a model by fitting to data containing one time point.
 }
 \usage{
-ilpBinaryT1 <- function(cnolist, 
-                        model, 
-                        sizeFac = 0.0001, 
-                        mipGap = 0, 
-                        relGap = 0, 
-                        timelimit = 3600, 
-                        cplexPath, 
-                        method = "quadratic",
-                        numSolutions = 100, 
-                        limitPop = 500, 
-                        poolIntensity = 4, 
+ilpBinaryT1 <- function(cnolist, model, cplexPath, sizeFac = 0.0001, mipGap = 0, 
+                        relGap = 0, timelimit = 3600, method = "quadratic",
+                        numSolutions = 100, limitPop = 500, poolIntensity = 0, 
                         poolReplace = 2)
 }
 \arguments{
@@ -28,6 +20,9 @@ time 1)
   \item{model}{
 a model structure, as created by \code{readSIF}, normally pre-processed but that
 is not a requirement of this function
+}
+  \item{cplexPath}{
+the path where the cplex solver is stored (mandatory).
 }
   \item{sizeFac}{
 the scaling factor for the size term in the objective function, default to 0.0001
@@ -40,9 +35,6 @@ the relative tolerance on the objective value for the solutions in the solution 
 }
   \item{timelimit}{
 the maximum optimisation time in seconds, default set to 3600
-}
-  \item{cplexPath}{
-the path where the cplex solver is stored (mandatory).
 }
   \item{method}{
 the method of writing the objective function (quadratic/linear). Default set to "quadratic"

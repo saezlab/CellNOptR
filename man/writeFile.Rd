@@ -9,10 +9,7 @@ Writing the ILP problem.
 This function takes as input the objective function. constraints, bounds and the solver path in order to generate a file containing the ILP problem. 
 }
 \usage{
-writeFile <- function(objectiveFunction,
-                      constraints,
-                      bounds,
-                      binaries,
+writeFile <- function(objectiveFunction, constraints, bounds, binaries,
                       cplexPath)
 }
 \arguments{
@@ -28,6 +25,9 @@ writeFile <- function(objectiveFunction,
   }
 
 
+}
+\value{
+Writing the LP file which contains the ILP problem for CellNOpt.
 }
 
 \author{
