@@ -6,9 +6,9 @@ title: Installation
 For installation of the [CellNOptR package](https://bioconductor.org/packages/release/bioc/html/CellNOptR.html), open `R` and type:
 
 ```R
-## try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("CellNOptR")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("CellNOptR", version = "3.8")
 ```
 
 
@@ -19,8 +19,9 @@ To install [CNORdt package](https://bioconductor.org/packages/release/bioc/html/
 
 ```R
 ## try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("CNORdt")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("CNORdt", version = "3.8")
 ```
 
 
@@ -28,9 +29,9 @@ biocLite("CNORdt")
 To install [CNORfeeder package](https://bioconductor.org/packages/release/bioc/html/CNORfeeder.html), start `R` and enter:
 
 ```R
-## try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("CNORfeeder")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("CNORfeeder", version = "3.8")
 ```
 
 
@@ -38,16 +39,16 @@ biocLite("CNORfeeder")
 To install [CNORfuzzy package](https://bioconductor.org/packages/release/bioc/html/CNORfuzzy.html), start `R` and enter:
 
 ```R
-## try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("CNORfuzzy")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("CNORfuzzy", version = "3.8")
 ```
 
 
 To install [CNORode package](https://bioconductor.org/packages/release/bioc/html/CNORode.html), start `R` and enter:
 
 ```R
-## try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("CNORode")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("CNORode", version = "3.8")
 ```
