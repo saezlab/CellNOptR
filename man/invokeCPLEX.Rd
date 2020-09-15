@@ -10,15 +10,10 @@ This function takes as an input the file name where we write the ILP formulation
 and then solves the ILP problem. 
 }
 \usage{
-invokeCPLEX <- function(inputFileName, 
-                        outputFileName, 
-                        mipGap=mipGap, 
-                        relGap = relGap, 
-                        timelimit=timelimit, 
-                        cplexPath = cplexPath, 
-                        numSolutions = numSolutions, 
-                        limitPop = limitPop, 
-                        poolIntensity = poolIntensity, 
+invokeCPLEX <- function(inputFileName, outputFileName, mipGap = mipGap, 
+                        relGap = relGap, timelimit=timelimit, 
+                        cplexPath = cplexPath, numSolutions = numSolutions, 
+                        limitPop = limitPop, poolIntensity = poolIntensity, 
                         poolReplace = poolReplace)
 }
 \arguments{
@@ -44,6 +39,9 @@ invokeCPLEX <- function(inputFileName,
   }
 
 
+}
+\value{
+Invoking CPLEX to solve the ILP problem.
 }
 
 \author{

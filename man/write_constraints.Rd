@@ -10,13 +10,8 @@ This function takes as input the integer variables assigned to each of the eleme
 in order to produce the set of constraints needed to be optimized by the ILP solver. 
 }
 \usage{
-write_constraints <- function(model,
-                              midasExperimentPart,
-                              midasTreatmentPart,
-                              reaction_sets,
-                              y_vector, 
-                              midas, 
-                              binary_variables)
+write_constraints <- function(model, midasExperimentPart, midasTreatmentPart,
+                              reaction_sets, y_vector, midas, binary_variables)
 }
 \arguments{
   \item{model}{the model
@@ -35,6 +30,9 @@ write_constraints <- function(model,
   }
 
 
+}
+\value{
+Writing the constraints of the ILP problem for CellNOpt.
 }
 
 \author{

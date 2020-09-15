@@ -10,13 +10,12 @@ This function takes as input the integer variables assigned to each of the eleme
 in order to produce the objective function needed to be optimized by the ILP solver. 
 }
 \usage{
-writeObjectiveFunction <- function(model, 
-                                   midasExperimentPart, 
-                                   y_vector=y_vector,
+writeObjectiveFunction <- function(model, midasExperimentPart, 
+                                   y_vector = y_vector,
                                    accountForModelSize = TRUE, 
-                                   sizeFac = .000001, 
+                                   sizeFac = 0.000001, 
                                    meansOfMeasurements_at_t0, 
-                                   method = "quadratic" )
+                                   method = "quadratic")
 }
 \arguments{
   \item{model}{the model
@@ -35,6 +34,9 @@ writeObjectiveFunction <- function(model,
   }
 
 
+}
+\value{
+Writing the objective function of the ILP problem for CellNOpt.
 }
 
 \author{
