@@ -17,9 +17,9 @@ cutSimList <- function(simList, bString)
 {
     bString = as.logical(bString)
     simListCut <- simList
-    finalCube <- simListCut$finalCube[bString,]
-    ixNeg <-simListCut$ixNeg[bString,]
-    ignoreCube <- simListCut$ignoreCube[bString,]
+    finalCube <- simListCut$finalCube[bString,,drop=FALSE]
+    ixNeg <-simListCut$ixNeg[bString,,drop=FALSE]
+    ignoreCube <- simListCut$ignoreCube[bString,,drop=FALSE]
     maxIx <- simListCut$maxIx[bString]
     # in some cases the finalcube is a matrix but list of integer, so we
     # need to convert back to a matrix. Happens for simple models only hence

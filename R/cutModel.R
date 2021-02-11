@@ -17,8 +17,8 @@
 cutModel <- function(model, bString){
     bs = as.logical(bString)
     newmodel <- list()
-    newmodel$interMat <- model$interMat[, bs]
-    newmodel$notMat <- model$notMat[, bs]
+    newmodel$interMat <- model$interMat[, bs,drop=FALSE]
+    newmodel$notMat <- model$notMat[, bsdrop=FALSE]
     newmodel$reacID <- model$reacID[bs]
     newmodel$namesSpecies <- model$namesSpecies
 
