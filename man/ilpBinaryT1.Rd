@@ -7,21 +7,21 @@ ILP method used to optimise a model
 This function is the ilp method to be used to optimise a model by fitting to data containing one time point.
 }
 \usage{
-ilpBinaryT1 <- function(cnolist, 
+ilpBinaryT1(cnolist, 
                         model, 
+                        cplexPath,
                         sizeFac = 0.0001, 
                         mipGap = 0, 
                         relGap = 0, 
                         timelimit = 3600, 
-                        cplexPath, 
                         method = "quadratic",
                         numSolutions = 100, 
                         limitPop = 500, 
-                        poolIntensity = 4, 
+                        poolIntensity = 0, 
                         poolReplace = 2)
 }
 \arguments{
-  \item{CNOlist}{
+  \item{cnolist}{
 a CNOlist on which the score is based (based on valueSignals[[2]], i.e. data at
 time 1)
 }
@@ -57,7 +57,9 @@ the number of solutions to be generated. Default set to 500
 the Intensity of solution searching. Default set to 4
 }
 
-
+  \item{poolReplace}{
+Pool replacement strategy
+}
 }
 \value{
 This function returns a list with elements:

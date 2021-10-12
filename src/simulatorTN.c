@@ -300,7 +300,7 @@ SEXP simulatorTN (
 
         }
         track_cond++;
-        if((track_cond == nCond)) {
+        if(track_cond == nCond) {
             track_cond = 0;
             track_reac++;
         }
@@ -498,7 +498,7 @@ SEXP simulatorTN (
             }
 
             track_cond++;
-            if((track_cond == nCond)) {
+            if(track_cond == nCond) {
                 track_cond = 0;
                 track_reac++;
             }

@@ -10,7 +10,7 @@ This function takes in a CNOlist and does the normalisation of the data between
 \usage{
 normaliseCNOlist(CNOlist, EC50Data=0.5, HillCoef=2, EC50Noise=0., detection=0,
     saturation=Inf, changeTh=0, norm2TorCtrl=NULL, mode="time", 
-    options=list(rescale_negative = T), verbose=FALSE)
+    options=list(rescale_negative = TRUE), verbose=FALSE)
 }
 
 

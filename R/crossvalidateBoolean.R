@@ -25,6 +25,7 @@
 #' subset of nodes across all experiments for crossvalidation.  
 #' @param ... further arguments are passed to gaBinaryT1  
 #' @seealso \link{\code{gaBinaryT1}}  
+#' @import foreach
 
 crossvalidateBoolean <- function(CNOlist,model,nfolds=10,foldid=NULL, 
                                  type=c('datapoint','experiment','observable'),
@@ -72,7 +73,7 @@ crossvalidateBoolean <- function(CNOlist,model,nfolds=10,foldid=NULL,
   	}
   	
     `%dopar%` <- foreach::`%dopar%`
-    outlist = foreach::foreach(i = seq(nfolds), .packages = c("CellNOptR")) `%dopar%`
+    outlist = foreach::foreach(i = seq(nfolds), .packages = c("CellNOptR")) %dopar%
     {
       whichI = foldid == i
       CNOlist.sub = CNOlist

@@ -10,7 +10,7 @@ This function takes as an input the file name where we write the ILP formulation
 and then solves the ILP problem. 
 }
 \usage{
-invokeCPLEX <- function(inputFileName, 
+invokeCPLEX(inputFileName, 
                         outputFileName, 
                         mipGap=mipGap, 
                         relGap = relGap, 

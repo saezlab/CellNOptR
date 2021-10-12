@@ -10,7 +10,7 @@ This function takes as the cplex optimization results and the variables assigned
 in order to read the optimal bitstring. 
 }
 \usage{
-createILPBitstringAll<- function(cplexSolutionFileName,
+createILPBitstringAll(cplexSolutionFileName,
                                  y_vector,
                                  binary_variables)
 }

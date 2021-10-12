@@ -1,6 +1,5 @@
 \name{write_bounds}
 \alias{write_bounds}
-\alias{write_bounds}
 
 \title{
 Writing the set of boundaries for each integer variable for the ILP implementation of CellNOptR.
@@ -10,10 +9,10 @@ This function takes as input the integer variables assigned to each of the eleme
 in order to produce the set boundaries for each integer variable. 
 }
 \usage{
-write_bounds <- function(model,
-                         midasTreatmentPart,
-                         y_vector,
-                         binary_variables)
+write_bounds(model,
+             midasTreatmentPart,
+             y_vector,
+             binary_variables)
 }
 \arguments{
   \item{model}{the model

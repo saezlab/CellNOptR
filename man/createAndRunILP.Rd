@@ -1,6 +1,5 @@
 \name{createAndRunILP}
 \alias{createAndRunILP}
-\alias{createAndRunILP}
 
 \title{
 Creating and running the ILP problem.
@@ -10,7 +9,7 @@ This function takes as an input the cno inputs (model + data) together with CPLE
 and then solves the ILP problem. 
 }
 \usage{
-createAndRunILP <- function(model = model, 
+createAndRunILP(model = model, 
                             midas = midas, 
                             cnolist = cnolist, 
                             accountForModelSize = accountForModelSize, 

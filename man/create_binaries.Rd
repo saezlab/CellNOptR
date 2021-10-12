@@ -10,7 +10,7 @@ This function takes as input the model and data in a CNOlist object
 in order to define the set of binary variablese. 
 }
 \usage{
-create_binaries <- function(model, 
+create_binaries(model, 
                             midas, 
                             numberOfExperiments, 
                             y_vector)

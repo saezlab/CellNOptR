@@ -151,13 +151,6 @@ setMethod("plot", signature(x="CNOlist", y="CNOlist"), function(x, y, ... ){
 
 setMethod("length", "CNOlist", function(x) length(x@signals))
 
-if (isGeneric("randomize")==FALSE){
-    setGeneric(
-        name="randomize",
-        def=function(object,sd=0.1, minValue=0,maxValue=1,mode="gaussian"){standardGeneric("randomize")}
-    )
-}
-#lockBinding("randomize", .GlobalEnv)
 
 
 setGeneric(name="readErrors",
@@ -188,7 +181,13 @@ setMethod("writeErrors", "CNOlist",
           writeMIDAS(errors, filename,overwrite=overwrite)
 })
 
-
+if (isGeneric("randomize")==FALSE){
+    setGeneric(
+        name="randomize",
+        def=function(object,sd=0.1, minValue=0,maxValue=1,mode="gaussian"){standardGeneric("randomize")}
+    )
+}
+#lockBinding("randomize", .GlobalEnv)
 
 
 setMethod("randomize", "CNOlist", 

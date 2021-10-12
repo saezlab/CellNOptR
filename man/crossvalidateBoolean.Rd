@@ -7,8 +7,8 @@ k-fold crossvalidation for Boolean model.
 Cross-validation analysis for the boolean case.
 }
 \usage{
-crossvalidateBoolean = function(CNOlist,model,nfolds=10,foldid=NULL, 
-                                type=c('datapoint','experiment','observable'),timeIndex = 2,parallel=FALSE, ...)
+crossvalidateBoolean(CNOlist,model,nfolds=10,foldid=NULL, 
+                                type=c('datapoint','experiment','observable'),timeIndex = 2,parallel=FALSE,...)
 }
 \arguments{
   \item{CNOlist}{
@@ -32,7 +32,9 @@ the index of the time point to optimize. Must be greater or equal to 2 (1 corres
   \item{parallel}{
 verbose parameter, indicating wheter to parallelize the cross-validation procedure or not (default set to FALSE).
 }
-
+ \item{...}{
+ further arguments are passed to gaBinaryT1  
+}
 
 }
 \details{

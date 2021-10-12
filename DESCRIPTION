@@ -28,7 +28,9 @@ Suggests:
     RUnit,
     BiocGenerics,
 Enhances:
-	doParallel
+	doParallel,
+	plyr,
+    foreach
 biocViews: CellBasedAssays, CellBiology, Proteomics, Pathways, Network, TimeCourse, ImmunoOncology
 Description: This package does optimisation of boolean logic networks of
     signalling pathways based on a previous knowledge network and a set of data upon
@@ -36,4 +38,4 @@ Description: This package does optimisation of boolean logic networks of
 License: GPL-3
 LazyLoad: yes
 SystemRequirements: Graphviz version >= 2.2
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.2

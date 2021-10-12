@@ -38,16 +38,16 @@ readBNET <- function(filename){
 	bnet <- data.table::fread(filename, header=TRUE)
 	
 	# count number of `and` gates in each logic rule
-	bnet <- bnet %>% rowwise() %>% 
+	bnet <- bnet %>% dplyr::rowwise() %>% 
 		mutate(i_and_gates = (nchar(factors) - nchar(gsub("&", "", factors, perl=TRUE))))
 	# count how many `and` gates have appeared up to the current rule
 	bnet <- bnet %>% transform(i_and_gates = c(0, i_and_gates[-nrow(bnet)])) %>% 
 		mutate(i_and_gates = cumsum(i_and_gates))
 	# parse each logic rule
-	sif <- bnet %>% rowwise() %>% 
-		do(sif_df = build_sif_table_from_rule(.$factors, .$targets, last_and_num=.$i_and_gates)$sif_str) %>% 
-		unnest() %>% 
-		ungroup() 
+	sif <- bnet %>% dplyr::rowwise() %>% 
+		dplyr::do(sif_df = build_sif_table_from_rule(.$factors, .$targets, last_and_num=.$i_and_gates)$sif_str) %>% 
+		tidyr::unnest() %>% 
+		dplyr::ungroup() 
 	
 	# use `readSIF()` to get the network ready for CellNOpt
 	fh <- tempfile()
@@ -80,7 +80,7 @@ readBND <- function(filename){
 	}
 	warning("experimental BND reader. Use with care (July 2018).")
 	
-	bnd <- read_file(filename)
+	bnd <- readr::read_file(filename)
 	# remove all line breaks
 	bnd <- gsub("\\n", "", bnd, perl=TRUE)
 	# remove parenthesis enclosing a single node (which is composed of alphanumeric characters and "_")
@@ -253,10 +253,10 @@ build_sif_table_from_rule <- function(rule_str, target, last_and_num=0) {
 			type_gates <- cbind(type_gates, paste("and", (c(1:length(type_gates))+last_num), sep=""))
 			type_gates <- data.frame(type_gates)
 			colnames(type_gates) <- c("old_name", "new_name")
-			type_gates <- type_gates %>% mutate_if(is.factor, as.character)
+			type_gates <- type_gates %>% dplyr::mutate_if(is.factor, as.character)
 			sif_df <- sif_df %>% 
-				mutate(node_in = plyr::mapvalues(node_in, type_gates$old_name, type_gates$new_name, warn_missing=FALSE)) %>% 
-				mutate(node_out = plyr::mapvalues(node_out, type_gates$old_name, type_gates$new_name, warn_missing=FALSE))
+				dplyr::mutate(node_in = plyr::mapvalues(node_in, type_gates$old_name, type_gates$new_name, warn_missing=FALSE)) %>% 
+				dplyr::mutate(node_out = plyr::mapvalues(node_out, type_gates$old_name, type_gates$new_name, warn_missing=FALSE))
 		}
 		return(sif_df)
 	}
@@ -272,8 +272,8 @@ build_sif_table_from_rule <- function(rule_str, target, last_and_num=0) {
 				   grepl(type_pattern, sif_df$node_out, perl=TRUE))){
 			consecutive_type_gates <- sif_df %>% filter(grepl(type_pattern, sif_df$node_in, perl=TRUE), grepl(type_pattern, sif_df$node_out, perl=TRUE))
 			sif_df <- sif_df %>% 
-				mutate(node_in = plyr::mapvalues(node_in, consecutive_type_gates$node_in, consecutive_type_gates$node_out, warn_missing=FALSE)) %>% 
-				mutate(node_out = plyr::mapvalues(node_out, consecutive_type_gates$node_in, consecutive_type_gates$node_out, warn_missing=FALSE)) %>% 
+				dplyr::mutate(node_in = plyr::mapvalues(node_in, consecutive_type_gates$node_in, consecutive_type_gates$node_out, warn_missing=FALSE)) %>% 
+				dplyr::mutate(node_out = plyr::mapvalues(node_out, consecutive_type_gates$node_in, consecutive_type_gates$node_out, warn_missing=FALSE)) %>% 
 				filter(node_in!=node_out)
 		}
 		return(sif_df)
@@ -292,7 +292,7 @@ build_sif_table_from_rule <- function(rule_str, target, last_and_num=0) {
 		sif_df <- rbind(sif_df, setNames(tree_df[,c("right_part", "root")], names(sif_df)))
 		# add target
 		sif_df <- rbind(sif_df, data.frame(node_in=root, node_out=target))
-		sif_df <- sif_df %>% mutate_if(is.factor, as.character)
+		sif_df <- sif_df %>% dplyr::mutate_if(is.factor, as.character)
 		
 		# simplify cascade of "and" and "or" gates
 		sif_df <- simplify_gates(sif_df, "and")
@@ -300,36 +300,36 @@ build_sif_table_from_rule <- function(rule_str, target, last_and_num=0) {
 		
 		# we need to have the expression in disjunctive normal form (DNF)
 		# find if there are or gates (node_in) connected to and gates (node_out)
-		or_to_and_gates <- sif_df %>% filter(grepl("^or\\d{1,}", sif_df$node_in, perl=TRUE), grepl("^and\\d{1,}", sif_df$node_out, perl=TRUE))
+		or_to_and_gates <- sif_df %>% dplyr::filter(grepl("^or\\d{1,}", sif_df$node_in, perl=TRUE), grepl("^and\\d{1,}", sif_df$node_out, perl=TRUE))
 		while (dim(or_to_and_gates)[1]>0){
 			current_pair <- or_to_and_gates[1,]
-			or_group_df <- sif_df %>% filter(grepl(current_pair$node_in, sif_df$node_out, perl=TRUE)) %>% 
-				mutate(num_or = 1) %>% 
-				mutate(num_or = cumsum(num_or)) %>% 
-				mutate(new_node_out = paste(current_pair$node_out, node_out, num_or, sep="_")) %>% 
-				mutate(old_node_out = node_out) %>% 
-				mutate(node_out = new_node_out)
-			and_group_df <- sif_df %>% filter(grepl(current_pair$node_out, sif_df$node_out, perl=TRUE) &
+			or_group_df <- sif_df %>% dplyr::filter(grepl(current_pair$node_in, sif_df$node_out, perl=TRUE)) %>% 
+				dplyr::mutate(num_or = 1) %>% 
+				dplyr::mutate(num_or = cumsum(num_or)) %>% 
+				dplyr::mutate(new_node_out = paste(current_pair$node_out, node_out, num_or, sep="_")) %>% 
+				dplyr::mutate(old_node_out = node_out) %>% 
+				dplyr::mutate(node_out = new_node_out)
+			and_group_df <- sif_df %>% dplyr::filter(grepl(current_pair$node_out, sif_df$node_out, perl=TRUE) &
 											  	!grepl(current_pair$node_in, sif_df$node_in, perl=TRUE)) %>% 
-				mutate(new_node_out = paste(c(or_group_df$new_node_out), collapse=",")) %>% 
-				mutate(new_node_out = strsplit(as.character(new_node_out), ",")) %>% 
-				unnest(new_node_out) %>% 
-				mutate(old_node_out = node_out) %>% 
-				mutate(node_out = new_node_out)
-			gate_group_df <- sif_df %>% filter(grepl(current_pair$node_out, sif_df$node_out, perl=TRUE) &
+				dplyr::mutate(new_node_out = paste(c(or_group_df$new_node_out), collapse=",")) %>% 
+				dplyr::mutate(new_node_out = strsplit(as.character(new_node_out), ",")) %>% 
+				tidyr::unnest(new_node_out) %>% 
+				dplyr::mutate(old_node_out = node_out) %>% 
+				dplyr::mutate(node_out = new_node_out)
+			gate_group_df <- sif_df %>% dplyr::filter(grepl(current_pair$node_out, sif_df$node_out, perl=TRUE) &
 											   	grepl(current_pair$node_in, sif_df$node_in, perl=TRUE)) %>% 
-				mutate(new_node_out = node_in) %>% 
-				mutate(new_node_in = paste(c(or_group_df$new_node_out), collapse=",")) %>% 
-				mutate(new_node_in = strsplit(as.character(new_node_in), ",")) %>% 
-				unnest(new_node_in) %>% 
-				mutate(old_node_in = node_in) %>% 
-				mutate(old_node_out = node_out) %>% 
-				mutate(node_in = new_node_in) %>% 
-				mutate(node_out = new_node_out)
-			root_group_df <- sif_df %>% filter(grepl(current_pair$node_out, sif_df$node_in, perl=TRUE)) %>% 
-				mutate(new_node_in = current_pair$node_in) %>% 
-				mutate(old_node_in = node_in) %>% 
-				mutate(node_in = new_node_in)
+				dplyr::mutate(new_node_out = node_in) %>% 
+				dplyr::mutate(new_node_in = paste(c(or_group_df$new_node_out), collapse=",")) %>% 
+				dplyr::mutate(new_node_in = strsplit(as.character(new_node_in), ",")) %>% 
+				tidyr::unnest(new_node_in) %>% 
+				dplyr::mutate(old_node_in = node_in) %>% 
+				dplyr::mutate(old_node_out = node_out) %>% 
+				dplyr::mutate(node_in = new_node_in) %>% 
+				dplyr::mutate(node_out = new_node_out)
+			root_group_df <- sif_df %>% dplyr::filter(grepl(current_pair$node_out, sif_df$node_in, perl=TRUE)) %>% 
+				dplyr::mutate(new_node_in = current_pair$node_in) %>% 
+				dplyr::mutate(old_node_in = node_in) %>% 
+				dplyr::mutate(node_in = new_node_in)
 			new_sif_df_part <- rbind(or_group_df[,c("node_in", "node_out")],
 									 and_group_df[,c("node_in", "node_out")],
 									 gate_group_df[,c("node_in", "node_out")],
@@ -339,21 +339,21 @@ build_sif_table_from_rule <- function(rule_str, target, last_and_num=0) {
 			# we will rename it in those instances so that we don't lose these connections when filtering
 			# the part of the dataframe that we are just about to change
 			if (nrow(or_to_and_gates %>% filter(node_in==current_pair$node_in))>1) {
-				duplicate_sif_df_part <- sif_df %>% filter((grepl(current_pair$node_in, sif_df$node_in, perl=TRUE) &
+				duplicate_sif_df_part <- sif_df %>% dplyr::filter((grepl(current_pair$node_in, sif_df$node_in, perl=TRUE) &
 																!grepl(current_pair$node_out, sif_df$node_out, perl=TRUE)) |
 																	(grepl(current_pair$node_in, sif_df$node_out, perl=TRUE)))
 				or_num <<- or_num + 1
 				new_or_gate_name <- paste("or", or_num, sep="")
 				duplicate_sif_df_part <- duplicate_sif_df_part %>% 
-					mutate(node_in = plyr::mapvalues(node_in, current_pair$node_in, new_or_gate_name, warn_missing=FALSE)) %>% 
-					mutate(node_out = plyr::mapvalues(node_out, current_pair$node_in, new_or_gate_name, warn_missing=FALSE))
+					dplyr::mutate(node_in = plyr::mapvalues(node_in, current_pair$node_in, new_or_gate_name, warn_missing=FALSE)) %>% 
+					dplyr::mutate(node_out = plyr::mapvalues(node_out, current_pair$node_in, new_or_gate_name, warn_missing=FALSE))
 				sif_df <- sif_df %>% filter(!(grepl(current_pair$node_in, sif_df$node_in, perl=TRUE) &
 											  	!grepl(current_pair$node_out, sif_df$node_out, perl=TRUE))) %>% 
 					rbind(duplicate_sif_df_part)
 			}
 			
 			# substitute the corresponding part of sif_df with the newly calculated df
-			sif_df <- sif_df %>% filter(!((grepl(paste("^", current_pair$node_in, "$", sep=""), sif_df$node_out, perl=TRUE)) |
+			sif_df <- sif_df %>% dplyr::filter(!((grepl(paste("^", current_pair$node_in, "$", sep=""), sif_df$node_out, perl=TRUE)) |
 										  	(grepl(paste("^", current_pair$node_out, "$", sep=""), sif_df$node_out, perl=TRUE) &
 										  	 	!grepl(paste("^", current_pair$node_in, "$", sep=""), sif_df$node_in, perl=TRUE)) |
 										  	(grepl(paste("^", current_pair$node_out, "$", sep=""), sif_df$node_out, perl=TRUE) &
@@ -368,36 +368,36 @@ build_sif_table_from_rule <- function(rule_str, target, last_and_num=0) {
 			sif_df <- simplify_gates(sif_df, "or")
 			
 			# update list of or to and gates
-			or_to_and_gates <- sif_df %>% filter(grepl("^or\\d{1,}", sif_df$node_in, perl=TRUE), grepl("^and\\d{1,}", sif_df$node_out, perl=TRUE))
+			or_to_and_gates <- sif_df %>% dplyr::filter(grepl("^or\\d{1,}", sif_df$node_in, perl=TRUE), grepl("^and\\d{1,}", sif_df$node_out, perl=TRUE))
 		}
 		
 		sif_df <- rename_gates(sif_df, type="and", last_num=last_and_num)
 		
 		# list or gates
-		or_gates <- sif_df %>% filter(grepl("^or\\d{1,}", node_out, perl=TRUE)) %>% 
-			group_by(node_out) %>% 
-			summarise(or_members = paste(node_in, collapse=",")) %>% 
-			mutate(root = node_out) %>% 
-			select(root, or_members) %>% 
-			ungroup()
+		or_gates <- sif_df %>% dplyr::filter(grepl("^or\\d{1,}", node_out, perl=TRUE)) %>% 
+			dplyr::group_by(node_out) %>% 
+			dplyr::summarise(or_members = paste(node_in, collapse=",")) %>% 
+			dplyr::mutate(root = node_out) %>% 
+			dplyr::select(root, or_members) %>% 
+			dplyr::ungroup()
 		
 		
 		# substitute or gates by their inputs
 		while (any(grepl("^or\\d{1,}", sif_df$node_in, perl=TRUE))) {
-			sif_df <- sif_df %>% mutate(node_in = plyr::mapvalues(node_in, or_gates$root, or_gates$or_members, warn_missing=FALSE))
-			sif_df <- sif_df %>% filter(!grepl("^or\\d{1,}", node_out, perl=TRUE))
-			sif_df <- sif_df %>% mutate(node_in = strsplit(as.character(node_in), ",")) %>% unnest(node_in)
+			sif_df <- sif_df %>% dplyr::mutate(node_in = plyr::mapvalues(node_in, or_gates$root, or_gates$or_members, warn_missing=FALSE))
+			sif_df <- sif_df %>% dplyr::filter(!grepl("^or\\d{1,}", node_out, perl=TRUE))
+			sif_df <- sif_df %>% dplyr::mutate(node_in = strsplit(as.character(node_in), ",")) %>% tidyr::unnest(node_in)
 		}
 		return(sif_df)
 	}
 	
 	# helper function to write the column with the string for the SIF file
 	write_sif <- function(sif_df){
-		sif_df <- sif_df %>% mutate(sign1 = !grepl("^!", node_in, perl=TRUE)) %>% 
-			mutate(sign2 = !grepl("^!", node_out, perl=TRUE)) %>% 
-			mutate(sign = ifelse(sign1 & sign2, "1", "-1")) %>% 
-			mutate(sif_str = paste(node_in, sign, node_out, sep="\t")) %>% 
-			mutate(sif_str = gsub("^!", "", sif_str, perl=TRUE))
+		sif_df <- sif_df %>% dplyr::mutate(sign1 = !grepl("^!", node_in, perl=TRUE)) %>% 
+			dplyr::mutate(sign2 = !grepl("^!", node_out, perl=TRUE)) %>% 
+			dplyr::mutate(sign = ifelse(sign1 & sign2, "1", "-1")) %>% 
+			dplyr::mutate(sif_str = paste(node_in, sign, node_out, sep="\t")) %>% 
+			dplyr::mutate(sif_str = gsub("^!", "", sif_str, perl=TRUE))
 	}
 	
 	# After having defined all the helper functions, we parse the input expression.

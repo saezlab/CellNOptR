@@ -3,7 +3,7 @@
 %\VignettePackage{CellNOptR}
 
 \documentclass{article}
-\usepackage{Sweave, fullpage}
+\usepackage{Sweave}
 \usepackage{url, color}
 \usepackage{hyperref}
 \hypersetup{

@@ -10,7 +10,7 @@ This function takes as input the integer variables assigned to each of the eleme
 in order to produce the objective function needed to be optimized by the ILP solver. 
 }
 \usage{
-writeObjectiveFunction <- function(model, 
+writeObjectiveFunction(model, 
                                    midasExperimentPart, 
                                    y_vector=y_vector,
                                    accountForModelSize = TRUE, 

@@ -1,6 +1,5 @@
 \name{writeFile}
 \alias{writeFile}
-\alias{writeFile}
 
 \title{
 Writing the ILP problem.
@@ -9,11 +8,10 @@ Writing the ILP problem.
 This function takes as input the objective function. constraints, bounds and the solver path in order to generate a file containing the ILP problem. 
 }
 \usage{
-writeFile <- function(objectiveFunction,
+writeFile(objectiveFunction,
                       constraints,
                       bounds,
-                      binaries,
-                      cplexPath)
+                      binaries)
 }
 \arguments{
   \item{objectiveFunction}{the objective function of the ILP problem
@@ -24,9 +22,6 @@ writeFile <- function(objectiveFunction,
   }
   \item{binaries}{the set of binary variables
   }
-  \item{cplexPath}{the path of the cplex solver
-  }
-
 
 }
 

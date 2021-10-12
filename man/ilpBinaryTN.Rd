@@ -7,7 +7,7 @@ ILP method used to optimise a model
 This function is the ilp method to be used to optimise a model by fitting to data for time point 2, that should follow optimisation based on time point 1.
 }
 \usage{
-ilpBinaryTN <- function(cnolist, 
+ilpBinaryTN(cnolist, 
                         model, 
                         sizeFac = 0.0001, 
                         mipGap = 0, 
@@ -22,7 +22,7 @@ ilpBinaryTN <- function(cnolist,
                         timeIndices = c(1, 2))
 }
 \arguments{
-  \item{CNOlist}{
+  \item{cnolist}{
 a CNOlist on which the score is based (based on valueSignals[[2]], i.e. data at
 time 1)
 }
@@ -59,6 +59,10 @@ the Intensity of solution searching. Default set to 4
 }
   \item{timeIndices}{
 the time indeces to optimize. Default set to timeIndices=c(1, 2)
+}
+
+  \item{poolReplace}{
+ pool replacement strategy, consult CPLEX manual for details. 
 }
 
 }

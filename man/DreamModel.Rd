@@ -3,7 +3,7 @@
 \alias{DreamModel}
 \title{Model used for the DREAM3 challenge}
 \description{This data object contains the model used in the package vignette, already loaded and formatted as a Model object. This is to be used with the data in "CNOListDREAM"}
-\usage{DreamModel}
+\usage{data(DreamModel)}
 \format{DreamModel is a list with fields "reacID" (character vector), "namesSpecies" (character vector), "interMat" (numerical matrix), "notMat"(numerical matrix). }
 \source{This data and model is extracted from the Matlab version of CellNOpt1.0 (\url{http://www.ebi.ac.uk/saezrodriguez/software.html#CellNetOptimizer}).}
 \references{
