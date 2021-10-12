@@ -20,7 +20,7 @@ importFrom("utils", "combn", "count.fields", "installed.packages",
            "read.csv", "read.table", "tail", "write.table")
 importFrom("RCurl", "getURL")
 importFrom("hash", "hash", "has.key")
-importFrom("Rgraphviz", "layoutGraph", "renderGraph", "toDot")
+importFrom("Rgraphviz", "layoutGraph", "renderGraph", "toDot","tail","lines")
 
 importFrom("stringr","str_sub","%>%")
 

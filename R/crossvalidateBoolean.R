@@ -71,7 +71,8 @@ crossvalidateBoolean <- function(CNOlist,model,nfolds=10,foldid=NULL,
   			 call. = FALSE)
   	}
   	
-    outlist = foreach::foreach(i = seq(nfolds), .packages = c("CellNOptR")) %dopar%
+    `%dopar%` <- foreach::`%dopar%`
+    outlist = foreach::foreach(i = seq(nfolds), .packages = c("CellNOptR")) `%dopar%`
     {
       whichI = foldid == i
       CNOlist.sub = CNOlist
