@@ -118,6 +118,7 @@ Some extra materials and courses about the formats used can be found in the [CNO
 ## Main Reference
 **Main reference describing CellNOpt, which can be used to cite it:** 
 
++ E Gjerga, P Trairatphisan, A Gabor, H Koch, C Chevalier, F Ceccarelli, A Dugourd, A Mitsos, J Saez-Rodriguez, [Converting networks to predictive logic models from perturbation signalling data with CellNOpt](https://academic.oup.com/bioinformatics/article/36/16/4523/5855133). _Bioinformatics_, Volume 36, Issue 16, 15 August 2020, Pages 4523–4524.
+
 + C Terfve, T Cokelaer, A MacNamara, D Henriques, E Goncalves, MK Morris, M van Iersel, DA Lauffenburger, J Saez-Rodriguez. [CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms](http://www.biomedcentral.com/1752-0509/6/133/abstract). _BMC Systems Biology, 2012, 6:133_ [PDF](http://www.biomedcentral.com/content/pdf/1752-0509-6-133.pdf)
 
-+ E Gjerga, P Trairatphisan, A Gabor, H Koch, C Chevalier, F Ceccarelli, A Dugourd, A Mitsos, J Saez-Rodriguez, [Converting networks to predictive logic models from perturbation signalling data with CellNOpt](https://academic.oup.com/bioinformatics/article/36/16/4523/5855133). _Bioinformatics_, Volume 36, Issue 16, 15 August 2020, Pages 4523–4524.
