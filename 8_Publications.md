@@ -12,6 +12,8 @@ Please contact us at 	[cellnopt-developers@googlegroups.com](	cellnopt-developer
 ## References
 **Main reference describing CellNOpt, which can be used to cite it:** 
 
++ E Gjerga, P Trairatphisan, A Gabor, H Koch, C Chevalier, F Ceccarelli, A Dugourd, A Mitsos, J Saez-Rodriguez, [Converting networks to predictive logic models from perturbation signalling data with CellNOpt](https://academic.oup.com/bioinformatics/article/36/16/4523/5855133). _Bioinformatics_, Volume 36, Issue 16, 15 August 2020, Pages 4523–4524,[PDF](https://academic.oup.com/bioinformatics/article-pdf/36/16/4523/33965427/btaa561.pdf), (open access version on [BioRXiv](https://www.biorxiv.org/content/10.1101/2020.03.04.976852v1))
+ 
 + C Terfve, T Cokelaer, A MacNamara, D Henriques, E Goncalves, MK Morris, M van Iersel, DA Lauffenburger, J Saez-Rodriguez. [CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms](http://www.biomedcentral.com/1752-0509/6/133/abstract). _BMC Systems Biology, 2012, 6:133_ [PDF](http://www.biomedcentral.com/content/pdf/1752-0509-6-133.pdf)
 
 
@@ -42,8 +44,9 @@ Please contact us at 	[cellnopt-developers@googlegroups.com](	cellnopt-developer
 
 
 ## Publications where CellNOpt was used
++ M. Tognetti, A. Gabor, M. Yang, V. Cappelletti, J. Windhager, O. M. Rueda, K. Charmpi, E. Esmaeilishirazifard, A. Bruna, N. de Souza, C. Caldas, A. Beyer, P. Picotti, J. Saez-Rodriguez, B. Bodenmiller, [Deciphering the signaling network of breast cancer improves drug sensitivity prediction](https://www.sciencedirect.com/science/article/pii/S2405471221001113). _Cell Systems_, 12(5), 2021, DOI:10.1016/j.cels.2021.04.002.
 
-+ F. Eduati, V. Doldan-Martelli, B. Klinger, T. Cokelaer, A. Sieber, F. Kogera, M. Dorel, M. J. Garnett, N. Bluthgen, J. Saez-Rodriguez. [Drug Resistance Mechanisms in Colorectal Cancer Dissected with Cell Type–Specific Dynamic Logic Models](http://cancerres.aacrjournals.org/content/77/12/3364) _DOI: 10.1158/0008-5472.CAN-17-0078 Published June 2017_
++ F. Eduati, V. Doldan-Martelli, B. Klinger, T. Cokelaer, A. Sieber, F. Kogera, M. Dorel, M. J. Garnett, N. Bluthgen, J. Saez-Rodriguez. [Drug Resistance Mechanisms in Colorectal Cancer Dissected with Cell Type–Specific Dynamic Logic Models](http://cancerres.aacrjournals.org/content/77/12/3364) _Cancer Research_, _DOI: 10.1158/0008-5472.CAN-17-0078 Published June 2017_
 
 + P. Traynard, L. Tobalina, F. Eduati, L. Calzone, J. Saez-Rodriguez. [Logic Modeling in Quantitative Systems Pharmacology
 ](http://onlinelibrary.wiley.com/doi/10.1002/psp4.12225/abstract). _CPTPharmacometrics Syst. Pharmacol. (2017) 00, 00; doi:10.1002/psp4.12225_
