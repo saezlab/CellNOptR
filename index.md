@@ -20,20 +20,27 @@ CellNOpt is freely available under GPL license in R and Matlab languages. It can
 ## References
 Please use this reference to cite CellNOpt:
 
+> E Gjerga, P Trairatphisan, A Gabor, H Koch, C Chevalier, F Ceccarelli, A Dugourd, A Mitsos, J Saez-Rodriguez, [Converting networks to predictive logic models from perturbation signalling data with CellNOpt](https://academic.oup.com/bioinformatics/article/36/16/4523/5855133). _Bioinformatics_, Volume 36, Issue 16, 15 August 2020, Pages 4523–4524,[PDF](https://academic.oup.com/bioinformatics/article-pdf/36/16/4523/33965427/btaa561.pdf), (open access version on [BioRXiv](https://www.biorxiv.org/content/10.1101/2020.03.04.976852v1))
+
 > C Terfve, T Cokelaer, A MacNamara, D Henriques, E Goncalves, MK Morris, M van Iersel, DA Lauffenburger, J Saez-Rodriguez. [CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms](http://www.biomedcentral.com/1752-0509/6/133/abstract). _BMC Systems Biology_, 2012, **6**:133 [PDF](http://www.biomedcentral.com/content/pdf/1752-0509-6-133.pdf)
 
-> E Gjerga, P Trairatphisan, A Gabor, H Koch, C Chevalier, F Ceccarelli, A Dugourd, A Mitsos, J Saez-Rodriguez, [Converting networks to predictive logic models from perturbation signalling data with CellNOpt](https://www.biorxiv.org/content/10.1101/2020.03.04.976852v1). _bioRxiv_, 2020.03.04.976852; doi: https://doi.org/10.1101/2020.03.04.976852 [PDF](https://www.biorxiv.org/content/10.1101/2020.03.04.976852v1.full.pdf)
+
 
 ```
-@article{terfve2012cellnoptr,
-  title={CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms},
-  author={Terfve, Camille and Cokelaer, Thomas and Henriques, David and MacNamara, Aidan and Goncalves, Emanuel and Morris, Melody K and van Iersel, Martijn and Lauffenburger, Douglas A and Saez-Rodriguez, Julio},
-  journal={BMC systems biology},
-  volume={6},
-  number={1},
-  pages={133},
-  year={2012},
-  publisher={BioMed Central}
+
+@article{Gjerga2020cellnoptr,
+    author = {Gjerga, Enio and Trairatphisan, Panuwat and Gabor, Attila and Koch, Hermann and Chevalier, Celine and Ceccarelli, Franceco and Dugourd, Aurelien and Mitsos, Alexander and Saez-Rodriguez, Julio},
+    title = "{Converting networks to predictive logic models from perturbation signalling data with CellNOpt}",
+    journal = {Bioinformatics},
+    volume = {36},
+    number = {16},
+    pages = {4523-4524},
+    year = {2020},
+    month = {06},
+    issn = {1367-4803},
+    doi = {10.1093/bioinformatics/btaa561},
+    url = {https://doi.org/10.1093/bioinformatics/btaa561},
+    eprint = {https://academic.oup.com/bioinformatics/article-pdf/36/16/4523/33965427/btaa561.pdf}
 }
 ```
 
@@ -44,7 +51,7 @@ We have also developed PHONEMeS, a related tool to build logic models from disco
 ## CellNOpt Implementations
 
 ### _CellNOptR (R packages)_
-A series of packages are available in R. The core CellNOpt is available on BioConductor web site: CellNOptR, revision 1.4.0. The most recent updates from [_Gjerga, Trairatphisan, Gabor et al. 2020_](https://www.biorxiv.org/content/10.1101/2020.03.04.976852v1) are available [here](https://github.com/saezlab/cellnopt).
+A series of packages are available in R. The core CellNOpt is available on BioConductor web site: CellNOptR, revision 1.4.0. The most recent updates from [_Gjerga, Trairatphisan, Gabor et al. 2020_](https://academic.oup.com/bioinformatics/article/36/16/4523/5855133) are available [here](https://github.com/saezlab/cellnopt).
 
 [CellNOptR](http://www.bioconductor.org/packages/release/bioc/html/CellNOptR.html) contains the core functions as well as the boolean and steady states version. It implements the workflow described in Saez-Rodriguez et al Mol Sys Bio 2009, with extended capabilities for multiple time points.
 
@@ -113,4 +120,4 @@ Some extra materials and courses about the formats used can be found in the [CNO
 
 + C Terfve, T Cokelaer, A MacNamara, D Henriques, E Goncalves, MK Morris, M van Iersel, DA Lauffenburger, J Saez-Rodriguez. [CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms](http://www.biomedcentral.com/1752-0509/6/133/abstract). _BMC Systems Biology, 2012, 6:133_ [PDF](http://www.biomedcentral.com/content/pdf/1752-0509-6-133.pdf)
 
-+ E Gjerga, P Trairatphisan, A Gabor, H Koch, C Chevalier, F Ceccarelli, A Dugourd, A Mitsos, J Saez-Rodriguez, [Converting networks to predictive logic models from perturbation signalling data with CellNOpt](https://www.biorxiv.org/content/10.1101/2020.03.04.976852v1). _bioRxiv_, 2020.03.04.976852; doi: https://doi.org/10.1101/2020.03.04.976852 [PDF](https://www.biorxiv.org/content/10.1101/2020.03.04.976852v1.full.pdf)
++ E Gjerga, P Trairatphisan, A Gabor, H Koch, C Chevalier, F Ceccarelli, A Dugourd, A Mitsos, J Saez-Rodriguez, [Converting networks to predictive logic models from perturbation signalling data with CellNOpt](https://academic.oup.com/bioinformatics/article/36/16/4523/5855133). _Bioinformatics_, Volume 36, Issue 16, 15 August 2020, Pages 4523–4524.
