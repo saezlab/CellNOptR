@@ -499,7 +499,7 @@ SEXP simulatorT1 (
     if(count > nSpecies+1){
     	for (i = 0; i < nCond; i++) {
     		for (j = 0; j < nSpecies; j++) {
-    			if (MA[i][j]<0.95 & MA[i][j]>0.05)  // actually we could check if they are exatly 0 or 1
+    			if ((MA[i][j]<0.95) & (MA[i][j]>0.05))  // actually we could check if they are exatly 0 or 1
     				new_input[i][j] = NA;
     		}
     	}
