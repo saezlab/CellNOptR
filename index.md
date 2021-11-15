@@ -10,7 +10,7 @@ title: Home
 ## Overview
 **CellNOpt** (from CellNetOptimizer; a.k.a. CNO) is a software used for creating logic-based models of signal transduction networks using different logic formalisms (Boolean, Fuzzy, or differential equations). CellNOpt uses information on signaling pathways encoded as a Prior Knowledge Network, and trains it against high-throughput biochemical data to create cell-specific models.
 
-CellNOpt is freely available under GPL license in R and Matlab languages. It can be also accessed through a python wrapper, and a Cytoscape plugin called [CytoCopter](http://www.cellnopt.org/7_CytoCopter/) provides a graphical user interface.
+CellNOpt is freely available under GPL license in R and Matlab languages. It can be also accessed through a python wrapper, and a Cytoscape plugin called [CytoCopter](https://saezlab.github.io/CellNOptR/7_CytoCopter/) provides a graphical user interface.
 
 <img src="{{ site.url }}{{ site.baseurl }}public/index1.png" alt="Example result">
 
@@ -20,7 +20,7 @@ CellNOpt is freely available under GPL license in R and Matlab languages. It can
 ## References
 Please use this reference to cite CellNOpt:
 
-> E Gjerga, P Trairatphisan, A Gabor, H Koch, C Chevalier, F Ceccarelli, A Dugourd, A Mitsos, J Saez-Rodriguez, [Converting networks to predictive logic models from perturbation signalling data with CellNOpt](https://academic.oup.com/bioinformatics/article/36/16/4523/5855133). _Bioinformatics_, Volume 36, Issue 16, 15 August 2020, Pages 4523–4524,[PDF](https://academic.oup.com/bioinformatics/article-pdf/36/16/4523/33965427/btaa561.pdf), (open access version on [BioRXiv](https://www.biorxiv.org/content/10.1101/2020.03.04.976852v1))
+> E Gjerga, P Trairatphisan, A Gabor, H Koch, C Chevalier, F Ceccarelli, A Dugourd, A Mitsos, J Saez-Rodriguez, [Converting networks to predictive logic models from perturbation signalling data with CellNOpt](https://academic.oup.com/bioinformatics/article/36/16/4523/5855133). _Bioinformatics_, Volume 36, Issue 16, 15 August 2020, Pages 4523–4524,[PDF](https://academic.oup.com/bioinformatics/article-pdf/36/16/4523/33965427/btaa561.pdf)
 
 > C Terfve, T Cokelaer, A MacNamara, D Henriques, E Goncalves, MK Morris, M van Iersel, DA Lauffenburger, J Saez-Rodriguez. [CellNOptR: a flexible toolkit to train protein signaling networks to data using multiple logic formalisms](http://www.biomedcentral.com/1752-0509/6/133/abstract). _BMC Systems Biology_, 2012, **6**:133 [PDF](http://www.biomedcentral.com/content/pdf/1752-0509-6-133.pdf)
 
@@ -51,7 +51,7 @@ We have also developed PHONEMeS, a related tool to build logic models from disco
 ## CellNOpt Implementations
 
 ### _CellNOptR (R packages)_
-A series of packages are available in R. The core CellNOpt is available on BioConductor web site: CellNOptR, revision 1.4.0. The most recent updates from [_Gjerga, Trairatphisan, Gabor et al. 2020_](https://academic.oup.com/bioinformatics/article/36/16/4523/5855133) are available [here](https://github.com/saezlab/cellnopt).
+A series of packages are available in R. The core CellNOpt is available on BioConductor web site: CellNOptR, revision 1.40.0. The most recent updates from [_Gjerga, Trairatphisan, Gabor et al. 2020_](https://academic.oup.com/bioinformatics/article/36/16/4523/5855133) are available [here](https://github.com/saezlab/cellnopt).
 
 [CellNOptR](http://www.bioconductor.org/packages/release/bioc/html/CellNOptR.html) contains the core functions as well as the boolean and steady states version. It implements the workflow described in Saez-Rodriguez et al Mol Sys Bio 2009, with extended capabilities for multiple time points.
 
@@ -71,7 +71,7 @@ A series of packages are available in R. The core CellNOpt is available on BioCo
 
 <img src="{{ site.url }}{{ site.baseurl }}public/indexImpl.png" alt="Example Implementations">
 
-Additional features to the CellNOpt modelling family have been introduced: **CellNOpt-ILP**, **CellNOpt-MaBoSS**, **CNORprob**, **Dynamic-Feeder**, **Post-hoc analysis** and the **Shiny application** (see figure below). These new features have been described in detail in the _[Gjerga, Trairatphisan, Gabor et al.]((https://www.biorxiv.org/content/10.1101/2020.03.04.976852v1))_ study.
+Additional features to the CellNOpt modelling family have been introduced: **CellNOpt-ILP**, **CellNOpt-MaBoSS**, **CNORprob**, **Dynamic-Feeder**, **Post-hoc analysis** and the **Shiny application** (see figure below). These new features have been described in detail in the _[Gjerga, Trairatphisan, Gabor et al.](https://academic.oup.com/bioinformatics/article/36/16/4523/5855133)_ study.
 
 <img src="{{ site.url }}{{ site.baseurl }}public/CNOv2.jpeg" alt="New features of CellNOpt">
 
@@ -83,7 +83,7 @@ Some features of CellNOpt are also available as a MATLAB toolbox, along with the
 A Python package called cellnopt.wrapper provides a python interace to the R packages (CellNOptR, CNORode and CNORfuzzy). It uses rpy2 and is available on [Pypi](http://pypi.python.org/pypi/cellnopt.wrapper/). For more details see the sphinx documentation in the ./doc directory after [downloading](https://pypi.python.org/packages/19/3b/d681c432cebbe482c472eb211a6e4de5fc3e444918be4f173335da769762/cellnopt.wrapper-1.0.5.tar.gz#md5=2828b8498acd4a49e7ec2f9fe19aa551) the wrapper. In addition a pure Python version is developed on [github](http://github.com/cellnopt/cellnopt).
 
 ### _Cytoscape Plugin (CytoCopter)_
-CytoCopteR is a Graphical User Interface designed as a Cytoscape plugin. It provides an interface to CellNOptR using Rserve. More information is available on [CytoCopter](http://www.cellnopt.org/7_CytoCopter/) page.
+CytoCopteR is a Graphical User Interface designed as a Cytoscape plugin. It provides an interface to CellNOptR using Rserve. More information is available on [CytoCopter](https://saezlab.github.io/CellNOptR/7_CytoCopter/) page.
 
 
 ## Complementary Tools
@@ -95,7 +95,7 @@ CytoCopteR is a Graphical User Interface designed as a Cytoscape plugin. It prov
 [Caspo](http://bioasp.github.io/caspo/) a Python toolbox based on Answer Set Programming to exactly and exhaustively train Boolean models as defined in CellNOpt’s Boolean steady state case. Presented in Guziolowski et al Bioinformatics, 2013 [link](http://bioinformatics.oxfordjournals.org/content/29/18/2320.long)
 
 ### _CoLoMoTo_
-The [ColoMoTo](http://www.colomoto.org/) consortium nvolves other groups developing tools and methods for logic modelling. We have also jointly develop the standard SBML-qual (Chaouiya et al, BMC Syst Bio 2013) ([link](http://www.colomoto.org/)) that allows to exchange models within tools.
+The [ColoMoTo](http://www.colomoto.org/) consortium involves other groups developing tools and methods for logic modelling. We have also jointly develop the standard SBML-qual ([Chaouiya et al, BMC Syst Bio 2013](https://bmcsystbiol.biomedcentral.com/articles/10.1186/1752-0509-7-135)) that allows to exchange models within tools.
 
 ### _PHONEMeS_
 [PHONEMeS](http://saezlab.github.io/PHONEMeS/) Toolbox dedicated to mass spectrometry analysis.
@@ -112,7 +112,7 @@ The R packages are self documented. Tutorials and manual are provided on the bio
 * [CNORode vignette](http://www.bioconductor.org/packages/release/bioc/vignettes/CNORode/inst/doc/CNORode-vignette.pdf)
 * [CNORfeeder vignette](http://www.bioconductor.org/packages/release/bioc/vignettes/CNORfeeder/inst/doc/CNORfeeder-vignette.pdf)
 
-Some extra materials and courses about the formats used can be found in the [CNODocs](http://www.cellnopt.org/6_CNODocs/). Besides, the following link provides a tutorial given at [In Silico Systems Biology, 2013](http://nbviewer.jupyter.org/github/saezlab/cellnopt/blob/gh-pages/public/tutorial_wtac_2013.pdf). The following link provides also a [CytoCopteR tutorial](http://nbviewer.jupyter.org/github/saezlab/cellnopt/blob/gh-pages/public/CytocopterManual.pdf).
+Some extra materials and courses about the formats used can be found in the [CNODocs](https://saezlab.github.io/CellNOptR/6_CNODocs/). Besides, the following link provides a tutorial given at [In Silico Systems Biology, 2013](http://nbviewer.jupyter.org/github/saezlab/cellnopt/blob/gh-pages/public/tutorial_wtac_2013.pdf). The following link provides also a [CytoCopteR tutorial](http://nbviewer.jupyter.org/github/saezlab/cellnopt/blob/gh-pages/public/CytocopterManual.pdf).
 
 
 ## Main Reference
