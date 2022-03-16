@@ -4,3 +4,5 @@
 ^.travis.yml
 ^.git/
 ^Readme.md
+^dev$
+^\.github$

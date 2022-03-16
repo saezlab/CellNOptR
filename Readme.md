@@ -1,6 +1,10 @@
 CellNOptR
 =========
-[![Build Status](https://travis-ci.org/saezlab/CellNOptR.svg?branch=master)](https://travis-ci.org/saezlab/CellNOptR)
+<!-- badges: start -->
+  [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+  [![BioC status](http://www.bioconductor.org/shields/build/release/bioc/CellNOptR.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/CellNOptR)
+  <!-- badges: end -->
+  
 
 Training of boolean logic models of signalling networks using prior knowledge networks and perturbation data.
 
@@ -57,3 +61,7 @@ and finally clicking "open".
 Feedbacks and bugreports are always very welcomed!  
 Please use the Github issue page to report bugs or for questions: https://github.com/saezlab/CellNOptR/issues.
 Many thanks!
+
+## Code of Conduct
+  Please note that the CellNOptR project is released with a [Contributor Code of Conduct](http://bioconductor.org/about/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
+  
