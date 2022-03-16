@@ -11,7 +11,7 @@ plotOptimResultsPan(simResults, yInterpol=NULL, xCoords=NULL,
 CNOlist=CNOlist, formalism=c("ss1","ss2","ssN","dt","ode"), pdf=FALSE,
 pdfFileName="", tPt=NULL,
 plotParams = list(margin = 0.1, width=15, height=12, cmap_scale=1, cex=1.6,
-ymin=NULL, F=1, rotation=0))
+ymin=NULL, Fac=1, rotation=0))
 
 }
 \arguments{
