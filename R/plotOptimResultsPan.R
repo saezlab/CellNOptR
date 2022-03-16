@@ -17,7 +17,7 @@
 plotOptimResultsPan <- function(simResults, yInterpol=NULL, xCoords=NULL,
 CNOlist=CNOlist, formalism=c("ss1","ss2","ssN","dt","ode"), pdf=FALSE,
 pdfFileName="", tPt=NULL, plotParams=list(margin=0.1, width=15, height=12,
-cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
+cmap_scale=1, cex=1.6, ymin=NULL, Fac=1, rotation=0)) {
 
 
     if ((class(CNOlist)=="CNOlist")==FALSE){
@@ -52,8 +52,8 @@ cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
     if ("ymin" %in% names(plotParams) == FALSE){
         plotParams$ymin = NULL
     }
-    if ("F" %in% names(plotParams) == FALSE){
-        plotParams$F = 1
+    if ("Fac" %in% names(plotParams) == FALSE){
+        plotParams$Fac = 1
     }
     if ("rotation" %in% names(plotParams) == FALSE){
         plotParams$rotation = 0
@@ -241,7 +241,7 @@ cmap_scale=1, cex=1.6, ymin=NULL, F=1, rotation=0)) {
             yValS <- simResults[r,c,]
             if(!is.na(allDiff[r,c])) {
                 #diff = (1 - (allDiff[r,c] / diffMax)) * 1000
-                diff = (1 - (allDiff[r,c] /plotParams$F)**plotParams$cmap_scale) * (Ncolors-1)+1
+                diff = (1 - (allDiff[r,c] /plotParams$Fac)**plotParams$cmap_scale) * (Ncolors-1)+1
             } else {
                 diff = -1
             }
