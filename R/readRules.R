@@ -1,5 +1,4 @@
 # library(data.table)
-# library(plyr)
 # library(dplyr)
 # library(tidyr)
 # library(readr)
@@ -15,10 +14,6 @@
 #' @author Luis Tobalina
 readBNET <- function(filename){
 	
-	if (!requireNamespace("plyr", quietly = TRUE)) {
-		stop("Package \"plyr\" needed for this function to work. Please install it.",
-			 call. = FALSE)
-	}
 
 	if (!requireNamespace("dplyr", quietly = TRUE)) {
 		stop("Package \"dplyr\" needed for this function to work. Please install it.",
@@ -33,7 +28,7 @@ readBNET <- function(filename){
 			 call. = FALSE)
 	}
 		
-	warning("experimental BNET reader. Use with care (February 2018).")
+	
 	
 	bnet <- data.table::fread(filename, header=TRUE)
 	
@@ -46,7 +41,7 @@ readBNET <- function(filename){
 	# parse each logic rule
 	sif <- bnet %>% dplyr::rowwise() %>% 
 		dplyr::do(sif_df = build_sif_table_from_rule(.$factors, .$targets, last_and_num=.$i_and_gates)$sif_str) %>% 
-		tidyr::unnest() %>% 
+		tidyr::unnest(cols = sif_df) %>% 
 		dplyr::ungroup() 
 	
 	# use `readSIF()` to get the network ready for CellNOpt
@@ -70,7 +65,7 @@ readBNET <- function(filename){
 #' 
 #' @author Luis Tobalina
 readBND <- function(filename){
-	required_pcks = list("plyr","dplyr","tidyr","readr")
+	required_pcks = list("dplyr","tidyr","readr")
 	
 	if(!all(unlist(lapply(required_pcks,function(str) {require(str,character.only = TRUE)})))){
 		print("the following packages need to be installed to use readBND:")	
@@ -78,7 +73,7 @@ readBND <- function(filename){
 		print("Please, install the packages manually for this feature.")
 		return(-1)
 	}
-	warning("experimental BND reader. Use with care (July 2018).")
+	
 	
 	bnd <- readr::read_file(filename)
 	# remove all line breaks
@@ -134,7 +129,7 @@ readBND <- function(filename){
 #' }
 #' 
 build_sif_table_from_rule <- function(rule_str, target, last_and_num=0) {
-	required_pcks = list("plyr","dplyr","tidyr","readr")
+	required_pcks = list("dplyr","tidyr","readr")
 	
 	if(!all(unlist(lapply(required_pcks,function(str) {require(str,character.only = TRUE)})))){
 		print("the following packages need to be installed to use readBND:")	
@@ -254,9 +249,13 @@ build_sif_table_from_rule <- function(rule_str, target, last_and_num=0) {
 			type_gates <- data.frame(type_gates)
 			colnames(type_gates) <- c("old_name", "new_name")
 			type_gates <- type_gates %>% dplyr::mutate_if(is.factor, as.character)
+			
+			dic = type_gates$new_name
+			names(dic) = type_gates$old_name
+			
 			sif_df <- sif_df %>% 
-				dplyr::mutate(node_in = plyr::mapvalues(node_in, type_gates$old_name, type_gates$new_name, warn_missing=FALSE)) %>% 
-				dplyr::mutate(node_out = plyr::mapvalues(node_out, type_gates$old_name, type_gates$new_name, warn_missing=FALSE))
+				dplyr::mutate(node_in = dplyr::recode(node_in, !!!dic)) %>% 
+				dplyr::mutate(node_out = dplyr::recode(node_out,  !!!dic))
 		}
 		return(sif_df)
 	}
@@ -271,9 +270,13 @@ build_sif_table_from_rule <- function(rule_str, target, last_and_num=0) {
 		while (any(grepl(type_pattern, sif_df$node_in, perl=TRUE) &
 				   grepl(type_pattern, sif_df$node_out, perl=TRUE))){
 			consecutive_type_gates <- sif_df %>% filter(grepl(type_pattern, sif_df$node_in, perl=TRUE), grepl(type_pattern, sif_df$node_out, perl=TRUE))
+			
+			dic = consecutive_type_gates$node_out
+			names(dic) = consecutive_type_gates$node_in
+			
 			sif_df <- sif_df %>% 
-				dplyr::mutate(node_in = plyr::mapvalues(node_in, consecutive_type_gates$node_in, consecutive_type_gates$node_out, warn_missing=FALSE)) %>% 
-				dplyr::mutate(node_out = plyr::mapvalues(node_out, consecutive_type_gates$node_in, consecutive_type_gates$node_out, warn_missing=FALSE)) %>% 
+				dplyr::mutate(node_in = dplyr::recode(node_in, !!!dic)) %>% 
+				dplyr::mutate(node_out = dplyr::recode(node_out, !!!dic)) %>% 
 				filter(node_in!=node_out)
 		}
 		return(sif_df)
@@ -313,7 +316,7 @@ build_sif_table_from_rule <- function(rule_str, target, last_and_num=0) {
 											  	!grepl(current_pair$node_in, sif_df$node_in, perl=TRUE)) %>% 
 				dplyr::mutate(new_node_out = paste(c(or_group_df$new_node_out), collapse=",")) %>% 
 				dplyr::mutate(new_node_out = strsplit(as.character(new_node_out), ",")) %>% 
-				tidyr::unnest(new_node_out) %>% 
+				tidyr::unnest(cols = new_node_out) %>% 
 				dplyr::mutate(old_node_out = node_out) %>% 
 				dplyr::mutate(node_out = new_node_out)
 			gate_group_df <- sif_df %>% dplyr::filter(grepl(current_pair$node_out, sif_df$node_out, perl=TRUE) &
@@ -321,7 +324,7 @@ build_sif_table_from_rule <- function(rule_str, target, last_and_num=0) {
 				dplyr::mutate(new_node_out = node_in) %>% 
 				dplyr::mutate(new_node_in = paste(c(or_group_df$new_node_out), collapse=",")) %>% 
 				dplyr::mutate(new_node_in = strsplit(as.character(new_node_in), ",")) %>% 
-				tidyr::unnest(new_node_in) %>% 
+				tidyr::unnest(cols = new_node_in) %>% 
 				dplyr::mutate(old_node_in = node_in) %>% 
 				dplyr::mutate(old_node_out = node_out) %>% 
 				dplyr::mutate(node_in = new_node_in) %>% 
@@ -344,9 +347,13 @@ build_sif_table_from_rule <- function(rule_str, target, last_and_num=0) {
 																	(grepl(current_pair$node_in, sif_df$node_out, perl=TRUE)))
 				or_num <<- or_num + 1
 				new_or_gate_name <- paste("or", or_num, sep="")
+				
+				dic = new_or_gate_name
+				names(dic) = current_pair$node_in
+				
 				duplicate_sif_df_part <- duplicate_sif_df_part %>% 
-					dplyr::mutate(node_in = plyr::mapvalues(node_in, current_pair$node_in, new_or_gate_name, warn_missing=FALSE)) %>% 
-					dplyr::mutate(node_out = plyr::mapvalues(node_out, current_pair$node_in, new_or_gate_name, warn_missing=FALSE))
+					dplyr::mutate(node_in = dplyr::recode(node_in, !!!dic)) %>% 
+					dplyr::mutate(node_out = dplyr::recode(node_out, !!!dic))
 				sif_df <- sif_df %>% filter(!(grepl(current_pair$node_in, sif_df$node_in, perl=TRUE) &
 											  	!grepl(current_pair$node_out, sif_df$node_out, perl=TRUE))) %>% 
 					rbind(duplicate_sif_df_part)
@@ -384,9 +391,13 @@ build_sif_table_from_rule <- function(rule_str, target, last_and_num=0) {
 		
 		# substitute or gates by their inputs
 		while (any(grepl("^or\\d{1,}", sif_df$node_in, perl=TRUE))) {
-			sif_df <- sif_df %>% dplyr::mutate(node_in = plyr::mapvalues(node_in, or_gates$root, or_gates$or_members, warn_missing=FALSE))
+			
+			dic = or_gates$or_members
+			names(dic) = or_gates$root
+			
+			sif_df <- sif_df %>% dplyr::mutate(node_in = dplyr::recode(node_in, !!!dic))
 			sif_df <- sif_df %>% dplyr::filter(!grepl("^or\\d{1,}", node_out, perl=TRUE))
-			sif_df <- sif_df %>% dplyr::mutate(node_in = strsplit(as.character(node_in), ",")) %>% tidyr::unnest(node_in)
+			sif_df <- sif_df %>% dplyr::mutate(node_in = strsplit(as.character(node_in), ",")) %>% tidyr::unnest(cols = node_in)
 		}
 		return(sif_df)
 	}

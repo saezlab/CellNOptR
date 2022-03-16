@@ -2,7 +2,7 @@ library(CellNOptR)
 
 # test readBND ------------------------------------------------------------------
 
-required_pcks = list("plyr","dplyr","tidyr","readr")
+required_pcks = list("dplyr","tidyr","readr")
 
 if(!all(unlist(lapply(required_pcks,requireNamespace)))){
 	print("the following packages need to be installed to use readBND:")	
