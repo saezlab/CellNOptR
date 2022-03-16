@@ -109,14 +109,14 @@ computeScoreT1<-function(CNOlist, model, bString, simList=NULL, indexList=NULL,
         NAFac=NAFac,
         nInTot=length(which(model$interMat == -1)),
         simResultsT0=simResultsT0)
-
-
-  if ((class(CNOlist)=="CNOlist")==FALSE){
-       CNOlist = CellNOptR::CNOlist(CNOlist)
-  }
-  nDataP <- sum(!is.na(CNOlist@signals[[timeIndex]]))
-  Score <- Score/nDataP
-
-
-  return(Score)
+    
+    
+    if (!is(CNOlist,"CNOlist")){
+    	CNOlist = CellNOptR::CNOlist(CNOlist)
+    }
+    nDataP <- sum(!is.na(CNOlist@signals[[timeIndex]]))
+    Score <- Score/nDataP
+    
+    
+    return(Score)
 }

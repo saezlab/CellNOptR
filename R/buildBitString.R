@@ -14,7 +14,7 @@
 ##############################################################################
 # $Id$
 
-
+#' @export
 buildBitString <- function(bStrings){
     # example:
     # buildBitString(list(c(1,1,0,1,0,0), c(0,1,0), c(0,1)))

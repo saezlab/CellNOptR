@@ -28,6 +28,7 @@
 #12.Write the scaffold and PKN
 #13.Write the report
 
+#' @export
 CNORwrap<-function(paramsList=NA, data=NA, model=NA, name, namesData=NA, time=1,
 compression=TRUE, expansion=TRUE, cutNONC=TRUE)
 {

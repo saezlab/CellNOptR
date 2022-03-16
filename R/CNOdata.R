@@ -13,6 +13,7 @@
 #
 ##############################################################################
 # $Id$
+#' @export
 CNOdata <- function(filename, verbose=FALSE, url=NULL){
 
 

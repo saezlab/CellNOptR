@@ -65,7 +65,7 @@ CNOlist <-function(data, verbose=FALSE){
         }
     }
 
-    if (class(data)=="CNOlist"){
+    if (is(CNOlist,"CNOlist")){
         # nothing to do already a cnolist
         res = list(
                 cues=data@cues,
@@ -181,12 +181,15 @@ setMethod("writeErrors", "CNOlist",
           writeMIDAS(errors, filename,overwrite=overwrite)
 })
 
-if (isGeneric("randomize")==FALSE){
+# if cellnopt is loaded, then isGeneric("randomize") is true and then the setGeneric
+# is not evaluated, leading to an error " Error in setMethod(... no existing definition.."
+# Solution: restart the R session and run check without loading CellNOptR
+#if (isGeneric("randomize")==FALSE){
     setGeneric(
         name="randomize",
         def=function(object,sd=0.1, minValue=0,maxValue=1,mode="gaussian"){standardGeneric("randomize")}
     )
-}
+#}
 #lockBinding("randomize", .GlobalEnv)
 
 
@@ -208,7 +211,7 @@ setMethod("compatCNOlist", "CNOlist",
 
 
 internal_compatCNOlist<-function(cnolist){
-    if (class(cnolist)=="CNOlist"){
+	if (is(CNOlist,"CNOlist")){
 
         # conversion
         res = list(

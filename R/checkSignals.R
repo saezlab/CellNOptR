@@ -14,7 +14,7 @@
 ##############################################################################
 checkSignals<-function(CNOlist, model ){
 
-    if ((class(CNOlist)=="CNOlist")==FALSE){
+    if (!is(CNOlist,"CNOlist")){
         CNOlist = CellNOptR::CNOlist(CNOlist)
     }
 

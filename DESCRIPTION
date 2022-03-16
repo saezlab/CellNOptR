@@ -2,10 +2,32 @@ Package: CellNOptR
 Type: Package
 Title: Training of boolean logic models of signalling networks using prior
     knowledge networks and perturbation data
-Version: 1.41.0
-Date: 2021-10-12
-Author: T.Cokelaer, F.Eduati, A.MacNamara, S.Schrier, C.Terfve, E.Gjerga, A.Gabor
-Maintainer: A.Gabor <attila.gabor@uni-heidelberg.de>
+Version: 1.42.0
+Date: 2022-03-16
+Authors@R: c(
+    person(given = "Thomas",
+           family = "Cokelaer",
+           role = c("aut")),
+    person(given = "Federica",
+           family = "Eduati",
+           role = "aut"),
+    person(given = "Aidan",
+           family = "MacNamara",
+           role = "aut"),
+    person(given = "S",
+           family = "Schrier",
+           role = "ctb"),
+    person(given = "Camille",
+           family = "Terfve",
+           role = "aut"),
+    person(given = "Enio",
+           family = "Gjerga",
+           role = "ctb"),
+    person(given = "Attila",
+           family = "Gabor",
+           role = "cre",
+           email = "attila.gabor@uni-heidelberg.de")
+           )
 Depends:
     R (>= 4.0.0),
     RBGL,
@@ -20,17 +42,19 @@ Imports:
 	igraph,
     stringi,
     stringr,
+    methods,
 Suggests:
 	data.table,
     dplyr,
     tidyr,
     readr,
+    knitr,
     RUnit,
     BiocGenerics,
 Enhances:
 	doParallel,
-	plyr,
     foreach
+VignetteBuilder: knitr
 biocViews: CellBasedAssays, CellBiology, Proteomics, Pathways, Network, TimeCourse, ImmunoOncology
 Description: This package does optimisation of boolean logic networks of
     signalling pathways based on a previous knowledge network and a set of data upon

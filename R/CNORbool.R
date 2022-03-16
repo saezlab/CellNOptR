@@ -14,13 +14,14 @@
 ##############################################################################
 # $Id$
 
+#' @exprot
 CNORbool<-function(CNOlist, model, paramsList=defaultParameters(),
     compression=TRUE, expansion=TRUE, cutNONC=TRUE, verbose=FALSE,
     timeIndices=NULL)
 {
 
 
-    if ((class(CNOlist)=="CNOlist")==FALSE){
+	if (!is(CNOlist,"CNOlist")){
         cnolist = CellNOptR::CNOlist(CNOlist)
     }else{
         cnolist = CNOlist
