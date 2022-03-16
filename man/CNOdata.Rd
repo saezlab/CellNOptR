@@ -33,6 +33,4 @@ T. Cokelaer
 
 }
 
-\alias{
-cnodata
-}
+\alias{cnodata}
