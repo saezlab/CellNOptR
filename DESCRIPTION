@@ -43,6 +43,7 @@ Imports:
     stringi,
     stringr,
     methods,
+    rmarkdown,   
 Suggests:
 	data.table,
     dplyr,
