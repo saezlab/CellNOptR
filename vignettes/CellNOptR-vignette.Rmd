@@ -103,7 +103,7 @@ cnolist = CNOlist(CNOlistToy)
 model <- preprocessing(cnolist, pknmodel)
 
 # ---------------------- perform the analysis
-res <- gaBinaryT1(cnolist, model, verbose=FALSE)
+res <- gaBinaryT1(CNOlist = cnolist,model =  model, verbose=FALSE)
 
 # ---------------------- plot the results
 cutAndPlot(cnolist, model, list(res$bString))
