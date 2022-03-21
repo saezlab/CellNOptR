@@ -18,7 +18,7 @@ a matrix that is the output of simulatorT1 (i.e. one row per condition and one c
 a CNOlist
 }
   \item{model}{
-a Model that only contains the reactions to be evaluated, and the additional field \code{model$times} that should have been created inside the gabinaryT2 optimisation engine.}
+a Model that only contains the reactions to be evaluated, and the additional field \code{model$times} that should have been created inside the gabinaryTN optimisation engine.}
   \item{simList}{
 a simList as created by prep4sim, that has also already been cut to contain only the reactions to be evaluated
 }

@@ -5,7 +5,6 @@ useDynLib(CellNOptR)
 
 importFrom("methods","is","new")
 importFrom("RCurl", "getURL")
-importFrom("hash", "hash", "has.key")
 importFrom("Rgraphviz", "layoutGraph", "renderGraph", "toDot","tail","lines")
 
 importFrom("stringr","str_sub","%>%")
@@ -34,7 +33,6 @@ export(
     "expandGates",
     "findNONC",
     "gaBinaryT1",
-    "gaBinaryT2",
     "gaBinaryTN",
     "graph2sif",
     "getFit",

@@ -152,10 +152,10 @@ compression=TRUE, expansion=TRUE, cutNONC=TRUE)
     #11.Optimise t2
     if(Time==2){
 
-        T2opt<-gaBinaryT2(
+        T2opt<-gaBinaryTN(
             CNOlist=paramsList$data,
             model=NCNOcutCompExp,
-            bStringT1=T1opt$bString,
+            bStrings=list(T1opt$bString),
             sizeFac=paramsList$sizeFac,
             NAFac=paramsList$NAFac,
             popSize=paramsList$popSize,

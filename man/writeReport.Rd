@@ -26,7 +26,7 @@ the model that was actually used for optimisation (i.e. the scaffold network, af
 the results of the optimisation at t1, as output by gabinaryT1
 }
   \item{optimResT2}{
-the results of the optimisation at t2, as output by gabinaryT2. Set this to NA if you have performed a one time point optimisation.
+the results of the optimisation at t2, as output by gabinaryTN. Set this to NA if you have performed a one time point optimisation.
 }
   \item{CNOlist}{
 a CNOlist

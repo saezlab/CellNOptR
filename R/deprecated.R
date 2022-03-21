@@ -23,13 +23,12 @@ simulateT2 <- function(CNOlist, model, bStringT1,simList, indexList){
 gaBinaryT2 <- function(CNOlist, model, simList, indexList, bStringT1,
     sizeFac=0.0001, NAFac=1, popSize=50, pMutation=0.5, maxTime=60,
     maxGens=500, stallGenMax=100, selPress=1.2, elitism=5, relTol=0.1,
-    verbose=TRUE, priorBitString=NULL, maxSizeHashTable=5000){
+    verbose=TRUE, priorBitString=NULL){
 
     warning("gaBinaryT2 is a deprecated function. Use gaBinaryTN instead.")
     return(gaBinaryTN(CNOlist=CNOlist, model=model, bStrings=list(bStringT1),
      sizeFac=sizeFac, NAFac=NAFac, popSize=popSize,  pMutation=pMutation,  maxTime=maxTime,
      maxGens=maxGens,  stallGenMax=stallGenMax,  selPress=selPress,  elitism=elitism,
-     relTol=relTol,  verbose=verbose, priorBitString=priorBitString,
-maxSizeHashTable=maxSizeHashTable))
+     relTol=relTol,  verbose=verbose, priorBitString=priorBitString))
 }
 

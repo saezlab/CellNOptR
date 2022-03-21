@@ -74,21 +74,21 @@ gaBinaryTN <-function(
     PopTolScores<-NA
 
     # library(hash) -already loaded by Depends fiels of Description
-    scores2Hash = hash()
+    scores2Hash_env = new.env(hash = TRUE)
 
     #Function that produces the score for a specific bitstring
     getObj<-function(x){
 
         key = toString(.int2dec(x))
-        if (has.key(key, scores2Hash)==TRUE){
-            return(scores2Hash[[key]])
+        if (!is.null(scores2Hash_env[[key]])){
+            return(scores2Hash_env[[key]])
         } else {
             bStrings[[N+1]] = x
 
             Score = computeScoreTN(CNOlist, model, simList, indexList, simResPrev, bStringPrev=NULL,  bStringNext=NULL,
                 bStrings=bStrings, timeIndex=timeIndex, sizeFac=sizeFac, NAFac=NAFac)
-            if (length(scores2Hash)<1000){
-                scores2Hash[[key]] =  Score
+            if (length(scores2Hash_env)<1000){
+            	scores2Hash_env[[key]] =  Score
             }
         }
 

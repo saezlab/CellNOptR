@@ -14,7 +14,7 @@
 ##############################################################################
 # $Id$
 
-#' @exprot
+#' @export
 CNORbool<-function(CNOlist, model, paramsList=defaultParameters(),
     compression=TRUE, expansion=TRUE, cutNONC=TRUE, verbose=FALSE,
     timeIndices=NULL)
