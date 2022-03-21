@@ -75,23 +75,22 @@ gaBinaryT1<-function(
     PopTol<-rep(NA,bLength)
     PopTolScores<-NA
 
-    # library(hash) -already loaded by Depends fiels of Description
-    scores2Hash = hash()
+    scores2Hash_env = new.env(hash = TRUE)
 
     #Function that produces the score for a specific bitstring
     getObj<-function(x){
 
         key = toString(.int2dec(x))
-        if (has.key(key, scores2Hash)==TRUE){
-            return(scores2Hash[[key]])
-        } else {
-            Score = computeScoreT1(CNOlist, model, x, simList, indexList,
-                sizeFac, NAFac, timeIndex)
-            if (length(scores2Hash)<1000){
-                scores2Hash[[key]] =  Score
-            }
+        if(is.null(scores2Hash_env[[key]])){
+        	Score = computeScoreT1(CNOlist, model, x, simList, indexList,
+        						   sizeFac, NAFac, timeIndex)
+        	if(length(scores2Hash_env)<10000)
+        	scores2Hash_env[[key]] = Score
+        	
+        }else{
+        	return(scores2Hash_env[[key]])
         }
-
+       
         return(Score)
     }
 
@@ -132,9 +131,9 @@ gaBinaryT1<-function(
     while(!stop){
 
         #compute the scores
-        #l1 = length(scores2Hash)
+        #l1 = length(scores2Hash_env)
         scores <- apply(Pop, 1, getObj)
-        #l2 = length(scores2Hash)
+        #l2 = length(scores2Hash_env)
         #if (verbose == TRUE){print(paste("new scores:", l2-l1))}
 
 

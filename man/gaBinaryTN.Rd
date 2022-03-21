@@ -6,7 +6,7 @@ Genetic algorithm for time point N
 \description{
 This is the genetic algorithm for time point N, that should follow optimisation based on time point 1.
 
-Replaces \link{gaBinaryT2} since verson 1.3.28
+Replaced gaBinaryT2.
 }
 \usage{
 gaBinaryTN(CNOlist, model,  bStrings, sizeFac = 1e-04, NAFac = 1,
@@ -82,7 +82,7 @@ This function returns a list with elements:
 C.Terfve, T. Cokelaer
 }
 \seealso{
-\link{getFit}, \link{simulatorT1}, \link{simulatorT2}, \link{gaBinaryT2}
+\link{getFit}, \link{simulatorT1}, \link{simulatorT2}
 
 }
 \examples{

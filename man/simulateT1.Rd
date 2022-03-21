@@ -35,7 +35,7 @@ This function is a wrapper for simulatorT1, that cuts the model before simulatin
 }
 \value{
 a matrix of simulated values, including all species in the model, i.e. to be
-used as input of gaBinaryT2 (not implemented here) but not to be used directly
+used as input of gaBinaryTN (not implemented here) but not to be used directly
 in \code{plotOptimResults.}
 }
 \author{

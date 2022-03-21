@@ -33,7 +33,6 @@ Depends:
     RBGL,
     graph,
     methods,
-    hash,
     RCurl,
     Rgraphviz,
     XML,
@@ -42,8 +41,7 @@ Imports:
 	igraph,
     stringi,
     stringr,
-    methods,
-    rmarkdown,   
+    rmarkdown   
 Suggests:
 	data.table,
     dplyr,

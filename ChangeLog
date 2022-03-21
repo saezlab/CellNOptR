@@ -1,5 +1,16 @@
 .. keep this layout because it is used in CNODocs
 
+Release 3.15.0
+=================
+Bioconductor release
+
+* 1.41.1
+
+	* get rid of package Hash  as it is archived on CRAN
+	* remove gaBinaryT2 (it was marked as depricated for a long time). Use gaBinaryTN instead. 
+	* remove plyr dependency
+
+
 Release 1.25.0
 =================
 Bioconductor release
