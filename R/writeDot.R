@@ -29,7 +29,7 @@ writeDot<-function(dotNodes, dotMatrix, model, filename){
 		#the fourth column holds the time stamp (0,1,2)
 
 #1. Create a vector of nodes and their attribute (class: stimulated, inhibited , measured,etc.)
-	nodes<-unique(c(dotMatrix[,1],dotMatrix[,3]))
+	nodes<-unlist(unique(c(dotMatrix[,1],dotMatrix[,3])))
 	nClass<-rep(NA,length(nodes))
 
 #this creates a vector of nodes category (stimulated, compressed, etc) in the same order as
@@ -130,7 +130,7 @@ writeDot<-function(dotNodes, dotMatrix, model, filename){
 		classNode<-ifelse(is.na(nClass[i]),"na",nClass[i])
 
 	if(classNode != "dummy"){
-			rankNodes[i]<-min(distMatrix[sources,nodes[i]])
+			rankNodes[i]<-min(distMatrix[sources,nodes[[i]]])
 
 		if(any(sinks == nodes[i])){
 				rankNodes[i]<-"sink"
@@ -196,7 +196,7 @@ writeDot<-function(dotNodes, dotMatrix, model, filename){
 
 			cat(' [color="black" shape="ellipse" style="solid" label="',
 				file=filename,append=TRUE,sep="")
-			cat(nodes[i],file=filename,append=TRUE,sep="")
+			cat(nodes[[i]],file=filename,append=TRUE,sep="")
 			cat('" fontname=Helvetica fontsize=22.0 ];\n',
 				file=filename,append=TRUE,sep="")
 
@@ -236,7 +236,7 @@ writeDot<-function(dotNodes, dotMatrix, model, filename){
 					}
 
 				if(nClass[i] != "dummy"){
-					cat(nodes[i],file=filename,append=TRUE,sep="")
+					cat(nodes[[i]],file=filename,append=TRUE,sep="")
 					cat('" fontname=Helvetica fontsize=22.0 ];\n',
 						file=filename,append=TRUE,sep="")
 					}

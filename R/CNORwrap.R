@@ -52,11 +52,11 @@ compression=TRUE, expansion=TRUE, cutNONC=TRUE)
             stop("if paramsList not provided, model must be provided")
         }
         paramsList = defaultParameters(data, model)
-    }
+    
 
     # if paramsList is provided, and model and Data are NA, then we must find
     # Data and model in paramsList
-    else if (is.na(paramsList[1])==FALSE){
+    }else if (is.na(paramsList[1])==FALSE){
         #print("paramsList  provided")
 
         if (is.na(data[1])==TRUE && is.na(paramsList$data[1])==TRUE){
@@ -176,8 +176,7 @@ compression=TRUE, expansion=TRUE, cutNONC=TRUE)
         dev.off()
         plotFit(optRes=T2opt)
 
-        }
-    else{
+        }else{
         T2opt<-NA
     }
     #13.Write the scaffold and PKN

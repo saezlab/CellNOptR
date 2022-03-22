@@ -60,6 +60,11 @@ readBNET <- function(filename){
 #' An example file can be found in `https://maboss.curie.fr/pub/example.bnd`.
 #' 
 #' @param filename BND file. 
+#' 
+#' @examples
+#' \dontrun{
+#' model = readBND("https://maboss.curie.fr/pub/example.bnd")
+#' }
 #'
 #' @return CellNOpt network
 #' 

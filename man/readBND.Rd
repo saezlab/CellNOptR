@@ -17,11 +17,12 @@ BND is a file format used by MaBoSS to store the boolean network definition.
 The reader works if the logic for the activation of the node is stated withing the parameter `logic` of the node.
 An example file can be found in `https://maboss.curie.fr/pub/example.bnd`.
 }
+\examples{
+\dontrun{
+model = readBND("https://maboss.curie.fr/pub/example.bnd")
+}
+
+}
 \author{
 Luis Tobalina
 }
-\examples{
-\dontrun{model = readBND("https://maboss.curie.fr/pub/example.bnd")}
-
-}
-	

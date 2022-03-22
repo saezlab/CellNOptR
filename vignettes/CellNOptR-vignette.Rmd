@@ -494,7 +494,7 @@ or you want to have some control over the parameters of the optimisation, in whi
 unlink("Toy",recursive=TRUE)
 ```
 
-```{r wrap2, eval=TRUE}
+```{r wrap2, eval=FALSE}
 pList<-defaultParameters(CNOlistToy, pknmodel)
 #pList$data = CNOlistToy
 #pList$model = ToyModel
