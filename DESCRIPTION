@@ -40,8 +40,7 @@ Depends:
 Imports:
 	igraph,
     stringi,
-    stringr,
-    rmarkdown   
+    stringr
 Suggests:
 	data.table,
     dplyr,

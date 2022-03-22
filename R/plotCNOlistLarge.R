@@ -18,7 +18,7 @@
 
 plotCNOlistLarge<-function(CNOlist,nsplit=4, newDevice=FALSE){
 
-    if ((class(CNOlist)=="CNOlist")==FALSE){
+    if (!is(CNOlist,"CNOlist")){
          CNOlist = CellNOptR::CNOlist(CNOlist)
      }
 

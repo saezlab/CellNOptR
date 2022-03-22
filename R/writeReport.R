@@ -37,7 +37,7 @@ writeReport<-function(
 	namesData=list(CNOlist=NA,model=NA),
 	resE=NULL){
 
- if ((class(CNOlist)=="CNOlist")==FALSE){
+ if (!is(CNOlist,"CNOlist")){
         CNOlist = CellNOptR::CNOlist(CNOlist)
     }
 

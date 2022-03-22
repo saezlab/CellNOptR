@@ -48,4 +48,7 @@ All links in the model are converted in sif format that is sourceNode-tab-sign-t
 \link{graph2sif}, \link{sif2graph}, \link{readSIF}, 
 }
 
-
+\examples{
+    data(ToyModel,package="CellNOptR")
+    model2sif(model=ToyModel,writeSif = FALSE)
+}

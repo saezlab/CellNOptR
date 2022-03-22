@@ -26,3 +26,15 @@ cutModel(model, bString)
  T. Cokelaer
 }
 
+\examples{
+   
+    data(ToyModel,package="CellNOptR")
+    
+    bString = rep(1,length(ToyModel$reacID))
+    # remove some reactions by setting them to 0. 
+    bString[c(2,5,6)] <- 0
+    
+    prepModel = cutModel(model = ToyModel, bString = bString )
+ 
+    
+}

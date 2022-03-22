@@ -15,15 +15,23 @@
 # $Id$
 #' @export
 CNOdata <- function(filename, verbose=FALSE, url=NULL){
-
-
-    valid_filenames = c(
-        "PKN-ToyMMB.sif", "PKN-ToyPB.sif", "PKN-ToyMSB2009.sif",
-        "PKN-ToyMMB_T2.sif", "MD-ToyMMB_T2.csv",
-        "PKN-ExtLiverPCB.sif", "MD-ToyMMB.csv", "MD-ToyPB.csv",
-        "MD-ToyMSB2009.csv", "MD-ExtLiverPCB.csv", "PKN-ToyPCB.sif",
-         "MD-ToyPCB.csv")
-
+	
+	stop("This function is depricated. The EBI wesite is not available. 
+		 Consult https://saezlab.github.io/CellNOptR/5_Models%20and%20Documentation/ for models.")
+	
+	valid_filenames = c(
+		"PKN-ToyMMB.sif",
+		"PKN-ToyPB.sif", 
+		"PKN-ToyMSB2009.sif",
+		"PKN-ToyMMB_T2.sif",
+		"MD-ToyMMB_T2.csv",
+		"PKN-ExtLiverPCB.sif",
+		"MD-ToyMMB.csv",
+		"MD-ToyPB.csv",
+		"MD-ToyMSB2009.csv",
+		"MD-ExtLiverPCB.csv",
+		"PKN-ToyPCB.sif",
+		"MD-ToyPCB.csv")
 
     if ((filename %in% valid_filenames)==FALSE){
         print("Provided filename not registered. Please use one of ")

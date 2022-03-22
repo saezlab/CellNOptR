@@ -19,7 +19,7 @@ cutAndPlot <- function(CNOlist, model, bStrings, plotPDF=FALSE, tag=NULL,
 {
 
 
-     if ((class(CNOlist)=="CNOlist")==FALSE){
+     if (!is(CNOlist,"CNOlist")){
         CNOlist = CellNOptR::CNOlist(CNOlist)
     } 
 

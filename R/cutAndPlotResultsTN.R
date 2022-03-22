@@ -18,7 +18,7 @@ cutAndPlotResultsTN <-function(CNOlist, model,bStrings, plotPDF=FALSE,
     tag=NULL, plotParams=list(maxrow=10))
 {
 
- if ((class(CNOlist)=="CNOlist")==FALSE){
+ if (!is(CNOlist,"CNOlist")){
         CNOlist = CellNOptR::CNOlist(CNOlist)
     } 
 

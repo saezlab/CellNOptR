@@ -23,7 +23,10 @@ cutCNOlist <- function(cnolist, model=NULL, cutTimeIndices=list(), verbose=FALSE
          model (to remove species in your cnolist that are not in the model) and/or a list
          of time indices to remove data at different time  points.")
   }
-
+  if (!is(cnolist,"CNOlist")){
+  	cnolist = CellNOptR::CNOlist(cnolist)
+  }
+	
   if (is.null(model)==FALSE){
     cutCNOlist = .cutCNOlistModel(cnolist, model, verbose)
     if (length(cutTimeIndices)>0){

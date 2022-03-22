@@ -108,7 +108,7 @@ plotModel <- function(model, CNOlist=NULL, bString=NULL, indexIntegr=NULL,
 	if (is.null(CNOlist)==TRUE){
 		cnolist = NULL
 	} else { # if not a CNOlist, try to convert it
-		if ((class(CNOlist)=="CNOlist")==FALSE){
+		if (!is(CNOlist,"CNOlist")){
 			cnolist = CellNOptR::CNOlist(CNOlist)
 		} else{
 			cnolist = CNOlist

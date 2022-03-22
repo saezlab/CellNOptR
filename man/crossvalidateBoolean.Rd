@@ -73,7 +73,7 @@ plot(cnodata)
 selectedTime = c(0,10)
 cnodata_prep = cutCNOlist(cnodata,
                           model = model,
-                          cutTimeIndices = which(!cnodata@timepoints \%in\% selectedTime))
+                          cutTimeIndices = which(!getTimepoints(cnodata) \%in\% selectedTime))
 
 plot(cnodata_prep)
 

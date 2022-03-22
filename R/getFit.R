@@ -24,7 +24,7 @@ getFit<-function(
     simResultsT0=NULL
     ){
 
-    if ((class(CNOlist)=="CNOlist")==FALSE){
+    if (!is(CNOlist,"CNOlist")){
          CNOlist = CellNOptR::CNOlist(CNOlist)
      }
 	

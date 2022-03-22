@@ -32,11 +32,11 @@ showClass("CNOlist")
 files<-dir(system.file("ToyModel",package="CellNOptR"),full=TRUE)
 cnolist  = CNOlist(files[[1]])
 # accessors:
-cnolist@cues
-cnolist@inhibitors
-cnolist@signals
-cnolist@timepoints
-cnolist@stimuli
+getCues(cnolist)
+getInhibitors(cnolist)
+getSignals(cnolist)
+getTimepoints(cnolist)
+getStimuli(cnolist)
 # In version 1.3.30 and above, use the plot method instead of former plotCNOlist function.
 plot(cnolist)
 }

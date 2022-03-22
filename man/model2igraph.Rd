@@ -37,5 +37,10 @@ the model as generated using \link{readSIF}
 \link{graph2sif}, \link{sif2graph} 
 }
 
+\examples{
+    data(ToyModel,package="CellNOptR")
+    model2igraph(model=ToyModel)
+}
 
+    
 

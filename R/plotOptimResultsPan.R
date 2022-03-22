@@ -20,7 +20,7 @@ pdfFileName="", tPt=NULL, plotParams=list(margin=0.1, width=15, height=12,
 cmap_scale=1, cex=1.6, ymin=NULL, Fac=1, rotation=0)) {
 
 
-    if ((class(CNOlist)=="CNOlist")==FALSE){
+    if (!is(CNOlist,"CNOlist")){
          CNOlist = CellNOptR::CNOlist(CNOlist)
      }
 

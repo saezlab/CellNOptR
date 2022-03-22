@@ -25,7 +25,7 @@ simulatorT2 <-function(
 same prototype and is using a C simulator. You can still use this function but
 it is not giong to be maintained after version 1.4.0. " )
 
-    if ((class(CNOlist)=="CNOlist")==FALSE){
+    if (!is(CNOlist,"CNOlist")){
          CNOlist = CellNOptR::CNOlist(CNOlist)
     }
 

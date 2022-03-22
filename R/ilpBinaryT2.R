@@ -37,7 +37,7 @@ ilpBinaryT2 <- function(cnolist,
   }
   
   ## Checking cnolist class
-  if ((class(cnolist)=="CNOlist")==TRUE){
+  if (is(CNOlist,"CNOlist")){
     writeMIDAS(CNOlist = cnolist, filename = "tempMD.csv", 
                timeIndices = c(1, 3), overwrite = TRUE)
     md <- readMIDAS(MIDASfile = "tempMD.csv")

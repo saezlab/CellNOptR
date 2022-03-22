@@ -20,7 +20,7 @@ plotCNOlist<-function(CNOlist){
 
 #check that CNOlist is a CNOlist
 
-    if ((class(CNOlist)=="CNOlist")==FALSE){
+    if (!is(CNOlist,"CNOlist")){
          CNOlist = CellNOptR::CNOlist(CNOlist)
     }
 

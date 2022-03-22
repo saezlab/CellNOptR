@@ -17,7 +17,7 @@
 simulatorTN <-function(simResultsPrev, CNOlist, model, simList, indexList, timeIndex=3){
     #timeIndex=3 correspond to T2
 
-    if ((class(CNOlist)=="CNOlist")==FALSE){
+    if (!is(CNOlist,"CNOlist")){
         CNOlist = CellNOptR::CNOlist(CNOlist)
     }
     # check the structures

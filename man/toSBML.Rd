@@ -30,4 +30,9 @@ toSBML(network, file, bitString = c(rep(1,length(network$reacID))),version=c("st
 Francesco Ceccarelli
 }
 
-
+}
+\examples{
+  data(ToyModel,package="CellNOptR")
+  toSBML(ToyModel,file = tempfile())
+}
+	

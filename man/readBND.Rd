@@ -20,3 +20,8 @@ An example file can be found in `https://maboss.curie.fr/pub/example.bnd`.
 \author{
 Luis Tobalina
 }
+\examples{
+\dontrun{model = readBND("https://maboss.curie.fr/pub/example.bnd")}
+
+}
+	
