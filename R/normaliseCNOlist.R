@@ -26,7 +26,7 @@ normaliseCNOlist <- function(
     verbose=FALSE){
 
 
-    if ((class(CNOlist)=="CNOlist")==FALSE){
+    if (!is(CNOlist,"CNOlist")){
          CNOlist = CellNOptR::CNOlist(CNOlist)
      }
 
@@ -35,17 +35,17 @@ normaliseCNOlist <- function(
     }
 
     #Check that the parameters have the right format
-    if(class(EC50Data) != "numeric" | length(EC50Data) != 1)
+    if(!is(EC50Data,"numeric") | length(EC50Data) != 1)
         warning("The parameter 'EC50Data' should be a single numeric value")
-    if(class(EC50Noise) != "numeric" | length(EC50Noise) != 1)
+    if(!is(EC50Noise,"numeric")  | length(EC50Noise) != 1)
         warning("The parameter 'EC50Noise' should be a single numeric value")
-    if((class(HillCoef) != "numeric" & class(HillCoef) != "integer") | length(HillCoef) != 1)
+    if(!is(HillCoef,"numeric") | length(HillCoef) != 1)
         stop("The parameter 'HillCoef' should be a single numeric value")
-    if((class(detection) != "numeric" & class(detection) != "integer")  | length(detection) != 1)
+    if(!is(detection,"numeric") | length(detection) != 1)
         stop("The parameter 'detection' should be a single numeric value")
-    if((class(changeTh) != "numeric" & class(changeTh) != "integer") | length(changeTh) != 1)
+    if(!is(changeTh,"numeric") | length(changeTh) != 1)
         stop("The parameter 'changeTh' should be a single numeric value")
-    if((class(saturation) != "numeric" & class(saturation) != "integer") | length(saturation) != 1)
+    if(!is(saturation,"numeric") | length(saturation) != 1)
         stop("The parameter 'Saturation' should be a single numeric value")
     if(mode %in% c("time","ctrl", "raw") == FALSE)
         stop("The parameter 'mode' should be either 'time' or 'ctrl' or 'raw'")

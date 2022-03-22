@@ -14,7 +14,7 @@
 ##############################################################################
 indexFinder<-function(CNOlist, model, verbose=FALSE){
 
-    if ((class(CNOlist)=="CNOlist")==FALSE){
+    if (!is(CNOlist,"CNOlist")){
         CNOlist = CellNOptR::CNOlist(CNOlist)
     }
 

@@ -1,7 +1,7 @@
 writeMIDAS <- function(CNOlist, filename, timeIndices=NULL, overwrite=FALSE)
 {
 
-    if ((class(CNOlist)=="CNOlist")==FALSE){
+    if (!is(CNOlist,"CNOlist")){
          cnolist = CellNOptR::CNOlist(CNOlist)
     }
     else{

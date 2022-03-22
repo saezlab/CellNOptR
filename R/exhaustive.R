@@ -25,7 +25,7 @@ exhaustive<-function(
     relTol=0.1,
     timeIndex=2){
 
-    if ((class(CNOlist)=="CNOlist")==FALSE){
+    if (!is(CNOlist,"CNOlist")){
         CNOlist = CellNOptR::CNOlist(CNOlist)
     }
 

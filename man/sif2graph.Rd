@@ -37,3 +37,13 @@ In the resulting graph, the sign of each link is encodes as the weigth of the ed
 }
 
 
+
+\examples{
+    
+    data(ToyModel,package="CellNOptR")
+    sif_file = tempfile(fileext = ".sif")
+    writeSIF(model = ToyModel,filename = sif_file)
+    g = sif2graph(sif_file)
+    
+}
+

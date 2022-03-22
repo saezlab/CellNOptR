@@ -325,7 +325,7 @@ for(i in 1:dim(adj)[1]){
 
 #if the class of reacInput is not a list, then there are no AND gates
 
-    if(class(reacInput) != "list"){
+    if(!is(reacInput,"list")){
 
         isNeg<-function(x){
             isNegI<-any(x == 1)

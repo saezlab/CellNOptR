@@ -16,7 +16,7 @@
 
 cSimulator <- function(CNOlist, model, simList, indexList, mode=1) {
 
-    if ((class(CNOlist)=="CNOlist")==FALSE){
+    if (!is(CNOlist,"CNOlist")){
         CNOlist = CellNOptR::CNOlist(CNOlist)
     }
 	

@@ -37,4 +37,10 @@ them must be provided.
  T. Cokelaer
 }
 
+\examples{
+    data(CNOlistToy,package="CellNOptR")
+    data(ToyModel,package="CellNOptR")
+    
+    cno_prep = cutCNOlist(cnolist = CNOlistToy,model = ToyModel,verbose = FALSE)
+}
 

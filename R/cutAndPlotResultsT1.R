@@ -17,7 +17,7 @@ cutAndPlotResultsT1 <- function(model, bString, simList=NULL, CNOlist, indexList
  plotPDF=FALSE, tag=NULL, tPt=CNOlist@timepoints[2], plotParams=list(maxrow=10))
 {
 
-    if ((class(CNOlist)=="CNOlist")==FALSE){
+    if (!is(CNOlist,"CNOlist")){
         CNOlist = CellNOptR::CNOlist(CNOlist)
     }
     if (is.null(simList)==TRUE){

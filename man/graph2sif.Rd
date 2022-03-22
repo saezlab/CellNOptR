@@ -46,3 +46,13 @@ The sign of link is supposed to be encoded in the graph as the weigth of the edg
 }
 
 
+\examples{
+    
+    data(ToyModel,package="CellNOptR")
+    sif_file = tempfile(fileext = ".sif")
+    writeSIF(model = ToyModel,filename = sif_file)
+    g = sif2graph(sif_file)
+    
+    graph2sif(graph = g,writeSif = FALSE)
+    
+}
