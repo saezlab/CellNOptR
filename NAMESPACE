@@ -27,6 +27,7 @@ export(
     "cutCNOlist",
     "cutNONC",
     "cutModel",
+    "cutSimList",
     "defaultParameters",
     "expandGates",
     "findNONC",
