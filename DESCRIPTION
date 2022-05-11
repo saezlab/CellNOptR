@@ -36,7 +36,8 @@ Depends:
     RCurl,
     Rgraphviz,
     XML,
-    ggplot2
+    ggplot2,
+    rmarkdown
 Imports:
 	igraph,
     stringi,
