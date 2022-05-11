@@ -211,7 +211,7 @@ setMethod("compatCNOlist", "CNOlist",
 
 
 internal_compatCNOlist<-function(cnolist){
-	if (is(CNOlist,"CNOlist")){
+	if (is(cnolist,"CNOlist")){
 
         # conversion
         res = list(
