@@ -1,2 +1,0 @@
-- name: Build, Install, Check
-  uses: grimbough/bioc-actions/build-install-check@v1
