@@ -11,8 +11,9 @@ if(!all(unlist(lapply(required_pcks,requireNamespace)))){
 
 }else{
 	#download.file("https://maboss.curie.fr/pub/example.bnd",destfile = "./tests/example.bnd")
-	#model = readBND("./tests/example.bnd")
-	model = readBND("https://maboss.curie.fr/pub/example.bnd")
+	
+	model = readBND("./data/example.bnd")
+	#model = readBND("https://maboss.curie.fr/pub/example1.bnd")
 	
 	# basic checks for being a CellNoptR model:
 	stopifnot(is.list(model))
