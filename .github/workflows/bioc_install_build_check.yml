@@ -1,7 +1,7 @@
 # This workflow was copied from https://github.com/grimbough/biocActionsExamples/blob/main/.github/workflows/example-workflow.yml
 # some parts were removed. 
 
-name: Workflow that tests the actions
+name: Runs comprehensive BioC checks
 
 on:
   push:
