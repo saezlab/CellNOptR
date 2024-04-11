@@ -1,0 +1,79 @@
+# This workflow was copied from https://github.com/grimbough/biocActionsExamples/blob/main/.github/workflows/example-workflow.yml
+# some parts were removed. 
+
+name: Runs comprehensive BioC checks
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  pkg-at-root:
+    name: Root Pkg - Bioc ${{ matrix.bioc-version }} (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        ## Test using both Bioconductor devel and release
+        bioc-version: [devel, release]
+
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+    
+      - uses: actions/checkout@v4
+          
+      - name: Setup R and Bioconductor
+        uses: grimbough/bioc-actions/setup-bioc@v1
+        with:
+          bioc-version: ${{ matrix.bioc-version }}
+          bioc-mirror: https://ftp.gwdg.de/pub/misc/bioconductor
+          use-public-rspm: false
+          
+      - name: Install pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+          
+      - name: Install dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: 1
+          
+      - name: Build, Install, Check
+        id: build-install-check
+        uses: grimbough/bioc-actions/build-install-check@v1
+        with:
+          package-directory: '.'
+      
+      ## Turn off the checks that we know will fail
+      ## Cause the workflow to error if any new errors appear
+      - name: Run BiocCheck with arguments
+        uses: grimbough/bioc-actions/run-BiocCheck@v1
+        with:
+          package-directory: '.'
+          arguments: '--no-check-bioc-views --no-check-vignettes --no-check-bioc-help'
+          error-on: 'error'
+          
+      ## upload the Rcheck folder regardless of success of failure
+      - name: Upload output
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ matrix.os }}-bioc-${{ matrix.bioc-version}}-Rcheck
+          path: |
+            ${{ steps.build-install-check.outputs.check-dir }}
+
+      ## upload source and binary packages
+      - name: Upload check output
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-bioc-${{ matrix.bioc-version}}-pkgs
+          path: |
+            ${{ steps.build-install-check.outputs.source-tarball }}
+            ${{ steps.build-install-check.outputs.package-binary }}
+
+          
