@@ -8,7 +8,7 @@ For installation of the [CellNOptR package](https://bioconductor.org/packages/re
 ```R
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install("CellNOptR", version = "3.8")
+BiocManager::install("CellNOptR")
 ```
 
 
@@ -21,7 +21,7 @@ To install [CNORdt package](https://bioconductor.org/packages/release/bioc/html/
 ## try http:// if https:// URLs are not supported
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install("CNORdt", version = "3.8")
+BiocManager::install("CNORdt")
 ```
 
 
@@ -31,7 +31,7 @@ To install [CNORfeeder package](https://bioconductor.org/packages/release/bioc/h
 ```R
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install("CNORfeeder", version = "3.8")
+BiocManager::install("CNORfeeder")
 ```
 
 
@@ -41,7 +41,7 @@ To install [CNORfuzzy package](https://bioconductor.org/packages/release/bioc/ht
 ```R
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install("CNORfuzzy", version = "3.8")
+BiocManager::install("CNORfuzzy")
 ```
 
 
