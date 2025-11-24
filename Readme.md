@@ -22,7 +22,7 @@ To install CellNOptR, type:
 ```
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install("CellNOptR", version = "3.8")
+BiocManager::install("CellNOptR")
 ```
 
 Then, you can also install other CellNOptR related packages::
